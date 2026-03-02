@@ -1,4 +1,4 @@
-const MexicoPanel = () => {
+const MexicoCityPanel = () => {
   return (
     <div className="panel p-4">
       <div className="flex flex-col h-full mr-[15%]">
@@ -31,4 +31,4 @@ const MexicoPanel = () => {
   );
 };
 
-export default MexicoPanel;
+export default MexicoCityPanel;

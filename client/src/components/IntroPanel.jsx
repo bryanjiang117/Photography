@@ -8,7 +8,7 @@ function getTorontoTime() {
   });
 }
 
-const IntroPanel = () => {
+const IntroPanel = ({ scrollRef }) => {
   const [time, setTime] = useState(() => getTorontoTime());
   const [showScroll, setShowScroll] = useState(true);
 
@@ -19,11 +19,18 @@ const IntroPanel = () => {
       setShowScroll(false);
     };
 
-    window.addEventListener("scroll", onScroll);
+    let timeout;
+    const el = scrollRef.current;
+    if (el) {
+      timeout = setTimeout(() => el.addEventListener("scroll", onScroll), 1000);
+    }
 
     return () => {
-      window.clearInterval(interval);
-      window.removeEventListener("scroll", onScroll);
+      clearInterval(interval);
+      clearTimeout(timeout);
+      if (el) {
+        el.removeEventListener("scroll", onScroll);
+      }
     };
   }, []);
 
@@ -50,7 +57,17 @@ const IntroPanel = () => {
       <div className="absolute top-6 right-8 flex gap-2">
         <span>Toronto</span>
         <span>‧</span>
+        <span>EST</span>
+        <span>‧</span>
         <span className="tabular-nums">{time}</span>
+        <span>‧</span>
+        <div className="flex -translate-y-px">
+          <img className="h-6" src="assets/photos/canada-flag.png" />
+          <img
+            className="-translate-x-1.5 h-6"
+            src="assets/photos/china-flag.png"
+          />
+        </div>
       </div>
 
       {/* About me  */}
@@ -68,18 +85,18 @@ const IntroPanel = () => {
 
       {/* Scroll Tooltip */}
       {showScroll && (
-        <motion.ui
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: 1.5,
+            delay: 1,
             duration: 0.6,
             ease: "easeOut",
           }}
           className="absolute bottom-6 right-8 text-lg"
         >
           SCROLL ⇀
-        </motion.ui>
+        </motion.div>
       )}
     </div>
   );

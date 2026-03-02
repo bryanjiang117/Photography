@@ -5,7 +5,7 @@ const JapanPanel = () => {
         <img
           src="assets/photos/japan/flowers.jpeg"
           // className="absolute top-4 left-8 max-w-3/10 max-h-4/10"
-          className="absolute bottom-4 left-8 max-w-4/10 max-h-8/10"
+          className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10"
         />
       </section>
       <section className="mb-20 min-w-fit w-3/10">

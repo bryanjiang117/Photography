@@ -2,23 +2,25 @@ import { useEffect, useMemo, useRef } from "react";
 
 import IntroPanel from "../components/IntroPanel";
 import JapanPanel from "../components/JapanPanel";
-import MexicoPanel from "../components/MexicoPanel";
+import MexicoCityPanel from "../components/MexicoCityPanel";
+import ExtrasPanel from "../components/ExtrasPanel";
 
 // Infinite horizontal scrolling in both directions
 const HomePage = () => {
-  const scrollerRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const panels = useMemo(
     () => [
-      <IntroPanel key="intro" />,
+      <IntroPanel scrollRef={scrollRef} key="intro" />,
       <JapanPanel key="japan" />,
-      <MexicoPanel key="mexico" />,
+      <MexicoCityPanel key="mexico-city" />,
+      <ExtrasPanel key="extras" />
     ],
     [],
   );
 
   useEffect(() => {
-    const el = scrollerRef.current;
+    const el = scrollRef.current;
     if (!el) return;
 
     const panelCount = panels.length;
@@ -59,22 +61,14 @@ const HomePage = () => {
 
     el.addEventListener("scroll", onScroll, { passive: true });
 
-    const onResize = () => {
-      withInstantScroll(() => {
-        el.scrollLeft = getSetWidth();
-      });
-    };
-    window.addEventListener("resize", onResize);
-
     return () => {
       el.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onResize);
     };
   }, [panels]);
 
   return (
     <div
-      ref={scrollerRef}
+      ref={scrollRef}
       className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scroll-smooth scrollbar-hide"
     >
       {panels.map((p, i) => (
