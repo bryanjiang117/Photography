@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://photography-28rz.onrender.com/:path*"
+      "destination": "https://photography-28rz.onrender.com/api/:path*"
     }
   ]
 }
