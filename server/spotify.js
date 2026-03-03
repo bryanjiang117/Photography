@@ -31,7 +31,7 @@ export function registerSpotifyRoutes(app, supabase) {
   // In-memory token cache (resets when server restarts)
   let cachedAccessToken = null;
   let accessTokenExpiresAtMs = 0;
-  let refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
+  let refreshToken = null;
 
   // In-memory "now playing" cache (shared by ALL users)
   let cachedNowPlaying = null;
@@ -44,7 +44,9 @@ export function registerSpotifyRoutes(app, supabase) {
     if (!SPOTIFY_CLIENT_ID || !SPOTIFY_REDIRECT_URI) {
       return res
         .status(500)
-        .send("Missing SPOTIFY_CLIENT_ID or SPOTIFY_REDIRECT_URI in server env");
+        .send(
+          "Missing SPOTIFY_CLIENT_ID or SPOTIFY_REDIRECT_URI in server env",
+        );
     }
 
     const codeVerifier = makeCodeVerifier();
@@ -119,14 +121,12 @@ export function registerSpotifyRoutes(app, supabase) {
         }),
       });
 
-      const tokenText = await tokenRes.text();
+      const tokenJson = await tokenRes.json();
       if (!tokenRes.ok) {
         return res
           .status(500)
-          .send(`Token exchange failed: ${tokenRes.status} ${tokenText}`);
+          .send(`Token exchange failed: ${tokenRes.status}`);
       }
-
-      const tokenJson = JSON.parse(tokenText);
 
       refreshToken = tokenJson.refresh_token;
 
@@ -151,11 +151,7 @@ export function registerSpotifyRoutes(app, supabase) {
 
       res.clearCookie("spotify_code_verifier");
 
-      return res
-        .status(200)
-        .send(
-          `Success. Copy this refresh token into server .env as SPOTIFY_REFRESH_TOKEN:\n\n${refreshToken}\n`,
-        );
+      return res.status(200).send("Logged in");
     } catch (e) {
       return res.status(500).send(e?.message ?? "Unknown error");
     }
@@ -229,7 +225,8 @@ export function registerSpotifyRoutes(app, supabase) {
 
   async function getAccessToken() {
     const tokenStillValid =
-      cachedAccessToken && Date.now() < accessTokenExpiresAtMs - EXPIRY_BUFFER_MS;
+      cachedAccessToken &&
+      Date.now() < accessTokenExpiresAtMs - EXPIRY_BUFFER_MS;
 
     if (tokenStillValid) {
       return cachedAccessToken;
@@ -263,20 +260,30 @@ export function registerSpotifyRoutes(app, supabase) {
         );
       }
 
-      if (currentlyPlayingRes.ok) {
-        const data = await currentlyPlayingRes.json();
-        const item = data?.item;
-
-        cachedNowPlaying = item
-          ? {
-              track: item.name,
-              artists: item.artists?.map((a) => a.name) ?? [],
-              album: item.album?.name,
-              albumImage: item.album?.images?.[0]?.url,
-              isPlaying: data.is_playing ?? true,
-            }
-          : null;
-        return;
+      // 204 No Content = nothing playing; fall through to recently-played
+      if (currentlyPlayingRes.status === 204) {
+        cachedNowPlaying = null;
+      } else if (currentlyPlayingRes.ok) {
+        try {
+          const data = await currentlyPlayingRes.json();
+          const item = data?.item;
+          cachedNowPlaying = item
+            ? {
+                track: item.name,
+                artists: item.artists?.map((a) => a.name) ?? [],
+                album: item.album?.name,
+                albumImage: item.album?.images?.[0]?.url,
+                isPlaying: data.is_playing ?? true,
+              }
+            : null;
+        } catch (parseErr) {
+          console.error(
+            "[spotify] currently-playing parse error:",
+            parseErr?.message ?? parseErr,
+          );
+          cachedNowPlaying = null;
+        }
+        if (cachedNowPlaying) return;
       }
 
       const lastPlayedRes = await fetch(
@@ -292,27 +299,31 @@ export function registerSpotifyRoutes(app, supabase) {
       }
 
       if (!lastPlayedRes.ok) {
-        const text = await lastPlayedRes.text();
-        throw new Error(
-          `recently-played failed: ${lastPlayedRes.status} ${text}`,
-        );
+        throw new Error(`recently-played failed: ${lastPlayedRes.status}`);
       }
 
-      const data = await lastPlayedRes.json();
-      const item = data?.items?.[0];
-
-      cachedNowPlaying = item
-        ? {
-            track: item.track.name,
-            artists: item.track.artists.map((a) => a.name) ?? [],
-            album: item.track.album.name,
-            albumImage: item.track.album?.images?.[0]?.url,
-            playedAt: item.played_at,
-          }
-        : null;
+      try {
+        const data = await lastPlayedRes.json();
+        const item = data?.items?.[0];
+        cachedNowPlaying = item
+          ? {
+              track: item.track.name,
+              artists: item.track.artists?.map((a) => a.name) ?? [],
+              album: item.track.album?.name,
+              albumImage: item.track.album?.images?.[0]?.url,
+              playedAt: item.played_at,
+            }
+          : null;
+      } catch (parseErr) {
+        console.error(
+          "[spotify] recently-played parse error:",
+          parseErr?.message ?? parseErr,
+        );
+        cachedNowPlaying = null;
+      }
     } catch (err) {
-      console.error("[spotify refresh error]");
-      console.error(err);
+      console.error("[spotify] refresh error:", err?.message ?? err);
+      if (err?.stack) console.error(err.stack);
     } finally {
       isRefreshingNowPlaying = false;
     }
