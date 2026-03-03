@@ -40,7 +40,7 @@ export function registerSpotifyRoutes(app, supabase) {
   /*
   1) One-time route: you visit this in browser to connect your Spotify account
   */
-  app.get("/spotify/login", (req, res) => {
+  app.get("/api/spotify/login", (req, res) => {
     if (!SPOTIFY_CLIENT_ID || !SPOTIFY_REDIRECT_URI) {
       return res
         .status(500)
@@ -79,7 +79,7 @@ export function registerSpotifyRoutes(app, supabase) {
   /*
   2) Callback: Spotify redirects here with ?code=...
   */
-  app.get("/spotify/callback", async (req, res) => {
+  app.get("/api/spotify/callback", async (req, res) => {
     try {
       if (
         !SPOTIFY_CLIENT_ID ||

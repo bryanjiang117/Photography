@@ -23,7 +23,7 @@ export async function registerMalRoutes(app, supabase) {
   let animeListCacheExpiresAtMs = 0;
   let animeListInFlightPromise;
 
-  app.get("/mal/login", (req, res) => {
+  app.get("/api/mal/login", (req, res) => {
     if (!CLIENT_ID || !REDIRECT_URI) {
       return res
         .status(500)
@@ -48,7 +48,7 @@ export async function registerMalRoutes(app, supabase) {
     );
   });
 
-  app.get("/mal/callback", async (req, res) => {
+  app.get("/api/mal/callback", async (req, res) => {
     if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
       return res
         .status(500)
@@ -232,7 +232,7 @@ export async function registerMalRoutes(app, supabase) {
     console.log("Loaded MAL refresh token from database.");
   } else {
     console.log(
-      "No MAL refresh token in database. Login at http://127.0.0.1:3001/mal/login",
+      "No MAL refresh token in database. Login at http://127.0.0.1:3001/api/mal/login",
     );
   }
 }

@@ -34,6 +34,6 @@ const baseUrl = BACKEND_ORIGIN || `http://127.0.0.1:${PORT}`;
 
 app.listen(PORT, () => {
   console.log(`Server running on ${baseUrl}`);
-  console.log(`Spotify login: ${baseUrl}/spotify/login`);
-  console.log(`MAL login: ${baseUrl}/mal/login`);
+  console.log(`Spotify login: ${baseUrl}/api/spotify/login`);
+  console.log(`MAL login: ${baseUrl}/api/mal/login`);
 });
