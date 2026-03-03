@@ -4,7 +4,7 @@ const MALPanel = () => {
   const [malData, setMalData] = useState([]);
 
   async function getAnimeList() {
-    const res = await fetch("api/mal/anime-list");
+    const res = await fetch("/api/mal/anime-list");
 
     const data = await res.json();
     console.log(data);
