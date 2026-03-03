@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-const CACHE_TTL_MS = 30000; // 30 seconds
+const CACHE_TTL_MS = 60000; // 60 seconds
 
 function makeCodeVerifier() {
   return crypto.randomBytes(32).toString("hex");
