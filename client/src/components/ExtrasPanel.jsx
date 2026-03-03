@@ -4,7 +4,7 @@ import MALPanel from "./MALPanel.jsx";
 const ExtrasPanel = () => {
   return (
     <div>
-      {/* <SpotifyPanel /> */}
+      <SpotifyPanel />
       <MALPanel />
     </div>
   );
