@@ -17,8 +17,8 @@ const MALPanel = () => {
   }, []);
 
   return malData ? (
-    <div className="flex">
-      <div className="flex gap-2">
+    <div className="relative flex flex-1 justify-center items-start p-10 h-full min-w-fit min-h-fit">
+      <div className="flex gap-2 h-full">
         {malData.map((item, i) => {
           const anime = item.node;
           return (
@@ -39,8 +39,14 @@ const MALPanel = () => {
           );
         })}
       </div>
-      <div className="text-[40px] bodoni-medium [writing-mode:vertical-rl]">
-        FAVORITE ANIME
+      <div
+        className="-mt-1 ml-1 text-8xl font-tsm [writing-mode:vertical-rl]"
+        lang="zh-CN"
+      >
+        最爱动漫
+      </div>
+      <div className="absolute left-6 bottom-3 text-xs bodoni-small">
+        TOP ANIME
       </div>
     </div>
   ) : (

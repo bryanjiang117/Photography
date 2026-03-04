@@ -1,11 +1,11 @@
 const socials = [
   {
-    name: "GitHub",
-    link: "https://github.com/bryanjiang117",
-  },
-  {
     name: "LinkedIn",
     link: "https://www.linkedin.com/in/bryanjiang117",
+  },
+  {
+    name: "GitHub",
+    link: "https://github.com/bryanjiang117",
   },
   {
     name: "Other Site",
@@ -15,7 +15,7 @@ const socials = [
 
 const SocialsPanel = () => {
   return (
-    <div className="flex flex-col gap-2 p-8 text-md">
+    <div className="relative flex flex-col justify-center items-center gap-2 py-10 px-40 h-full text-md text-center">
       {socials.map((social) => (
         <div key={social.name}>
           <a href={social.link} target="_blank">
@@ -23,6 +23,9 @@ const SocialsPanel = () => {
           </a>
         </div>
       ))}
+      <div className="absolute -right-8 bottom-4 flex items-center gap-2">
+        <span className="bg-primary-light px-2">also check out</span>
+      </div>
     </div>
   );
 };

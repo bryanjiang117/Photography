@@ -5,21 +5,22 @@ import ShowsPanel from "./ShowsPanel.jsx";
 
 const ExtrasPanel = () => {
   return (
-    <div className="flex flex-end">
-      <div className="relative flex flex-col items-right h-screen w-[calc(100vw-10rem)]">
-        <div className="flex justify-end items-center p-15">
+    <div className="flex flex-end min-w-fit">
+      <div className="h-screen w-px min-w-px bg-gray-400" />
+      <div className="relative flex flex-col items-right h-screen w-fit min-h-fit min-w-fit">
+        <div className="flex items-center min-w-fit min-h-fit">
           <SpotifyPanel />
-          <div className="mx-15 ml-23 h-[calc(100%+120px)] w-px bg-gray-400" />
+          <div className="h-full w-px min-w-px bg-gray-400" />
           <SocialsPanel />
         </div>
-        <div className="h-px w-[calc(100vw-10rem)] bg-gray-400" />
-        <div className="flex flex-1 justify-end items-center p-15">
+        <div className="h-px w-full min-w-full bg-gray-400" />
+        <div className="flex flex-1 items-center min-w-fit min-h-fit">
           <MALPanel />
-          <div className="mx-15 ml-23 h-[calc(100%+120px)] w-px bg-gray-400" />
-            <ShowsPanel />
+          <div className="h-full w-px min-w-px bg-gray-400" />
+          <ShowsPanel />
         </div>
       </div>
-      <div className="pr-10rem h-screen w-px bg-gray-400"></div>
+      <div className="h-screen w-px min-w-px bg-gray-400" />
     </div>
   );
 };

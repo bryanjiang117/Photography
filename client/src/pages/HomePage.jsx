@@ -5,6 +5,8 @@ import JapanPanel from "../components/JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
 import ExtrasPanel from "../components/ExtrasPanel";
 
+const MIN_PANEL_WIDTH = 1300;
+
 // Infinite horizontal scrolling in both directions
 const HomePage = () => {
   const scrollRef = useRef(null);
@@ -14,7 +16,7 @@ const HomePage = () => {
       <IntroPanel scrollRef={scrollRef} key="intro" />,
       <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
-      <ExtrasPanel key="extras" />
+      <ExtrasPanel key="extras" />,
     ],
     [],
   );
@@ -25,7 +27,7 @@ const HomePage = () => {
 
     const panelCount = panels.length;
 
-    const getPanelWidth = () => el.clientWidth;
+    const getPanelWidth = () => Math.max(el.clientWidth, MIN_PANEL_WIDTH);
     const getSetWidth = () => getPanelWidth() * panelCount;
 
     const withInstantScroll = (fn) => {
@@ -72,19 +74,28 @@ const HomePage = () => {
       className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scroll-smooth scrollbar-hide"
     >
       {panels.map((p, i) => (
-        <div key={`left-${i}`} className="shrink-0 w-screen h-screen">
+        <div
+          key={`left-${i}`}
+          className={`h-screen min-h-[700px] min-w-[${MIN_PANEL_WIDTH}px] shrink-0 w-screen overflow-hidden`}
+        >
           {p}
         </div>
       ))}
 
       {panels.map((p, i) => (
-        <div key={`mid-${i}`} className="shrink-0 w-screen h-screen">
+        <div
+          key={`mid-${i}`}
+          className={`h-screen min-h-[700px] min-w-[${MIN_PANEL_WIDTH}px] shrink-0 w-screen overflow-hidden`}
+        >
           {p}
         </div>
       ))}
 
       {panels.map((p, i) => (
-        <div key={`right-${i}`} className="shrink-0 w-screen h-screen">
+        <div
+          key={`right-${i}`}
+          className={`h-screen min-h-[700px] min-w-[${MIN_PANEL_WIDTH}px] shrink-0 w-screen overflow-hidden`}
+        >
           {p}
         </div>
       ))}
