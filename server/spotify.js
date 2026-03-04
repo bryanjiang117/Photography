@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
-const EXPIRY_BUFFER_MS = 60 * 1000; // 60 seconds
-const SPOTIFY_POLL_INTERVAL_MS = 15_000; // 15 seconds between Spotify fetches
+const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
+const SPOTIFY_POLL_INTERVAL_MS = 60_000; // 60 seconds between Spotify fetches
 
 /*
 PKCE helpers
