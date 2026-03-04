@@ -4,11 +4,18 @@ import IntroPanel from "../components/IntroPanel";
 import JapanPanel from "../components/JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
 import ExtrasPanel from "../components/ExtrasPanel";
+import CanadaPanel from "../components/CanadaPanel";
 
 const DEFAULT_MIN_PANEL_WIDTH = 1300;
 
 // Optional: override min-width per panel (default 1300). e.g. [1300, 900, 600, 400, ...]
-const PANEL_MIN_WIDTHS = [DEFAULT_MIN_PANEL_WIDTH, DEFAULT_MIN_PANEL_WIDTH, DEFAULT_MIN_PANEL_WIDTH, DEFAULT_MIN_PANEL_WIDTH];
+const PANEL_MIN_WIDTHS = [
+  DEFAULT_MIN_PANEL_WIDTH,
+  DEFAULT_MIN_PANEL_WIDTH,
+  DEFAULT_MIN_PANEL_WIDTH,
+  DEFAULT_MIN_PANEL_WIDTH,
+  1000,
+];
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePage = () => {
@@ -22,6 +29,7 @@ const HomePage = () => {
       <IntroPanel scrollRef={scrollRef} key="intro" />,
       <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
+      <CanadaPanel key="canada" />,
       <ExtrasPanel key="extras" />,
     ],
     [],
