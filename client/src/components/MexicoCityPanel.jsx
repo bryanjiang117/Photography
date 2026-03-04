@@ -5,7 +5,7 @@ const MexicoCityPanel = () => {
         <section className="relative flex-1 w-full bg-mexico-primary">
           <img
             src="assets/photos/mexico/orange-wall.jpeg"
-            className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 w-200"
+            className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10"
           />
         </section>
         <section className="relative mb-8 p-4 w-fit h-fit">

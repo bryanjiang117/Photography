@@ -5,11 +5,17 @@ import JapanPanel from "../components/JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
 import ExtrasPanel from "../components/ExtrasPanel";
 
-const MIN_PANEL_WIDTH = 1300;
+const DEFAULT_MIN_PANEL_WIDTH = 1300;
 
-// Infinite horizontal scrolling in both directions
+// Optional: override min-width per panel (default 1300). e.g. [1300, 900, 600, 400, ...]
+const PANEL_MIN_WIDTHS = [DEFAULT_MIN_PANEL_WIDTH, DEFAULT_MIN_PANEL_WIDTH, DEFAULT_MIN_PANEL_WIDTH, DEFAULT_MIN_PANEL_WIDTH];
+
+// Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePage = () => {
   const scrollRef = useRef(null);
+  const leftSetRef = useRef(null);
+  const setWidthRef = useRef(0);
+  const initialScrollDoneRef = useRef(false);
 
   const panels = useMemo(
     () => [
@@ -23,47 +29,51 @@ const HomePage = () => {
 
   useEffect(() => {
     const el = scrollRef.current;
-    if (!el) return;
-
-    const panelCount = panels.length;
-
-    const getPanelWidth = () => Math.max(el.clientWidth, MIN_PANEL_WIDTH);
-    const getSetWidth = () => getPanelWidth() * panelCount;
+    const leftSet = leftSetRef.current;
+    if (!el || !leftSet) return;
 
     const withInstantScroll = (fn) => {
-      const prev = el.style.scrollBehavior;
       el.style.scrollBehavior = "auto";
       fn();
-      el.style.scrollBehavior = prev;
     };
 
-    withInstantScroll(() => {
-      el.scrollLeft = getSetWidth();
-    });
-
     const onScroll = () => {
-      const setWidth = getSetWidth();
-      const jumpThreshold = 10;
+      const setWidth = setWidthRef.current;
+      if (setWidth <= 0) return;
+      const clientW = el.clientWidth;
+      const jumpThreshold = Math.min(clientW, 400);
 
-      // left wrap
       if (el.scrollLeft <= jumpThreshold) {
         withInstantScroll(() => {
           el.scrollLeft += setWidth;
         });
         return;
       }
-
-      // right wrap
-      if (el.scrollLeft >= setWidth * 2 - el.clientWidth - jumpThreshold) {
+      if (el.scrollLeft >= setWidth * 2 - clientW - jumpThreshold) {
         withInstantScroll(() => {
           el.scrollLeft -= setWidth;
         });
       }
     };
 
+    const ro = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect?.width ?? 0;
+      if (width > 0) {
+        setWidthRef.current = width;
+        if (!initialScrollDoneRef.current) {
+          withInstantScroll(() => {
+            el.scrollLeft = width;
+          });
+          initialScrollDoneRef.current = true;
+        }
+      }
+    });
+
+    ro.observe(leftSet);
     el.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
+      ro.disconnect();
       el.removeEventListener("scroll", onScroll);
     };
   }, [panels]);
@@ -73,32 +83,39 @@ const HomePage = () => {
       ref={scrollRef}
       className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scroll-smooth scrollbar-hide"
     >
-      {panels.map((p, i) => (
-        <div
-          key={`left-${i}`}
-          className={`h-screen min-h-[700px] min-w-[${MIN_PANEL_WIDTH}px] shrink-0 w-screen overflow-hidden`}
-        >
-          {p}
-        </div>
-      ))}
-
-      {panels.map((p, i) => (
-        <div
-          key={`mid-${i}`}
-          className={`h-screen min-h-[700px] min-w-[${MIN_PANEL_WIDTH}px] shrink-0 w-screen overflow-hidden`}
-        >
-          {p}
-        </div>
-      ))}
-
-      {panels.map((p, i) => (
-        <div
-          key={`right-${i}`}
-          className={`h-screen min-h-[700px] min-w-[${MIN_PANEL_WIDTH}px] shrink-0 w-screen overflow-hidden`}
-        >
-          {p}
-        </div>
-      ))}
+      <div ref={leftSetRef} className="flex h-screen min-h-[700px] shrink-0">
+        {panels.map((p, i) => (
+          <div
+            key={`left-${i}`}
+            className="h-screen min-h-[700px] shrink-0 overflow-hidden"
+            style={{ minWidth: PANEL_MIN_WIDTHS[i] ?? DEFAULT_MIN_PANEL_WIDTH }}
+          >
+            {p}
+          </div>
+        ))}
+      </div>
+      <div className="flex h-screen min-h-[700px] shrink-0">
+        {panels.map((p, i) => (
+          <div
+            key={`mid-${i}`}
+            className="h-screen min-h-[700px] shrink-0 overflow-hidden"
+            style={{ minWidth: PANEL_MIN_WIDTHS[i] ?? DEFAULT_MIN_PANEL_WIDTH }}
+          >
+            {p}
+          </div>
+        ))}
+      </div>
+      <div className="flex h-screen min-h-[700px] shrink-0">
+        {panels.map((p, i) => (
+          <div
+            key={`right-${i}`}
+            className="h-screen min-h-[700px] shrink-0 overflow-hidden"
+            style={{ minWidth: PANEL_MIN_WIDTHS[i] ?? DEFAULT_MIN_PANEL_WIDTH }}
+          >
+            {p}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

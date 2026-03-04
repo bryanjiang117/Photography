@@ -15,7 +15,7 @@ const socials = [
 
 const SocialsPanel = () => {
   return (
-    <div className="relative flex flex-col justify-center items-center gap-2 py-10 px-40 h-full text-md text-center">
+    <div className="relative flex flex-col justify-center items-center gap-2 py-10 px-30 h-full text-md text-center">
       {socials.map((social) => (
         <div key={social.name}>
           <a href={social.link} target="_blank">
