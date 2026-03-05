@@ -28,7 +28,7 @@ const JapanPanel = () => {
           </div>
           <div className="flex justify-center items-end w-full flex-1 h-full min-w-0">
             <div className="flex gap-5 w-fit text-md -translate-x-1/2 px-2 bg-japan-accent [writing-mode:vertical-rl]">
-              <span className="bodoni-small leading-none">Photography</span>
+              <span className="bodoni-small leading-none">photography</span>
               <span translate="no">‧</span>
               <span className="subtitle font-sh" lang="zh-CN" translate="no">
                 摄&nbsp;影

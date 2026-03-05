@@ -14,7 +14,7 @@ const PANEL_MIN_WIDTHS = [
   DEFAULT_MIN_PANEL_WIDTH,
   DEFAULT_MIN_PANEL_WIDTH,
   DEFAULT_MIN_PANEL_WIDTH,
-  1000,
+  600,
 ];
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)

@@ -18,7 +18,7 @@ const MexicoCityPanel = () => {
             </span>
           </div>
           <div className="absolute bottom-0 right-0 w-fit translate-y-full translate-x-[calc(100%-6rem)] text-md">
-            <span className="bodoni-small leading-none">Photography &nbsp;</span>
+            <span className="bodoni-small leading-none">photography &nbsp;</span>
             <span translate="no">‧</span>
             <span className="subtitle font-sh" lang="zh-CN" translate="no">
               &nbsp; 摄影
