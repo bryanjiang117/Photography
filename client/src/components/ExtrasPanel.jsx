@@ -1,7 +1,7 @@
 import SpotifyPanel from "./SpotifyComponent.jsx";
-import MALPanel from "./MALComponent.jsx";
 import SocialsPanel from "./SocialsComponent.jsx";
-import ShowsPanel from "./ShowsComponent.jsx";
+import MALComponent from "./MALComponent.jsx";
+import TMDBComponent from "./TMDBComponent.jsx";
 
 const ExtrasPanel = () => {
   return (
@@ -15,9 +15,9 @@ const ExtrasPanel = () => {
         </div>
         <div className="h-px w-full min-w-full bg-gray-400" />
         <div className="flex flex-1 items-center min-w-fit min-h-fit">
-          <MALPanel />
+          <MALComponent />
           <div className="h-full w-px min-w-px bg-gray-400" />
-          <ShowsPanel />
+          <TMDBComponent />
         </div>
       </div>
       <div className="h-screen w-px min-w-px bg-gray-400" />

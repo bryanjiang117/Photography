@@ -11,7 +11,8 @@ const HomePage = () => {
   const scrollRef = useRef(null);
   const leftSetRef = useRef(null);
   const setWidthRef = useRef(0);
-  const initialScrollDoneRef = useRef(false);
+  const hasPositionedRef = useRef(false);
+  const userInteractedRef = useRef(false);
   const panels = useMemo(
     () => [
       <IntroPanel scrollRef={scrollRef} key="intro" />,
@@ -52,45 +53,52 @@ const HomePage = () => {
       }
     };
 
-    let safariCorrectTimeout = null;
-    const applyInitialScroll = () => {
-      const w = leftSet.getBoundingClientRect().width;
-      if (w <= 0) return;
-      setWidthRef.current = w;
-      withInstantScroll(() => {
-        el.scrollLeft = w;
-      });
+    // Mark user interaction so we stop auto-repositioning once the user scrolls.
+    // wheel/touchstart won't fire from programmatic scrolls.
+    const onUserInteract = () => {
+      userInteractedRef.current = true;
     };
 
     const ro = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect?.width ?? 0;
-      if (width > 0) {
-        setWidthRef.current = width;
-        if (!initialScrollDoneRef.current) {
-          withInstantScroll(() => {
-            el.scrollLeft = width;
-          });
-          initialScrollDoneRef.current = true;
-          // Safari often reports width before layout is final. Re-apply after layout settles.
-          safariCorrectTimeout = setTimeout(applyInitialScroll, 150);
-        }
+      if (width <= 0) return;
+
+      setWidthRef.current = width;
+
+      // Re-apply the initial scroll position when:
+      // - We haven't positioned yet (first firing), OR
+      // - The user hasn't scrolled yet and content is still loading (e.g. Spotify/MAL)
+      // This ensures async panel content changing widths doesn't leave us at the wrong position.
+      if (!hasPositionedRef.current || !userInteractedRef.current) {
+        withInstantScroll(() => {
+          el.scrollLeft = width;
+        });
+        hasPositionedRef.current = true;
       }
+
+      // ResizeObserver callbacks fire before the browser paints, so making the
+      // container visible here means the user never sees scrollLeft=0.
+      el.style.visibility = "visible";
     });
 
     ro.observe(leftSet);
     el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("wheel", onUserInteract, { once: true, passive: true });
+    window.addEventListener("touchstart", onUserInteract, { once: true, passive: true });
 
     return () => {
-      if (safariCorrectTimeout) clearTimeout(safariCorrectTimeout);
       ro.disconnect();
       el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("wheel", onUserInteract);
+      window.removeEventListener("touchstart", onUserInteract);
     };
   }, [panels]);
 
   return (
     <div
       ref={scrollRef}
-      className="flex h-screen w-screen scroll-smooth overflow-x-scroll overflow-y-hidden scrollbar-hide"
+      style={{ visibility: "hidden" }}
+      className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scrollbar-hide"
     >
       <div ref={leftSetRef} className="flex h-screen min-h-[700px] shrink-0">
         {panels.map((p, i) => (

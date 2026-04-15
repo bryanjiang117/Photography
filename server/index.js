@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { createClient } from "@supabase/supabase-js";
 import { registerSpotifyRoutes } from "./spotify.js";
 import { registerMalRoutes } from "./mal.js";
+import { registerTmdbRoutes } from "./tmdb.js";
 import cors from "cors";
 
 dotenv.config();
@@ -29,6 +30,7 @@ app.use(
 
 registerSpotifyRoutes(app, supabase);
 await registerMalRoutes(app, supabase);
+await registerTmdbRoutes(app, supabase);
 
 const baseUrl = BACKEND_ORIGIN || `http://127.0.0.1:${PORT}`;
 

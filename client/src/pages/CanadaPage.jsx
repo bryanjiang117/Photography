@@ -4,17 +4,16 @@ const STRIP_INSET = "1rem";
 
 const PHOTOS = [
   "farm-ca",
-  "barn-tree",
   "rolling-hills",
   "sunset-barn",
-  "windows-xp-grass",
   "wheat",
+  "windows-xp-grass",
   "blurred-rain",
   "moon",
   "firework",
   "pink-sky-plane",
   "cargo-cranes",
-  "active-boat",
+  // "active-boat",
   "summer-drink-days",
 ];
 

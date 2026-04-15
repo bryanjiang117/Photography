@@ -81,26 +81,20 @@ export function registerSpotifyRoutes(app, supabase) {
   */
   app.get("/api/spotify/callback", async (req, res) => {
     try {
-      if (
-        !SPOTIFY_CLIENT_ID ||
-        !SPOTIFY_CLIENT_SECRET ||
-        !SPOTIFY_REDIRECT_URI
-      ) {
-        return res
-          .status(500)
-          .send(
-            "Missing SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET / SPOTIFY_REDIRECT_URI in server env",
-          );
+      if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET || !SPOTIFY_REDIRECT_URI) {
+        return res.status(500).send(
+          "Missing SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET / SPOTIFY_REDIRECT_URI in server env",
+        );
       }
 
       const code = req.query.code;
       const codeVerifier = req.cookies.spotify_code_verifier;
 
       if (!code || typeof code !== "string") {
-        return res.status(400).send("Missing code");
+        return res.status(400).send("Missing ?code in callback");
       }
       if (!codeVerifier) {
-        return res.status(400).send("Missing code verifier cookie");
+        return res.status(400).send("Missing code verifier cookie — go to /api/spotify/login again");
       }
 
       const basic = Buffer.from(
@@ -123,35 +117,30 @@ export function registerSpotifyRoutes(app, supabase) {
 
       const tokenJson = await tokenRes.json();
       if (!tokenRes.ok) {
-        return res
-          .status(500)
-          .send(`Token exchange failed: ${tokenRes.status}`);
+        return res.status(tokenRes.status).send(
+          `Spotify token exchange failed (${tokenRes.status}): ${tokenJson.error_description ?? tokenJson.error ?? JSON.stringify(tokenJson)}`,
+        );
       }
 
       refreshToken = tokenJson.refresh_token;
-
       if (!refreshToken) {
-        return res
-          .status(500)
-          .send(
-            "No refresh_token returned. Did you already authorize without 'show_dialog'? Try again.",
-          );
+        return res.status(500).send(
+          "No refresh_token in Spotify response — try /api/spotify/login again",
+        );
       }
 
-      const { error } = await supabase.from("tokens").upsert({
+      const { error: dbError } = await supabase.from("tokens").upsert({
         name: "spotify_refresh_token",
         value: refreshToken,
         updated_at: new Date(),
       });
 
-      if (error) {
-        console.error("Insert failed:", error.message);
-        return;
+      if (dbError) {
+        return res.status(500).send(`Failed to save refresh token: ${dbError.message}`);
       }
 
       res.clearCookie("spotify_code_verifier");
-
-      return res.status(200).send("Logged in");
+      return res.status(200).send("Spotify logged in.");
     } catch (e) {
       return res.status(500).send(e?.message ?? "Unknown error");
     }

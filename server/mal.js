@@ -24,83 +24,85 @@ export async function registerMalRoutes(app, supabase) {
   let animeListInFlightPromise;
 
   app.get("/api/mal/login", (req, res) => {
-    if (!CLIENT_ID || !REDIRECT_URI) {
-      return res
-        .status(500)
-        .send("Missing MAL_CLIENT_ID or MAL_REDIRECT_URI in server env");
+    try {
+      if (!CLIENT_ID || !REDIRECT_URI) {
+        return res.status(500).send("Missing MAL_CLIENT_ID or MAL_REDIRECT_URI in server env");
+      }
+
+      const codeVerifier = makeCodeVerifier();
+      const codeChallenge = makeCodeChallenge(codeVerifier);
+
+      res.cookie("mal_verifier", codeVerifier, { httpOnly: true, sameSite: "lax" });
+
+      const params = new URLSearchParams({
+        response_type: "code",
+        client_id: CLIENT_ID,
+        redirect_uri: REDIRECT_URI,
+        code_challenge: codeChallenge,
+        code_challenge_method: "plain",
+      });
+
+      return res.redirect(
+        `https://myanimelist.net/v1/oauth2/authorize?${params.toString()}`,
+      );
+    } catch (e) {
+      return res.status(500).send(e?.message ?? "Unknown error");
     }
-
-    const codeVerifier = makeCodeVerifier();
-    const codeChallenge = makeCodeChallenge(codeVerifier);
-
-    res.cookie("mal_verifier", codeVerifier, { httpOnly: true, sameSite: "lax" });
-
-    const params = new URLSearchParams({
-      response_type: "code",
-      client_id: CLIENT_ID,
-      redirect_uri: REDIRECT_URI,
-      code_challenge: codeChallenge,
-      code_challenge_method: "plain",
-    });
-
-    return res.redirect(
-      `https://myanimelist.net/v1/oauth2/authorize?${params.toString()}`,
-    );
   });
 
   app.get("/api/mal/callback", async (req, res) => {
-    if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
-      return res
-        .status(500)
-        .send(
+    try {
+      if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
+        return res.status(500).send(
           "Missing MAL_CLIENT_ID / MAL_CLIENT_SECRET / MAL_REDIRECT_URI in server env",
         );
+      }
+
+      const authCode = req.query.code;
+      const codeVerifier = req.cookies.mal_verifier;
+
+      if (!authCode) return res.status(400).send("Missing ?code in callback");
+      if (!codeVerifier)
+        return res.status(400).send("Missing verifier cookie — go to /api/mal/login again");
+
+      const r = await fetch("https://myanimelist.net/v1/oauth2/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_id: CLIENT_ID,
+          client_secret: CLIENT_SECRET,
+          grant_type: "authorization_code",
+          code: String(authCode),
+          redirect_uri: REDIRECT_URI,
+          code_verifier: codeVerifier,
+        }),
+      });
+
+      const data = await r.json();
+      if (!r.ok) {
+        return res.status(r.status).send(
+          `MAL token exchange failed (${r.status}): ${data.error ?? data.message ?? JSON.stringify(data)}`,
+        );
+      }
+
+      accessToken = data.access_token;
+      refreshToken = data.refresh_token;
+      expiresAtMs = Date.now() + data.expires_in * 1000;
+
+      const { error: dbError } = await supabase.from("tokens").upsert({
+        name: "mal_refresh_token",
+        value: refreshToken,
+        updated_at: new Date(),
+      });
+
+      if (dbError) {
+        return res.status(500).send(`Failed to save refresh token: ${dbError.message}`);
+      }
+
+      return res.send("MAL logged in. You can now call the API.");
+    } catch (e) {
+      return res.status(500).send(e?.message ?? "Unknown error");
     }
-
-    const authCode = req.query.code;
-    const codeVerifier = req.cookies.mal_verifier;
-
-    if (!authCode) return res.status(400).send("Missing ?code");
-    if (!codeVerifier)
-      return res
-        .status(400)
-        .send("Missing verifier cookie. Go to /mal/login again.");
-
-    const body = new URLSearchParams({
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      grant_type: "authorization_code",
-      code: String(authCode),
-      redirect_uri: REDIRECT_URI,
-      code_verifier: codeVerifier,
-    });
-
-    const r = await fetch("https://myanimelist.net/v1/oauth2/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body,
-    });
-
-    const data = await r.json();
-
-    if (!r.ok) return res.status(r.status).json(data);
-
-    accessToken = data.access_token;
-    refreshToken = data.refresh_token;
-    expiresAtMs = Date.now() + data.expires_in * 1000;
-
-    const { error } = await supabase.from("tokens").upsert({
-      name: "mal_refresh_token",
-      value: refreshToken,
-      updated_at: new Date(),
-    });
-
-    if (error) {
-      console.error("Insert failed:", error.message);
-      return;
-    }
-
-    return res.send("Logged in. You can now call the API.");
   });
 
   async function loadRefreshTokenFromDb() {
