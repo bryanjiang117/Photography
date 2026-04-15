@@ -5,7 +5,7 @@ import ShowsPanel from "./ShowsComponent.jsx";
 
 const ExtrasPanel = () => {
   return (
-    <div className="panel flex flex-end mr-40 min-w-fit w-fit">
+    <div className="shrink-0 h-screen flex mr-40">
       <div className="h-screen w-px min-w-px bg-gray-400" />
       <div className="relative flex flex-col items-right h-screen w-fit min-h-fit min-w-fit">
         <div className="flex items-center min-w-fit min-h-fit">
@@ -21,8 +21,15 @@ const ExtrasPanel = () => {
         </div>
       </div>
       <div className="h-screen w-px min-w-px bg-gray-400" />
-      <video className="h-full" autoPlay muted loop>
-        <source src="/assets/photos/mountain-view.MOV" />
+      <video
+        className="h-full object-contain aspect-9/16"
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster="/assets/photos/mountain-view-thumbnail.png"
+      >
+        <source src="/assets/photos/mountain-view.mp4" type="video/mp4" />
       </video>
       <div className="h-screen w-px min-w-px bg-gray-400" />
     </div>

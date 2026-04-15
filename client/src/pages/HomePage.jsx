@@ -4,18 +4,7 @@ import IntroPanel from "../components/IntroPanel";
 import JapanPanel from "../components/JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
 import ExtrasPanel from "../components/ExtrasPanel";
-import CanadaPanel from "../components/CanadaPanel";
-
-const DEFAULT_MIN_PANEL_WIDTH = 1300;
-
-// Optional: override min-width per panel (default 1300). e.g. [1300, 900, 600, 400, ...]
-const PANEL_MIN_WIDTHS = [
-  DEFAULT_MIN_PANEL_WIDTH,
-  DEFAULT_MIN_PANEL_WIDTH,
-  DEFAULT_MIN_PANEL_WIDTH,
-  DEFAULT_MIN_PANEL_WIDTH,
-  600,
-];
+import CanadaPage from "./CanadaPage";
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePage = () => {
@@ -23,13 +12,12 @@ const HomePage = () => {
   const leftSetRef = useRef(null);
   const setWidthRef = useRef(0);
   const initialScrollDoneRef = useRef(false);
-
   const panels = useMemo(
     () => [
       <IntroPanel scrollRef={scrollRef} key="intro" />,
       <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
-      <CanadaPanel key="canada" />,
+      <CanadaPage key="canada-page" />,
       <ExtrasPanel key="extras" />,
     ],
     [],
@@ -64,6 +52,16 @@ const HomePage = () => {
       }
     };
 
+    let safariCorrectTimeout = null;
+    const applyInitialScroll = () => {
+      const w = leftSet.getBoundingClientRect().width;
+      if (w <= 0) return;
+      setWidthRef.current = w;
+      withInstantScroll(() => {
+        el.scrollLeft = w;
+      });
+    };
+
     const ro = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect?.width ?? 0;
       if (width > 0) {
@@ -73,6 +71,8 @@ const HomePage = () => {
             el.scrollLeft = width;
           });
           initialScrollDoneRef.current = true;
+          // Safari often reports width before layout is final. Re-apply after layout settles.
+          safariCorrectTimeout = setTimeout(applyInitialScroll, 150);
         }
       }
     });
@@ -81,6 +81,7 @@ const HomePage = () => {
     el.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
+      if (safariCorrectTimeout) clearTimeout(safariCorrectTimeout);
       ro.disconnect();
       el.removeEventListener("scroll", onScroll);
     };
@@ -89,14 +90,13 @@ const HomePage = () => {
   return (
     <div
       ref={scrollRef}
-      className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scroll-smooth scrollbar-hide"
+      className="flex h-screen w-screen scroll-smooth overflow-x-scroll overflow-y-hidden scrollbar-hide"
     >
       <div ref={leftSetRef} className="flex h-screen min-h-[700px] shrink-0">
         {panels.map((p, i) => (
           <div
             key={`left-${i}`}
-            className="h-screen min-h-[700px] shrink-0 overflow-hidden"
-            style={{ minWidth: PANEL_MIN_WIDTHS[i] ?? DEFAULT_MIN_PANEL_WIDTH }}
+            className="h-screen min-h-[700px] w-fit shrink-0 overflow-hidden"
           >
             {p}
           </div>
@@ -106,8 +106,7 @@ const HomePage = () => {
         {panels.map((p, i) => (
           <div
             key={`mid-${i}`}
-            className="h-screen min-h-[700px] shrink-0 overflow-hidden"
-            style={{ minWidth: PANEL_MIN_WIDTHS[i] ?? DEFAULT_MIN_PANEL_WIDTH }}
+            className="h-screen min-h-[700px] w-fit shrink-0 overflow-hidden"
           >
             {p}
           </div>
@@ -117,8 +116,7 @@ const HomePage = () => {
         {panels.map((p, i) => (
           <div
             key={`right-${i}`}
-            className="h-screen min-h-[700px] shrink-0 overflow-hidden"
-            style={{ minWidth: PANEL_MIN_WIDTHS[i] ?? DEFAULT_MIN_PANEL_WIDTH }}
+            className="h-screen min-h-[700px] w-fit shrink-0 overflow-hidden"
           >
             {p}
           </div>

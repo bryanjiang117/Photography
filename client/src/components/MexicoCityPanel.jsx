@@ -1,6 +1,6 @@
 const MexicoCityPanel = () => {
   return (
-    <div className="panel p-4">
+    <div className="shrink-0 h-screen w-screen p-4">
       <div className="flex flex-col h-full mr-[15%]">
         <section className="relative flex-1 w-full bg-mexico-primary">
           <img

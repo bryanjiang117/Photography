@@ -35,7 +35,7 @@ const IntroPanel = ({ scrollRef }) => {
   }, []);
 
   return (
-    <div className="panel relative flex justify-between p-4">
+    <div className="shrink-0 w-screen h-screen relative flex justify-between p-4">
       {/* My name */}
       <section className="flex w-fit">
         <div
