@@ -4,19 +4,20 @@ const MALComponent = () => {
   const [malData, setMalData] = useState([]);
 
   async function getAnimeList() {
-    const res = await fetch("/api/mal/anime-list");
-
-    const data = await res.json();
-    console.log("MAL data", data);
-
-    setMalData(data);
+    try {
+      const res = await fetch("/api/mal/anime-list");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setMalData(data);
+      }
+    } catch {}
   }
 
   useEffect(() => {
     getAnimeList();
   }, []);
 
-  return malData ? (
+  return (
     <div className="relative flex flex-1 items-start p-10 h-full min-h-fit">
       <div className="flex flex-1 h-full">
         {malData.map((item, i) => {
@@ -46,10 +47,8 @@ const MALComponent = () => {
         <div className="mt-1 ml-1">TOP ANIME</div>
       </div>
 
-      <div className="absolute left-10 bottom-3 text-[10px] bodoni-small tracking-wider opacity-50">via MAL API</div>
+      <div className="absolute left-10 bottom-3 text-xs bodoni-small tracking-wider opacity-50">via MAL API</div>
     </div>
-  ) : (
-    <div>malData not found</div>
   );
 };
 
