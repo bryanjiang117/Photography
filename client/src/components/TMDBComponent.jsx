@@ -8,7 +8,7 @@ const TMDBComponent = () => {
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data)) {
-          setItems(data.filter((item) => item?.title));
+          setItems(data);
         }
       })
       .catch(() => {});
@@ -29,11 +29,18 @@ const TMDBComponent = () => {
         {items.map((item) => (
           <div
             key={`${item.media_type ?? "unknown"}-${item.id ?? item.title}`}
-            className="flex items-center gap-4 flex-1  border-t border-gray-300 py-1.5"
+            className="flex items-center flex-1  border-t border-gray-300 py-1.5"
           >
-            <span className="flex-1 text-sm bodoni-small select-text leading-tight">
-              {item.title}
-            </span>
+            <div className="flex gap-1 flex-1">
+              <span className="text-sm bodoni-small select-text leading-tight">
+                {item.title}
+              </span>
+              {item.original_title && (
+                <span className="text-sm font-sh select-text leading-tight opacity-60 shrink-0">
+                  ({item.original_title})
+                </span>
+              )}
+            </div>
             <span className="text-[10px] uppercase tracking-widest opacity-30 shrink-0">
               {item.media_type === "movie" ? "film" : "tv"}
             </span>

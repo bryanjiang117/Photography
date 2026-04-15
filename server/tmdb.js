@@ -84,13 +84,20 @@ export async function registerTmdbRoutes(app, supabase) {
         (a.title ?? a.name).localeCompare(b.title ?? b.name),
     );
 
-    return combined.slice(0, 10).map((item) => ({
-      id: item.id,
-      media_type: item.media_type,
-      title: item.title ?? item.name,
-      rating: item.rating,
-      year: (item.release_date ?? item.first_air_date ?? "").slice(0, 4),
-    }));
+    return combined.slice(0, 10).map((item) => {
+      return {
+        id: item.id,
+        media_type: item.media_type,
+        title: item.title ?? item.name,
+        original_title:
+          item.original_language !== "en"
+            ? (item.original_name ?? item.original_title)
+            : null,
+        original_language: item.original_language ?? null,
+        rating: item.rating,
+        year: (item.release_date ?? item.first_air_date ?? "").slice(0, 4),
+      };
+    });
   }
 
   async function getCachedRated() {

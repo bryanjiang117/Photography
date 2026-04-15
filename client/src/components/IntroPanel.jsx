@@ -74,11 +74,11 @@ const IntroPanel = ({ scrollRef }) => {
       <div className="absolute bottom-2/10 right-24 max-w-4/10">
         <div className="flex flex-col gap-2">
           <p className="mr-[30%] text-xl font-sh" lang="zh-CN" translate="no">
-            你好，我的名字是姜昊周。我一般是干软件开发的可是闲暇时喜欢摄影。这是我的一些作品。
+            你好，我叫姜昊周。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。
           </p>
-          <p className="ml-8 text-xl leading-tight bodoni-small">
-            Nice to meet you. My name is Bryan Jiang. I'm a developer, but on
-            the side I do some photography. This is some of my work.
+          <p className="ml-8 mr-[15%] text-xl leading-tight bodoni-small">
+            Nice to meet you. My name is Bryan Jiang. I'm a developer who loves
+            visual art. Welcome to my WIP site.
           </p>
         </div>
       </div>
