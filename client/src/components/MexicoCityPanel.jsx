@@ -1,8 +1,9 @@
+import { useContext } from "react";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router-dom";
+import { GalleryContext } from "../GalleryContext";
 
 const MexicoCityPanel = () => {
-  const navigate = useNavigate();
+  const { setShowMexicoGallery } = useContext(GalleryContext);
 
   return (
     <div className="relative shrink-0 h-screen w-screen p-4">
@@ -37,7 +38,7 @@ const MexicoCityPanel = () => {
       {/* Gallery trigger */}
       <div
         className="absolute bottom-6 right-[calc(15%+1rem)] z-10 flex flex-col items-end gap-1.5 cursor-pointer select-none"
-        onClick={() => navigate("/mexico")}
+        onClick={() => setShowMexicoGallery(true)}
       >
         <span className="bodoni-small text-sm uppercase tracking-[0.3em] opacity-80 leading-none">
       VIEW GALLERY

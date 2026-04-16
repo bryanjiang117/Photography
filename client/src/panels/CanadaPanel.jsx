@@ -30,7 +30,7 @@ const farmFrameStyle = {
   height: `calc(${HERO_W} * 2 / 3)`,
 };
 
-export default function CanadaPage() {
+export default function CanadaPanel() {
   return (
     <div className="relative flex h-screen w-screen overflow-hidden bg-background">
       {/* Chrome: explicit height so it doesn’t collapse (all inner layers are absolute) */}

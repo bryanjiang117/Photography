@@ -1,7 +1,7 @@
-import SpotifyPanel from "./SpotifyComponent.jsx";
-import SocialsPanel from "./SocialsComponent.jsx";
-import MALComponent from "./MALComponent.jsx";
-import TMDBComponent from "./TMDBComponent.jsx";
+import SpotifyPanel from "../components/SpotifyComponent.jsx";
+import SocialsPanel from "../components/SocialsComponent.jsx";
+import MALComponent from "../components/MALComponent.jsx";
+import TMDBComponent from "../components/TMDBComponent.jsx";
 
 const ExtrasPanel = () => {
   return (

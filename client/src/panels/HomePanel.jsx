@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef } from "react";
 
-import IntroPanel from "../components/IntroPanel";
-import JapanPanel from "../components/JapanPanel";
+import IntroPanel from "./IntroPanel";
+import JapanPanel from "./JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
-import ExtrasPanel from "../components/ExtrasPanel";
-import CanadaPage from "./CanadaPage";
+import ExtrasPanel from "./ExtrasPanel";
+import CanadaPage from "./CanadaPanel";
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
-const HomePage = () => {
+const HomePanel = () => {
   const scrollRef = useRef(null);
   const leftSetRef = useRef(null);
   const setWidthRef = useRef(0);
@@ -83,8 +83,14 @@ const HomePage = () => {
 
     ro.observe(leftSet);
     el.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", onUserInteract, { once: true, passive: true });
-    window.addEventListener("touchstart", onUserInteract, { once: true, passive: true });
+    window.addEventListener("wheel", onUserInteract, {
+      once: true,
+      passive: true,
+    });
+    window.addEventListener("touchstart", onUserInteract, {
+      once: true,
+      passive: true,
+    });
 
     return () => {
       ro.disconnect();
@@ -134,4 +140,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default HomePanel;

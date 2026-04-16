@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router-dom";
+import { GalleryContext } from "../GalleryContext";
 
 // Strings = landscape (full width). Arrays = portrait pair (side by side).
 const ITEMS = [
@@ -20,8 +21,8 @@ const ITEMS = [
   // ["tree-reflection", "palm-trees"],
 ];
 
-export default function MexicoCityGalleryPage() {
-  const navigate = useNavigate();
+export default function MexicoCityGallery() {
+  const { setShowMexicoGallery } = useContext(GalleryContext);
   return (
     <motion.div
       initial={{ y: "100vh" }}
@@ -54,7 +55,7 @@ export default function MexicoCityGalleryPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
-        onClick={() => navigate(-1)}
+        onClick={() => setShowMexicoGallery(false)}
         className="absolute bottom-6 left-8 z-20 flex items-center gap-2 text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200 p-3 -m-3"
       >
         <span className="text-lg leading-none">←</span>
