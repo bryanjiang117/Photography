@@ -1,6 +1,11 @@
+import { motion } from "motion/react";
+import { useNavigate } from "react-router-dom";
+
 const MexicoCityPanel = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="shrink-0 h-screen w-screen p-4">
+    <div className="relative shrink-0 h-screen w-screen p-4">
       <div className="flex flex-col h-full mr-[15%]">
         <section className="relative flex-1 w-full bg-mexico-primary">
           <img
@@ -18,14 +23,30 @@ const MexicoCityPanel = () => {
             </span>
           </div>
           <div className="absolute bottom-0 right-0 w-fit translate-y-full translate-x-[calc(100%-6rem)] text-md">
-            <span className="bodoni-small leading-none">photography &nbsp;</span>
+            <span className="bodoni-small leading-none">
+              photography &nbsp;
+            </span>
             <span translate="no">‧</span>
             <span className="subtitle font-sh" lang="zh-CN" translate="no">
               &nbsp; 摄影
             </span>
-            {/* ● */}
           </div>
         </section>
+      </div>
+
+      {/* Gallery trigger */}
+      <div
+        className="absolute bottom-6 right-[calc(15%+1rem)] z-10 flex flex-col items-end gap-1.5 cursor-pointer select-none"
+        onClick={() => navigate("/mexico")}
+      >
+        <span className="bodoni-small text-sm uppercase tracking-[0.3em] opacity-80 leading-none">
+      VIEW GALLERY
+        </span>
+        <motion.div
+          className="w-full h-px bg-gray-900 origin-left opacity-40"
+          animate={{ scaleX: [0, 1] }}
+          transition={{ duration: 1.8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+        />
       </div>
     </div>
   );
