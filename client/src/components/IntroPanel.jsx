@@ -49,7 +49,7 @@ const IntroPanel = ({ scrollRef }) => {
           <div className="pt-6 [writing-mode:vertical-lr] ">
             This is my name
           </div>
-          <div className="mb-4 h-4 w-4 -translate-x-1 bg-primary" />
+          <div data-intro-square className="mb-4 h-4 w-4 -translate-x-1 bg-primary" />
         </div>
       </section>
 
