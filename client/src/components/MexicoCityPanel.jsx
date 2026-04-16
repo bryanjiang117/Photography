@@ -3,15 +3,20 @@ import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 
 const MexicoCityPanel = () => {
-  const { setShowMexicoGallery } = useContext(GalleryContext);
+  const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
 
   return (
     <div className="relative shrink-0 h-screen w-screen p-4">
       <div className="flex flex-col h-full mr-[15%]">
         <section className="relative flex-1 w-full bg-mexico-primary">
-          <img
+          <motion.img
             src="assets/photos/mexico/orange-wall.jpeg"
-            className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10"
+            className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
+            animate={showMexicoGallery
+              ? { clipPath: "inset(0 0 100% 0)" }
+              : { clipPath: "inset(0 0 0% 0)" }}
+            transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+            onClick={() => setShowMexicoGallery(true)}
           />
         </section>
         <section className="relative mb-8 p-4 w-fit h-fit">
