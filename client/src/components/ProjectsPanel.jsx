@@ -1,20 +1,4 @@
-const PROJECTS = [
-  {
-    name: "FOMO",
-    description:
-      "An Android location tracking social app made for friends to stay connected. Cool features are the on-my-way status and shared places.",
-    link: "https://github.com/bryanjiang117/FOMO",
-    image: "/assets/images/projects/fomo.png",
-    isDesign: false,
-  },
-  {
-    name: "Unclutter",
-    description:
-      "A mobile app that provides a new take on note organization. Notes are sorted into semantically-grouped visual bubbles.",
-    link: "https://www.figma.com/community/file/1578143880936148685/unclutter?q_id=686bfa3e-ba29-4173-9ace-550c973c9522",
-    isDesign: true,
-  },
-];
+import { PROJECTS } from "../constants/data";
 
 const ProjectsPanel = () => {
   return (

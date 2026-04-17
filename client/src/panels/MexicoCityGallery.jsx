@@ -1,25 +1,7 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-
-// Strings = landscape (full width). Arrays = portrait pair (side by side).
-const ITEMS = [
-  "orange-wall",
-  ["green-wall", "blue-door", "bike-leaves"],
-  ["meat-vendor", "pastor-tacos"],
-  ["", "street-vendor", "", "coke-store"],
-  ["taco-vendor", "bakery"],
-  ["flowers", "fruit-store", "fruit-vendor"],
-  ["old-man", ""],
-  ["bikes", "", "pool", "", "street-stalls"],
-  "windmill",
-  ["modern-balcony", "", "old-building"],
-  "line-squirrel",
-  ["playground", ""], // maybe make this one full width
-  ["museum-reflection", "museum-roof", "art-museum", "palace", ""],
-  ["plaza-garibaldi"],
-  // ["tree-reflection", "palm-trees"],
-];
+import { MEXICO_ITEMS as ITEMS } from "../constants/data";
 
 export default function MexicoCityGallery() {
   const { setShowMexicoGallery } = useContext(GalleryContext);

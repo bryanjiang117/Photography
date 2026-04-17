@@ -1,15 +1,4 @@
-const PHOTOS = [
-  "rolling-hills",
-  "sunset-barn",
-  "wheat",
-  "windows-xp-grass",
-  "blurred-rain",
-  "moon",
-  "firework",
-  "pink-sky-plane",
-  "cargo-cranes",
-  "summer-drink-days",
-];
+import { CANADA_PHOTOS as PHOTOS } from "../constants/data";
 
 export default function CanadaPanel() {
   return (

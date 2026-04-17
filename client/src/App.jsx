@@ -4,6 +4,10 @@ import { AnimatePresence, motion } from "motion/react";
 import HomePage from "./panels/HomePanel";
 import CanadaPage from "./panels/CanadaPanel";
 import MexicoCityGalleryPage from "./panels/MexicoCityGallery";
+import MobileHome from "./mobile/MobileHome";
+import MobileCanadaPage from "./mobile/CanadaGallery";
+import MobileMexicoCityGallery from "./mobile/MexicoCityGallery";
+import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
 
 import "./App.scss";
@@ -48,6 +52,7 @@ function AnimatedRoutes() {
   const location = useLocation();
   const path = location.pathname;
   const { showMexicoGallery } = useContext(GalleryContext);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const preload = () => {
@@ -68,10 +73,14 @@ function AnimatedRoutes() {
 
   return (
     <>
-      {path === "/" && <HomePage />}
-      {path === "/canada" && <CanadaPage />}
+      {path === "/" && (isMobile ? <MobileHome /> : <HomePage />)}
+      {path === "/canada" && (isMobile ? <MobileCanadaPage /> : <CanadaPage />)}
       <AnimatePresence>
-        {showMexicoGallery && <MexicoCityGalleryPage key="mexico-gallery" />}
+        {showMexicoGallery && (
+          isMobile
+            ? <MobileMexicoCityGallery key="mexico-gallery" />
+            : <MexicoCityGalleryPage key="mexico-gallery" />
+        )}
       </AnimatePresence>
     </>
   );
