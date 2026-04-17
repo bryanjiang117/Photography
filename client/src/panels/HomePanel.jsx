@@ -4,7 +4,8 @@ import IntroPanel from "./IntroPanel";
 import JapanPanel from "./JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
 import ExtrasPanel from "./ExtrasPanel";
-import CanadaPage from "./CanadaPanel";
+import CanadaPanel from "./CanadaPanel";
+import ProjectsPanel from "../components/ProjectsPanel";
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePanel = () => {
@@ -18,7 +19,8 @@ const HomePanel = () => {
       <IntroPanel scrollRef={scrollRef} key="intro" />,
       <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
-      <CanadaPage key="canada-page" />,
+      <CanadaPanel key="canada" />,
+      <ProjectsPanel key="projects" />,
       <ExtrasPanel key="extras" />,
     ],
     [],
