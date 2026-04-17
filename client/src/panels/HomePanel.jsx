@@ -84,7 +84,16 @@ const HomePanel = () => {
     });
 
     ro.observe(leftSet);
+    // Translate vertical wheel events to horizontal scroll
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        el.scrollLeft += e.deltaY;
+      }
+    };
+
     el.addEventListener("scroll", onScroll, { passive: true });
+    el.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("wheel", onUserInteract, {
       once: true,
       passive: true,
@@ -97,6 +106,7 @@ const HomePanel = () => {
     return () => {
       ro.disconnect();
       el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("wheel", onWheel);
       window.removeEventListener("wheel", onUserInteract);
       window.removeEventListener("touchstart", onUserInteract);
     };
