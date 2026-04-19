@@ -51,7 +51,7 @@ const IntroPanel = () => {
         <span className="tabular-nums">{time}</span>
         <span>‧</span>
         <div className="flex">
-          <img className="h-5" src="assets/photos/canada-flag.png" />
+          <img className="h-5" src="assets/photos/canada-flag.avif" />
           <img
             className="-translate-x-1.5 h-5"
             src="assets/photos/china-flag.png"

@@ -35,7 +35,7 @@ export default function CanadaGallery() {
         {CANADA_PHOTOS.map((name) => (
           <img
             key={name}
-            src={`/assets/photos/canada/${name}.jpeg`}
+            src={`/assets/photos/canada/${name}.avif`}
             alt=""
             className="w-[80vw] shrink-0 snap-start rounded-sm object-cover cursor-pointer"
             onClick={() => setActiveImage(name)}
@@ -88,7 +88,7 @@ export default function CanadaGallery() {
             onClick={() => setActiveImage(null)}
           >
             <img
-              src={`/assets/photos/canada/${activeImage}.jpeg`}
+              src={`/assets/photos/canada/${activeImage}.avif`}
               alt=""
               className="max-w-full max-h-full object-contain rounded-sm"
               onClick={(e) => e.stopPropagation()}

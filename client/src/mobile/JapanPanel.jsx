@@ -6,7 +6,7 @@ const JapanPanel = () => {
       bgColor="bg-japan-primary"
       image={
         <img
-          src="/assets/photos/japan/flowers.jpeg"
+          src="/assets/photos/japan/flowers.avif"
           alt=""
           className="absolute bottom-4 left-4 max-w-[50%] max-h-[75%] object-cover"
         />

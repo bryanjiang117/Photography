@@ -35,7 +35,7 @@ export default function MexicoCityGallery() {
         {MEXICO_FLAT_IMAGES.map((name) => (
           <img
             key={name}
-            src={`/assets/photos/mexico/${name}.jpeg`}
+            src={`/assets/photos/mexico/${name}.avif`}
             alt=""
             className="w-[80vw] shrink-0 snap-start rounded-sm object-cover cursor-pointer"
             onClick={() => setActiveImage(name)}
@@ -84,11 +84,11 @@ export default function MexicoCityGallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-8"
+            className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-8"
             onClick={() => setActiveImage(null)}
           >
             <img
-              src={`/assets/photos/mexico/${activeImage}.jpeg`}
+              src={`/assets/photos/mexico/${activeImage}.avif`}
               alt=""
               className="max-w-full max-h-full object-contain rounded-sm"
               onClick={(e) => e.stopPropagation()}

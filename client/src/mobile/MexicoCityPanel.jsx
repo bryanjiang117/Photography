@@ -12,7 +12,7 @@ const MexicoCityPanel = () => {
       bgColor="bg-mexico-primary"
       image={
         <motion.img
-          src="/assets/photos/mexico/orange-wall.jpeg"
+          src="/assets/photos/mexico/orange-wall.avif"
           className="absolute h-[80%] object-cover"
           animate={
             showMexicoGallery

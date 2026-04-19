@@ -44,9 +44,9 @@ const MEXICO_PHOTOS = [
 ];
 
 const CRITICAL_IMAGES = [
-  "/assets/photos/japan/flowers.jpeg",
-  "/assets/photos/mexico/orange-wall.jpeg",
-  "/assets/photos/canada/rolling-hills.jpeg",
+  "/assets/photos/japan/flowers.avif",
+  "/assets/photos/mexico/orange-wall.avif",
+  "/assets/photos/canada/rolling-hills.avif",
 ];
 
 function AnimatedRoutes() {
@@ -58,7 +58,7 @@ function AnimatedRoutes() {
   useEffect(() => {
     const preload = () => {
       MEXICO_PHOTOS.forEach((name) => {
-        new Image().src = `/assets/photos/mexico/${name}.jpeg`;
+        new Image().src = `/assets/photos/mexico/${name}.avif`;
       });
     };
     if ("requestIdleCallback" in window) {

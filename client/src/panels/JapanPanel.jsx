@@ -3,7 +3,7 @@ const JapanPanel = () => {
     <div className="shrink-0 h-screen w-screen flex gap-5 pl-20 p-4">
       <section className="relative flex-1 mb-20 bg-japan-primary">
         <img
-          src="assets/photos/japan/flowers.jpeg"
+          src="assets/photos/japan/flowers.avif"
           // className="absolute top-4 left-8 max-w-3/10 max-h-4/10"
           className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10"
         />

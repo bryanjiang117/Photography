@@ -75,7 +75,7 @@ export default function MexicoCityGallery() {
             >
               {row.map((item, i) => (
                 <img
-                  src={`/assets/photos/mexico/${item}.jpeg`}
+                  src={`/assets/photos/mexico/${item}.avif`}
                   alt=""
                   className="flex-1 min-w-0 object-cover"
                 />
@@ -84,7 +84,7 @@ export default function MexicoCityGallery() {
           ) : (
             <img
               key={row}
-              src={`/assets/photos/mexico/${row}.jpeg`}
+              src={`/assets/photos/mexico/${row}.avif`}
               alt=""
               className="w-[calc(100%-28rem)] max-w-full shrink-0"
             />

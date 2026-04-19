@@ -76,7 +76,7 @@ export default function CanadaGallery() {
               {row.map((item) => (
                 // <img
                 //   key={item}
-                //   src={`/assets/photos/canada/${item}.jpeg`}
+                //   src={`/assets/photos/canada/${item}.avif`}
                 //   alt=""
                 //   className="flex-1 min-w-0 object-cover"
                 // />
@@ -86,7 +86,7 @@ export default function CanadaGallery() {
           ) : (
             // <img
             //   key={row}
-            //   src={`/assets/photos/canada/${row}.jpeg`}
+            //   src={`/assets/photos/canada/${row}.avif`}
             //   alt=""
             //   className="w-[calc(100%-28rem)] max-w-full shrink-0"
             // />

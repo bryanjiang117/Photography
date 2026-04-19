@@ -12,7 +12,7 @@ const CanadaPanel = () => {
       bgColor="bg-canada-primary"
       image={
         <motion.img
-          src="/assets/photos/canada/rolling-hills.jpeg"
+          src="/assets/photos/canada/rolling-hills.avif"
           className="absolute h-[80%] object-cover"
           animate={
             showCanadaGallery

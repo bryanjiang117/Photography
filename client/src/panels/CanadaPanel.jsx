@@ -34,7 +34,7 @@ const CanadaPanel = () => {
         </section>
         <section className="relative flex-1 w-full bg-canada-primary">
           <motion.img
-            src="assets/photos/canada/leaves-glow.jpeg"
+            src="assets/photos/canada/leaves-glow.avif"
             className="absolute top-2/10 right-3/20 max-w-1/10 max-h-2/10 cursor-pointer"
             animate={
               showCanadaGallery

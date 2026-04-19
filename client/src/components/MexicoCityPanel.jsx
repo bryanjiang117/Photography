@@ -10,7 +10,7 @@ const MexicoCityPanel = () => {
       <div className="flex flex-col h-full mr-[15%]">
         <section className="relative flex-1 w-full bg-mexico-primary">
           <motion.img
-            src="assets/photos/mexico/orange-wall.jpeg"
+            src="assets/photos/mexico/orange-wall.avif"
             className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
             animate={showMexicoGallery
               ? { clipPath: "inset(0 0 100% 0)" }
