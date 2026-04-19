@@ -1,6 +1,6 @@
 const JapanPanel = () => {
   return (
-    <div className="shrink-0 h-screen w-screen flex gap-5 pl-20 p-4">
+    <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 pl-20 p-4">
       <section className="relative flex-1 mb-20 bg-japan-primary">
         <img
           src="assets/photos/japan/flowers.avif"

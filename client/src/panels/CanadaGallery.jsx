@@ -11,47 +11,78 @@ export default function CanadaGallery() {
       animate={{ y: 0 }}
       exit={{ y: "100vh" }}
       transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
-      className="fixed inset-0 z-50 flex overflow-hidden bg-canada-primary"
+      className="fixed inset-0 z-50 flex overflow-hidden bg-canada-primary min-w-[1200px] min-h-[800px]"
     >
-      {/* Left fixed: vertical Chinese title */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.38, duration: 0.55, ease: "easeOut" }}
-        className="pointer-events-none absolute left-8 top-6 z-20 flex flex-col items-start"
-      >
-        <div
-          className="font-tsm text-[9rem] leading-none [writing-mode:vertical-rl]"
-          lang="zh-CN"
-          translate="no"
+      {/* Left column: title + back button */}
+      <div className="shrink-0 flex flex-col justify-between px-8 pt-6 pb-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.38, duration: 0.55, ease: "easeOut" }}
+          className="flex flex-col items-start"
         >
-          加拿大
-        </div>
-        <span className="bodoni-small mt-4 text-lg uppercase tracking-widest opacity-60">
-          CANADA
-        </span>
-      </motion.div>
+          <div
+            className="font-tsm text-[9rem] leading-none [writing-mode:vertical-rl]"
+            lang="zh-CN"
+            translate="no"
+          >
+            加拿大
+          </div>
+          <span className="bodoni-small mt-4 text-lg uppercase tracking-widest opacity-60">
+            CANADA
+          </span>
+        </motion.div>
 
-      {/* Back button */}
-      <motion.button
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
-        onClick={() => setShowCanadaGallery(false)}
-        className="absolute bottom-6 left-8 z-20 flex items-center gap-2 cursor-pointer transition-colors duration-200 p-3 -m-3"
-      >
-        <span className="text-lg leading-none">←</span>
-        <span className="bodoni-small text-sm tracking-[0.25em] leading-none">
-          BACK
-        </span>
-      </motion.button>
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
+          onClick={() => setShowCanadaGallery(false)}
+          className="flex items-center gap-2 cursor-pointer transition-colors duration-200 p-3 -m-3"
+        >
+          <span className="text-lg leading-none">←</span>
+          <span className="bodoni-small text-sm tracking-[0.25em] leading-none">
+            BACK
+          </span>
+        </motion.button>
+      </div>
 
-      {/* Right fixed: photography label */}
+      {/* Scrollable photo column */}
+      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-[10vw] scrollbar-hide">
+        {ITEMS.map((row, i) =>
+          Array.isArray(row) ? (
+            <div
+              key={i}
+              className="w-full shrink-0 flex gap-4"
+            >
+              {row.map((item) => (
+                <img
+                  key={item}
+                  src={`/assets/photos/canada/${item}.avif`}
+                  alt=""
+                  loading="lazy"
+                  className="flex-1 min-w-0 object-cover"
+                />
+              ))}
+            </div>
+          ) : (
+            <img
+              key={row}
+              src={`/assets/photos/canada/${row}.avif`}
+              alt=""
+              loading="lazy"
+              className="w-full shrink-0"
+            />
+          ),
+        )}
+      </div>
+
+      {/* Right column: photography label */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
-        className="pointer-events-none absolute bottom-6 right-10 z-20 flex flex-col items-end gap-3"
+        className="shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6"
       >
         <div
           className="font-tsm text-xl font-extrabold leading-none [writing-mode:vertical-rl] opacity-60"
@@ -60,40 +91,10 @@ export default function CanadaGallery() {
         >
           摄影
         </div>
-        <div className="translate-x-1 text-lg tracking-widest bodoni-small opacity-60 [writing-mode:vertical-rl] ">
+        <div className="translate-x-1 text-lg tracking-widest bodoni-small opacity-60 [writing-mode:vertical-rl]">
           PHOTOGRAPHY
         </div>
       </motion.div>
-
-      {/* Scrollable photo column */}
-      <div className="flex min-h-0 flex-1 flex-col items-center gap-20 overflow-y-auto overflow-x-visible py-16 px-20 scrollbar-hide">
-        {ITEMS.map((row, i) =>
-          Array.isArray(row) ? (
-            <div
-              key={i}
-              className="w-[calc(100%-28rem)] max-w-full shrink-0 flex gap-4"
-            >
-              {row.map((item) => (
-                // <img
-                //   key={item}
-                //   src={`/assets/photos/canada/${item}.avif`}
-                //   alt=""
-                //   className="flex-1 min-w-0 object-cover"
-                // />
-                <></>
-              ))}
-            </div>
-          ) : (
-            // <img
-            //   key={row}
-            //   src={`/assets/photos/canada/${row}.avif`}
-            //   alt=""
-            //   className="w-[calc(100%-28rem)] max-w-full shrink-0"
-            // />
-            <></>
-          ),
-        )}
-      </div>
     </motion.div>
   );
 }

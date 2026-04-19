@@ -2,7 +2,14 @@
   box-sizing: border-box;
 }
 
-html, body {
+@media (min-width: 769px) {
+  html {
+    min-width: 1200px;
+    min-height: 800px;
+  }
+}
+
+body {
   font-family:
     "Bodoni",
     -apple-system,

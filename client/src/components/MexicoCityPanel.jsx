@@ -6,7 +6,7 @@ const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
 
   return (
-    <div className="relative shrink-0 h-screen w-screen p-4">
+    <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4">
       <div className="flex flex-col h-full mr-[15%]">
         <section className="relative flex-1 w-full bg-mexico-primary">
           <motion.img
@@ -45,7 +45,7 @@ const MexicoCityPanel = () => {
         className="absolute bottom-6 right-[calc(15%+1rem)] z-10 flex flex-col items-end gap-1.5 cursor-pointer select-none"
         onClick={() => setShowMexicoGallery(true)}
       >
-        <span className="bodoni-small text-sm uppercase tracking-[0.3em] opacity-80 leading-none">
+        <span className="bodoni-small text-sm uppercase tracking-[0.3em] whitespace-nowrap opacity-80 leading-none">
       VIEW GALLERY
         </span>
         <motion.div

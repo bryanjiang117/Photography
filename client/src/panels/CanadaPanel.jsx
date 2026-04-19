@@ -7,16 +7,16 @@ const CanadaPanel = () => {
     useContext(GalleryContext);
 
   return (
-    <div className="relative shrink-0 h-screen w-[90vw] p-4">
+    <div className="relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4">
       <div className="flex flex-col gap-4 h-full">
         <section>
           <div className="flex">
             <div className="title font-tsm" lang="zh-CN" translate="no">
               加拿大
             </div>
-            <div className="mt-2 ml-2 flex-1 flex justify-between leading-none">
-              <div className="text-sm bodoni-small">Canada</div>
-              <div className="text-sm ml-4">
+            <div className="mt-2 ml-2 flex-1 flex justify-between gap-6 leading-none">
+              <div className="text-sm bodoni-small whitespace-nowrap">Canada</div>
+              <div className="text-sm ml-4 whitespace-nowrap">
                 <span className="subtitle font-sh" lang="zh-CN" translate="no">
                   摄影
                 </span>
@@ -24,7 +24,7 @@ const CanadaPanel = () => {
                 <span className="bodoni-small">Photography</span>
               </div>
               <div
-                className="bodoni-small text-sm uppercase tracking-widest opacity-80 cursor-pointer"
+                className="bodoni-small text-sm uppercase tracking-widest whitespace-nowrap opacity-80 cursor-pointer"
                 onClick={() => setShowCanadaGallery(true)}
               >
                 VIEW GALLERY

@@ -5,7 +5,7 @@ import TMDBComponent from "../components/TMDBComponent.jsx";
 
 const ExtrasPanel = () => {
   return (
-    <div className="shrink-0 h-screen flex mr-40">
+    <div className="shrink-0 h-screen min-h-[800px] min-w-[1200px] flex mr-40">
       <div className="h-screen w-px min-w-px bg-gray-400" />
       <div className="relative flex flex-col items-right h-screen w-fit min-h-fit min-w-fit">
         <div className="flex items-center min-w-fit min-h-fit">

@@ -2,7 +2,7 @@ import { PROJECTS } from "../constants/data";
 
 const ProjectsPanel = () => {
   return (
-    <div className="shrink-0 h-screen w-[80vw] min-w-300 flex justify-center">
+    <div className="shrink-0 h-screen min-h-[800px] w-[80vw] min-w-[700px] flex justify-center">
       <div className="relative flex h-screen w-fit min-w-fit">
         <div className="absolute top-0 right-[calc(100%+1rem)] flex flex-col justify-between items-center h-screen py-2">
           <div
