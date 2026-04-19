@@ -37,6 +37,7 @@ export default function CanadaGallery() {
             key={name}
             src={`/assets/photos/canada/${name}.avif`}
             alt=""
+            loading="lazy"
             className="w-[80vw] shrink-0 snap-start rounded-sm object-cover cursor-pointer"
             onClick={() => setActiveImage(name)}
           />

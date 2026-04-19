@@ -9,39 +9,10 @@ import MobileMexicoCityGallery from "./mobile/MexicoCityGallery";
 import MobileCanadaGallery from "./mobile/CanadaGallery";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
+import { MEXICO_FLAT_IMAGES, CANADA_PHOTOS } from "./constants/data";
 
 import "./App.scss";
 import "./Fonts.scss";
-
-const MEXICO_PHOTOS = [
-  "orange-wall",
-  "green-wall",
-  "blue-door",
-  "bike-leaves",
-  "meat-vendor",
-  "pastor-tacos",
-  "street-vendor",
-  "coke-store",
-  "taco-vendor",
-  "bakery",
-  "flowers",
-  "fruit-store",
-  "fruit-vendor",
-  "old-man",
-  "bikes",
-  "pool",
-  "street-stalls",
-  "windmill",
-  "modern-balcony",
-  "old-building",
-  "line-squirrel",
-  "playground",
-  "museum-reflection",
-  "museum-roof",
-  "art-museum",
-  "palace",
-  "plaza-garibaldi",
-];
 
 const CRITICAL_IMAGES = [
   "/assets/photos/japan/flowers.avif",
@@ -56,15 +27,23 @@ function AnimatedRoutes() {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const preload = () => {
-      MEXICO_PHOTOS.forEach((name) => {
-        new Image().src = `/assets/photos/mexico/${name}.avif`;
+    const prefetchAll = () => {
+      const urls = [
+        ...MEXICO_FLAT_IMAGES.map((n) => `/assets/photos/mexico/${n}.avif`),
+        ...CANADA_PHOTOS.map((n) => `/assets/photos/canada/${n}.avif`),
+      ];
+      urls.forEach((href) => {
+        const link = document.createElement("link");
+        link.rel = "prefetch";
+        link.as = "image";
+        link.href = href;
+        document.head.appendChild(link);
       });
     };
     if ("requestIdleCallback" in window) {
-      requestIdleCallback(preload, { timeout: 4000 });
+      requestIdleCallback(prefetchAll, { timeout: 4000 });
     } else {
-      setTimeout(preload, 2000);
+      setTimeout(prefetchAll, 2000);
     }
   }, []);
 

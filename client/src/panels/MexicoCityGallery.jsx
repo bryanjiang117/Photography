@@ -77,6 +77,7 @@ export default function MexicoCityGallery() {
                 <img
                   src={`/assets/photos/mexico/${item}.avif`}
                   alt=""
+                  loading="lazy"
                   className="flex-1 min-w-0 object-cover"
                 />
               ))}
@@ -86,6 +87,7 @@ export default function MexicoCityGallery() {
               key={row}
               src={`/assets/photos/mexico/${row}.avif`}
               alt=""
+              loading="lazy"
               className="w-[calc(100%-28rem)] max-w-full shrink-0"
             />
           ),
