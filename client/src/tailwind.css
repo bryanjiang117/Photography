@@ -4,10 +4,10 @@
 @config "../tailwind.config.mjs";
 
 @theme {
-  --color-background: rgb(240, 240, 240);
+  --color-background: rgb(240, 239, 235);
   --color-primary: rgb(136, 176, 75);
   --color-primary-light: rgb(176, 206, 105);
-  --color-mexico-primary: rgb(15, 76, 129);
   --color-japan-primary: rgb(115, 145, 65);
-  --color-canada-primary: rgb(65, 125, 60);
+  --color-mexico-primary: rgb(15, 76, 129);
+  --color-canada-primary: rgb(166, 61, 0);
 }

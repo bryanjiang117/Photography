@@ -1,15 +1,16 @@
-export const CANADA_PHOTOS = [
-  "rolling-hills",
+// Strings = landscape (full width). Arrays = multi-column row (side by side).
+export const CANADA_ITEMS = [
   "sunset-barn",
-  "wheat",
+  ["rolling-hills", "wheat"],
   "windows-xp-grass",
-  "blurred-rain",
-  "moon",
-  "firework",
+  ["blurred-rain", "moon", "firework"],
   "pink-sky-plane",
-  "cargo-cranes",
-  "summer-drink-days",
+  ["cargo-cranes", "summer-drink-days"],
 ];
+
+export const CANADA_PHOTOS = CANADA_ITEMS.flatMap((item) =>
+  Array.isArray(item) ? item : [item],
+);
 
 // Strings = landscape (full width). Arrays = portrait group (side by side).
 // Empty strings in arrays are spacers for the desktop grid layout.

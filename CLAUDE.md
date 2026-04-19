@@ -10,7 +10,7 @@ If you add new Chinese/Japanese characters anywhere with `font-tsm`, regenerate 
 # Requires: pipx install fonttools && pipx inject fonttools brotli
 pyftsubset \
   client/public/assets/fonts/TsukuhouShogoMin-OFL.ttf \
-  --text="姜昊周日本にほん墨西哥城摄影加拿大最爱动漫此刻播放作品 !\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_\`abcdefghijklmnopqrstuvwxyz{|}~‧←" \
+  --text="姜昊周日本にほん墨西哥城摄影加拿大最爱动漫此刻播放作品电脑 !\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_\`abcdefghijklmnopqrstuvwxyz{|}~‧←" \
   --flavor=woff2 \
   --output-file=client/public/assets/fonts/TsukuhouShogoMin-subset.woff2
 ```

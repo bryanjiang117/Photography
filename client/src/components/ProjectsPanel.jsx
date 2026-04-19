@@ -2,29 +2,30 @@ import { PROJECTS } from "../constants/data";
 
 const ProjectsPanel = () => {
   return (
-    <div className="shrink-0 h-screen flex mr-[15vw]">
-      <div className="h-screen w-px min-w-px bg-gray-400" />
-      <div className="flex h-screen w-fit min-w-fit">
-        {/* Left: title column */}
-        <div className="flex flex-col justify-between py-10 pl-15 pr-10">
-          <div className="flex gap-2">
-            <div
-              className="text-8xl font-tsm font-extrabold leading-none [writing-mode:vertical-rl]"
-              lang="zh-CN"
-              translate="no"
-            >
-              作品
-            </div>
-            <span className="bodoni-small text-lg uppercase tracking-widest [writing-mode:vertical-rl] opacity-60">
-              Works
-            </span>
+    <div className="shrink-0 h-screen w-[80vw] min-w-300 flex justify-center">
+      <div className="relative flex h-screen w-fit min-w-fit">
+        <div className="absolute top-0 right-[calc(100%+1rem)] flex flex-col justify-between items-center h-screen py-2">
+          <div
+            className="text-8xl font-tsm leading-none [writing-mode:vertical-rl]"
+            lang="zh-CN"
+            translate="no"
+          >
+            电脑
+          </div>
+          <div>Software</div>
+        </div>
+        <div className="absolute top-0 left-[calc(100%+1rem)] flex flex-col justify-between items-center h-screen py-2">
+          <div>Projects</div>
+          <div
+            className="text-8xl font-tsm leading-none [writing-mode:vertical-rl]"
+            lang="zh-CN"
+            translate="no"
+          >
+            作品
           </div>
         </div>
-
         <div className="h-full w-px min-w-px bg-gray-400" />
-
-        {/* Right: scrollable project list */}
-        <div className="h-screen min-h-0 overflow-y-auto scrollbar-hide">
+        <div className="relative h-screen min-h-0 overflow-y-auto scrollbar-hide">
           {PROJECTS.map((project, i) => (
             <a
               key={project.name}
@@ -81,8 +82,8 @@ const ProjectsPanel = () => {
           ))}
           <div className="h-px w-full bg-gray-300" />
         </div>
+        <div className="h-screen w-px min-w-px bg-gray-400" />
       </div>
-      <div className="h-screen w-px min-w-px bg-gray-400" />
     </div>
   );
 };

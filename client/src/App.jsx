@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import HomePage from "./panels/HomePanel";
-import CanadaPage from "./panels/CanadaPanel";
 import MexicoCityGalleryPage from "./panels/MexicoCityGallery";
+import CanadaGalleryPage from "./panels/CanadaGallery";
 import MobileHome from "./mobile/MobileHome";
-import MobileCanadaPage from "./mobile/CanadaGallery";
 import MobileMexicoCityGallery from "./mobile/MexicoCityGallery";
+import MobileCanadaGallery from "./mobile/CanadaGallery";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
 
@@ -46,12 +46,13 @@ const MEXICO_PHOTOS = [
 const CRITICAL_IMAGES = [
   "/assets/photos/japan/flowers.jpeg",
   "/assets/photos/mexico/orange-wall.jpeg",
+  "/assets/photos/canada/rolling-hills.jpeg",
 ];
 
 function AnimatedRoutes() {
   const location = useLocation();
   const path = location.pathname;
-  const { showMexicoGallery } = useContext(GalleryContext);
+  const { showMexicoGallery, showCanadaGallery } = useContext(GalleryContext);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -67,19 +68,23 @@ function AnimatedRoutes() {
     }
   }, []);
 
-  if (path !== "/" && path !== "/canada") {
+  if (path !== "/") {
     return <Navigate to="/" replace />;
   }
 
   return (
     <>
-      {path === "/" && (isMobile ? <MobileHome /> : <HomePage />)}
-      {path === "/canada" && (isMobile ? <MobileCanadaPage /> : <CanadaPage />)}
+      {isMobile ? <MobileHome /> : <HomePage />}
       <AnimatePresence>
         {showMexicoGallery && (
           isMobile
             ? <MobileMexicoCityGallery key="mexico-gallery" />
             : <MexicoCityGalleryPage key="mexico-gallery" />
+        )}
+        {showCanadaGallery && (
+          isMobile
+            ? <MobileCanadaGallery key="canada-gallery" />
+            : <CanadaGalleryPage key="canada-gallery" />
         )}
       </AnimatePresence>
     </>
@@ -90,6 +95,7 @@ function App() {
   const [phase, setPhase] = useState("loading"); // 'loading' | 'revealing' | 'done'
   const [squareTarget, setSquareTarget] = useState({ x: 0, y: 0 });
   const [showMexicoGallery, setShowMexicoGallery] = useState(false);
+  const [showCanadaGallery, setShowCanadaGallery] = useState(false);
 
   useEffect(() => {
     const prevent = (e) => e.preventDefault();
@@ -142,7 +148,7 @@ function App() {
   const isDone = phase === "done";
 
   return (
-    <GalleryContext.Provider value={{ showMexicoGallery, setShowMexicoGallery }}>
+    <GalleryContext.Provider value={{ showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery }}>
       <Router>
         <AnimatedRoutes />
 
