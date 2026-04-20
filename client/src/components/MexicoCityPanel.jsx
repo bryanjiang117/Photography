@@ -49,9 +49,9 @@ const MexicoCityPanel = () => {
       VIEW GALLERY
         </span>
         <motion.div
-          className="w-full h-px bg-gray-900 origin-left opacity-40"
-          animate={{ scaleX: [0, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+          className="w-full h-px bg-gray-900 origin-left opacity-30"
+          animate={{ scaleX: [0, 1, 1, 0], originX: [0, 0, 1, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: [0.4, 0, 0.2, 1], times: [0, 0.4, 0.5, 0.9] }}
         />
       </div>
     </div>

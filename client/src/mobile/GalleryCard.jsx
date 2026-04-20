@@ -1,3 +1,5 @@
+import { motion } from "motion/react";
+
 const GalleryCard = ({
   bgColor,
   image,
@@ -24,9 +26,16 @@ const GalleryCard = ({
             <div className="text-5xl font-tsm" lang={titleLang} translate="no">
               {title}
             </div>
-            <span className="mb-0.5 text-xs bodoni-small uppercase tracking-[0.2em] opacity-50">
-              View Gallery →
-            </span>
+            <div className="flex flex-col gap-1 mb-0.5">
+              <span className="text-xs bodoni-small uppercase tracking-[0.2em] opacity-50">
+                View Gallery →
+              </span>
+              <motion.div
+                className="w-full h-px bg-gray-900 origin-left opacity-20"
+                animate={{ scaleX: [0, 1, 1, 0], originX: [0, 0, 1, 1] }}
+                transition={{ duration: 4, repeat: Infinity, ease: [0.4, 0, 0.2, 1], times: [0, 0.4, 0.5, 0.9] }}
+              />
+            </div>
           </div>
           <span className={`text-sm bodoni-small ${subtitleClassName}`}>
             {subtitle}

@@ -24,10 +24,17 @@ const CanadaPanel = () => {
                 <span className="bodoni-small">Photography</span>
               </div>
               <div
-                className="bodoni-small text-sm uppercase tracking-widest whitespace-nowrap opacity-80 cursor-pointer"
+                className="flex flex-col gap-1.5 cursor-pointer select-none"
                 onClick={() => setShowCanadaGallery(true)}
               >
-                VIEW GALLERY
+                <span className="bodoni-small text-sm uppercase tracking-widest whitespace-nowrap opacity-80 leading-none">
+                  VIEW GALLERY
+                </span>
+                <motion.div
+                  className="w-full h-px bg-gray-900 origin-left opacity-30"
+                  animate={{ scaleX: [0, 1, 1, 0], originX: [0, 0, 1, 1] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: [0.4, 0, 0.2, 1], times: [0, 0.4, 0.5, 0.9] }}
+                />
               </div>
             </div>
           </div>
