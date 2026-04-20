@@ -7,6 +7,8 @@ import CanadaGalleryPage from "./panels/CanadaGallery";
 import MobileHome from "./mobile/MobileHome";
 import MobileMexicoCityGallery from "./mobile/MexicoCityGallery";
 import MobileCanadaGallery from "./mobile/CanadaGallery";
+import JapanGalleryPage from "./panels/JapanGallery";
+import MobileJapanGallery from "./mobile/JapanGallery";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
 import { MEXICO_FLAT_IMAGES, CANADA_PHOTOS } from "./constants/data";
@@ -23,7 +25,7 @@ const CRITICAL_IMAGES = [
 function AnimatedRoutes() {
   const location = useLocation();
   const path = location.pathname;
-  const { showMexicoGallery, showCanadaGallery } = useContext(GalleryContext);
+  const { showMexicoGallery, showCanadaGallery, showJapanGallery } = useContext(GalleryContext);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -65,6 +67,11 @@ function AnimatedRoutes() {
             ? <MobileCanadaGallery key="canada-gallery" />
             : <CanadaGalleryPage key="canada-gallery" />
         )}
+        {showJapanGallery && (
+          isMobile
+            ? <MobileJapanGallery key="japan-gallery" />
+            : <JapanGalleryPage key="japan-gallery" />
+        )}
       </AnimatePresence>
     </>
   );
@@ -75,6 +82,7 @@ function App() {
   const [squareTarget, setSquareTarget] = useState({ x: 0, y: 0 });
   const [showMexicoGallery, setShowMexicoGallery] = useState(false);
   const [showCanadaGallery, setShowCanadaGallery] = useState(false);
+  const [showJapanGallery, setShowJapanGallery] = useState(false);
 
   useEffect(() => {
     const prevent = (e) => e.preventDefault();
@@ -127,7 +135,7 @@ function App() {
   const isDone = phase === "done";
 
   return (
-    <GalleryContext.Provider value={{ showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery }}>
+    <GalleryContext.Provider value={{ showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery, showJapanGallery, setShowJapanGallery }}>
       <Router>
         <AnimatedRoutes />
 

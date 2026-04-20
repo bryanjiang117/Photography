@@ -1,11 +1,24 @@
+import { useContext } from "react";
+import { motion } from "motion/react";
+import { GalleryContext } from "../GalleryContext";
+
 const JapanPanel = () => {
+  const { showJapanGallery, setShowJapanGallery } =
+    useContext(GalleryContext);
+
   return (
     <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 pl-20 p-4">
       <section className="relative flex-1 mb-20 bg-japan-primary">
-        <img
+        <motion.img
           src="assets/photos/japan/flowers.avif"
-          // className="absolute top-4 left-8 max-w-3/10 max-h-4/10"
-          className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10"
+          className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10 cursor-pointer"
+          animate={
+            showJapanGallery
+              ? { clipPath: "inset(0 0 100% 0)" }
+              : { clipPath: "inset(0 0 0% 0)" }
+          }
+          transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+          onClick={() => setShowJapanGallery(true)}
         />
       </section>
       <section className="mb-20 min-w-fit w-3/10">
@@ -33,8 +46,15 @@ const JapanPanel = () => {
               <span className="subtitle font-sh" lang="zh-CN" translate="no">
                 摄&nbsp;影
               </span>
-              {/* ● */}
             </div>
+          </div>
+          <div
+            className="flex items-center gap-2 cursor-pointer select-none"
+            onClick={() => setShowJapanGallery(true)}
+          >
+            <span className="bodoni-small text-sm uppercase tracking-[0.3em] whitespace-nowrap opacity-80 leading-none">
+              VIEW GALLERY
+            </span>
           </div>
         </div>
       </section>
