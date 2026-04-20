@@ -55,15 +55,19 @@ export default function MexicoCityGallery() {
               key={i}
               className="w-full shrink-0 flex gap-4"
             >
-              {row.map((item, j) => (
-                <img
-                  key={item || j}
-                  src={`/assets/photos/mexico/${item}.avif`}
-                  alt=""
-                  loading="lazy"
-                  className="flex-1 min-w-0 object-cover"
-                />
-              ))}
+              {row.map((item, j) =>
+                item ? (
+                  <img
+                    key={item}
+                    src={`/assets/photos/mexico/${item}.avif`}
+                    alt=""
+                    loading="lazy"
+                    className="flex-1 min-w-0 object-cover"
+                  />
+                ) : (
+                  <div key={j} className="flex-1 min-w-0" />
+                ),
+              )}
             </div>
           ) : (
             <img
