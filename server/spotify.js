@@ -1,7 +1,7 @@
 import crypto from "crypto";
 
 const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
-const SPOTIFY_POLL_INTERVAL_MS = 120_000; // 60 seconds between Spotify fetches
+const SPOTIFY_POLL_INTERVAL_MS = 90_000; // 1.5 minutes between Spotify fetches
 
 /*
 PKCE helpers
@@ -35,6 +35,7 @@ export function registerSpotifyRoutes(app, supabase) {
 
   // In-memory "now playing" cache (shared by ALL users)
   let cachedNowPlaying = null;
+  let cachedNowPlayingUpdatedAt = 0;
   let isRefreshingNowPlaying = false;
 
   /*
@@ -252,6 +253,7 @@ export function registerSpotifyRoutes(app, supabase) {
       // 204 No Content = nothing playing; fall through to recently-played
       if (currentlyPlayingRes.status === 204) {
         cachedNowPlaying = null;
+        cachedNowPlayingUpdatedAt = Date.now();
       } else if (currentlyPlayingRes.ok) {
         try {
           const data = await currentlyPlayingRes.json();
@@ -272,7 +274,10 @@ export function registerSpotifyRoutes(app, supabase) {
           );
           cachedNowPlaying = null;
         }
-        if (cachedNowPlaying) return;
+        if (cachedNowPlaying) {
+          cachedNowPlayingUpdatedAt = Date.now();
+          return;
+        }
       }
 
       const lastPlayedRes = await fetch(
@@ -304,6 +309,7 @@ export function registerSpotifyRoutes(app, supabase) {
               playedAt: item.played_at,
             }
           : null;
+        cachedNowPlayingUpdatedAt = Date.now();
       } catch (parseErr) {
         console.error(
           "[spotify] recently-played parse error:",
@@ -314,13 +320,24 @@ export function registerSpotifyRoutes(app, supabase) {
     } catch (err) {
       console.error("[spotify] refresh error:", err?.message ?? err);
       if (err?.stack) console.error(err.stack);
+      // Don't serve stale data forever — clear cache if last success was >10 min ago
+      const STALE_THRESHOLD_MS = 10 * 60 * 1000;
+      if (cachedNowPlayingUpdatedAt && Date.now() - cachedNowPlayingUpdatedAt > STALE_THRESHOLD_MS) {
+        console.warn("[spotify] cache stale for >10 min, clearing");
+        cachedNowPlaying = null;
+      }
     } finally {
       isRefreshingNowPlaying = false;
     }
   }
 
   app.get("/api/spotify/currently-playing", async (req, res) => {
-    return res.json(cachedNowPlaying);
+    res.set("Cache-Control", "no-store");
+    return res.json(
+      cachedNowPlaying
+        ? { ...cachedNowPlaying, cachedAt: cachedNowPlayingUpdatedAt }
+        : null,
+    );
   });
 
   refreshNowPlayingCache();
