@@ -17,7 +17,7 @@ import "./Fonts.scss";
 const CRITICAL_IMAGES = [
   "/assets/photos/japan/flowers.avif",
   "/assets/photos/mexico/orange-wall.avif",
-  "/assets/photos/canada/rolling-hills.avif",
+  "/assets/photos/canada/leaves-glow.avif",
 ];
 
 function AnimatedRoutes() {

@@ -1,16 +1,33 @@
 // Strings = landscape (full width). Arrays = multi-column row (side by side).
 export const CANADA_ITEMS = [
-  "sunset-barn",
-  ["rolling-hills", "wheat"],
-  "windows-xp-grass",
-  ["blurred-rain", "moon", "firework"],
-  "pink-sky-plane",
-  ["cargo-cranes", "summer-drink-days"],
+  ["leaves-glow", "golden-maples", "fallen-leaves", "autumn-pond"],
+  ["ferry-lookout"],
+  ["fish-vendor", "boat-cabin", "", ""],
+  ["container-ship", "port-cranes", "cargo-cranes"],
+  ['', "pacific-railway"],
+  ["totem-top", "parliament-flowers", "war-memorial"],
+  ["nootka-court", "flower-lamppost", "totem-pole"],
+  ["sunset-seagull", "pink-jellyfish"],
+  // ["city-canyon", "subway-riders", "dusk-clouds", "night-towers"],
+  ["walking-dog", "", "street-protester"],
+  // ["", "distillery-lights"],
+  ["glass-atrium", "cn-skyline", "cn-tower"],
+  ["towering-cloud", "golden-spires"],
+  ["wet-leaves", "rainy-roses", "blurred-rain"],
+  "brick-tower",
+  // ["distant-plane", "pink-sky-plane"],
+  ["scrap-sculpture", "gated-alley", "graffiti-alley"],
+  ["moon", "firework"],
+  ["train-station", "subway-map", "subway-wait"], // fix make sure that the 3 none-vertical ones are still horizontal. (both vertical and horizontal just take max height)
+  ["", "hotdog-stand"],
+  ["empty-goalpost", "golden-grass", ""],
+  // ["windows-xp-grass", "wheat"],
+  ["bookstore-browse", ""],
 ];
 
 export const CANADA_PHOTOS = CANADA_ITEMS.flatMap((item) =>
   Array.isArray(item) ? item : [item],
-);
+).filter(Boolean);
 
 // Strings = landscape (full width). Arrays = portrait group (side by side).
 // Empty strings in arrays are spacers for the desktop grid layout.

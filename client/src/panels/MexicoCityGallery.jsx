@@ -48,7 +48,7 @@ export default function MexicoCityGallery() {
       </div>
 
       {/* Scrollable photo column */}
-      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-[10vw] scrollbar-hide">
+      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide">
         {ITEMS.map((row, i) =>
           Array.isArray(row) ? (
             <div

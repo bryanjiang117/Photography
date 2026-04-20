@@ -14,7 +14,7 @@ export default function CanadaGallery() {
       className="fixed inset-0 z-50 flex overflow-hidden bg-canada-primary min-w-[1200px] min-h-[800px]"
     >
       {/* Left column: title + back button */}
-      <div className="shrink-0 flex flex-col justify-between px-8 pt-6 pb-6">
+      <div className="shrink-0 flex flex-col justify-between px-8 pt-6 pb-6 text-white">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -48,22 +48,26 @@ export default function CanadaGallery() {
       </div>
 
       {/* Scrollable photo column */}
-      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-[10vw] scrollbar-hide">
+      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide">
         {ITEMS.map((row, i) =>
           Array.isArray(row) ? (
             <div
               key={i}
               className="w-full shrink-0 flex gap-4"
             >
-              {row.map((item) => (
-                <img
-                  key={item}
-                  src={`/assets/photos/canada/${item}.avif`}
-                  alt=""
-                  loading="lazy"
-                  className="flex-1 min-w-0 object-cover"
-                />
-              ))}
+              {row.map((item, j) =>
+                item ? (
+                  <img
+                    key={item}
+                    src={`/assets/photos/canada/${item}.avif`}
+                    alt=""
+                    loading="lazy"
+                    className="flex-1 min-w-0 object-cover"
+                  />
+                ) : (
+                  <div key={j} className="flex-1 min-w-0" />
+                ),
+              )}
             </div>
           ) : (
             <img
@@ -82,7 +86,7 @@ export default function CanadaGallery() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
-        className="shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6"
+        className="shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6 text-white"
       >
         <div
           className="font-tsm text-xl font-extrabold leading-none [writing-mode:vertical-rl] opacity-60"
