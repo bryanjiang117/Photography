@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { JAPAN_ITEMS as ITEMS } from "../constants/data";
 
 export default function JapanGallery() {
   const { setShowJapanGallery } = useContext(GalleryContext);
@@ -46,22 +47,91 @@ export default function JapanGallery() {
         </motion.button>
       </div>
 
-      {/* Center: placeholder message */}
-      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center justify-center gap-6 px-40">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col items-center gap-4 text-center text-white"
-        >
-          <p className="font-tsm text-2xl opacity-80" lang="zh-CN" translate="no">
-            此刻播放
-          </p>
-          <p className="bodoni-small text-lg tracking-wide opacity-60 max-w-md leading-relaxed">
-            This film is still being developed. Check out Mexico City and Canada first.
-          </p>
-        </motion.div>
-      </div>
+      {/* Scrollable photo column / placeholder */}
+      {ITEMS.length > 0 ? (
+        <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide">
+          {ITEMS.map((row, i) => {
+            const isFull = row.columns.length === 1 && row.columns[0].length === 1 && typeof row.columns[0][0] === "string";
+            return isFull ? (
+              <img
+                key={row.columns[0][0]}
+                src={`/assets/photos/japan/${row.columns[0][0]}.avif`}
+                alt=""
+                loading="lazy"
+                className="w-full shrink-0"
+              />
+            ) : (
+              <div key={i} className="w-full shrink-0 flex gap-4">
+                {row.columns.map((col, j) => {
+                  const colClass = row.flex ? "min-w-0" : "flex-1 min-w-0";
+                  const colStyle = row.flex ? { flex: `${row.flex[j]} 1 0%` } : undefined;
+                  return col.length === 0 ? (
+                    <div key={j} className={colClass} style={colStyle} />
+                  ) : col.length === 1 && typeof col[0] === "string" ? (
+                    <div key={col[0]} className={`${colClass} flex`} style={colStyle}>
+                      <img
+                        src={`/assets/photos/japan/${col[0]}.avif`}
+                        alt=""
+                        loading="lazy"
+                        onLoad={row.fit === "contain" ? (e) => {
+                          e.target.parentElement.style.flex = `${e.target.naturalWidth / e.target.naturalHeight} 1 0%`;
+                        } : undefined}
+                        className="w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div key={j} className={`${colClass} flex flex-col gap-4`} style={colStyle}>
+                      {col.map((entry, k) =>
+                        Array.isArray(entry) ? (
+                          entry.length === 0 ? (
+                            <div key={k} className="flex-1" />
+                          ) : (
+                            <div key={k} className="flex gap-4">
+                              {entry.map((img) => (
+                                <img
+                                  key={img}
+                                  src={`/assets/photos/japan/${img}.avif`}
+                                  alt=""
+                                  loading="lazy"
+                                  className="flex-1 min-w-0 object-cover"
+                                />
+                              ))}
+                            </div>
+                          )
+                        ) : (
+                          <img
+                            key={entry}
+                            src={`/assets/photos/japan/${entry}.avif`}
+                            alt=""
+                            loading="lazy"
+                            className="w-full object-cover"
+                          />
+                        ),
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center justify-center gap-6 px-40">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-center gap-4 text-center text-white"
+          >
+            <p className="font-tsm text-2xl opacity-80" lang="zh-CN" translate="no">
+              此刻播放
+            </p>
+            <p className="bodoni-small text-lg tracking-wide opacity-60 max-w-md leading-relaxed">
+              This film is still being developed. Check out Mexico City and Canada first.
+            </p>
+          </motion.div>
+        </div>
+      )}
 
       {/* Right column: photography label */}
       <motion.div

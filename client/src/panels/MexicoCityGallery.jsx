@@ -49,36 +49,70 @@ export default function MexicoCityGallery() {
 
       {/* Scrollable photo column */}
       <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide">
-        {ITEMS.map((row, i) =>
-          Array.isArray(row) ? (
-            <div
-              key={i}
-              className="w-full shrink-0 flex gap-4"
-            >
-              {row.map((item, j) =>
-                item ? (
-                  <img
-                    key={item}
-                    src={`/assets/photos/mexico/${item}.avif`}
-                    alt=""
-                    loading="lazy"
-                    className="flex-1 min-w-0 object-cover"
-                  />
-                ) : (
-                  <div key={j} className="flex-1 min-w-0" />
-                ),
-              )}
-            </div>
-          ) : (
+        {ITEMS.map((row, i) => {
+          const isFull = row.columns.length === 1 && row.columns[0].length === 1 && typeof row.columns[0][0] === "string";
+          return isFull ? (
             <img
-              key={row}
-              src={`/assets/photos/mexico/${row}.avif`}
+              key={row.columns[0][0]}
+              src={`/assets/photos/mexico/${row.columns[0][0]}.avif`}
               alt=""
               loading="lazy"
               className="w-full shrink-0"
             />
-          ),
-        )}
+          ) : (
+            <div key={i} className="w-full shrink-0 flex gap-4">
+              {row.columns.map((col, j) => {
+                const colClass = row.flex ? "min-w-0" : "flex-1 min-w-0";
+                const colStyle = row.flex ? { flex: `${row.flex[j]} 1 0%` } : undefined;
+                return col.length === 0 ? (
+                  <div key={j} className={colClass} style={colStyle} />
+                ) : col.length === 1 && typeof col[0] === "string" ? (
+                  <div key={col[0]} className={`${colClass} flex`} style={colStyle}>
+                    <img
+                      src={`/assets/photos/mexico/${col[0]}.avif`}
+                      alt=""
+                      loading="lazy"
+                      onLoad={row.fit === "contain" ? (e) => {
+                        e.target.parentElement.style.flex = `${e.target.naturalWidth / e.target.naturalHeight} 1 0%`;
+                      } : undefined}
+                      className="w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div key={j} className={`${colClass} flex flex-col gap-4`} style={colStyle}>
+                    {col.map((entry, k) =>
+                      Array.isArray(entry) ? (
+                        entry.length === 0 ? (
+                          <div key={k} className="flex-1" />
+                        ) : (
+                          <div key={k} className="flex gap-4">
+                            {entry.map((img) => (
+                              <img
+                                key={img}
+                                src={`/assets/photos/mexico/${img}.avif`}
+                                alt=""
+                                loading="lazy"
+                                className="flex-1 min-w-0 object-cover"
+                              />
+                            ))}
+                          </div>
+                        )
+                      ) : (
+                        <img
+                          key={entry}
+                          src={`/assets/photos/mexico/${entry}.avif`}
+                          alt=""
+                          loading="lazy"
+                          className="w-full object-cover"
+                        />
+                      ),
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
 
       {/* Right column: photography label */}

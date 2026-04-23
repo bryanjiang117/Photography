@@ -1,56 +1,100 @@
-// Strings = landscape (full width). Arrays = multi-column row (side by side).
+// Each row is { columns: [...] } where each column is an array of image names.
+// Multiple images in a column = stacked vertically. Empty array [] = spacer.
+// Column entries can be strings (images) or arrays ([] = vertical spacer, ["a","b"] = horizontal sub-row).
+// A row with one column and one image renders full-width.
+// Optional: fit: "contain" — preserves original aspect ratios (no cropping), matched heights.
+// Optional: flex: [1, 3] — custom flex-grow per column (default: equal).
 export const CANADA_ITEMS = [
-  ["leaves-glow", "golden-maples", "fallen-leaves", "autumn-pond"],
-  ["ferry-lookout"],
-  ["fish-vendor", "boat-cabin", "", ""],
-  ["container-ship", "port-cranes", "cargo-cranes"],
-  ['', "pacific-railway"],
-  ["totem-top", "parliament-flowers", "war-memorial"],
-  ["nootka-court", "flower-lamppost", "totem-pole"],
-  ["sunset-seagull", "pink-jellyfish"],
-  // ["city-canyon", "subway-riders", "dusk-clouds", "night-towers"],
-  ["walking-dog", "", "street-protester"],
-  // ["", "distillery-lights"],
-  ["glass-atrium", "cn-skyline", "cn-tower"],
-  ["towering-cloud", "golden-spires"],
-  ["wet-leaves", "rainy-roses", "blurred-rain"],
-  "brick-tower",
-  // ["distant-plane", "pink-sky-plane"],
-  ["scrap-sculpture", "gated-alley", "graffiti-alley"],
-  ["moon", "firework"],
-  ["train-station", "subway-map", "subway-wait"], // fix make sure that the 3 none-vertical ones are still horizontal. (both vertical and horizontal just take max height)
-  ["", "hotdog-stand"],
-  ["empty-goalpost", "golden-grass", ""],
-  // ["windows-xp-grass", "wheat"],
-  ["bookstore-browse", ""],
+  {
+    columns: [
+      ["leaves-glow"],
+      ["golden-maples"],
+      ["fallen-leaves"],
+      ["autumn-pond"],
+    ],
+  },
+  { columns: [["ferry-lookout"]] },
+  // { columns: [["fish-vendor"], ["boat-cabin"], [], []] },
+  { columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]] },
+  {
+    columns: [[], [["hotdog-stand"], [""]], ["pacific-railway"]],
+    flex: [1, 1, 3],
+  },
+  { columns: [[], ["totem-top"], ["parliament-flowers"], ["war-memorial"]] },
+  {
+    columns: [["orca"], [[], []]],
+    flex: [4, 5],
+  },
+  {
+    columns: [
+      [["flower-lamppost"], []],
+      ["nootka-court"],
+      [[], ["totem-pole"]],
+    ],
+    flex: [1, 2, 1],
+  },
+  { columns: [["sunset-seagull"], ["pink-jellyfish"]] },
+  // { columns: [["shop-window"], ["bakery-kitchen"], ["bookstore"]] },
+  { columns: [["walking-dog"], [], ["street-protester"]] },
+  { columns: [["towering-cloud"], ["golden-spires"]] },
+  {
+    columns: [["scrap-sculpture"], [], ["gated-alley"], [], ["graffiti-alley"]],
+  },
+  {
+    columns: [["chongqing-restaurant"], ["chinatown-market"], ["fruit-worker"]],
+    fit: "contain",
+  },
+  { columns: [["wet-leaves"], ["rainy-roses"], ["blurred-rain"]] },
+  {
+    columns: [["sun-rays", "empty-goalpost", "golden-grass"], ["brick-tower"]],
+    flex: [1, 3],
+  },
+  { columns: [["cans"], ["peach-roses"]] },
+  {
+    columns: [["farm-ca"], ["windows-xp-grass"], ["wheat"]],
+  },
+  { columns: [["moon"], ["firework"]] },
 ];
 
-export const CANADA_PHOTOS = CANADA_ITEMS.flatMap((item) =>
-  Array.isArray(item) ? item : [item],
-).filter(Boolean);
+export const CANADA_PHOTOS = CANADA_ITEMS.flatMap((row) =>
+  row.columns.flat(Infinity),
+).filter((x) => typeof x === "string" && x);
 
-// Strings = landscape (full width). Arrays = portrait group (side by side).
 // Empty strings in arrays are spacers for the desktop grid layout.
 export const MEXICO_ITEMS = [
-  "orange-wall",
-  ["green-wall", "blue-door", "bike-leaves"],
-  ["meat-vendor", "pastor-tacos"],
-  ["", "street-vendor", "", "coke-store"],
-  ["taco-vendor", "bakery"],
-  ["flowers", "fruit-store", "fruit-vendor"],
-  ["old-man", ""],
-  ["bikes", "", "pool", "", "street-stalls"],
-  "windmill",
-  ["modern-balcony", "", "old-building"],
-  "line-squirrel",
-  ["playground", ""],
-  ["museum-reflection", "museum-roof", "art-museum", "palace", ""],
-  ["plaza-garibaldi"],
+  { columns: [["orange-wall"]] },
+  { columns: [["green-wall"], ["blue-door"], ["bike-leaves"]] },
+  { columns: [["meat-vendor"], ["pastor-tacos"]] },
+  { columns: [[], ["street-vendor"], [], ["coke-store"]] },
+  { columns: [["taco-vendor"], ["bakery"]] },
+  { columns: [["flowers"], ["fruit-store"], ["fruit-vendor"]] },
+  { columns: [["old-man"], []] },
+  { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]] },
+  { columns: [["windmill"]] },
+  { columns: [["modern-balcony"], [], ["old-building"]] },
+  { columns: [["line-squirrel"]] },
+  { columns: [["playground"], []] },
+  {
+    columns: [
+      ["museum-reflection"],
+      ["museum-roof"],
+      ["art-museum"],
+      ["palace"],
+      [],
+    ],
+  },
+  { columns: [["plaza-garibaldi"]] },
 ];
 
-export const MEXICO_FLAT_IMAGES = MEXICO_ITEMS.flatMap((item) =>
-  Array.isArray(item) ? item.filter(Boolean) : [item],
-).filter(Boolean);
+export const MEXICO_FLAT_IMAGES = MEXICO_ITEMS.flatMap((row) =>
+  row.columns.flat(Infinity),
+).filter((x) => typeof x === "string" && x);
+
+export const JAPAN_ITEMS = [];
+
+export const JAPAN_PHOTOS = JAPAN_ITEMS.flatMap((row) =>
+  row.columns.flat(Infinity),
+).filter((x) => typeof x === "string" && x);
 
 export const PROJECTS = [
   {
@@ -58,7 +102,7 @@ export const PROJECTS = [
     description:
       "An Android location tracking social app made for friends to stay connected. Cool features are the on-my-way status and shared places.",
     link: "https://github.com/bryanjiang117/FOMO",
-    image: "/assets/images/projects/fomo.png",
+    image: "/assets/projects/fomo.png",
     isDesign: false,
   },
   {
