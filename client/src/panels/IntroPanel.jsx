@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { GalleryContext } from "../GalleryContext";
 
 function getTorontoTime() {
   return new Date().toLocaleString("en-CA", {
@@ -9,6 +10,7 @@ function getTorontoTime() {
 }
 
 const IntroPanel = ({ scrollRef }) => {
+  const { introReady } = useContext(GalleryContext);
   const [time, setTime] = useState(() => getTorontoTime());
   const [showScroll, setShowScroll] = useState(true);
 
@@ -49,7 +51,10 @@ const IntroPanel = ({ scrollRef }) => {
           <div className="pt-6 [writing-mode:vertical-lr] ">
             This is my name
           </div>
-          <div data-intro-square className="mb-4 h-4 w-4 -translate-x-1 bg-primary" />
+          <div
+            data-intro-square
+            className="mb-4 h-4 w-4 -translate-x-1 bg-primary"
+          />
         </div>
       </section>
 
@@ -84,12 +89,12 @@ const IntroPanel = ({ scrollRef }) => {
       </div>
 
       {/* Scroll Tooltip */}
-      {showScroll && (
+      {showScroll && introReady && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: 1,
+            delay: 0.6,
             duration: 0.6,
             ease: "easeOut",
           }}

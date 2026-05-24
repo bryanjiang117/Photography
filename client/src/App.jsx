@@ -135,7 +135,7 @@ function App() {
   const isDone = phase === "done";
 
   return (
-    <GalleryContext.Provider value={{ showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery, showJapanGallery, setShowJapanGallery }}>
+    <GalleryContext.Provider value={{ introReady: isDone, showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery, showJapanGallery, setShowJapanGallery }}>
       <Router>
         <AnimatedRoutes />
 
@@ -144,7 +144,7 @@ function App() {
           <motion.div
             animate={{ opacity: isRevealing ? 0 : 1 }}
             transition={{ duration: 0.2, delay: isRevealing ? 0.8 : 0 }}
-            className="fixed inset-0 z-[100] bg-background pointer-events-none"
+            className="fixed inset-0 z-100 bg-background pointer-events-none"
           />
         )}
 
@@ -157,7 +157,7 @@ function App() {
                 : { x: 0, y: 0 }
             }
             transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
-            className="fixed inset-0 z-[101] flex items-center justify-center pointer-events-none"
+            className="fixed inset-0 z-101 flex items-center justify-center pointer-events-none"
           >
             <motion.div
               className="h-4 w-4 bg-primary"

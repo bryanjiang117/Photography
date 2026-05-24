@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { GalleryContext } from "../GalleryContext";
 
 function getTorontoTime() {
   return new Date().toLocaleString("en-CA", {
@@ -9,6 +10,7 @@ function getTorontoTime() {
 }
 
 const IntroPanel = () => {
+  const { introReady } = useContext(GalleryContext);
   const [time, setTime] = useState(() => getTorontoTime());
   const [showScroll, setShowScroll] = useState(true);
 
@@ -73,11 +75,11 @@ const IntroPanel = () => {
       </div>
 
       {/* Scroll tooltip */}
-      {showScroll && (
+      {showScroll && introReady && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6, ease: "easeOut" }}
+          transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
           className="absolute bottom-6 left-1/2 -translate-x-1/2 text-lg"
         >
           SCROLL ↓
