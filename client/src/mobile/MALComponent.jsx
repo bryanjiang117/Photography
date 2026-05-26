@@ -1,20 +1,8 @@
-import { useEffect, useState } from "react";
 import SectionTitle from "./SectionTitle";
+import { useMal } from "../MalContext.jsx";
 
 const MALComponent = () => {
-  const [malData, setMalData] = useState([]);
-
-  async function getAnimeList() {
-    try {
-      const res = await fetch("/api/mal/anime-list");
-      const data = await res.json();
-      if (Array.isArray(data)) setMalData(data);
-    } catch {}
-  }
-
-  useEffect(() => {
-    getAnimeList();
-  }, []);
+  const malData = useMal();
 
   return (
     <div className="relative flex flex-col p-4 w-full">

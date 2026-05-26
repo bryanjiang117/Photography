@@ -11,6 +11,9 @@ import JapanGalleryPage from "./panels/JapanGallery";
 import MobileJapanGallery from "./mobile/JapanGallery";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
+import { SpotifyProvider } from "./SpotifyContext.jsx";
+import { MalProvider } from "./MalContext.jsx";
+import { TmdbProvider } from "./TmdbContext.jsx";
 import { MEXICO_FLAT_IMAGES, CANADA_PHOTOS } from "./constants/data";
 
 import "./App.scss";
@@ -136,6 +139,9 @@ function App() {
 
   return (
     <GalleryContext.Provider value={{ introReady: isDone, showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery, showJapanGallery, setShowJapanGallery }}>
+      <SpotifyProvider>
+      <MalProvider>
+      <TmdbProvider>
       <Router>
         <AnimatedRoutes />
 
@@ -171,6 +177,9 @@ function App() {
           </motion.div>
         )}
       </Router>
+      </TmdbProvider>
+      </MalProvider>
+      </SpotifyProvider>
     </GalleryContext.Provider>
   );
 }

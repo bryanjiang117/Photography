@@ -1,17 +1,8 @@
-import { useEffect, useState } from "react";
 import SectionTitle from "./SectionTitle";
+import { useTmdb } from "../TmdbContext.jsx";
 
 const TMDBComponent = () => {
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/tmdb/rated")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) setItems(data);
-      })
-      .catch(() => {});
-  }, []);
+  const items = useTmdb();
 
   return (
     <div className="relative flex flex-col p-4 w-full">

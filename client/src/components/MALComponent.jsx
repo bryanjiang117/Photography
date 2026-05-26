@@ -1,21 +1,7 @@
-import { useEffect, useState } from "react";
+import { useMal } from "../MalContext.jsx";
 
 const MALComponent = () => {
-  const [malData, setMalData] = useState([]);
-
-  async function getAnimeList() {
-    try {
-      const res = await fetch("/api/mal/anime-list");
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        setMalData(data);
-      }
-    } catch {}
-  }
-
-  useEffect(() => {
-    getAnimeList();
-  }, []);
+  const malData = useMal();
 
   return (
     <div className="relative flex flex-1 items-start p-10 h-full min-h-fit">

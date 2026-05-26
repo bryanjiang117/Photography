@@ -1,23 +1,10 @@
-import { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
 import { motion } from "motion/react";
 import SectionTitle from "./SectionTitle";
+import { useSpotify } from "../SpotifyContext.jsx";
 
 const SpotifyComponent = () => {
-  const [spotifyState, setSpotifyState] = useState(null);
-
-  async function getCurrentlyPlaying() {
-    const res = await fetch("/api/spotify/currently-playing");
-    if (!res.ok) throw new Error("Failed to get Spotify currently playing");
-    const data = await res.json();
-    setSpotifyState(data);
-  }
-
-  useEffect(() => {
-    getCurrentlyPlaying();
-    const interval = setInterval(getCurrentlyPlaying, 10000);
-    return () => clearInterval(interval);
-  }, []);
+  const spotifyState = useSpotify();
 
   return (
     <div className="flex flex-col items-center gap-3 p-4 w-full">
