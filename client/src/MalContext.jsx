@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { GalleryContext } from "./GalleryContext";
 
 const MalContext = createContext([]);
 
 export function MalProvider({ children }) {
+  const { introReady } = useContext(GalleryContext);
   const [malData, setMalData] = useState([]);
 
   useEffect(() => {
+    if (!introReady) return;
     let cancelled = false;
 
     async function load() {
@@ -23,7 +26,7 @@ export function MalProvider({ children }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [introReady]);
 
   return <MalContext.Provider value={malData}>{children}</MalContext.Provider>;
 }

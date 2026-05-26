@@ -11,6 +11,7 @@ const MexicoCityPanel = () => {
         <section className="relative flex-1 w-full bg-mexico-primary">
           <motion.img
             src="assets/photos/mexico/orange-wall.avif"
+            loading="lazy"
             className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
             animate={showMexicoGallery
               ? { clipPath: "inset(0 0 100% 0)" }

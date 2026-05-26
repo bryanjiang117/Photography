@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
+import { GalleryContext } from "../GalleryContext";
 
 import IntroPanel from "./IntroPanel";
 import JapanPanel from "./JapanPanel";
@@ -9,27 +10,40 @@ import ProjectsPanel from "../components/ProjectsPanel";
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePanel = () => {
+  const { introReady } = useContext(GalleryContext);
   const scrollRef = useRef(null);
-  const leftSetRef = useRef(null);
+  const setRef = useRef(null);
   const setWidthRef = useRef(0);
   const hasPositionedRef = useRef(false);
   const userInteractedRef = useRef(false);
-  const panels = useMemo(
-    () => [
+  const panels = useMemo(() => {
+    const items = [
       <IntroPanel scrollRef={scrollRef} key="intro" />,
       <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
       <CanadaPanel key="canada" />,
       <ProjectsPanel key="projects" />,
-      <ExtrasPanel key="extras" />,
-    ],
-    [],
-  );
+    ];
+    if (introReady) {
+      items.push(<ExtrasPanel key="extras" />);
+    }
+    return items;
+  }, [introReady]);
+
+  useEffect(() => {
+    if (!introReady) return;
+    const el = scrollRef.current;
+    const set = setRef.current;
+    if (!el || !set) return;
+    el.style.scrollBehavior = "auto";
+    el.scrollLeft = setWidthRef.current || set.getBoundingClientRect().width;
+    hasPositionedRef.current = true;
+  }, [introReady]);
 
   useEffect(() => {
     const el = scrollRef.current;
-    const leftSet = leftSetRef.current;
-    if (!el || !leftSet) return;
+    const set = setRef.current;
+    if (!el || !set) return;
 
     const withInstantScroll = (fn) => {
       el.style.scrollBehavior = "auto";
@@ -37,6 +51,7 @@ const HomePanel = () => {
     };
 
     const onScroll = () => {
+      if (!introReady) return;
       const setWidth = setWidthRef.current;
       if (setWidth <= 0) return;
       const clientW = el.clientWidth;
@@ -73,7 +88,7 @@ const HomePanel = () => {
       // This ensures async panel content changing widths doesn't leave us at the wrong position.
       if (!hasPositionedRef.current || !userInteractedRef.current) {
         withInstantScroll(() => {
-          el.scrollLeft = width;
+          el.scrollLeft = introReady ? width : 0;
         });
         hasPositionedRef.current = true;
       }
@@ -83,7 +98,7 @@ const HomePanel = () => {
       el.style.visibility = "visible";
     });
 
-    ro.observe(leftSet);
+    ro.observe(set);
     // Translate vertical wheel events to horizontal scroll
     const onWheel = (e) => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
@@ -110,7 +125,20 @@ const HomePanel = () => {
       window.removeEventListener("wheel", onUserInteract);
       window.removeEventListener("touchstart", onUserInteract);
     };
-  }, [panels]);
+  }, [panels, introReady]);
+
+  const panelSet = (keyPrefix) => (
+    <div className="flex h-screen min-h-[800px] shrink-0">
+      {panels.map((p, i) => (
+        <div
+          key={`${keyPrefix}-${i}`}
+          className="h-screen min-h-[800px] w-fit shrink-0 overflow-hidden"
+        >
+          {p}
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div
@@ -118,17 +146,8 @@ const HomePanel = () => {
       style={{ visibility: "hidden" }}
       className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scrollbar-hide"
     >
-      <div ref={leftSetRef} className="flex h-screen min-h-[800px] shrink-0">
-        {panels.map((p, i) => (
-          <div
-            key={`left-${i}`}
-            className="h-screen min-h-[800px] w-fit shrink-0 overflow-hidden"
-          >
-            {p}
-          </div>
-        ))}
-      </div>
-      <div className="flex h-screen min-h-[800px] shrink-0">
+      {introReady && panelSet("left")}
+      <div ref={setRef} className="flex h-screen min-h-[800px] shrink-0">
         {panels.map((p, i) => (
           <div
             key={`mid-${i}`}
@@ -138,16 +157,7 @@ const HomePanel = () => {
           </div>
         ))}
       </div>
-      <div className="flex h-screen min-h-[800px] shrink-0">
-        {panels.map((p, i) => (
-          <div
-            key={`right-${i}`}
-            className="h-screen min-h-[800px] w-fit shrink-0 overflow-hidden"
-          >
-            {p}
-          </div>
-        ))}
-      </div>
+      {introReady && panelSet("right")}
     </div>
   );
 };

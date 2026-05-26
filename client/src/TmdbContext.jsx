@@ -1,11 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { GalleryContext } from "./GalleryContext";
 
 const TmdbContext = createContext([]);
 
 export function TmdbProvider({ children }) {
+  const { introReady } = useContext(GalleryContext);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
+    if (!introReady) return;
     let cancelled = false;
 
     async function load() {
@@ -23,7 +26,7 @@ export function TmdbProvider({ children }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [introReady]);
 
   return <TmdbContext.Provider value={items}>{children}</TmdbContext.Provider>;
 }

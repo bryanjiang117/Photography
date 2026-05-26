@@ -28,25 +28,42 @@ const CRITICAL_IMAGES = [
 function AnimatedRoutes() {
   const location = useLocation();
   const path = location.pathname;
-  const { showMexicoGallery, showCanadaGallery, showJapanGallery } = useContext(GalleryContext);
+  const {
+    introReady,
+    showMexicoGallery,
+    showCanadaGallery,
+    showJapanGallery,
+  } = useContext(GalleryContext);
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const prefetchAll = () => {
-      GALLERY_PREFETCH_URLS.forEach((href) => {
+    if (!introReady) return;
+
+    let index = 0;
+    const chunkSize = 8;
+    let idleId;
+
+    const prefetchChunk = () => {
+      const slice = GALLERY_PREFETCH_URLS.slice(index, index + chunkSize);
+      index += chunkSize;
+      slice.forEach((href) => {
         const link = document.createElement("link");
         link.rel = "prefetch";
         link.as = "image";
         link.href = href;
         document.head.appendChild(link);
       });
+      if (index < GALLERY_PREFETCH_URLS.length) {
+        idleId = requestIdleCallback(prefetchChunk, { timeout: 3000 });
+      }
     };
+
     if ("requestIdleCallback" in window) {
-      requestIdleCallback(prefetchAll, { timeout: 4000 });
-    } else {
-      setTimeout(prefetchAll, 2000);
+      idleId = requestIdleCallback(prefetchChunk, { timeout: 4000 });
+      return () => cancelIdleCallback(idleId);
     }
-  }, []);
+    prefetchChunk();
+  }, [introReady]);
 
   if (path !== "/") {
     return <Navigate to="/" replace />;
@@ -88,20 +105,21 @@ function App() {
     window.addEventListener("wheel", prevent, { passive: false });
     window.addEventListener("touchmove", prevent, { passive: false });
 
-    const images = CRITICAL_IMAGES.map(
-      (src) =>
-        new Promise((resolve) => {
-          const img = new Image();
-          img.onload = resolve;
-          img.onerror = resolve;
-          img.src = src;
-        }),
-    );
+    // Warm hero images without blocking the intro on them.
+    CRITICAL_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    const introFonts = Promise.all([
+      document.fonts.load('400 10rem "TSM"'),
+      document.fonts.load('400 1rem "Source Han"'),
+      document.fonts.load('400 1rem "Bodoni"'),
+    ]).catch(() => {});
 
     Promise.all([
-      document.fonts.ready,
-      ...images,
-      new Promise((r) => setTimeout(r, 1000)),
+      introFonts,
+      new Promise((r) => setTimeout(r, 300)),
     ]).then(() => {
       const squares = document.querySelectorAll("[data-intro-square]");
       const visible = Array.from(squares).find((el) => {
@@ -121,7 +139,7 @@ function App() {
         setPhase("done");
         window.removeEventListener("wheel", prevent);
         window.removeEventListener("touchmove", prevent);
-      }, 1000);
+      }, 700);
     });
 
     return () => {

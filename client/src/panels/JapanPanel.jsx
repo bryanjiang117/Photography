@@ -11,6 +11,7 @@ const JapanPanel = () => {
       <section className="relative flex-1 mb-20 bg-japan-primary">
         <motion.img
           src="assets/photos/japan/flowers.avif"
+          loading="lazy"
           className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10 cursor-pointer"
           animate={
             showJapanGallery

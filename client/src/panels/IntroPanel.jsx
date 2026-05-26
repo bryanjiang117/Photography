@@ -67,10 +67,11 @@ const IntroPanel = ({ scrollRef }) => {
         <span className="tabular-nums">{time}</span>
         <span>‧</span>
         <div className="flex -translate-y-px">
-          <img className="h-6" src="assets/photos/canada-flag.avif" />
+          <img className="h-6" src="assets/photos/canada-flag.avif" loading="lazy" />
           <img
             className="-translate-x-1.5 h-6"
             src="assets/photos/china-flag.avif"
+            loading="lazy"
           />
         </div>
       </div>

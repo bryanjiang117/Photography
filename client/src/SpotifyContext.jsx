@@ -1,13 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { GalleryContext } from "./GalleryContext";
 
 const SpotifyContext = createContext(null);
 
 const POLL_INTERVAL_MS = 10_000;
 
 export function SpotifyProvider({ children }) {
+  const { introReady } = useContext(GalleryContext);
   const [spotifyState, setSpotifyState] = useState(null);
 
   useEffect(() => {
+    if (!introReady) return;
     let cancelled = false;
     let timeoutId;
 
@@ -31,7 +34,7 @@ export function SpotifyProvider({ children }) {
       cancelled = true;
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [introReady]);
 
   return (
     <SpotifyContext.Provider value={spotifyState}>

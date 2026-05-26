@@ -38,6 +38,7 @@ const ProjectsPanel = () => {
                 <img
                   src={project.image}
                   alt=""
+                  loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover opacity-0 translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-out pointer-events-none z-10"
                 />
               )}
