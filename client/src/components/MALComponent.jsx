@@ -10,7 +10,7 @@ const MALComponent = () => {
           const anime = item.node;
           return (
             <div
-              className="flex flex-1 items-center text-lg font-sh select-text [writing-mode:vertical-rl] border-l border-gray-300 last:border-r"
+              className="flex flex-1 items-center text-base font-sh select-text [writing-mode:vertical-rl] border-l border-gray-300 last:border-r"
               key={anime.id}
               lang="jp"
             >

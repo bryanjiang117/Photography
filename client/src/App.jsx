@@ -14,7 +14,7 @@ import { GalleryContext } from "./GalleryContext";
 import { SpotifyProvider } from "./SpotifyContext.jsx";
 import { MalProvider } from "./MalContext.jsx";
 import { TmdbProvider } from "./TmdbContext.jsx";
-import { MEXICO_FLAT_IMAGES, CANADA_PHOTOS } from "./constants/data";
+import { GALLERY_PREFETCH_URLS } from "./constants/data";
 
 import "./App.scss";
 import "./Fonts.scss";
@@ -33,11 +33,7 @@ function AnimatedRoutes() {
 
   useEffect(() => {
     const prefetchAll = () => {
-      const urls = [
-        ...MEXICO_FLAT_IMAGES.map((n) => `/assets/photos/mexico/${n}.avif`),
-        ...CANADA_PHOTOS.map((n) => `/assets/photos/canada/${n}.avif`),
-      ];
-      urls.forEach((href) => {
+      GALLERY_PREFETCH_URLS.forEach((href) => {
         const link = document.createElement("link");
         link.rel = "prefetch";
         link.as = "image";

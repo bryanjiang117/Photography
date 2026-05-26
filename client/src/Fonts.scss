@@ -14,18 +14,14 @@
 
 @font-face {
   font-family: "Source Han";
-  src: url("/assets/fonts/SourceHanSerifCN-Light.otf") format("opentype");
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: "Source Han";
-  src: url("/assets/fonts/SourceHanSerifCN-Medium.otf") format("opentype");
+  src: url("/assets/fonts/SourceHanSerifCN-Medium-subset.woff2") format("woff2");
   font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
   font-family: "Source Han";
-  src: url("/assets/fonts/SourceHanSerifCN-Bold.otf") format("opentype");
+  src: url("/assets/fonts/SourceHanSerifCN-Bold-subset.woff2") format("woff2");
   font-weight: 700;
+  font-style: normal;
 }
