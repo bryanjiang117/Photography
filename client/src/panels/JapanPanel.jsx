@@ -1,10 +1,13 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { JAPAN_PHOTOS } from "../constants/data";
+import { warmGalleryRegion } from "../galleryPrefetch";
 
 const JapanPanel = () => {
   const { showJapanGallery, setShowJapanGallery } =
     useContext(GalleryContext);
+  const warmJapan = () => warmGalleryRegion("japan", JAPAN_PHOTOS);
 
   return (
     <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 pl-20 p-4">
@@ -19,6 +22,7 @@ const JapanPanel = () => {
               : { clipPath: "inset(0 0 0% 0)" }
           }
           transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+          onMouseEnter={warmJapan}
           onClick={() => setShowJapanGallery(true)}
         />
       </section>
@@ -51,6 +55,7 @@ const JapanPanel = () => {
           </div>
           <div
             className="flex flex-col gap-1.5 w-fit cursor-pointer select-none"
+            onMouseEnter={warmJapan}
             onClick={() => setShowJapanGallery(true)}
           >
             <span className="bodoni-small text-sm uppercase tracking-[0.3em] whitespace-nowrap opacity-80 leading-none">

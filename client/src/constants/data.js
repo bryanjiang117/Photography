@@ -67,12 +67,12 @@ export const MEXICO_ITEMS = [
   { columns: [["meat-vendor"], ["pastor-tacos"]] },
   { columns: [[], ["street-vendor"], [], ["coke-store"]] },
   { columns: [["taco-vendor"], ["bakery"]] },
-  { columns: [["flowers"], ["fruit-store"], ["fruit-vendor"]] },
+  { columns: [["fruit-store"], ["flowers"], ["fruit-vendor"]] },
   { columns: [["old-man"], []] },
   { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]] },
   { columns: [["windmill"]] },
-  { columns: [["modern-balcony"], [], ["old-building"]] },
-  { columns: [["line-squirrel"]] },
+  // { columns: [["modern-balcony"], ["ferris"], ["old-building"]] },
+  { columns: [[""], ["palm-trees"], ["tree-reflection"]], flex: [1, 2, 5] },
   { columns: [["playground"], []] },
   {
     columns: [
@@ -84,6 +84,7 @@ export const MEXICO_ITEMS = [
     ],
   },
   { columns: [["plaza-garibaldi"]] },
+  { columns: [["sunset-dark"]] },
 ];
 
 export const MEXICO_FLAT_IMAGES = MEXICO_ITEMS.flatMap((row) =>
@@ -211,10 +212,21 @@ export const JAPAN_ALL_PHOTOS = ["flowers"];
 const galleryPrefetchUrl = (region, name) =>
   `/assets/photos/${region}/${name}.avif`;
 
+// Display order of photos actually shown in galleries (not every file on disk).
+export const MEXICO_GALLERY_PREFETCH_URLS = MEXICO_FLAT_IMAGES.map((n) =>
+  galleryPrefetchUrl("mexico", n),
+);
+export const CANADA_GALLERY_PREFETCH_URLS = CANADA_PHOTOS.map((n) =>
+  galleryPrefetchUrl("canada", n),
+);
+export const JAPAN_GALLERY_PREFETCH_URLS = JAPAN_PHOTOS.map((n) =>
+  galleryPrefetchUrl("japan", n),
+);
+
 export const GALLERY_PREFETCH_URLS = [
-  ...MEXICO_ALL_PHOTOS.map((n) => galleryPrefetchUrl("mexico", n)),
-  ...CANADA_ALL_PHOTOS.map((n) => galleryPrefetchUrl("canada", n)),
-  ...JAPAN_ALL_PHOTOS.map((n) => galleryPrefetchUrl("japan", n)),
+  ...MEXICO_GALLERY_PREFETCH_URLS,
+  ...CANADA_GALLERY_PREFETCH_URLS,
+  ...JAPAN_GALLERY_PREFETCH_URLS,
 ];
 
 export const PROJECTS = [

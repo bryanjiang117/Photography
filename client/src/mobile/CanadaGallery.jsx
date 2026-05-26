@@ -1,11 +1,19 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { CANADA_PHOTOS } from "../constants/data";
+import {
+  galleryImgLoadProps,
+  warmGalleryRegion,
+} from "../galleryPrefetch";
 
 export default function CanadaGallery() {
   const { setShowCanadaGallery } = useContext(GalleryContext);
   const [activeImage, setActiveImage] = useState(null);
+
+  useEffect(() => {
+    warmGalleryRegion("canada", CANADA_PHOTOS, { concurrency: 10 });
+  }, []);
 
   return (
     <motion.div
@@ -32,12 +40,12 @@ export default function CanadaGallery() {
 
       {/* Horizontal scroll gallery */}
       <div className="flex flex-1 min-h-0 flex-row items-stretch gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide">
-        {CANADA_PHOTOS.map((name) => (
+        {CANADA_PHOTOS.map((name, i) => (
           <img
             key={name}
             src={`/assets/photos/canada/${name}.avif`}
             alt=""
-            loading="lazy"
+            {...galleryImgLoadProps(i)}
             className="w-[80vw] shrink-0 snap-start rounded-sm object-cover cursor-pointer"
             onClick={() => setActiveImage(name)}
           />

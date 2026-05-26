@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { CANADA_PHOTOS } from "../constants/data";
+import { warmGalleryRegion } from "../galleryPrefetch";
 import GalleryCard from "./GalleryCard";
 
 const CanadaPanel = () => {
   const { showCanadaGallery, setShowCanadaGallery } =
     useContext(GalleryContext);
+  const warmCanada = () => warmGalleryRegion("canada", CANADA_PHOTOS);
 
   return (
     <GalleryCard
@@ -26,6 +29,7 @@ const CanadaPanel = () => {
       title="加拿大"
       titleLang="zh-CN"
       subtitle="Canada"
+      onMouseEnter={warmCanada}
       onClick={() => setShowCanadaGallery(true)}
     />
   );

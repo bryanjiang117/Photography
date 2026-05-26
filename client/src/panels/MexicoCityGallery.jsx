@@ -1,10 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { MEXICO_ITEMS as ITEMS } from "../constants/data";
+import { MEXICO_ITEMS as ITEMS, MEXICO_FLAT_IMAGES } from "../constants/data";
+import {
+  galleryImgLoadProps,
+  warmGalleryRegion,
+} from "../galleryPrefetch";
 
 export default function MexicoCityGallery() {
   const { setShowMexicoGallery } = useContext(GalleryContext);
+
+  useEffect(() => {
+    warmGalleryRegion("mexico", MEXICO_FLAT_IMAGES, { concurrency: 10 });
+  }, []);
   return (
     <motion.div
       initial={{ y: "100vh" }}
@@ -56,7 +64,7 @@ export default function MexicoCityGallery() {
               key={row.columns[0][0]}
               src={`/assets/photos/mexico/${row.columns[0][0]}.avif`}
               alt=""
-              loading="lazy"
+              {...galleryImgLoadProps(i)}
               className="w-full shrink-0"
             />
           ) : (
@@ -71,7 +79,7 @@ export default function MexicoCityGallery() {
                     <img
                       src={`/assets/photos/mexico/${col[0]}.avif`}
                       alt=""
-                      loading="lazy"
+                      {...galleryImgLoadProps(i, j)}
                       onLoad={row.fit === "contain" ? (e) => {
                         e.target.parentElement.style.flex = `${e.target.naturalWidth / e.target.naturalHeight} 1 0%`;
                       } : undefined}
@@ -91,7 +99,7 @@ export default function MexicoCityGallery() {
                                 key={img}
                                 src={`/assets/photos/mexico/${img}.avif`}
                                 alt=""
-                                loading="lazy"
+                                {...galleryImgLoadProps(i, k)}
                                 className="flex-1 min-w-0 object-cover"
                               />
                             ))}
@@ -102,7 +110,7 @@ export default function MexicoCityGallery() {
                           key={entry}
                           src={`/assets/photos/mexico/${entry}.avif`}
                           alt=""
-                          loading="lazy"
+                          {...galleryImgLoadProps(i, k)}
                           className="w-full object-cover"
                         />
                       ),

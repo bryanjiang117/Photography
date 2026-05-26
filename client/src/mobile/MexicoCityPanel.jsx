@@ -1,11 +1,14 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { MEXICO_FLAT_IMAGES } from "../constants/data";
+import { warmGalleryRegion } from "../galleryPrefetch";
 import GalleryCard from "./GalleryCard";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } =
     useContext(GalleryContext);
+  const warmMexico = () => warmGalleryRegion("mexico", MEXICO_FLAT_IMAGES);
 
   return (
     <GalleryCard
@@ -25,6 +28,7 @@ const MexicoCityPanel = () => {
       title="墨西哥城"
       titleLang="zh-CN"
       subtitle="Mexico City"
+      onMouseEnter={warmMexico}
       onClick={() => setShowMexicoGallery(true)}
     />
   );

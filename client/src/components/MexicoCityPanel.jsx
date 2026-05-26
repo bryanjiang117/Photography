@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { MEXICO_FLAT_IMAGES } from "../constants/data";
+import { warmGalleryRegion } from "../galleryPrefetch";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
+  const warmMexico = () => warmGalleryRegion("mexico", MEXICO_FLAT_IMAGES);
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4">
@@ -17,6 +20,7 @@ const MexicoCityPanel = () => {
               ? { clipPath: "inset(0 0 100% 0)" }
               : { clipPath: "inset(0 0 0% 0)" }}
             transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+            onMouseEnter={warmMexico}
             onClick={() => setShowMexicoGallery(true)}
           />
         </section>
@@ -44,6 +48,7 @@ const MexicoCityPanel = () => {
       {/* Gallery trigger */}
       <div
         className="absolute bottom-6 right-[calc(15%+1rem)] z-10 flex flex-col items-end gap-1.5 cursor-pointer select-none"
+        onMouseEnter={warmMexico}
         onClick={() => setShowMexicoGallery(true)}
       >
         <span className="bodoni-small text-sm uppercase tracking-[0.3em] whitespace-nowrap opacity-80 leading-none">

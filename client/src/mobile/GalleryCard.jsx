@@ -8,18 +8,21 @@ const GalleryCard = ({
   subtitle,
   subtitleClassName = "",
   onClick,
+  onMouseEnter,
 }) => {
   return (
     <div className="relative w-full min-h-0">
       <div className="flex flex-col">
         <section
           className={`relative aspect-3/4 max-h-[90vh] w-full ${bgColor} ${onClick ? "cursor-pointer" : ""}`}
+          onMouseEnter={onMouseEnter}
           onClick={onClick}
         >
           {image}
         </section>
         <div
           className={`px-4 py-3 ${onClick ? "cursor-pointer" : ""}`}
+          onMouseEnter={onMouseEnter}
           onClick={onClick}
         >
           <div className="flex items-end justify-between">

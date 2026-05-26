@@ -5,9 +5,13 @@ const SpotifyContext = createContext(null);
 
 const POLL_INTERVAL_MS = 10_000;
 
-export function SpotifyProvider({ children }) {
+export function SpotifyProvider({ children, initialState = null }) {
   const { introReady } = useContext(GalleryContext);
-  const [spotifyState, setSpotifyState] = useState(null);
+  const [spotifyState, setSpotifyState] = useState(initialState);
+
+  useEffect(() => {
+    setSpotifyState(initialState);
+  }, [initialState]);
 
   useEffect(() => {
     if (!introReady) return;

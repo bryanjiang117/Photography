@@ -1,10 +1,18 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { CANADA_ITEMS as ITEMS } from "../constants/data";
+import { CANADA_ITEMS as ITEMS, CANADA_PHOTOS } from "../constants/data";
+import {
+  galleryImgLoadProps,
+  warmGalleryRegion,
+} from "../galleryPrefetch";
 
 export default function CanadaGallery() {
   const { setShowCanadaGallery } = useContext(GalleryContext);
+
+  useEffect(() => {
+    warmGalleryRegion("canada", CANADA_PHOTOS, { concurrency: 10 });
+  }, []);
   return (
     <motion.div
       initial={{ y: "100vh" }}
@@ -56,7 +64,7 @@ export default function CanadaGallery() {
               key={row.columns[0][0]}
               src={`/assets/photos/canada/${row.columns[0][0]}.avif`}
               alt=""
-              loading="lazy"
+              {...galleryImgLoadProps(i)}
               className="w-full shrink-0"
             />
           ) : (
@@ -71,7 +79,7 @@ export default function CanadaGallery() {
                     <img
                       src={`/assets/photos/canada/${col[0]}.avif`}
                       alt=""
-                      loading="lazy"
+                      {...galleryImgLoadProps(i, j)}
                       onLoad={row.fit === "contain" ? (e) => {
                         e.target.parentElement.style.flex = `${e.target.naturalWidth / e.target.naturalHeight} 1 0%`;
                       } : undefined}
@@ -91,7 +99,7 @@ export default function CanadaGallery() {
                                 key={img}
                                 src={`/assets/photos/canada/${img}.avif`}
                                 alt=""
-                                loading="lazy"
+                                {...galleryImgLoadProps(i, k)}
                                 className="flex-1 min-w-0 object-cover"
                               />
                             ))}
@@ -102,7 +110,7 @@ export default function CanadaGallery() {
                           key={entry}
                           src={`/assets/photos/canada/${entry}.avif`}
                           alt=""
-                          loading="lazy"
+                          {...galleryImgLoadProps(i, k)}
                           className="w-full object-cover"
                         />
                       ),

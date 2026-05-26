@@ -15,6 +15,8 @@ import { SpotifyProvider } from "./SpotifyContext.jsx";
 import { MalProvider } from "./MalContext.jsx";
 import { TmdbProvider } from "./TmdbContext.jsx";
 import { GALLERY_PREFETCH_URLS } from "./constants/data";
+import { runIntroBootstrap } from "./introBootstrap";
+import { warmGalleryImages } from "./galleryPrefetch";
 
 import "./App.scss";
 import "./Fonts.scss";
@@ -38,31 +40,7 @@ function AnimatedRoutes() {
 
   useEffect(() => {
     if (!introReady) return;
-
-    let index = 0;
-    const chunkSize = 8;
-    let idleId;
-
-    const prefetchChunk = () => {
-      const slice = GALLERY_PREFETCH_URLS.slice(index, index + chunkSize);
-      index += chunkSize;
-      slice.forEach((href) => {
-        const link = document.createElement("link");
-        link.rel = "prefetch";
-        link.as = "image";
-        link.href = href;
-        document.head.appendChild(link);
-      });
-      if (index < GALLERY_PREFETCH_URLS.length) {
-        idleId = requestIdleCallback(prefetchChunk, { timeout: 3000 });
-      }
-    };
-
-    if ("requestIdleCallback" in window) {
-      idleId = requestIdleCallback(prefetchChunk, { timeout: 4000 });
-      return () => cancelIdleCallback(idleId);
-    }
-    prefetchChunk();
+    warmGalleryImages(GALLERY_PREFETCH_URLS, { concurrency: 8 });
   }, [introReady]);
 
   if (path !== "/") {
@@ -99,28 +77,29 @@ function App() {
   const [showMexicoGallery, setShowMexicoGallery] = useState(false);
   const [showCanadaGallery, setShowCanadaGallery] = useState(false);
   const [showJapanGallery, setShowJapanGallery] = useState(false);
+  const [bootstrap, setBootstrap] = useState({
+    spotify: null,
+    mal: [],
+    tmdb: [],
+  });
 
   useEffect(() => {
     const prevent = (e) => e.preventDefault();
     window.addEventListener("wheel", prevent, { passive: false });
     window.addEventListener("touchmove", prevent, { passive: false });
 
-    // Warm hero images without blocking the intro on them.
     CRITICAL_IMAGES.forEach((src) => {
       const img = new Image();
       img.src = src;
     });
 
-    const introFonts = Promise.all([
-      document.fonts.load('400 10rem "TSM"'),
-      document.fonts.load('400 1rem "Source Han"'),
-      document.fonts.load('400 1rem "Bodoni"'),
-    ]).catch(() => {});
+    let revealTimer;
+    let cancelled = false;
 
-    Promise.all([
-      introFonts,
-      new Promise((r) => setTimeout(r, 300)),
-    ]).then(() => {
+    runIntroBootstrap().then((data) => {
+      if (cancelled) return;
+      setBootstrap(data);
+
       const squares = document.querySelectorAll("[data-intro-square]");
       const visible = Array.from(squares).find((el) => {
         const r = el.getBoundingClientRect();
@@ -135,7 +114,7 @@ function App() {
       }
 
       setPhase("revealing");
-      setTimeout(() => {
+      revealTimer = setTimeout(() => {
         setPhase("done");
         window.removeEventListener("wheel", prevent);
         window.removeEventListener("touchmove", prevent);
@@ -143,6 +122,8 @@ function App() {
     });
 
     return () => {
+      cancelled = true;
+      clearTimeout(revealTimer);
       window.removeEventListener("wheel", prevent);
       window.removeEventListener("touchmove", prevent);
     };
@@ -153,9 +134,9 @@ function App() {
 
   return (
     <GalleryContext.Provider value={{ introReady: isDone, showMexicoGallery, setShowMexicoGallery, showCanadaGallery, setShowCanadaGallery, showJapanGallery, setShowJapanGallery }}>
-      <SpotifyProvider>
-      <MalProvider>
-      <TmdbProvider>
+      <SpotifyProvider initialState={bootstrap.spotify}>
+      <MalProvider initialData={bootstrap.mal}>
+      <TmdbProvider initialData={bootstrap.tmdb}>
       <Router>
         <AnimatedRoutes />
 

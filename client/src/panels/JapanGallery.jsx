@@ -1,10 +1,20 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { JAPAN_ITEMS as ITEMS } from "../constants/data";
+import { JAPAN_ITEMS as ITEMS, JAPAN_PHOTOS } from "../constants/data";
+import {
+  galleryImgLoadProps,
+  warmGalleryRegion,
+} from "../galleryPrefetch";
 
 export default function JapanGallery() {
   const { setShowJapanGallery } = useContext(GalleryContext);
+
+  useEffect(() => {
+    if (JAPAN_PHOTOS.length > 0) {
+      warmGalleryRegion("japan", JAPAN_PHOTOS, { concurrency: 10 });
+    }
+  }, []);
   return (
     <motion.div
       initial={{ y: "100vh" }}
@@ -57,7 +67,7 @@ export default function JapanGallery() {
                 key={row.columns[0][0]}
                 src={`/assets/photos/japan/${row.columns[0][0]}.avif`}
                 alt=""
-                loading="lazy"
+                {...galleryImgLoadProps(i)}
                 className="w-full shrink-0"
               />
             ) : (
@@ -72,7 +82,7 @@ export default function JapanGallery() {
                       <img
                         src={`/assets/photos/japan/${col[0]}.avif`}
                         alt=""
-                        loading="lazy"
+                        {...galleryImgLoadProps(i, j)}
                         onLoad={row.fit === "contain" ? (e) => {
                           e.target.parentElement.style.flex = `${e.target.naturalWidth / e.target.naturalHeight} 1 0%`;
                         } : undefined}
@@ -92,7 +102,7 @@ export default function JapanGallery() {
                                   key={img}
                                   src={`/assets/photos/japan/${img}.avif`}
                                   alt=""
-                                  loading="lazy"
+                                  {...galleryImgLoadProps(i, k)}
                                   className="flex-1 min-w-0 object-cover"
                                 />
                               ))}
@@ -103,7 +113,7 @@ export default function JapanGallery() {
                             key={entry}
                             src={`/assets/photos/japan/${entry}.avif`}
                             alt=""
-                            loading="lazy"
+                            {...galleryImgLoadProps(i, k)}
                             className="w-full object-cover"
                           />
                         ),
