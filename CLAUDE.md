@@ -36,4 +36,17 @@ for w in Medium Bold; do
 done
 ```
 
-Add any new CJK characters to `TEXT` before running. When adding gallery `.avif` files, append the basename to `MEXICO_ALL_PHOTOS`, `CANADA_ALL_PHOTOS`, or `JAPAN_ALL_PHOTOS` in `client/src/constants/data.js` so idle prefetch picks them up.
+Add any new CJK characters to `TEXT` before running.
+
+### Gallery photos (responsive AVIF)
+
+Each gallery photo has three variants: `name-sm.avif` (800px longest side), `name-md.avif` (1400px longest side), `name.avif` (full). Set max variant per row in `MEXICO_ITEMS` / `CANADA_ITEMS` with `size: "sm" | "md" | "full"`, or per image with `{ name: "orange-wall", size: "full" }`.
+
+After adding or replacing a full-size `.avif`, regenerate variants:
+
+```bash
+cd client && npm run photos:variants
+# or one region: node scripts/generate-gallery-variants.mjs --region=mexico
+```
+
+When adding gallery photos, add them to the region’s `*_ITEMS` grid in `client/src/constants/data.js` (and optionally `*_ALL_PHOTOS` for extras not in the grid).
