@@ -1,18 +1,17 @@
 import { useContext, useEffect } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { CANADA_ITEMS as ITEMS, CANADA_PHOTOS } from "../constants/data";
-import {
-  galleryImgLoadProps,
-  warmGalleryRegion,
-} from "../galleryPrefetch";
+import { CANADA_GALLERY_PHOTOS, CANADA_ITEMS as ITEMS } from "../constants/data";
+import GalleryGrid from "../components/GalleryGrid";
+import { warmGalleryRegion } from "../galleryPrefetch";
 
 export default function CanadaGallery() {
   const { setShowCanadaGallery } = useContext(GalleryContext);
 
   useEffect(() => {
-    warmGalleryRegion("canada", CANADA_PHOTOS, { concurrency: 10 });
+    warmGalleryRegion("canada", CANADA_GALLERY_PHOTOS, { concurrency: 10 });
   }, []);
+
   return (
     <motion.div
       initial={{ y: "100vh" }}
@@ -57,70 +56,7 @@ export default function CanadaGallery() {
 
       {/* Scrollable photo column */}
       <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide">
-        {ITEMS.map((row, i) => {
-          const isFull = row.columns.length === 1 && row.columns[0].length === 1 && typeof row.columns[0][0] === "string";
-          return isFull ? (
-            <img
-              key={row.columns[0][0]}
-              src={`/assets/photos/canada/${row.columns[0][0]}.avif`}
-              alt=""
-              {...galleryImgLoadProps(i)}
-              className="w-full shrink-0"
-            />
-          ) : (
-            <div key={i} className="w-full shrink-0 flex gap-4">
-              {row.columns.map((col, j) => {
-                const colClass = row.flex ? "min-w-0" : "flex-1 min-w-0";
-                const colStyle = row.flex ? { flex: `${row.flex[j]} 1 0%` } : undefined;
-                return col.length === 0 ? (
-                  <div key={j} className={colClass} style={colStyle} />
-                ) : col.length === 1 && typeof col[0] === "string" ? (
-                  <div key={col[0]} className={`${colClass} flex`} style={colStyle}>
-                    <img
-                      src={`/assets/photos/canada/${col[0]}.avif`}
-                      alt=""
-                      {...galleryImgLoadProps(i, j)}
-                      onLoad={row.fit === "contain" ? (e) => {
-                        e.target.parentElement.style.flex = `${e.target.naturalWidth / e.target.naturalHeight} 1 0%`;
-                      } : undefined}
-                      className="w-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div key={j} className={`${colClass} flex flex-col gap-4`} style={colStyle}>
-                    {col.map((entry, k) =>
-                      Array.isArray(entry) ? (
-                        entry.length === 0 ? (
-                          <div key={k} className="flex-1" />
-                        ) : (
-                          <div key={k} className="flex gap-4">
-                            {entry.map((img) => (
-                              <img
-                                key={img}
-                                src={`/assets/photos/canada/${img}.avif`}
-                                alt=""
-                                {...galleryImgLoadProps(i, k)}
-                                className="flex-1 min-w-0 object-cover"
-                              />
-                            ))}
-                          </div>
-                        )
-                      ) : (
-                        <img
-                          key={entry}
-                          src={`/assets/photos/canada/${entry}.avif`}
-                          alt=""
-                          {...galleryImgLoadProps(i, k)}
-                          className="w-full object-cover"
-                        />
-                      ),
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
+        <GalleryGrid region="canada" items={ITEMS} />
       </div>
 
       {/* Right column: photography label */}

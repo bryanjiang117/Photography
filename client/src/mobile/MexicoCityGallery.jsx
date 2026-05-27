@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { MEXICO_FLAT_IMAGES } from "../constants/data";
+import { MEXICO_GALLERY_PHOTOS } from "../constants/data";
+import GalleryImage from "../components/GalleryImage";
+import { galleryImageUrl } from "../galleryImages";
 import {
   galleryImgLoadProps,
   warmGalleryRegion,
@@ -12,7 +14,7 @@ export default function MexicoCityGallery() {
   const [activeImage, setActiveImage] = useState(null);
 
   useEffect(() => {
-    warmGalleryRegion("mexico", MEXICO_FLAT_IMAGES, { concurrency: 10 });
+    warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS, { concurrency: 10 });
   }, []);
 
   return (
@@ -40,14 +42,15 @@ export default function MexicoCityGallery() {
 
       {/* Horizontal scroll gallery */}
       <div className="flex flex-1 min-h-0 flex-row items-stretch gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide">
-        {MEXICO_FLAT_IMAGES.map((name, i) => (
-          <img
-            key={name}
-            src={`/assets/photos/mexico/${name}.avif`}
-            alt=""
-            {...galleryImgLoadProps(i)}
+        {MEXICO_GALLERY_PHOTOS.map((photo, i) => (
+          <GalleryImage
+            key={photo.name}
+            region="mexico"
+            entry={{ name: photo.name, size: photo.size }}
+            layout="mobile"
+            loadProps={galleryImgLoadProps(i)}
             className="w-[80vw] shrink-0 snap-start rounded-sm object-cover cursor-pointer"
-            onClick={() => setActiveImage(name)}
+            onClick={() => setActiveImage(photo.name)}
           />
         ))}
       </div>
@@ -97,7 +100,7 @@ export default function MexicoCityGallery() {
             onClick={() => setActiveImage(null)}
           >
             <img
-              src={`/assets/photos/mexico/${activeImage}.avif`}
+              src={galleryImageUrl("mexico", activeImage, "full")}
               alt=""
               className="max-w-full max-h-full object-contain rounded-sm"
               onClick={(e) => e.stopPropagation()}

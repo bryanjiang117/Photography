@@ -1,9 +1,14 @@
+import { galleryImageUrl, galleryPrefetchUrl } from "./galleryImages";
+
+function prefetchLayout() {
+  if (typeof window === "undefined") return "grid";
+  return window.matchMedia("(max-width: 768px)").matches ? "mobile" : "grid";
+}
+
 const warmed = new Set();
 const inFlight = new Map();
 
-export function galleryImageUrl(region, name) {
-  return `/assets/photos/${region}/${name}.avif`;
-}
+export { galleryImageUrl };
 
 export function warmGalleryImage(url) {
   if (!url || warmed.has(url)) return Promise.resolve();
@@ -43,10 +48,24 @@ export async function warmGalleryImages(urls, { concurrency = 8 } = {}) {
   await Promise.all(workers);
 }
 
-export function warmGalleryRegion(region, names, options) {
-  const urls = names
-    .filter((n) => typeof n === "string" && n.length > 0)
-    .map((n) => galleryImageUrl(region, n));
+export function warmGalleryRegion(region, photos, options = {}) {
+  const layout = options.layout ?? prefetchLayout();
+  const urls = photos
+    .map((photo) => {
+      if (typeof photo === "string" && photo.length > 0) {
+        return galleryPrefetchUrl(region, photo, "md", layout);
+      }
+      if (photo?.name) {
+        return galleryPrefetchUrl(
+          region,
+          photo.name,
+          photo.size ?? "md",
+          layout,
+        );
+      }
+      return null;
+    })
+    .filter(Boolean);
   return warmGalleryImages(urls, options);
 }
 

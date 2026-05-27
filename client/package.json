@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "photos:variants": "node scripts/generate-gallery-variants.mjs"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.1",
     "sass": "^1.92.1",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.2.1"
   }
 }

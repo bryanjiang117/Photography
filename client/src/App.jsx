@@ -14,17 +14,18 @@ import { GalleryContext } from "./GalleryContext";
 import { SpotifyProvider } from "./SpotifyContext.jsx";
 import { MalProvider } from "./MalContext.jsx";
 import { TmdbProvider } from "./TmdbContext.jsx";
-import { GALLERY_PREFETCH_URLS } from "./constants/data";
+import { getGalleryPrefetchUrls } from "./constants/data";
 import { runIntroBootstrap } from "./introBootstrap";
+import { galleryImageUrl } from "./galleryImages";
 import { warmGalleryImages } from "./galleryPrefetch";
 
 import "./App.scss";
 import "./Fonts.scss";
 
 const CRITICAL_IMAGES = [
-  "/assets/photos/japan/flowers.avif",
-  "/assets/photos/mexico/orange-wall.avif",
-  "/assets/photos/canada/leaves-glow.avif",
+  galleryImageUrl("japan", "flowers", "md"),
+  galleryImageUrl("mexico", "orange-wall", "md"),
+  galleryImageUrl("canada", "leaves-glow", "sm"),
 ];
 
 function AnimatedRoutes() {
@@ -40,7 +41,10 @@ function AnimatedRoutes() {
 
   useEffect(() => {
     if (!introReady) return;
-    warmGalleryImages(GALLERY_PREFETCH_URLS, { concurrency: 8 });
+    const layout = window.matchMedia("(max-width: 768px)").matches
+      ? "mobile"
+      : "grid";
+    warmGalleryImages(getGalleryPrefetchUrls(layout), { concurrency: 8 });
   }, [introReady]);
 
   if (path !== "/") {

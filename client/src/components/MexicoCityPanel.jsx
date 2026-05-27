@@ -1,19 +1,20 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { MEXICO_FLAT_IMAGES } from "../constants/data";
+import { MEXICO_GALLERY_PHOTOS } from "../constants/data";
+import { galleryImageUrl } from "../galleryImages";
 import { warmGalleryRegion } from "../galleryPrefetch";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
-  const warmMexico = () => warmGalleryRegion("mexico", MEXICO_FLAT_IMAGES);
+  const warmMexico = () => warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS);
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4">
       <div className="flex flex-col h-full mr-[15%]">
         <section className="relative flex-1 w-full bg-mexico-primary">
           <motion.img
-            src="assets/photos/mexico/orange-wall.avif"
+            src={galleryImageUrl("mexico", "orange-wall", "md")}
             loading="lazy"
             className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
             animate={showMexicoGallery

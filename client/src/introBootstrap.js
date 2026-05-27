@@ -1,4 +1,4 @@
-import { GALLERY_PREFETCH_URLS } from "./constants/data";
+import { getGalleryPrefetchUrls } from "./constants/data";
 import { warmGalleryImages } from "./galleryPrefetch";
 
 export const MOUNTAIN_VIDEO_SRC = "/assets/photos/mountain-view.mp4";
@@ -72,9 +72,15 @@ export async function runIntroBootstrap() {
   const minDelay = new Promise((r) => setTimeout(r, 300));
 
   // Warm first gallery images during the intro (do not block on full set).
-  warmGalleryImages(GALLERY_PREFETCH_URLS.slice(0, INTRO_GALLERY_HEAD_COUNT), {
-    concurrency: 6,
-  });
+  const layout =
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 768px)").matches
+      ? "mobile"
+      : "grid";
+  warmGalleryImages(
+    getGalleryPrefetchUrls(layout).slice(0, INTRO_GALLERY_HEAD_COUNT),
+    { concurrency: 6 },
+  );
 
   const [, , , spotify, mal, tmdb] = await Promise.all([
     loadIntroFonts(),

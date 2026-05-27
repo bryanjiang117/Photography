@@ -1,9 +1,34 @@
-// Each row is { columns: [...] } where each column is an array of image names.
-// Multiple images in a column = stacked vertically. Empty array [] = spacer.
-// Column entries can be strings (images) or arrays ([] = vertical spacer, ["a","b"] = horizontal sub-row).
-// A row with one column and one image renders full-width.
-// Optional: fit: "contain" — preserves original aspect ratios (no cropping), matched heights.
-// Optional: flex: [1, 3] — custom flex-grow per column (default: equal).
+import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
+
+// ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, JAPAN_ITEMS) ─────────────────
+//
+// Row shape: { columns, size?, flex?, fit? }
+//
+// columns — array of columns. Each column is a vertical stack:
+//   "photo-name"           one image (string basename, no .avif)
+//   { name, size? }        per-image max tier; size overrides the row's size
+//   []                     empty spacer column
+//   ["a", "b"]             horizontal sub-row (images side by side)
+//   [[], ["x"]]            mix spacers and images within a column
+//
+// One column with one image → rendered full-width across the scroll area.
+//
+// size — max AVIF tier for the row: "sm" | "md" | "full"
+//   Omitted → "full" for a lone full-width image, "sm" for 3+ columns, else "md"
+//   Files: name-sm.avif (800px longest side), name-md.avif (1400px longest side), name.avif (full)
+//   After adding/replacing name.avif:  cd client && npm run photos:variants
+//
+// flex — optional number[]; flex-grow per column (e.g. flex: [1, 2, 5])
+// fit — optional "contain"; keep aspect ratio, matched row heights (see chongqing row)
+//
+// Mobile galleries use the same lists; display caps at "sm". Lightbox uses "full".
+//
+// Examples:
+//   { columns: [["orange-wall"]], size: "full" }
+//   { columns: [["green-wall"], ["blue-door"]], size: "md" }
+//   { columns: [[{ name: "windmill", size: "full" }]] }   // override one cell
+//   { columns: [[], ["palm-trees"], ["tree-reflection"]], flex: [1, 2, 5], size: "md" }
+//
 export const CANADA_ITEMS = [
   {
     columns: [
@@ -13,40 +38,56 @@ export const CANADA_ITEMS = [
       ["autumn-pond"],
     ],
   },
-  { columns: [["ferry-lookout"]] },
-  // { columns: [["fish-vendor"], ["boat-cabin"], [], []] },
-  { columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]] },
+  { columns: [["ferry-lookout"]] }, // default size full
   {
-    columns: [[], [["hotdog-stand"], [""]], ["pacific-railway"]],
+    columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
+  },
+  { columns: [["fish-vendor"], [], ["boat-cabin"]] },
+  {
+    columns: [
+      [],
+      [[{ name: "hotdog-stand", size: "sm" }], []],
+      [{ name: "pacific-railway", size: "full" }],
+    ],
     flex: [1, 1, 3],
   },
-  { columns: [[], ["totem-top"], ["parliament-flowers"], ["war-memorial"]] },
+  {
+    columns: [[], ["totem-top"], ["parliament-flowers"], ["war-memorial"]],
+  },
   {
     columns: [["orca"], [[], []]],
     flex: [4, 5],
+    size: "full",
   },
   {
     columns: [
       [["flower-lamppost"], []],
-      ["nootka-court"],
-      [[], ["totem-pole"]],
+      [{ name: "nootka-court", size: "md" }],
+      [[], "totem-pole"],
     ],
     flex: [1, 2, 1],
   },
   { columns: [["sunset-seagull"], ["pink-jellyfish"]] },
   // { columns: [["shop-window"], ["bakery-kitchen"], ["bookstore"]] },
   { columns: [["walking-dog"], [], ["street-protester"]] },
-  { columns: [["towering-cloud"], ["golden-spires"]] },
+  { columns: [["towering-cloud"], ["golden-spires"]], size: "full" },
   {
     columns: [["scrap-sculpture"], [], ["gated-alley"], [], ["graffiti-alley"]],
   },
   {
-    columns: [["chongqing-restaurant"], ["chinatown-market"], ["fruit-worker"]],
+    columns: [
+      ["chongqing-restaurant"],
+      ["chinatown-market"],
+      [{ name: "fruit-worker", size: "full" }],
+    ],
     fit: "contain",
   },
   { columns: [["wet-leaves"], ["rainy-roses"], ["blurred-rain"]] },
   {
-    columns: [["sun-rays", "empty-goalpost", "golden-grass"], ["brick-tower"]],
+    columns: [
+      ["sun-rays", "empty-goalpost", "golden-grass"],
+      [{ name: "brick-tower", size: "full" }],
+    ],
     flex: [1, 3],
   },
   { columns: [["cans"], ["peach-roses"]] },
@@ -56,24 +97,26 @@ export const CANADA_ITEMS = [
   { columns: [["moon"], ["firework"]] },
 ];
 
-export const CANADA_PHOTOS = CANADA_ITEMS.flatMap((row) =>
-  row.columns.flat(Infinity),
-).filter((x) => typeof x === "string" && x);
+export const CANADA_GALLERY_PHOTOS = flattenGalleryItems(CANADA_ITEMS);
+export const CANADA_PHOTOS = CANADA_GALLERY_PHOTOS.map((p) => p.name);
 
 // Empty strings in arrays are spacers for the desktop grid layout.
 export const MEXICO_ITEMS = [
-  { columns: [["orange-wall"]] },
-  { columns: [["green-wall"], ["blue-door"], ["bike-leaves"]] },
-  { columns: [["meat-vendor"], ["pastor-tacos"]] },
+  { columns: [["orange-wall"]], size: "full" },
+  { columns: [["green-wall"], ["blue-door"], ["bike-leaves"]], size: "md" },
+  { columns: [["meat-vendor"], ["pastor-tacos"]], size: "full" },
   { columns: [[], ["street-vendor"], [], ["coke-store"]] },
   { columns: [["taco-vendor"], ["bakery"]] },
-  { columns: [["fruit-store"], ["flowers"], ["fruit-vendor"]] },
-  { columns: [["old-man"], []] },
-  { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]] },
-  { columns: [["windmill"]] },
-  // { columns: [["modern-balcony"], ["ferris"], ["old-building"]] },
-  { columns: [[""], ["palm-trees"], ["tree-reflection"]], flex: [1, 2, 5] },
-  { columns: [["playground"], []] },
+  { columns: [["fruit-store"], ["flowers"], ["fruit-vendor"]], size: "md" },
+  { columns: [["old-man"], []], size: "full" },
+  { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]], size: "md" },
+  { columns: [["windmill"]], size: "full" },
+  // { columns: [["modern-balcony"], ["ferris"], ["old-building"]], size: "md" },
+  {
+    columns: [[], ["palm-trees"], [{ name: "tree-reflection", size: "full" }]],
+    flex: [1, 2, 5],
+  },
+  { columns: [["playground"], []], size: "full" },
   {
     columns: [
       ["museum-reflection"],
@@ -84,18 +127,16 @@ export const MEXICO_ITEMS = [
     ],
   },
   { columns: [["plaza-garibaldi"]] },
-  { columns: [["sunset-dark"]] },
+  { columns: [["sunset-dark"]], size: "full" },
 ];
 
-export const MEXICO_FLAT_IMAGES = MEXICO_ITEMS.flatMap((row) =>
-  row.columns.flat(Infinity),
-).filter((x) => typeof x === "string" && x);
+export const MEXICO_GALLERY_PHOTOS = flattenGalleryItems(MEXICO_ITEMS);
+export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 
 export const JAPAN_ITEMS = [];
 
-export const JAPAN_PHOTOS = JAPAN_ITEMS.flatMap((row) =>
-  row.columns.flat(Infinity),
-).filter((x) => typeof x === "string" && x);
+export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);
+export const JAPAN_PHOTOS = JAPAN_GALLERY_PHOTOS.map((p) => p.name);
 
 // Every .avif in each gallery folder (grid + extras), for idle prefetch.
 export const MEXICO_ALL_PHOTOS = [
@@ -209,25 +250,16 @@ export const CANADA_ALL_PHOTOS = [
 
 export const JAPAN_ALL_PHOTOS = ["flowers"];
 
-const galleryPrefetchUrl = (region, name) =>
-  `/assets/photos/${region}/${name}.avif`;
-
-// Display order of photos actually shown in galleries (not every file on disk).
-export const MEXICO_GALLERY_PREFETCH_URLS = MEXICO_FLAT_IMAGES.map((n) =>
-  galleryPrefetchUrl("mexico", n),
-);
-export const CANADA_GALLERY_PREFETCH_URLS = CANADA_PHOTOS.map((n) =>
-  galleryPrefetchUrl("canada", n),
-);
-export const JAPAN_GALLERY_PREFETCH_URLS = JAPAN_PHOTOS.map((n) =>
-  galleryPrefetchUrl("japan", n),
-);
-
-export const GALLERY_PREFETCH_URLS = [
-  ...MEXICO_GALLERY_PREFETCH_URLS,
-  ...CANADA_GALLERY_PREFETCH_URLS,
-  ...JAPAN_GALLERY_PREFETCH_URLS,
-];
+/** Prefetch URLs for idle warming (one variant per photo, matches GalleryImage `src`). */
+export function getGalleryPrefetchUrls(layout = "grid") {
+  const urls = (region, photos) =>
+    photos.map((p) => galleryPrefetchUrl(region, p.name, p.size, layout));
+  return [
+    ...urls("mexico", MEXICO_GALLERY_PHOTOS),
+    ...urls("canada", CANADA_GALLERY_PHOTOS),
+    ...urls("japan", JAPAN_GALLERY_PHOTOS),
+  ];
+}
 
 export const PROJECTS = [
   {

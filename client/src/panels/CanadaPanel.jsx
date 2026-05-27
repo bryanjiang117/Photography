@@ -1,13 +1,14 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { CANADA_PHOTOS } from "../constants/data";
+import { CANADA_GALLERY_PHOTOS } from "../constants/data";
+import { galleryImageUrl } from "../galleryImages";
 import { warmGalleryRegion } from "../galleryPrefetch";
 
 const CanadaPanel = () => {
   const { showCanadaGallery, setShowCanadaGallery } =
     useContext(GalleryContext);
-  const warmCanada = () => warmGalleryRegion("canada", CANADA_PHOTOS);
+  const warmCanada = () => warmGalleryRegion("canada", CANADA_GALLERY_PHOTOS);
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4">
@@ -45,7 +46,7 @@ const CanadaPanel = () => {
         </section>
         <section className="relative flex-1 w-full bg-canada-primary">
           <motion.img
-            src="assets/photos/canada/leaves-glow.avif"
+            src={galleryImageUrl("canada", "leaves-glow", "sm")}
             loading="lazy"
             className="absolute top-2/10 right-3/20 max-w-1/10 max-h-2/10 cursor-pointer"
             animate={

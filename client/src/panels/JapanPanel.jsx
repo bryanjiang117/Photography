@@ -1,19 +1,20 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { JAPAN_PHOTOS } from "../constants/data";
+import { JAPAN_GALLERY_PHOTOS } from "../constants/data";
+import { galleryImageUrl } from "../galleryImages";
 import { warmGalleryRegion } from "../galleryPrefetch";
 
 const JapanPanel = () => {
   const { showJapanGallery, setShowJapanGallery } =
     useContext(GalleryContext);
-  const warmJapan = () => warmGalleryRegion("japan", JAPAN_PHOTOS);
+  const warmJapan = () => warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS);
 
   return (
     <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 pl-20 p-4">
       <section className="relative flex-1 mb-20 bg-japan-primary">
         <motion.img
-          src="assets/photos/japan/flowers.avif"
+          src={galleryImageUrl("japan", "flowers", "md")}
           loading="lazy"
           className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10 cursor-pointer"
           animate={
