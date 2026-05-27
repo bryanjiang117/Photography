@@ -1,11 +1,11 @@
-# 姜昊周 · Photography & Portfolio
+# 姜昊周 · Photography Portfolio
 
-A personal site that pairs film photography with software work — horizontal scroll through intro, regional galleries, and projects, with live Spotify, MyAnimeList, and TMDB widgets woven in.
+A personal site that pairs film photography with some software work and personal stuff.
 
 **[jianghaozhou.studio](https://jianghaozhou.studio)**
 
 <p align="center">
-  <img src="client/public/assets/preview.png" alt="Portfolio preview" width="720" />
+  <img src="client/public/assets/preview.png" alt="Portfolio preview" width="480" />
 </p>
 
 <p align="center">
