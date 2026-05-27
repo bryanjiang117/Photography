@@ -1,9 +1,10 @@
-# Photography (client)
+# Client
 
 ```bash
 npm install
-npm run dev       # http://127.0.0.1:3000
+npm run dev
 npm run build
+npm run photos:variants
 ```
 
-Gallery photos, layout, and `npm run photos:variants` are documented in the [repo README](../README.md#gallery-photos-responsive-avif).
+Full documentation: [../README.md](../README.md)
