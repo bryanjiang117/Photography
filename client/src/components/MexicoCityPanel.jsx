@@ -10,8 +10,8 @@ const MexicoCityPanel = () => {
   const warmMexico = () => warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS);
 
   return (
-    <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4">
-      <div className="flex flex-col h-full mr-[15%]">
+    <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">
+      <div className="flex flex-col h-full">
         <section className="relative flex-1 w-full bg-mexico-primary">
           <motion.img
             src={galleryImageUrl("mexico", "orange-wall", "md")}

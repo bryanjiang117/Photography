@@ -10,9 +10,9 @@ const MobileHome = () => {
     <div className="flex w-screen flex-col overflow-x-hidden">
       <IntroPanel />
       <div className="flex flex-col gap-8">
-        <JapanPanel />
         <MexicoCityPanel />
         <CanadaPanel />
+        <JapanPanel />
       </div>
       <div className="mt-38">
         <ProjectsPanel />

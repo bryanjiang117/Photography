@@ -11,10 +11,10 @@ const GalleryCard = ({
   onMouseEnter,
 }) => {
   return (
-    <div className="relative w-full min-h-0">
+    <div className="relative min-h-0">
       <div className="flex flex-col">
         <section
-          className={`relative aspect-3/4 max-h-[90vh] w-full ${bgColor} ${onClick ? "cursor-pointer" : ""}`}
+          className={`relative aspect-3/4 max-h-[90vh] ${bgColor} ${onClick ? "cursor-pointer" : ""}`}
           onMouseEnter={onMouseEnter}
           onClick={onClick}
         >

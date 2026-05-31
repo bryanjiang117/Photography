@@ -11,7 +11,7 @@ const JapanPanel = () => {
   const warmJapan = () => warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS);
 
   return (
-    <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 pl-20 p-4">
+    <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 p-4 px-40">
       <section className="relative flex-1 mb-20 bg-japan-primary">
         <motion.img
           src={galleryImageUrl("japan", "flowers", "md")}
@@ -27,7 +27,7 @@ const JapanPanel = () => {
           onClick={() => setShowJapanGallery(true)}
         />
       </section>
-      <section className="mb-20 min-w-fit w-3/10">
+      <section className="mb-20 min-w-fit">
         <div className="flex flex-col gap-20 w-fit h-full">
           <div className="flex">
             <div

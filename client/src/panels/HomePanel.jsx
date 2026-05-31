@@ -19,9 +19,9 @@ const HomePanel = () => {
   const panels = useMemo(() => {
     const items = [
       <IntroPanel scrollRef={scrollRef} key="intro" />,
-      <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
       <CanadaPanel key="canada" />,
+      <JapanPanel key="japan" />,
       <ProjectsPanel key="projects" />,
     ];
     if (introReady) {
