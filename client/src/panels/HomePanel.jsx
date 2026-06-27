@@ -6,6 +6,7 @@ import JapanPanel from "./JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
 import ExtrasPanel from "./ExtrasPanel";
 import CanadaPanel from "./CanadaPanel";
+import ChinaPanel from "./ChinaPanel";
 import ProjectsPanel from "../components/ProjectsPanel";
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
@@ -19,9 +20,10 @@ const HomePanel = () => {
   const panels = useMemo(() => {
     const items = [
       <IntroPanel scrollRef={scrollRef} key="intro" />,
+      <ChinaPanel key="china" />,
+      <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
       <CanadaPanel key="canada" />,
-      <JapanPanel key="japan" />,
       <ProjectsPanel key="projects" />,
     ];
     if (introReady) {

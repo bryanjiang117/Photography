@@ -3,7 +3,7 @@
  * Re-runs overwrite existing variants. Stale variants are removed when no longer applicable.
  *
  *   npm run photos:variants
- *   node scripts/generate-gallery-variants.mjs --region=mexico
+ *   node scripts/generate-gallery-variants.mjs --region=china
  */
 import fs from "fs";
 import path from "path";
@@ -12,7 +12,7 @@ import sharp from "sharp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PHOTOS_ROOT = path.join(__dirname, "../public/assets/photos");
-const REGIONS = ["mexico", "canada", "japan"];
+const REGIONS = ["mexico", "canada", "china", "japan"];
 /** Max longest edge (px) per tier. */
 const LONGEST = { sm: 800, md: 1400 };
 

@@ -1,6 +1,6 @@
 import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 
-// ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, JAPAN_ITEMS) ─────────────────
+// ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, CHINA_ITEMS, JAPAN_ITEMS) ────
 //
 // Row shape: { columns, size?, flex?, fit? }
 //
@@ -133,6 +133,81 @@ export const MEXICO_ITEMS = [
 export const MEXICO_GALLERY_PHOTOS = flattenGalleryItems(MEXICO_ITEMS);
 export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 
+export const CHINA_ITEMS = [
+  { columns: [["rafts"]],},
+  {
+    columns: [["gardener", "flying", "truck"], ["mountain-scene"]],
+    flex: [23, 60],
+  },
+  // { columns: [["two-dudes"], [""]], size: "full", flex: [4,1] },
+  {
+    columns: [["grungy-apartment"], ["goldfish"], ["building-steps"]],
+    flex: [1, 2, 2],
+  },
+  {
+    columns: [["chess-table"], ["stick-gramps"], ["park-gramps"]],
+    flex: [4, 1, 1],
+  },
+  { columns: [["meituan-trio"]] },
+  {
+    columns: [
+      ["building-ac"],
+      [
+        "window-gramps",
+        "mahjong",
+        "messy-balcony",
+        "hole-in-the-wall",
+        "window",
+      ],
+    ],
+    flex: [20, 11],
+  },
+  {
+    columns: [
+      [["thinking-cards"], ["auntie-dance"], ["smoking"], ["robot-dog"]],
+      ["card-uncs"],
+    ],
+    flex: [11, 20],
+  },
+  // {
+  //   columns: [["mother-son"], ["cabbage-auntie"], ["frenchie"]],
+  //   size: "full",
+  // },
+  // { columns: [[""], ["garbage"]], size: "full", flex: [4, 6] },
+  {
+    columns: [["auntie-cooking"], [], ["happy-woman"]],
+    flex: [16, 1, 8],
+  },
+  { columns: [["crowded-dining"]] },
+  {
+    columns: [["auntie-cleaning"], ["baozi"]],
+    flex: [1, 2],
+  },
+  // { columns: [["robot-dog"], ["smoking"], ["auntie-dance"]], size: "full" },
+  { columns: [["rainy-chongqing"]]},
+  {
+    columns: [["hotpot"], ["lanterns-alley"]],
+    flex: [2, 1],
+  },
+  { columns: [["chongqing-flipped"]]},
+  { columns: [["fire"], ["farmlands"], ["poles-in-farm"]]},
+  { columns: [["posing"]]},
+  {
+    columns: [["flower-mountain"], ["rice-fields"], ["girthy-mountain"]],
+    flex: [1, 2, 1],
+  },
+
+  {
+    columns: [["bright-farmer"], ["rafting"]],
+  },
+  {
+    columns: [["plants-stairs"], ["laundry-woman"], ["stairwell-flowers"]],
+  },
+];
+
+export const CHINA_GALLERY_PHOTOS = flattenGalleryItems(CHINA_ITEMS);
+export const CHINA_PHOTOS = CHINA_GALLERY_PHOTOS.map((p) => p.name);
+
 export const JAPAN_ITEMS = [];
 
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);
@@ -248,6 +323,57 @@ export const CANADA_ALL_PHOTOS = [
   "windows-xp-grass",
 ];
 
+export const CHINA_ALL_PHOTOS = [
+  "auntie-cleaning",
+  "auntie-cooking",
+  "auntie-dance",
+  "balcony",
+  "bald-cards",
+  "baozi",
+  "building-ac",
+  "building-steps",
+  "cabbage-auntie",
+  "card-uncs",
+  "chess-table",
+  "chongqing-flipped",
+  "crowded-dining",
+  "dscf0016",
+  "farmlands",
+  "farmlands2",
+  "fire",
+  "fishing-lady",
+  "flower-pots",
+  "flying",
+  "frenchie",
+  "fruit-truck",
+  "garbage",
+  "goldfish",
+  "gramps",
+  "grandaughter",
+  "hole-in-the-wall",
+  "hotpot",
+  "mahjong",
+  "meituan-trio",
+  "messy-balcony",
+  "mother-son",
+  "neighborhood",
+  "poles-in-farm",
+  "posing",
+  "rafts",
+  "rainy-chongqing",
+  "robot-dog",
+  "roof",
+  "rural-river",
+  "smoking",
+  "stairwell",
+  "tea-house",
+  "temple",
+  "thinking-cards",
+  "two-dudes",
+  "window",
+  "window-gramps",
+];
+
 export const JAPAN_ALL_PHOTOS = ["flowers"];
 
 /** Prefetch URLs for idle warming (one variant per photo, matches GalleryImage `src`). */
@@ -257,6 +383,7 @@ export function getGalleryPrefetchUrls(layout = "grid") {
   return [
     ...urls("mexico", MEXICO_GALLERY_PHOTOS),
     ...urls("canada", CANADA_GALLERY_PHOTOS),
+    ...urls("china", CHINA_GALLERY_PHOTOS),
     ...urls("japan", JAPAN_GALLERY_PHOTOS),
   ];
 }

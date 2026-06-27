@@ -2,6 +2,7 @@ import IntroPanel from "./IntroPanel";
 import JapanPanel from "./JapanPanel";
 import MexicoCityPanel from "./MexicoCityPanel";
 import CanadaPanel from "./CanadaPanel";
+import ChinaPanel from "./ChinaPanel";
 import ProjectsPanel from "./ProjectsPanel";
 import ExtrasPanel from "./ExtrasPanel";
 
@@ -10,6 +11,7 @@ const MobileHome = () => {
     <div className="flex w-screen flex-col overflow-x-hidden">
       <IntroPanel />
       <div className="flex flex-col gap-8">
+        <ChinaPanel />
         <MexicoCityPanel />
         <CanadaPanel />
         <JapanPanel />

@@ -1,0 +1,39 @@
+import { useContext } from "react";
+import { motion } from "motion/react";
+import { GalleryContext } from "../GalleryContext";
+import { CHINA_GALLERY_PHOTOS } from "../constants/data";
+import { galleryImageUrl } from "../galleryImages";
+import { warmGalleryRegion } from "../galleryPrefetch";
+import GalleryCard from "./GalleryCard";
+
+const ChinaPanel = () => {
+  const { showChinaGallery, setShowChinaGallery } =
+    useContext(GalleryContext);
+  const warmChina = () => warmGalleryRegion("china", CHINA_GALLERY_PHOTOS);
+
+  return (
+    <GalleryCard
+      bgColor="bg-china-primary"
+      image={
+        <motion.img
+          src={galleryImageUrl("china", "temple", "md")}
+          className="absolute top-1/5 right-1/6 max-w-1/5 max-h-1/4 object-cover text-black cursor-pointer"
+          animate={
+            showChinaGallery
+              ? { clipPath: "inset(0 0 0 100%)" }
+              : { clipPath: "inset(0 0 0 0%)" }
+          }
+          transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+          onClick={() => setShowChinaGallery(true)}
+        />
+      }
+      title="中国"
+      titleLang="zh-CN"
+      subtitle="China"
+      onMouseEnter={warmChina}
+      onClick={() => setShowChinaGallery(true)}
+    />
+  );
+};
+
+export default ChinaPanel;

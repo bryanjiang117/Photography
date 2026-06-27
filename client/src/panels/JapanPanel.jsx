@@ -11,12 +11,12 @@ const JapanPanel = () => {
   const warmJapan = () => warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS);
 
   return (
-    <div className="shrink-0 h-screen min-h-[800px] w-screen min-w-[1300px] flex gap-5 p-4 px-40">
-      <section className="relative flex-1 mb-20 bg-japan-primary">
+    <div className="shrink-0 h-screen min-h-[800px] w-[95vw] min-w-[1235px] flex gap-5 p-4 px-40">
+      <section className="relative flex-1 mb-10 mr-4 bg-japan-primary">
         <motion.img
           src={galleryImageUrl("japan", "flowers", "md")}
           loading="lazy"
-          className="absolute bottom-4 left-8 max-w-3/10 max-h-8/10 cursor-pointer"
+          className="absolute top-4 left-16 max-w-3/10 max-h-8/10 cursor-pointer"
           animate={
             showJapanGallery
               ? { clipPath: "inset(0 0 100% 0)" }
