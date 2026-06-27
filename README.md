@@ -145,6 +145,11 @@ You do **not** need `FRONTEND_ORIGIN` or `BACKEND_ORIGIN` for day-to-day work. T
 | `FRONTEND_ORIGIN` | `https://jianghaozhou.studio` |
 | `BACKEND_ORIGIN` | `https://photography-28rz.onrender.com` |
 
+Login if auth becomes stale 
+
+https://photography-28rz.onrender.com/api/spotify/login
+https://photography-28rz.onrender.com/api/mal/login
+
 Set these on Render so CORS and OAuth callbacks match [jianghaozhou.studio](https://jianghaozhou.studio/) and the hosted API.
 
 ### Integrations (local + production)
