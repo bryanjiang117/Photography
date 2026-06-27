@@ -1,54 +1,12 @@
-import { getGalleryPrefetchUrls } from "./constants/data";
-import { warmGalleryImages } from "./galleryPrefetch";
-
 export const MOUNTAIN_VIDEO_SRC = "/assets/photos/mountain-view.mp4";
 
-const INTRO_GALLERY_HEAD_COUNT = 16;
-
 const API_TIMEOUT_MS = 15_000;
-const VIDEO_TIMEOUT_MS = 20_000;
 
 function loadIntroFonts() {
   return Promise.all([
     document.fonts.load('400 10rem "TSM"'),
     document.fonts.load('400 1rem "Source Han"'),
-    document.fonts.load('400 1rem "Bodoni"'),
   ]).catch(() => {});
-}
-
-export function preloadMountainVideo(src = MOUNTAIN_VIDEO_SRC) {
-  return new Promise((resolve) => {
-    const video = document.createElement("video");
-    let settled = false;
-    const finish = () => {
-      if (settled) return;
-      settled = true;
-      resolve();
-    };
-
-    const timeoutId = setTimeout(finish, VIDEO_TIMEOUT_MS);
-    video.preload = "auto";
-    video.muted = true;
-    video.playsInline = true;
-    video.addEventListener(
-      "canplaythrough",
-      () => {
-        clearTimeout(timeoutId);
-        finish();
-      },
-      { once: true },
-    );
-    video.addEventListener(
-      "error",
-      () => {
-        clearTimeout(timeoutId);
-        finish();
-      },
-      { once: true },
-    );
-    video.src = src;
-    video.load();
-  });
 }
 
 async function fetchApi(url, { expectArray = false } = {}) {
@@ -67,33 +25,21 @@ async function fetchApi(url, { expectArray = false } = {}) {
   }
 }
 
-/** Resolves after fonts, min delay, video preload, and all API attempts (failures ignored). */
-export async function runIntroBootstrap() {
-  const minDelay = new Promise((r) => setTimeout(r, 300));
-
-  // Warm first gallery images during the intro (do not block on full set).
-  const layout =
-    typeof window !== "undefined" &&
-    window.matchMedia("(max-width: 768px)").matches
-      ? "mobile"
-      : "grid";
-  warmGalleryImages(
-    getGalleryPrefetchUrls(layout).slice(0, INTRO_GALLERY_HEAD_COUNT),
-    { concurrency: 6 },
-  );
-
-  const [, , , spotify, mal, tmdb] = await Promise.all([
-    loadIntroFonts(),
-    minDelay,
-    preloadMountainVideo(),
+/** Fetches Spotify / MAL / TMDB without blocking the intro animation. */
+export function fetchBootstrapApis() {
+  return Promise.all([
     fetchApi("/api/spotify/currently-playing"),
     fetchApi("/api/mal/anime-list", { expectArray: true }),
     fetchApi("/api/tmdb/rated", { expectArray: true }),
-  ]);
-
-  return {
+  ]).then(([spotify, mal, tmdb]) => ({
     spotify: spotify ?? null,
     mal: mal ?? [],
     tmdb: tmdb ?? [],
-  };
+  }));
+}
+
+/** Resolves when intro-critical assets are ready. APIs and mountain video are deferred. */
+export async function runIntroBootstrap() {
+  const minDelay = new Promise((r) => setTimeout(r, 300));
+  await Promise.all([loadIntroFonts(), minDelay]);
 }

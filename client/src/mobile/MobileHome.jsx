@@ -1,10 +1,12 @@
+import { lazy, Suspense } from "react";
 import IntroPanel from "./IntroPanel";
 import JapanPanel from "./JapanPanel";
 import MexicoCityPanel from "./MexicoCityPanel";
 import CanadaPanel from "./CanadaPanel";
 import ChinaPanel from "./ChinaPanel";
 import ProjectsPanel from "./ProjectsPanel";
-import ExtrasPanel from "./ExtrasPanel";
+
+const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 
 const MobileHome = () => {
   return (
@@ -20,7 +22,9 @@ const MobileHome = () => {
         <ProjectsPanel />
       </div>
       <div className="mt-50">
-        <ExtrasPanel />
+        <Suspense fallback={null}>
+          <ExtrasPanel />
+        </Suspense>
       </div>
     </div>
   );

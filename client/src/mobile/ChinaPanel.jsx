@@ -3,13 +3,13 @@ import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { CHINA_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
-import { warmGalleryRegion } from "../galleryPrefetch";
+import { warmGalleryRegionHead } from "../galleryPrefetch";
 import GalleryCard from "./GalleryCard";
 
 const ChinaPanel = () => {
   const { showChinaGallery, setShowChinaGallery } =
     useContext(GalleryContext);
-  const warmChina = () => warmGalleryRegion("china", CHINA_GALLERY_PHOTOS);
+  const warmChina = () => warmGalleryRegionHead("china", CHINA_GALLERY_PHOTOS);
 
   return (
     <GalleryCard

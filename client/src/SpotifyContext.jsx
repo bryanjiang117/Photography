@@ -33,7 +33,8 @@ export function SpotifyProvider({ children, initialState = null }) {
       }
     }
 
-    poll();
+    // Delay first poll so bootstrap fetch isn't duplicated on intro unlock.
+    timeoutId = setTimeout(poll, POLL_INTERVAL_MS);
     return () => {
       cancelled = true;
       clearTimeout(timeoutId);

@@ -8,6 +8,11 @@ function prefetchLayout() {
 const warmed = new Set();
 const inFlight = new Map();
 
+/** First N photos warmed on panel hover (intent, not full gallery). */
+export const GALLERY_WARM_HEAD_COUNT = 12;
+/** Per-region photos warmed on idle after intro. */
+export const GALLERY_IDLE_PER_REGION = 6;
+
 export { galleryImageUrl };
 
 export function warmGalleryImage(url) {
@@ -69,10 +74,53 @@ export function warmGalleryRegion(region, photos, options = {}) {
   return warmGalleryImages(urls, options);
 }
 
-/** Props for above-the-fold gallery rows (skip lazy-load delay). */
+/** Hover / intent prefetch — first photos only. */
+export function warmGalleryRegionHead(region, photos, options = {}) {
+  const count = options.count ?? GALLERY_WARM_HEAD_COUNT;
+  return warmGalleryRegion(region, photos.slice(0, count), {
+    concurrency: 6,
+    ...options,
+  });
+}
+
+/** After intro, warm a few photos per region when the browser is idle. */
+export function scheduleIdleGalleryWarm() {
+  const run = async () => {
+    const layout = prefetchLayout();
+    const {
+      MEXICO_GALLERY_PHOTOS,
+      CANADA_GALLERY_PHOTOS,
+      CHINA_GALLERY_PHOTOS,
+      JAPAN_GALLERY_PHOTOS,
+    } = await import("./constants/data.js");
+
+    const regions = [
+      ["mexico", MEXICO_GALLERY_PHOTOS],
+      ["canada", CANADA_GALLERY_PHOTOS],
+      ["china", CHINA_GALLERY_PHOTOS],
+      ["japan", JAPAN_GALLERY_PHOTOS],
+    ];
+
+    for (const [region, photos] of regions) {
+      if (!photos.length) continue;
+      await warmGalleryRegion(region, photos.slice(0, GALLERY_IDLE_PER_REGION), {
+        concurrency: 4,
+        layout,
+      });
+    }
+  };
+
+  if (typeof requestIdleCallback !== "undefined") {
+    requestIdleCallback(() => run(), { timeout: 5000 });
+  } else {
+    setTimeout(run, 2500);
+  }
+}
+
+/** Props for gallery images: eager above the fold, lazy + low priority below. */
 export function galleryImgLoadProps(rowIndex, imageIndex = 0) {
-  const priority = rowIndex < 3 && imageIndex < 2;
+  const priority = rowIndex < 4 && imageIndex < 2;
   return priority
     ? { loading: "eager", fetchPriority: "high" }
-    : { loading: "lazy" };
+    : { loading: "lazy", fetchPriority: "low" };
 }

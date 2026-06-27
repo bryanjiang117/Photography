@@ -3,11 +3,11 @@ import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { MEXICO_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
-import { warmGalleryRegion } from "../galleryPrefetch";
+import { warmGalleryRegionHead } from "../galleryPrefetch";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
-  const warmMexico = () => warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS);
+  const warmMexico = () => warmGalleryRegionHead("mexico", MEXICO_GALLERY_PHOTOS);
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">

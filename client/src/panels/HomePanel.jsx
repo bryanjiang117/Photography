@@ -1,13 +1,14 @@
-import { useContext, useEffect, useMemo, useRef } from "react";
+import { lazy, Suspense, useContext, useEffect, useMemo, useRef } from "react";
 import { GalleryContext } from "../GalleryContext";
 
 import IntroPanel from "./IntroPanel";
 import JapanPanel from "./JapanPanel";
 import MexicoCityPanel from "../components/MexicoCityPanel";
-import ExtrasPanel from "./ExtrasPanel";
 import CanadaPanel from "./CanadaPanel";
 import ChinaPanel from "./ChinaPanel";
 import ProjectsPanel from "../components/ProjectsPanel";
+
+const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePanel = () => {
@@ -27,7 +28,11 @@ const HomePanel = () => {
       <ProjectsPanel key="projects" />,
     ];
     if (introReady) {
-      items.push(<ExtrasPanel key="extras" />);
+      items.push(
+        <Suspense key="extras" fallback={null}>
+          <ExtrasPanel />
+        </Suspense>,
+      );
     }
     return items;
   }, [introReady]);

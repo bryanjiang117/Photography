@@ -1,30 +1,43 @@
-import { useContext, useEffect, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   BrowserRouter as Router,
   useLocation,
   Navigate,
 } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
-import HomePage from "./panels/HomePanel";
-import MexicoCityGalleryPage from "./panels/MexicoCityGallery";
-import CanadaGalleryPage from "./panels/CanadaGallery";
-import ChinaGalleryPage from "./panels/ChinaGallery";
-import MobileHome from "./mobile/MobileHome";
-import MobileMexicoCityGallery from "./mobile/MexicoCityGallery";
-import MobileCanadaGallery from "./mobile/CanadaGallery";
-import MobileChinaGallery from "./mobile/ChinaGallery";
-import JapanGalleryPage from "./panels/JapanGallery";
-import MobileJapanGallery from "./mobile/JapanGallery";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
 import { SpotifyProvider } from "./SpotifyContext.jsx";
 import { MalProvider } from "./MalContext.jsx";
 import { TmdbProvider } from "./TmdbContext.jsx";
-import { runIntroBootstrap } from "./introBootstrap";
+import {
+  fetchBootstrapApis,
+  runIntroBootstrap,
+} from "./introBootstrap";
+import { scheduleIdleGalleryWarm } from "./galleryPrefetch";
 import { galleryImageUrl } from "./galleryImages";
 
 import "./App.scss";
 import "./Fonts.scss";
+
+const HomePage = lazy(() => import("./panels/HomePanel"));
+const MobileHome = lazy(() => import("./mobile/MobileHome"));
+const MexicoCityGalleryPage = lazy(() => import("./panels/MexicoCityGallery"));
+const CanadaGalleryPage = lazy(() => import("./panels/CanadaGallery"));
+const ChinaGalleryPage = lazy(() => import("./panels/ChinaGallery"));
+const JapanGalleryPage = lazy(() => import("./panels/JapanGallery"));
+const MobileMexicoCityGallery = lazy(
+  () => import("./mobile/MexicoCityGallery"),
+);
+const MobileCanadaGallery = lazy(() => import("./mobile/CanadaGallery"));
+const MobileChinaGallery = lazy(() => import("./mobile/ChinaGallery"));
+const MobileJapanGallery = lazy(() => import("./mobile/JapanGallery"));
 
 const CRITICAL_IMAGES = [
   galleryImageUrl("japan", "flowers", "md"),
@@ -50,32 +63,46 @@ function AnimatedRoutes() {
 
   return (
     <>
-      {isMobile ? <MobileHome /> : <HomePage />}
+      <Suspense fallback={null}>
+        {isMobile ? <MobileHome /> : <HomePage />}
+      </Suspense>
       <AnimatePresence>
-        {showChinaGallery &&
-          (isMobile ? (
-            <MobileChinaGallery key="china-gallery" />
-          ) : (
-            <ChinaGalleryPage key="china-gallery" />
-          ))}
-        {showMexicoGallery &&
-          (isMobile ? (
-            <MobileMexicoCityGallery key="mexico-gallery" />
-          ) : (
-            <MexicoCityGalleryPage key="mexico-gallery" />
-          ))}
-        {showCanadaGallery &&
-          (isMobile ? (
-            <MobileCanadaGallery key="canada-gallery" />
-          ) : (
-            <CanadaGalleryPage key="canada-gallery" />
-          ))}
-        {showJapanGallery &&
-          (isMobile ? (
-            <MobileJapanGallery key="japan-gallery" />
-          ) : (
-            <JapanGalleryPage key="japan-gallery" />
-          ))}
+        {showChinaGallery && (
+          <Suspense fallback={null}>
+            {isMobile ? (
+              <MobileChinaGallery key="china-gallery" />
+            ) : (
+              <ChinaGalleryPage key="china-gallery" />
+            )}
+          </Suspense>
+        )}
+        {showMexicoGallery && (
+          <Suspense fallback={null}>
+            {isMobile ? (
+              <MobileMexicoCityGallery key="mexico-gallery" />
+            ) : (
+              <MexicoCityGalleryPage key="mexico-gallery" />
+            )}
+          </Suspense>
+        )}
+        {showCanadaGallery && (
+          <Suspense fallback={null}>
+            {isMobile ? (
+              <MobileCanadaGallery key="canada-gallery" />
+            ) : (
+              <CanadaGalleryPage key="canada-gallery" />
+            )}
+          </Suspense>
+        )}
+        {showJapanGallery && (
+          <Suspense fallback={null}>
+            {isMobile ? (
+              <MobileJapanGallery key="japan-gallery" />
+            ) : (
+              <JapanGalleryPage key="japan-gallery" />
+            )}
+          </Suspense>
+        )}
       </AnimatePresence>
     </>
   );
@@ -104,12 +131,14 @@ function App() {
       img.src = src;
     });
 
+    const apis = fetchBootstrapApis();
+    apis.then((data) => setBootstrap(data));
+
     let revealTimer;
     let cancelled = false;
 
-    runIntroBootstrap().then((data) => {
+    runIntroBootstrap().then(() => {
       if (cancelled) return;
-      setBootstrap(data);
 
       const squares = document.querySelectorAll("[data-intro-square]");
       const visible = Array.from(squares).find((el) => {
@@ -142,6 +171,11 @@ function App() {
 
   const isRevealing = phase === "revealing";
   const isDone = phase === "done";
+
+  useEffect(() => {
+    if (!isDone) return;
+    scheduleIdleGalleryWarm();
+  }, [isDone]);
 
   return (
     <GalleryContext.Provider

@@ -8,10 +8,12 @@ import {
   galleryImgLoadProps,
   warmGalleryRegion,
 } from "../galleryPrefetch";
+import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 
 export default function MexicoCityGallery() {
   const { setShowMexicoGallery } = useContext(GalleryContext);
   const [activeImage, setActiveImage] = useState(null);
+  const scrollRef = useGalleryScrollWarm();
 
   useEffect(() => {
     warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS, { concurrency: 10 });
@@ -41,7 +43,10 @@ export default function MexicoCityGallery() {
       </motion.div>
 
       {/* Horizontal scroll gallery */}
-      <div className="flex flex-1 min-h-0 flex-row items-stretch gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide">
+      <div
+        ref={scrollRef}
+        className="flex flex-1 min-h-0 flex-row items-stretch gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide"
+      >
         {MEXICO_GALLERY_PHOTOS.map((photo, i) => (
           <GalleryImage
             key={photo.name}

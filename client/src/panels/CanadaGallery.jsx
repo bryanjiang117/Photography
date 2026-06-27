@@ -3,10 +3,12 @@ import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { CANADA_GALLERY_PHOTOS, CANADA_ITEMS as ITEMS } from "../constants/data";
 import GalleryGrid from "../components/GalleryGrid";
+import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 
 export default function CanadaGallery() {
   const { setShowCanadaGallery } = useContext(GalleryContext);
+  const scrollRef = useGalleryScrollWarm();
 
   useEffect(() => {
     warmGalleryRegion("canada", CANADA_GALLERY_PHOTOS, { concurrency: 10 });
@@ -55,7 +57,10 @@ export default function CanadaGallery() {
       </div>
 
       {/* Scrollable photo column */}
-      <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide">
+      <div
+        ref={scrollRef}
+        className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide"
+      >
         <GalleryGrid region="canada" items={ITEMS} />
       </div>
 

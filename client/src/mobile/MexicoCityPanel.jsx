@@ -3,13 +3,13 @@ import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { MEXICO_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
-import { warmGalleryRegion } from "../galleryPrefetch";
+import { warmGalleryRegionHead } from "../galleryPrefetch";
 import GalleryCard from "./GalleryCard";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } =
     useContext(GalleryContext);
-  const warmMexico = () => warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS);
+  const warmMexico = () => warmGalleryRegionHead("mexico", MEXICO_GALLERY_PHOTOS);
 
   return (
     <GalleryCard

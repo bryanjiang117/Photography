@@ -3,12 +3,12 @@ import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { JAPAN_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
-import { warmGalleryRegion } from "../galleryPrefetch";
+import { warmGalleryRegionHead } from "../galleryPrefetch";
 
 const JapanPanel = () => {
   const { showJapanGallery, setShowJapanGallery } =
     useContext(GalleryContext);
-  const warmJapan = () => warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS);
+  const warmJapan = () => warmGalleryRegionHead("japan", JAPAN_GALLERY_PHOTOS);
 
   return (
     <div className="shrink-0 h-screen min-h-[800px] w-[95vw] min-w-[1235px] flex gap-5 p-4 px-40">
