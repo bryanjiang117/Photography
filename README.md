@@ -94,7 +94,7 @@ cd client && npm run build && npm run preview
 
 ## Gallery workflow
 
-Photos live in `client/public/assets/photos/{mexico,canada,japan}/`.
+Photos live in `client/public/assets/photos/{mexico,canada,china,japan}/`.
 
 | File | Longest side |
 |------|----------------|
