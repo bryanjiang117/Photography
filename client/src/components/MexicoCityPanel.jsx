@@ -4,10 +4,14 @@ import { GalleryContext } from "../GalleryContext";
 import { MEXICO_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
 import { warmGalleryRegionHead } from "../galleryPrefetch";
+import { prefetchGalleryChunk } from "../galleryChunkPrefetch";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
-  const warmMexico = () => warmGalleryRegionHead("mexico", MEXICO_GALLERY_PHOTOS);
+  const warmMexico = () => {
+    prefetchGalleryChunk("mexico");
+    warmGalleryRegionHead("mexico", MEXICO_GALLERY_PHOTOS);
+  };
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">

@@ -10,7 +10,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { useIsMobile } from "./hooks/useIsMobile";
 import { GalleryContext } from "./GalleryContext";
 import { SpotifyProvider } from "./SpotifyContext.jsx";
@@ -21,23 +21,15 @@ import {
   runIntroBootstrap,
 } from "./introBootstrap";
 import { scheduleIdleGalleryWarm } from "./galleryPrefetch";
+import { scheduleGalleryChunkPrefetch } from "./galleryChunkPrefetch";
 import { galleryImageUrl } from "./galleryImages";
+import GallerySlot from "./GallerySlot";
 
 import "./App.scss";
 import "./Fonts.scss";
 
 const HomePage = lazy(() => import("./panels/HomePanel"));
 const MobileHome = lazy(() => import("./mobile/MobileHome"));
-const MexicoCityGalleryPage = lazy(() => import("./panels/MexicoCityGallery"));
-const CanadaGalleryPage = lazy(() => import("./panels/CanadaGallery"));
-const ChinaGalleryPage = lazy(() => import("./panels/ChinaGallery"));
-const JapanGalleryPage = lazy(() => import("./panels/JapanGallery"));
-const MobileMexicoCityGallery = lazy(
-  () => import("./mobile/MexicoCityGallery"),
-);
-const MobileCanadaGallery = lazy(() => import("./mobile/CanadaGallery"));
-const MobileChinaGallery = lazy(() => import("./mobile/ChinaGallery"));
-const MobileJapanGallery = lazy(() => import("./mobile/JapanGallery"));
 
 const CRITICAL_IMAGES = [
   galleryImageUrl("japan", "flowers", "md"),
@@ -66,44 +58,26 @@ function AnimatedRoutes() {
       <Suspense fallback={null}>
         {isMobile ? <MobileHome /> : <HomePage />}
       </Suspense>
-      <AnimatePresence>
-        {showChinaGallery && (
-          <Suspense fallback={null}>
-            {isMobile ? (
-              <MobileChinaGallery key="china-gallery" />
-            ) : (
-              <ChinaGalleryPage key="china-gallery" />
-            )}
-          </Suspense>
-        )}
-        {showMexicoGallery && (
-          <Suspense fallback={null}>
-            {isMobile ? (
-              <MobileMexicoCityGallery key="mexico-gallery" />
-            ) : (
-              <MexicoCityGalleryPage key="mexico-gallery" />
-            )}
-          </Suspense>
-        )}
-        {showCanadaGallery && (
-          <Suspense fallback={null}>
-            {isMobile ? (
-              <MobileCanadaGallery key="canada-gallery" />
-            ) : (
-              <CanadaGalleryPage key="canada-gallery" />
-            )}
-          </Suspense>
-        )}
-        {showJapanGallery && (
-          <Suspense fallback={null}>
-            {isMobile ? (
-              <MobileJapanGallery key="japan-gallery" />
-            ) : (
-              <JapanGalleryPage key="japan-gallery" />
-            )}
-          </Suspense>
-        )}
-      </AnimatePresence>
+      <GallerySlot
+        show={showChinaGallery}
+        region="china"
+        isMobile={isMobile}
+      />
+      <GallerySlot
+        show={showMexicoGallery}
+        region="mexico"
+        isMobile={isMobile}
+      />
+      <GallerySlot
+        show={showCanadaGallery}
+        region="canada"
+        isMobile={isMobile}
+      />
+      <GallerySlot
+        show={showJapanGallery}
+        region="japan"
+        isMobile={isMobile}
+      />
     </>
   );
 }
@@ -174,6 +148,7 @@ function App() {
 
   useEffect(() => {
     if (!isDone) return;
+    scheduleGalleryChunkPrefetch();
     scheduleIdleGalleryWarm();
   }, [isDone]);
 

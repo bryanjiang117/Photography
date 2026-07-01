@@ -6,8 +6,9 @@ import GalleryImage from "../components/GalleryImage";
 import { galleryImageUrl } from "../galleryImages";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { galleryImgLoadProps, warmGalleryRegion } from "../galleryPrefetch";
+import { gallerySlideMotion } from "../galleryMotion";
 
-export default function ChinaGallery() {
+export default function ChinaGallery({ entrance = true }) {
   const { setShowChinaGallery } = useContext(GalleryContext);
   const [activeImage, setActiveImage] = useState(null);
   const scrollRef = useGalleryScrollWarm();
@@ -21,10 +22,7 @@ export default function ChinaGallery() {
 
   return (
     <motion.div
-      initial={{ x: "100vw" }}
-      animate={{ x: 0 }}
-      exit={{ x: "100vw" }}
-      transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+      {...gallerySlideMotion(entrance, "x")}
       className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-china-primary"
     >
       {/* Title */}

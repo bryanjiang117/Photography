@@ -5,8 +5,9 @@ import { MEXICO_GALLERY_PHOTOS, MEXICO_ITEMS as ITEMS } from "../constants/data"
 import GalleryGrid from "../components/GalleryGrid";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
+import { gallerySlideMotion } from "../galleryMotion";
 
-export default function MexicoCityGallery() {
+export default function MexicoCityGallery({ entrance = true }) {
   const { setShowMexicoGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
 
@@ -16,10 +17,7 @@ export default function MexicoCityGallery() {
 
   return (
     <motion.div
-      initial={{ y: "100vh" }}
-      animate={{ y: 0 }}
-      exit={{ y: "100vh" }}
-      transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+      {...gallerySlideMotion(entrance, "y")}
       className="fixed inset-0 z-50 flex overflow-hidden bg-mexico-primary min-w-[1200px] min-h-[800px]"
     >
       {/* Left column: title + back button */}

@@ -1,16 +1,14 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { gallerySlideMotion } from "../galleryMotion";
 
-export default function JapanGallery() {
+export default function JapanGallery({ entrance = true }) {
   const { setShowJapanGallery } = useContext(GalleryContext);
 
   return (
     <motion.div
-      initial={{ x: "100vw" }}
-      animate={{ x: 0 }}
-      exit={{ x: "100vw" }}
-      transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+      {...gallerySlideMotion(entrance, "x")}
       className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-japan-primary"
     >
       {/* Title */}

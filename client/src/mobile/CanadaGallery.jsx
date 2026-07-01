@@ -9,8 +9,9 @@ import {
   warmGalleryRegion,
 } from "../galleryPrefetch";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
+import { gallerySlideMotion } from "../galleryMotion";
 
-export default function CanadaGallery() {
+export default function CanadaGallery({ entrance = true }) {
   const { setShowCanadaGallery } = useContext(GalleryContext);
   const [activeImage, setActiveImage] = useState(null);
   const scrollRef = useGalleryScrollWarm();
@@ -21,10 +22,7 @@ export default function CanadaGallery() {
 
   return (
     <motion.div
-      initial={{ x: "100vw" }}
-      animate={{ x: 0 }}
-      exit={{ x: "100vw" }}
-      transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+      {...gallerySlideMotion(entrance, "x")}
       className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-canada-primary"
     >
       {/* Title */}

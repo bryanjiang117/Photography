@@ -4,12 +4,16 @@ import { GalleryContext } from "../GalleryContext";
 import { CHINA_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
 import { warmGalleryRegionHead } from "../galleryPrefetch";
+import { prefetchGalleryChunk } from "../galleryChunkPrefetch";
 import GalleryCard from "./GalleryCard";
 
 const ChinaPanel = () => {
   const { showChinaGallery, setShowChinaGallery } =
     useContext(GalleryContext);
-  const warmChina = () => warmGalleryRegionHead("china", CHINA_GALLERY_PHOTOS);
+  const warmChina = () => {
+    prefetchGalleryChunk("china");
+    warmGalleryRegionHead("china", CHINA_GALLERY_PHOTOS);
+  };
 
   return (
     <GalleryCard

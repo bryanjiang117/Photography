@@ -4,10 +4,14 @@ import { GalleryContext } from "../GalleryContext";
 import { CHINA_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
 import { warmGalleryRegionHead } from "../galleryPrefetch";
+import { prefetchGalleryChunk } from "../galleryChunkPrefetch";
 
 const ChinaPanel = () => {
   const { showChinaGallery, setShowChinaGallery } = useContext(GalleryContext);
-  const warmChina = () => warmGalleryRegionHead("china", CHINA_GALLERY_PHOTOS);
+  const warmChina = () => {
+    prefetchGalleryChunk("china");
+    warmGalleryRegionHead("china", CHINA_GALLERY_PHOTOS);
+  };
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-20 mx-20 pb-0">

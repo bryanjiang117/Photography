@@ -13,5 +13,6 @@
   /* --color-china-primary: rgb(110, 110, 100); */
   --color-china-primary: rgb(22, 22, 20);
   --color-china-text: rgb(65, 65, 58);
-  --color-china-text-small: rgba(100, 100, 95);
+  --color-china-text-small: rgba(120, 120, 110);
+  --color-china-text-small-hovered: rgba(160, 160, 140);
 }
