@@ -15,7 +15,7 @@ export default function ChinaGallery({ entrance = true }) {
 
   useEffect(() => {
     warmGalleryRegion("china", CHINA_GALLERY_PHOTOS, {
-      concurrency: 10,
+      concurrency: 5,
       layout: "mobile",
     });
   }, []);

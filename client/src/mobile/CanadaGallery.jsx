@@ -17,7 +17,7 @@ export default function CanadaGallery({ entrance = true }) {
   const scrollRef = useGalleryScrollWarm();
 
   useEffect(() => {
-    warmGalleryRegion("canada", CANADA_GALLERY_PHOTOS, { concurrency: 10 });
+    warmGalleryRegion("canada", CANADA_GALLERY_PHOTOS, { concurrency: 5 });
   }, []);
 
   return (

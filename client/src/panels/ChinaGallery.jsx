@@ -12,7 +12,7 @@ export default function ChinaGallery({ entrance = true }) {
   const scrollRef = useGalleryScrollWarm();
 
   useEffect(() => {
-    warmGalleryRegion("china", CHINA_GALLERY_PHOTOS, { concurrency: 10 });
+    warmGalleryRegion("china", CHINA_GALLERY_PHOTOS, { concurrency: 5 });
   }, []);
 
   return (

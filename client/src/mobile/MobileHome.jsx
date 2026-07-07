@@ -14,9 +14,9 @@ const MobileHome = () => {
       <IntroPanel />
       <div className="flex flex-col gap-8">
         <ChinaPanel />
+        <JapanPanel />
         <MexicoCityPanel />
         <CanadaPanel />
-        <JapanPanel />
       </div>
       <div className="mt-38">
         <ProjectsPanel />

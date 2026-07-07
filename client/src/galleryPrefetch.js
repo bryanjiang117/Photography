@@ -1,17 +1,25 @@
 import { galleryImageUrl, galleryPrefetchUrl } from "./galleryImages";
+import { loadGalleryChunk } from "./galleryChunkPrefetch";
 
 function prefetchLayout() {
   if (typeof window === "undefined") return "grid";
   return window.matchMedia("(max-width: 768px)").matches ? "mobile" : "grid";
 }
 
+/** Order galleries are prefetched in (matches home panel order — China first). */
+const PREFETCH_ORDER = ["china", "japan", "mexico", "canada"];
+/** Export name in constants/data.js for each region's flattened photo list. */
+const REGION_PHOTOS_EXPORT = {
+  china: "CHINA_GALLERY_PHOTOS",
+  japan: "JAPAN_GALLERY_PHOTOS",
+  mexico: "MEXICO_GALLERY_PHOTOS",
+  canada: "CANADA_GALLERY_PHOTOS",
+};
+/** Photos prefetched in the fast first pass, per gallery. */
+const PREFETCH_HEAD_COUNT = 10;
+
 const warmed = new Set();
 const inFlight = new Map();
-
-/** First N photos warmed on panel hover (intent, not full gallery). */
-export const GALLERY_WARM_HEAD_COUNT = 12;
-/** Per-region photos warmed on idle after intro. */
-export const GALLERY_IDLE_PER_REGION = 6;
 
 export { galleryImageUrl };
 
@@ -74,36 +82,37 @@ export function warmGalleryRegion(region, photos, options = {}) {
   return warmGalleryImages(urls, options);
 }
 
-/** Hover / intent prefetch — first photos only. */
-export function warmGalleryRegionHead(region, photos, options = {}) {
-  const count = options.count ?? GALLERY_WARM_HEAD_COUNT;
-  return warmGalleryRegion(region, photos.slice(0, count), {
-    concurrency: 6,
-    ...options,
-  });
-}
-
-/** After intro, warm a few photos per region when the browser is idle. */
-export function scheduleIdleGalleryWarm() {
+/**
+ * Passive prefetch after intro (no hover needed):
+ *   Phase 1 — first N images + JS chunk for every gallery, in PREFETCH_ORDER.
+ *   Phase 2 — the remaining images for every gallery, in PREFETCH_ORDER.
+ */
+export function scheduleGalleryPrefetch() {
   const run = async () => {
     const layout = prefetchLayout();
-    const {
-      MEXICO_GALLERY_PHOTOS,
-      CANADA_GALLERY_PHOTOS,
-      CHINA_GALLERY_PHOTOS,
-      JAPAN_GALLERY_PHOTOS,
-    } = await import("./constants/data.js");
+    const isMobile = layout === "mobile";
+    const data = await import("./constants/data.js");
 
-    const regions = [
-      ["mexico", MEXICO_GALLERY_PHOTOS],
-      ["canada", CANADA_GALLERY_PHOTOS],
-      ["china", CHINA_GALLERY_PHOTOS],
-      ["japan", JAPAN_GALLERY_PHOTOS],
-    ];
+    const regions = PREFETCH_ORDER.map((region) => [
+      region,
+      data[REGION_PHOTOS_EXPORT[region]] ?? [],
+    ]);
 
+    // Phase 1: heads + chunks, one gallery at a time.
     for (const [region, photos] of regions) {
-      if (!photos.length) continue;
-      await warmGalleryRegion(region, photos.slice(0, GALLERY_IDLE_PER_REGION), {
+      await Promise.all([
+        loadGalleryChunk(region, isMobile),
+        warmGalleryRegion(region, photos.slice(0, PREFETCH_HEAD_COUNT), {
+          concurrency: 6,
+          layout,
+        }),
+      ]);
+    }
+
+    // Phase 2: the rest of each gallery's images.
+    for (const [region, photos] of regions) {
+      if (photos.length <= PREFETCH_HEAD_COUNT) continue;
+      await warmGalleryRegion(region, photos.slice(PREFETCH_HEAD_COUNT), {
         concurrency: 4,
         layout,
       });

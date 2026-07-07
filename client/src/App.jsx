@@ -20,8 +20,7 @@ import {
   fetchBootstrapApis,
   runIntroBootstrap,
 } from "./introBootstrap";
-import { scheduleIdleGalleryWarm } from "./galleryPrefetch";
-import { scheduleGalleryChunkPrefetch } from "./galleryChunkPrefetch";
+import { scheduleGalleryPrefetch } from "./galleryPrefetch";
 import { galleryImageUrl } from "./galleryImages";
 import GallerySlot from "./GallerySlot";
 
@@ -148,8 +147,7 @@ function App() {
 
   useEffect(() => {
     if (!isDone) return;
-    scheduleGalleryChunkPrefetch();
-    scheduleIdleGalleryWarm();
+    scheduleGalleryPrefetch();
   }, [isDone]);
 
   return (

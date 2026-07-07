@@ -17,7 +17,7 @@ export default function MexicoCityGallery({ entrance = true }) {
   const scrollRef = useGalleryScrollWarm();
 
   useEffect(() => {
-    warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS, { concurrency: 10 });
+    warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS, { concurrency: 5 });
   }, []);
 
   return (

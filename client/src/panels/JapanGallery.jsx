@@ -13,7 +13,7 @@ export default function JapanGallery({ entrance = true }) {
 
   useEffect(() => {
     if (JAPAN_GALLERY_PHOTOS.length > 0) {
-      warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS, { concurrency: 10 });
+      warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS, { concurrency: 5 });
     }
   }, []);
   return (

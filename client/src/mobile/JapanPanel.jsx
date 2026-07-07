@@ -1,19 +1,12 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { JAPAN_GALLERY_PHOTOS } from "../constants/data";
 import { galleryImageUrl } from "../galleryImages";
-import { warmGalleryRegionHead } from "../galleryPrefetch";
-import { prefetchGalleryChunk } from "../galleryChunkPrefetch";
 import GalleryCard from "./GalleryCard";
 
 const JapanPanel = () => {
   const { showJapanGallery, setShowJapanGallery } =
     useContext(GalleryContext);
-  const warmJapan = () => {
-    prefetchGalleryChunk("japan");
-    warmGalleryRegionHead("japan", JAPAN_GALLERY_PHOTOS);
-  };
 
   return (
     <GalleryCard
@@ -34,7 +27,6 @@ const JapanPanel = () => {
       title="日本"
       titleLang="jp"
       subtitle="Japan"
-      onMouseEnter={warmJapan}
       onClick={() => setShowJapanGallery(true)}
     />
   );
