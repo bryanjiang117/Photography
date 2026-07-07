@@ -67,7 +67,7 @@ export default function ChinaGallery({ entrance = true }) {
       >
         <button
           onClick={() => setShowChinaGallery(false)}
-          className="flex items-center gap-2 text-white cursor-pointer transition-colors duration-200 p-3 -m-3"
+          className="flex items-center gap-2 text-china-text-small cursor-pointer transition-colors duration-200 hover:text-china-text-small-hovered p-3 -m-3"
         >
           <span className="text-lg leading-none">←</span>
           <span className="bodoni-small text-xs tracking-[0.25em] leading-none">

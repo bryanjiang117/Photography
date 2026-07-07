@@ -45,7 +45,7 @@ export default function ChinaGallery({ entrance = true }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
           onClick={() => setShowChinaGallery(false)}
-          className="flex items-center gap-2 cursor-pointer transition-colors duration-200 p-3 -m-3"
+          className="flex items-center gap-2 cursor-pointer transition-colors duration-200 hover:text-china-text-small-hovered p-3 -m-3"
         >
           <span className="text-lg leading-none">←</span>
           <span className="bodoni-small text-sm tracking-[0.25em] leading-none">

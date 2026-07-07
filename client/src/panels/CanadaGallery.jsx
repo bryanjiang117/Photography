@@ -45,10 +45,10 @@ export default function CanadaGallery({ entrance = true }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
           onClick={() => setShowCanadaGallery(false)}
-          className="flex items-center gap-2 cursor-pointer transition-colors duration-200 p-3 -m-3"
+          className="flex items-center gap-2 text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200 p-3 -m-3"
         >
           <span className="text-lg leading-none">←</span>
-          <span className="bodoni-small text-sm tracking-[0.25em] leading-none">
+          <span className="bodoni-small text-xs tracking-[0.25em] leading-none">
             BACK
           </span>
         </motion.button>
