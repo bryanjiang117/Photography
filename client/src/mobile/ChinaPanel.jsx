@@ -14,7 +14,7 @@ const ChinaPanel = () => {
       image={
         <motion.img
           src={galleryImageUrl("china", "temple", "md")}
-          className="absolute top-1/5 right-1/6 max-w-1/5 max-h-1/4 object-cover text-black cursor-pointer"
+          className="absolute top-0 right-0 h-full object-cover text-black cursor-pointer"
           animate={
             showChinaGallery
               ? { clipPath: "inset(0 0 0 100%)" }

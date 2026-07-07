@@ -33,14 +33,14 @@ const JapanPanel = () => {
               日本
             </div>
             <span
-              className="mt-6 w-fit [writing-mode:vertical-rl] text-xl font-tsm tracking-[2rem]"
+              className="mt-6 -translate-x-4 w-fit [writing-mode:vertical-rl] bodoni-small text-sm"
               lang="jp"
               translate="no"
             >
-              にほん
+              Japan
             </span>
           </div>
-          <div className="flex justify-center items-end w-full flex-1 h-full min-w-0">
+          <div className="flex justify-center items-start w-full flex-1 h-full min-w-0">
             <div className="flex gap-5 w-fit text-md -translate-x-1/2 px-2 bg-japan-accent [writing-mode:vertical-rl]">
               <span className="bodoni-small leading-none">photography</span>
               <span translate="no">‧</span>
