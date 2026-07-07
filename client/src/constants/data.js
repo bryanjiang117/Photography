@@ -14,7 +14,7 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 // One column with one image → rendered full-width across the scroll area.
 //
 // size — max AVIF tier for the row: "sm" | "md" | "full"
-//   Omitted → "full" for a lone full-width image, "sm" for 3+ columns, else "md"
+//   Omitted → "full" for a lone full-width image, "sm" for 4+ columns, else "md"
 //   Files: name-sm.avif (800px longest side), name-md.avif (1400px longest side), name.avif (full)
 //   After adding/replacing name.avif:  cd client && npm run photos:variants
 //
@@ -134,9 +134,12 @@ export const MEXICO_GALLERY_PHOTOS = flattenGalleryItems(MEXICO_ITEMS);
 export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 
 export const CHINA_ITEMS = [
-  { columns: [["rafts"]],},
+  { columns: [["rafts"]] },
   {
-    columns: [["gardener", "flying", "truck"], ["mountain-scene"]],
+    columns: [
+      ["gardener", "flying", "truck"],
+      [{ name: "mountain-scene", size: "full" }],
+    ],
     flex: [23, 60],
   },
   // { columns: [["two-dudes"], [""]], size: "full", flex: [4,1] },
@@ -145,13 +148,17 @@ export const CHINA_ITEMS = [
     flex: [1, 2, 2],
   },
   {
-    columns: [["chess-table"], ["stick-gramps"], ["park-gramps"]],
+    columns: [
+      [{ name: "chess-table", size: "full" }],
+      ["stick-gramps"],
+      ["park-gramps"],
+    ],
     flex: [4, 1, 1],
   },
   { columns: [["meituan-trio"]] },
   {
     columns: [
-      ["building-ac"],
+      [{ name: "building-ac", size: "full" }],
       [
         "window-gramps",
         "mahjong",
@@ -161,13 +168,15 @@ export const CHINA_ITEMS = [
       ],
     ],
     flex: [20, 11],
+    size: "sm",
   },
   {
     columns: [
       [["thinking-cards"], ["auntie-dance"], ["smoking"], ["robot-dog"]],
-      ["card-uncs"],
+      [{ name: "card-uncs", size: "full" }],
     ],
     flex: [11, 20],
+    size: "sm",
   },
   // {
   //   columns: [["mother-son"], ["cabbage-auntie"], ["frenchie"]],
@@ -184,14 +193,14 @@ export const CHINA_ITEMS = [
     flex: [1, 2],
   },
   // { columns: [["robot-dog"], ["smoking"], ["auntie-dance"]], size: "full" },
-  { columns: [["rainy-chongqing"]]},
+  { columns: [["rainy-chongqing"]] },
   {
     columns: [["hotpot"], ["lanterns-alley"]],
     flex: [2, 1],
   },
-  { columns: [["chongqing-flipped"]]},
-  { columns: [["fire"], ["farmlands"], ["poles-in-farm"]]},
-  { columns: [["posing"]]},
+  { columns: [["chongqing-flipped"]] },
+  { columns: [["fire"], ["farmlands"], ["poles-in-farm"]] },
+  { columns: [["posing"]] },
   {
     columns: [["flower-mountain"], ["rice-fields"], ["girthy-mountain"]],
     flex: [1, 2, 1],

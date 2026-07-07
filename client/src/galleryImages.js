@@ -74,7 +74,7 @@ export function parseImageEntry(entry, rowSize) {
   return null;
 }
 
-/** Row default when `size` is omitted: lone full-width → full, 3+ columns → sm, else md. */
+/** Row default when `size` is omitted: lone full-width → full, 4+ columns → sm, else md. */
 export function rowDefaultSize(row) {
   if (row.size) return row.size;
   if (
@@ -84,7 +84,7 @@ export function rowDefaultSize(row) {
   ) {
     return "full";
   }
-  if (row.columns.length >= 3) return "sm";
+  if (row.columns.length >= 4) return "sm";
   return "md";
 }
 
