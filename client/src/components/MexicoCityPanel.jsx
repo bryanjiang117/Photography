@@ -4,7 +4,8 @@ import { GalleryContext } from "../GalleryContext";
 import { galleryImageUrl } from "../galleryImages";
 
 const MexicoCityPanel = () => {
-  const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
+  const { showMexicoGallery, setShowMexicoGallery } =
+    useContext(GalleryContext);
 
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">
@@ -14,9 +15,11 @@ const MexicoCityPanel = () => {
             src={galleryImageUrl("mexico", "orange-wall", "md")}
             loading="lazy"
             className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
-            animate={showMexicoGallery
-              ? { clipPath: "inset(0 0 100% 0)" }
-              : { clipPath: "inset(0 0 0% 0)" }}
+            animate={
+              showMexicoGallery
+                ? { clipPath: "inset(0 0 100% 0)" }
+                : { clipPath: "inset(0 0 0% 0)" }
+            }
             transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
             onClick={() => setShowMexicoGallery(true)}
           />
@@ -44,16 +47,21 @@ const MexicoCityPanel = () => {
 
       {/* Gallery trigger */}
       <div
-        className="absolute bottom-6 right-[calc(15%+1rem)] z-10 flex flex-col items-end gap-1.5 cursor-pointer select-none"
+        className="absolute bottom-6 right-40 z-10 flex flex-col items-end gap-1.5 cursor-pointer select-none"
         onClick={() => setShowMexicoGallery(true)}
       >
         <span className="bodoni-small text-sm uppercase tracking-[0.3em] whitespace-nowrap opacity-80 leading-none">
-      VIEW GALLERY
+          VIEW GALLERY
         </span>
         <motion.div
           className="w-full h-px bg-gray-900 origin-left opacity-30"
           animate={{ scaleX: [0, 1, 1, 0], originX: [0, 0, 1, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: [0.4, 0, 0.2, 1], times: [0, 0.4, 0.5, 0.9] }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: [0.4, 0, 0.2, 1],
+            times: [0, 0.4, 0.5, 0.9],
+          }}
         />
       </div>
     </div>

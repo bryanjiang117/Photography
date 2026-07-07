@@ -4,8 +4,7 @@ import { GalleryContext } from "../GalleryContext";
 import { galleryImageUrl } from "../galleryImages";
 
 const JapanPanel = () => {
-  const { showJapanGallery, setShowJapanGallery } =
-    useContext(GalleryContext);
+  const { showJapanGallery, setShowJapanGallery } = useContext(GalleryContext);
 
   return (
     <div className="shrink-0 h-screen min-h-[800px] w-[95vw] min-w-[1235px] flex gap-5 p-4 px-40">
@@ -23,7 +22,7 @@ const JapanPanel = () => {
           onClick={() => setShowJapanGallery(true)}
         />
       </section>
-      <section className="mb-20 min-w-fit">
+      <section className="mb-10 min-w-fit">
         <div className="flex flex-col gap-20 w-fit h-full">
           <div className="flex">
             <div
@@ -60,7 +59,12 @@ const JapanPanel = () => {
             <motion.div
               className="w-full h-px bg-gray-900 origin-left opacity-30"
               animate={{ scaleX: [0, 1, 1, 0], originX: [0, 0, 1, 1] }}
-              transition={{ duration: 4, repeat: Infinity, ease: [0.4, 0, 0.2, 1], times: [0, 0.4, 0.5, 0.9] }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: [0.4, 0, 0.2, 1],
+                times: [0, 0.4, 0.5, 0.9],
+              }}
             />
           </div>
         </div>
