@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import PanelPreviewImage from "../components/PanelPreviewImage";
+import { galleryImageUrl } from "../galleryImages";
 
 const JapanPanel = () => {
   const { showJapanGallery, setShowJapanGallery } =
@@ -10,11 +10,16 @@ const JapanPanel = () => {
   return (
     <div className="shrink-0 h-screen min-h-[800px] w-[95vw] min-w-[1235px] flex gap-5 p-4 px-40">
       <section className="relative flex-1 mb-10 mr-4 bg-japan-primary">
-        <PanelPreviewImage
-          region="japan"
-          name="flowers"
+        <motion.img
+          src={galleryImageUrl("japan", "flowers", "md")}
+          loading="lazy"
           className="absolute top-4 left-16 max-w-3/10 max-h-8/10 cursor-pointer"
-          showGallery={showJapanGallery}
+          animate={
+            showJapanGallery
+              ? { clipPath: "inset(0 0 100% 0)" }
+              : { clipPath: "inset(0 0 0% 0)" }
+          }
+          transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
           onClick={() => setShowJapanGallery(true)}
         />
       </section>

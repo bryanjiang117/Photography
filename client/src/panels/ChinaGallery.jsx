@@ -59,7 +59,13 @@ export default function ChinaGallery({ entrance = true }) {
         ref={scrollRef}
         className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide"
       >
-        <GalleryGrid region="china" items={ITEMS} />
+        <GalleryGrid
+          region="china"
+          items={ITEMS}
+          virtualize
+          scrollRootRef={scrollRef}
+          overscan="300%"
+        />
       </div>
 
       {/* Right column: photography label */}

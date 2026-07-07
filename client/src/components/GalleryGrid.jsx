@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import GalleryImage from "./GalleryImage";
+import VirtualGalleryRow from "./VirtualGalleryRow";
 import { parseImageEntry, rowDefaultSize } from "../galleryImages";
 import { galleryImgLoadProps } from "../galleryPrefetch";
 
@@ -11,27 +13,47 @@ import { galleryImgLoadProps } from "../galleryPrefetch";
  *     flex?: number[];
  *     fit?: string;
  *   }>;
+ *   virtualize?: boolean;
+ *   scrollRootRef?: React.RefObject<HTMLElement>;
+ *   overscan?: string;
  * }} props
  */
-export default function GalleryGrid({ region, items }) {
+export default function GalleryGrid({
+  region,
+  items,
+  virtualize = false,
+  scrollRootRef,
+  overscan,
+}) {
+  // When virtualized, VirtualGalleryRow already gates mounting to near the
+  // viewport (via overscan), so mounted rows should fetch/decode immediately
+  // instead of deferring with native lazy loading.
+  const loadPropsFor = (rowIndex, imageIndex) => {
+    const props = galleryImgLoadProps(rowIndex, imageIndex);
+    return virtualize ? { ...props, loading: "eager" } : props;
+  };
+
   return items.map((row, i) => {
     const isFull =
       row.columns.length === 1 &&
       row.columns[0].length === 1 &&
       parseImageEntry(row.columns[0][0], rowDefaultSize(row));
 
-    return isFull ? (
+    const key = isFull
+      ? parseImageEntry(row.columns[0][0], rowDefaultSize(row)).name
+      : i;
+
+    const content = isFull ? (
       <GalleryImage
-        key={parseImageEntry(row.columns[0][0], rowDefaultSize(row)).name}
         region={region}
         entry={row.columns[0][0]}
         row={row}
         layout="full"
-        loadProps={galleryImgLoadProps(i)}
+        loadProps={loadPropsFor(i)}
         wrapperClassName="w-full shrink-0"
       />
     ) : (
-      <div key={i} className="w-full shrink-0 flex gap-4">
+      <div className="w-full shrink-0 flex gap-4">
         {row.columns.map((col, j) => {
           const colClass = row.flex ? "min-w-0" : "flex-1 min-w-0";
           const colStyle = row.flex
@@ -50,7 +72,7 @@ export default function GalleryGrid({ region, items }) {
                 entry={col[0]}
                 row={row}
                 layout="grid"
-                loadProps={galleryImgLoadProps(i, j)}
+                loadProps={loadPropsFor(i, j)}
                 onLoad={
                   row.fit === "contain"
                     ? (e) => {
@@ -77,14 +99,13 @@ export default function GalleryGrid({ region, items }) {
                       {entry.map((img) => (
                         <GalleryImage
                           key={
-                            parseImageEntry(img, rowDefaultSize(row))?.name ??
-                            k
+                            parseImageEntry(img, rowDefaultSize(row))?.name ?? k
                           }
                           region={region}
                           entry={img}
                           row={row}
                           layout="grid"
-                          loadProps={galleryImgLoadProps(i, k)}
+                          loadProps={loadPropsFor(i, k)}
                           wrapperClassName="flex-1 min-w-0"
                           className="object-cover"
                         />
@@ -100,7 +121,7 @@ export default function GalleryGrid({ region, items }) {
                     entry={entry}
                     row={row}
                     layout="grid"
-                    loadProps={galleryImgLoadProps(i, k)}
+                    loadProps={loadPropsFor(i, k)}
                     wrapperClassName="w-full"
                     className="object-cover"
                   />
@@ -110,6 +131,14 @@ export default function GalleryGrid({ region, items }) {
           );
         })}
       </div>
+    );
+
+    return virtualize ? (
+      <VirtualGalleryRow key={key} rootRef={scrollRootRef} overscan={overscan}>
+        {content}
+      </VirtualGalleryRow>
+    ) : (
+      <Fragment key={key}>{content}</Fragment>
     );
   });
 }
