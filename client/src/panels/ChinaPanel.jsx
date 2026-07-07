@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { galleryImageUrl } from "../galleryImages";
+import PanelPreviewImage from "../components/PanelPreviewImage";
 
 const ChinaPanel = () => {
   const { showChinaGallery, setShowChinaGallery } = useContext(GalleryContext);
@@ -47,16 +47,11 @@ const ChinaPanel = () => {
           </div>
         </section>
         <section className="relative flex-1 w-full bg-china-primary">
-          <motion.img
-            src={galleryImageUrl("china", "temple", "md")}
-            loading="lazy"
+          <PanelPreviewImage
+            region="china"
+            name="temple"
             className="absolute bottom-0 right-1/7 max-h-full cursor-pointer"
-            animate={
-              showChinaGallery
-                ? { clipPath: "inset(0 0 100% 0)" }
-                : { clipPath: "inset(0 0 0% 0)" }
-            }
-            transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+            showGallery={showChinaGallery}
             onClick={() => setShowChinaGallery(true)}
           />
         </section>

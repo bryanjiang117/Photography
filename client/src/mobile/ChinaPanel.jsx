@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { galleryImageUrl } from "../galleryImages";
+import PanelPreviewImage from "../components/PanelPreviewImage";
 import GalleryCard from "./GalleryCard";
 
 const ChinaPanel = () => {
@@ -12,15 +11,13 @@ const ChinaPanel = () => {
     <GalleryCard
       bgColor="bg-china-primary"
       image={
-        <motion.img
-          src={galleryImageUrl("china", "temple", "md")}
-          className="absolute top-1/5 right-1/6 max-w-1/5 max-h-1/4 object-cover text-black cursor-pointer"
-          animate={
-            showChinaGallery
-              ? { clipPath: "inset(0 0 0 100%)" }
-              : { clipPath: "inset(0 0 0 0%)" }
-          }
-          transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+        <PanelPreviewImage
+          region="china"
+          name="temple"
+          className="absolute top-1/5 right-1/6 max-w-1/5 max-h-1/4 cursor-pointer"
+          showGallery={showChinaGallery}
+          clipHidden="inset(0 0 0 100%)"
+          clipVisible="inset(0 0 0 0%)"
           onClick={() => setShowChinaGallery(true)}
         />
       }

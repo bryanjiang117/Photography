@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { galleryImageUrl } from "../galleryImages";
+import PanelPreviewImage from "./PanelPreviewImage";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } = useContext(GalleryContext);
@@ -10,14 +10,11 @@ const MexicoCityPanel = () => {
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">
       <div className="flex flex-col h-full">
         <section className="relative flex-1 w-full bg-mexico-primary">
-          <motion.img
-            src={galleryImageUrl("mexico", "orange-wall", "md")}
-            loading="lazy"
+          <PanelPreviewImage
+            region="mexico"
+            name="orange-wall"
             className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
-            animate={showMexicoGallery
-              ? { clipPath: "inset(0 0 100% 0)" }
-              : { clipPath: "inset(0 0 0% 0)" }}
-            transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+            showGallery={showMexicoGallery}
             onClick={() => setShowMexicoGallery(true)}
           />
         </section>

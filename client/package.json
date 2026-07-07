@@ -7,7 +7,8 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview",
-    "photos:variants": "node scripts/generate-gallery-variants.mjs"
+    "photos:variants": "node scripts/generate-gallery-variants.mjs",
+    "photos:ratios": "node scripts/generate-gallery-aspect-ratios.mjs"
   },
   "repository": {
     "type": "git",

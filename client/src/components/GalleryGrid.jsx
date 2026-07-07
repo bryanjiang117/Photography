@@ -28,7 +28,7 @@ export default function GalleryGrid({ region, items }) {
         row={row}
         layout="full"
         loadProps={galleryImgLoadProps(i)}
-        className="w-full shrink-0"
+        wrapperClassName="w-full shrink-0"
       />
     ) : (
       <div key={i} className="w-full shrink-0 flex gap-4">
@@ -54,11 +54,12 @@ export default function GalleryGrid({ region, items }) {
                 onLoad={
                   row.fit === "contain"
                     ? (e) => {
-                        e.currentTarget.parentElement.style.flex = `${e.currentTarget.naturalWidth / e.currentTarget.naturalHeight} 1 0%`;
+                        e.currentTarget.parentElement.parentElement.style.flex = `${e.currentTarget.naturalWidth / e.currentTarget.naturalHeight} 1 0%`;
                       }
                     : undefined
                 }
-                className="w-full object-cover"
+                wrapperClassName="w-full"
+                className="object-cover"
               />
             </div>
           ) : (
@@ -84,7 +85,8 @@ export default function GalleryGrid({ region, items }) {
                           row={row}
                           layout="grid"
                           loadProps={galleryImgLoadProps(i, k)}
-                          className="flex-1 min-w-0 object-cover"
+                          wrapperClassName="flex-1 min-w-0"
+                          className="object-cover"
                         />
                       ))}
                     </div>
@@ -99,7 +101,8 @@ export default function GalleryGrid({ region, items }) {
                     row={row}
                     layout="grid"
                     loadProps={galleryImgLoadProps(i, k)}
-                    className="w-full object-cover"
+                    wrapperClassName="w-full"
+                    className="object-cover"
                   />
                 ),
               )}

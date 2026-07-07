@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { galleryImageUrl } from "../galleryImages";
+import PanelPreviewImage from "../components/PanelPreviewImage";
 
 const CanadaPanel = () => {
   const { showCanadaGallery, setShowCanadaGallery } =
@@ -41,16 +41,12 @@ const CanadaPanel = () => {
           </div>
         </section>
         <section className="relative flex-1 w-full bg-canada-primary">
-          <motion.img
-            src={galleryImageUrl("canada", "leaves-glow", "sm")}
-            loading="lazy"
+          <PanelPreviewImage
+            region="canada"
+            name="leaves-glow"
+            size="sm"
             className="absolute top-2/10 right-3/20 max-w-1/10 max-h-2/10 cursor-pointer"
-            animate={
-              showCanadaGallery
-                ? { clipPath: "inset(0 0 100% 0)" }
-                : { clipPath: "inset(0 0 0% 0)" }
-            }
-            transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+            showGallery={showCanadaGallery}
             onClick={() => setShowCanadaGallery(true)}
           />
         </section>

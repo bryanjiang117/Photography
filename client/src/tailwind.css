@@ -16,3 +16,23 @@
   --color-china-text-small: rgba(120, 120, 110);
   --color-china-text-small-hovered: rgba(160, 160, 140);
 }
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 0.08) 0%,
+    rgb(0 0 0 / 0.22) 50%,
+    rgb(0 0 0 / 0.08) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}

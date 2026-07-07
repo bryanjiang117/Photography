@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { CANADA_GALLERY_PHOTOS } from "../constants/data";
 import GalleryImage from "../components/GalleryImage";
-import { galleryImageUrl } from "../galleryImages";
+import GalleryLightboxImage from "../components/GalleryLightboxImage";
 import {
   galleryImgLoadProps,
   warmGalleryRegion,
@@ -52,7 +52,8 @@ export default function CanadaGallery({ entrance = true }) {
             entry={{ name: photo.name, size: photo.size }}
             layout="mobile"
             loadProps={galleryImgLoadProps(i)}
-            className="w-[80vw] shrink-0 snap-start rounded-sm object-cover cursor-pointer"
+            wrapperClassName="w-[80vw] shrink-0 snap-start"
+            className="rounded-sm object-cover cursor-pointer h-full"
             onClick={() => setActiveImage(photo.name)}
           />
         ))}
@@ -102,10 +103,9 @@ export default function CanadaGallery({ entrance = true }) {
             className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-8"
             onClick={() => setActiveImage(null)}
           >
-            <img
-              src={galleryImageUrl("canada", activeImage, "full")}
-              alt=""
-              className="max-w-full max-h-full object-contain rounded-sm"
+            <GalleryLightboxImage
+              region="canada"
+              name={activeImage}
               onClick={(e) => e.stopPropagation()}
             />
           </motion.div>

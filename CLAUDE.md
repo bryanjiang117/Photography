@@ -49,4 +49,8 @@ cd client && npm run photos:variants
 # or one region: node scripts/generate-gallery-variants.mjs --region=china
 ```
 
-When adding gallery photos, add them to the region’s `*_ITEMS` grid in `client/src/constants/data.js` (and optionally `*_ALL_PHOTOS` for extras not in the grid).
+When adding gallery photos, add them to the region’s `*_ITEMS` grid in `client/src/constants/data.js` (and optionally `*_ALL_PHOTOS` for extras not in the grid). Regenerate aspect ratios for skeleton placeholders:
+
+```bash
+cd client && npm run photos:ratios
+```

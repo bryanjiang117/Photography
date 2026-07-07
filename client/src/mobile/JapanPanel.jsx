@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { galleryImageUrl } from "../galleryImages";
+import PanelPreviewImage from "../components/PanelPreviewImage";
 import GalleryCard from "./GalleryCard";
 
 const JapanPanel = () => {
@@ -12,16 +11,13 @@ const JapanPanel = () => {
     <GalleryCard
       bgColor="bg-japan-primary"
       image={
-        <motion.img
-          src={galleryImageUrl("japan", "flowers", "md")}
-          alt=""
-          className="absolute bottom-4 left-4 max-w-[50%] max-h-[75%] object-cover cursor-pointer"
-          animate={
-            showJapanGallery
-              ? { clipPath: "inset(0 0 0 100%)" }
-              : { clipPath: "inset(0 0 0 0%)" }
-          }
-          transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+        <PanelPreviewImage
+          region="japan"
+          name="flowers"
+          className="absolute bottom-4 left-4 max-w-[50%] max-h-[75%] cursor-pointer"
+          showGallery={showJapanGallery}
+          clipHidden="inset(0 0 0 100%)"
+          clipVisible="inset(0 0 0 0%)"
         />
       }
       title="日本"

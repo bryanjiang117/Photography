@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
-import { galleryImageUrl } from "../galleryImages";
+import PanelPreviewImage from "../components/PanelPreviewImage";
 import GalleryCard from "./GalleryCard";
 
 const MexicoCityPanel = () => {
@@ -12,15 +11,13 @@ const MexicoCityPanel = () => {
     <GalleryCard
       bgColor="bg-mexico-primary"
       image={
-        <motion.img
-          src={galleryImageUrl("mexico", "orange-wall", "md")}
-          className="absolute h-[80%] object-cover"
-          animate={
-            showMexicoGallery
-              ? { clipPath: "inset(0 0 0 100%)" }
-              : { clipPath: "inset(0 0 0 0%)" }
-          }
-          transition={{ duration: 2.5, ease: [0.32, 0.72, 0.25, 1] }}
+        <PanelPreviewImage
+          region="mexico"
+          name="orange-wall"
+          className="absolute h-[80%]"
+          showGallery={showMexicoGallery}
+          clipHidden="inset(0 0 0 100%)"
+          clipVisible="inset(0 0 0 0%)"
         />
       }
       title="墨西哥城"

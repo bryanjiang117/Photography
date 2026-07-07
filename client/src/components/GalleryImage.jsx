@@ -1,3 +1,4 @@
+import SkeletonImage from "./SkeletonImage";
 import {
   capSizeForLayout,
   galleryImageSrcSet,
@@ -6,6 +7,7 @@ import {
   parseImageEntry,
   rowDefaultSize,
 } from "../galleryImages";
+import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
 
 /**
  * @param {{
@@ -14,6 +16,7 @@ import {
  *   row?: { size?: import('../galleryImages').GalleryImageSize; columns: unknown[] };
  *   layout?: 'grid' | 'full' | 'mobile';
  *   className?: string;
+ *   wrapperClassName?: string;
  *   loadProps?: Record<string, unknown>;
  *   onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
  *   onClick?: () => void;
@@ -25,6 +28,7 @@ export default function GalleryImage({
   row,
   layout = "grid",
   className,
+  wrapperClassName,
   loadProps,
   onLoad,
   onClick,
@@ -37,14 +41,17 @@ export default function GalleryImage({
   const src = galleryImageUrl(region, parsed.name, maxSize);
   const srcSet = galleryImageSrcSet(region, parsed.name, maxSize);
   const sizes = gallerySizesAttrForImage(maxSize, layout);
+  const aspectRatio = galleryPhotoDimensions(region, parsed.name);
 
   return (
-    <img
+    <SkeletonImage
       src={src}
       srcSet={srcSet}
       sizes={sizes}
       alt=""
+      aspectRatio={aspectRatio}
       className={className}
+      wrapperClassName={wrapperClassName}
       decoding="async"
       {...loadProps}
       onLoad={onLoad}
