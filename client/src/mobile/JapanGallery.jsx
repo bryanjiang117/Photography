@@ -6,7 +6,7 @@ import GalleryImage from "../components/GalleryImage";
 import GalleryLightboxImage from "../components/GalleryLightboxImage";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { galleryImgLoadProps, warmGalleryRegion } from "../galleryPrefetch";
-import { gallerySlideMotion } from "../galleryMotion";
+import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 
 export default function JapanGallery({ entrance = true }) {
   const { setShowJapanGallery } = useContext(GalleryContext);
@@ -27,9 +27,7 @@ export default function JapanGallery({ entrance = true }) {
     >
       {/* Title */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.38, duration: 0.55, ease: "easeOut" }}
+        {...galleryFadeMotion(entrance)}
         className="flex items-end gap-3 px-4 pt-4 pb-2 text-white"
       >
         <div className="text-5xl font-tsm" lang="jp" translate="no">
@@ -61,9 +59,7 @@ export default function JapanGallery({ entrance = true }) {
 
       {/* Bottom bar */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
+        {...galleryFadeMotion(entrance, 0.42)}
         className="flex items-end justify-between px-4 py-3"
       >
         <button

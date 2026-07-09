@@ -5,7 +5,7 @@ import { JAPAN_GALLERY_PHOTOS, JAPAN_ITEMS as ITEMS } from "../constants/data";
 import GalleryGrid from "../components/GalleryGrid";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
-import { gallerySlideMotion } from "../galleryMotion";
+import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 
 export default function JapanGallery({ entrance = true }) {
   const { setShowJapanGallery } = useContext(GalleryContext);
@@ -23,9 +23,7 @@ export default function JapanGallery({ entrance = true }) {
       {/* Left column: title + back button */}
       <div className="shrink-0 flex flex-col justify-between px-8 pt-6 pb-6 text-white">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.38, duration: 0.55, ease: "easeOut" }}
+          {...galleryFadeMotion(entrance)}
           className="flex flex-col items-start"
         >
           <div
@@ -41,9 +39,7 @@ export default function JapanGallery({ entrance = true }) {
         </motion.div>
 
         <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
+          {...galleryFadeMotion(entrance, 0.42)}
           onClick={() => setShowJapanGallery(false)}
           className="flex items-center gap-2 text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200 p-3 -m-3"
         >
@@ -70,9 +66,7 @@ export default function JapanGallery({ entrance = true }) {
 
       {/* Right column: photography label */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
+        {...galleryFadeMotion(entrance, 0.42)}
         className="shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6 text-white"
       >
         <div

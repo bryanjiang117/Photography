@@ -1,8 +1,28 @@
 import { Fragment } from "react";
 import GalleryImage from "./GalleryImage";
 import VirtualGalleryRow from "./VirtualGalleryRow";
+import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
 import { parseImageEntry, rowDefaultSize } from "../galleryImages";
 import { galleryImgLoadProps } from "../galleryPrefetch";
+
+function GallerySkeletonCell({ region, entry, row, wrapperClassName }) {
+  const rowSize = row ? rowDefaultSize(row) : "md";
+  const parsed = parseImageEntry(entry, rowSize);
+  if (!parsed) {
+    return <div className={wrapperClassName} aria-hidden="true" />;
+  }
+  const aspectRatio = galleryPhotoDimensions(region, parsed.name);
+  const style = aspectRatio
+    ? { aspectRatio: `${aspectRatio.w} / ${aspectRatio.h}` }
+    : undefined;
+  return (
+    <span
+      className={`relative block overflow-hidden skeleton-shimmer ${wrapperClassName}`}
+      style={style}
+      aria-hidden="true"
+    />
+  );
+}
 
 /**
  * @param {{
@@ -25,6 +45,7 @@ export default function GalleryGrid({
   virtualize = false,
   scrollRootRef,
   overscan,
+  skeleton = false,
 }) {
   // When virtualized, VirtualGalleryRow already gates mounting to near the
   // viewport (via overscan), so mounted rows should fetch/decode immediately
@@ -54,14 +75,23 @@ export default function GalleryGrid({
       : i;
 
     const content = isFull ? (
-      <GalleryImage
-        region={region}
-        entry={row.columns[0][0]}
-        row={row}
-        layout="full"
-        loadProps={loadPropsFor(i)}
-        wrapperClassName="w-full shrink-0"
-      />
+      skeleton ? (
+        <GallerySkeletonCell
+          region={region}
+          entry={row.columns[0][0]}
+          row={row}
+          wrapperClassName="w-full shrink-0"
+        />
+      ) : (
+        <GalleryImage
+          region={region}
+          entry={row.columns[0][0]}
+          row={row}
+          layout="full"
+          loadProps={loadPropsFor(i)}
+          wrapperClassName="w-full shrink-0"
+        />
+      )
     ) : (
       <div className="w-full shrink-0 flex gap-4">
         {row.columns.map((col, j) => {
@@ -77,22 +107,31 @@ export default function GalleryGrid({
               className={`${colClass} flex`}
               style={colStyle}
             >
-              <GalleryImage
-                region={region}
-                entry={col[0]}
-                row={row}
-                layout="grid"
-                loadProps={loadPropsFor(i, j)}
-                onLoad={
-                  row.fit === "contain"
-                    ? (e) => {
-                        e.currentTarget.parentElement.parentElement.style.flex = `${e.currentTarget.naturalWidth / e.currentTarget.naturalHeight} 1 0%`;
-                      }
-                    : undefined
-                }
-                wrapperClassName="w-full"
-                className="object-cover"
-              />
+              {skeleton ? (
+                <GallerySkeletonCell
+                  region={region}
+                  entry={col[0]}
+                  row={row}
+                  wrapperClassName="w-full"
+                />
+              ) : (
+                <GalleryImage
+                  region={region}
+                  entry={col[0]}
+                  row={row}
+                  layout="grid"
+                  loadProps={loadPropsFor(i, j)}
+                  onLoad={
+                    row.fit === "contain"
+                      ? (e) => {
+                          e.currentTarget.parentElement.parentElement.style.flex = `${e.currentTarget.naturalWidth / e.currentTarget.naturalHeight} 1 0%`;
+                        }
+                      : undefined
+                  }
+                  wrapperClassName="w-full"
+                  className="object-cover"
+                />
+              )}
             </div>
           ) : (
             <div
@@ -106,35 +145,61 @@ export default function GalleryGrid({
                     <div key={k} className="flex-1" />
                   ) : (
                     <div key={k} className="flex gap-4">
-                      {entry.map((img) => (
-                        <GalleryImage
-                          key={
-                            parseImageEntry(img, rowDefaultSize(row))?.name ?? k
-                          }
-                          region={region}
-                          entry={img}
-                          row={row}
-                          layout="grid"
-                          loadProps={loadPropsFor(i, k)}
-                          wrapperClassName="flex-1 min-w-0"
-                          className="object-cover"
-                        />
-                      ))}
+                      {entry.map((img) =>
+                        skeleton ? (
+                          <GallerySkeletonCell
+                            key={
+                              parseImageEntry(img, rowDefaultSize(row))?.name ??
+                              k
+                            }
+                            region={region}
+                            entry={img}
+                            row={row}
+                            wrapperClassName="flex-1 min-w-0"
+                          />
+                        ) : (
+                          <GalleryImage
+                            key={
+                              parseImageEntry(img, rowDefaultSize(row))?.name ??
+                              k
+                            }
+                            region={region}
+                            entry={img}
+                            row={row}
+                            layout="grid"
+                            loadProps={loadPropsFor(i, k)}
+                            wrapperClassName="flex-1 min-w-0"
+                            className="object-cover"
+                          />
+                        ),
+                      )}
                     </div>
                   )
                 ) : (
-                  <GalleryImage
-                    key={
-                      parseImageEntry(entry, rowDefaultSize(row))?.name ?? k
-                    }
-                    region={region}
-                    entry={entry}
-                    row={row}
-                    layout="grid"
-                    loadProps={loadPropsFor(i, k)}
-                    wrapperClassName="w-full"
-                    className="object-cover"
-                  />
+                  skeleton ? (
+                    <GallerySkeletonCell
+                      key={
+                        parseImageEntry(entry, rowDefaultSize(row))?.name ?? k
+                      }
+                      region={region}
+                      entry={entry}
+                      row={row}
+                      wrapperClassName="w-full"
+                    />
+                  ) : (
+                    <GalleryImage
+                      key={
+                        parseImageEntry(entry, rowDefaultSize(row))?.name ?? k
+                      }
+                      region={region}
+                      entry={entry}
+                      row={row}
+                      layout="grid"
+                      loadProps={loadPropsFor(i, k)}
+                      wrapperClassName="w-full"
+                      className="object-cover"
+                    />
+                  )
                 ),
               )}
             </div>
