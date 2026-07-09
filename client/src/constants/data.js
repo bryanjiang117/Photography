@@ -242,8 +242,11 @@ export const JAPAN_ITEMS = [
   },
   { columns: [["sakura"], ["nest"]], location: "Maizuru Park, Fukuoka" },
   { columns: [["venusaur"]], location: "Fukuoka" },
-  { columns: [["iceberg"], ["ocean-kid"]], location: "Ainoshima, Fukuoka" },
-  { columns: [["cats"]], location: "Ainoshima, Fukuoka" },
+  {
+    columns: [["iceberg"], ["ocean-kid"]],
+    location: "Ainoshima (Cat Island), Fukuoka",
+  },
+  { columns: [["cats"]], location: "Ainoshima (Cat Island), Fukuoka" },
   // {
   //   columns: [["gap"], ["fishing-village-2"]],
   //   size: "full",
@@ -267,24 +270,25 @@ export const JAPAN_ITEMS = [
   { columns: [["business-man"]], location: "Shibuya, Tokyo" },
   // { columns: [["modes-of-transport"]] },
   {
-    columns: [["deer"], ["door-deer"]],
-    location: "Miyajima Island, Hiroshima",
-  },
-  { columns: [["ocean-roads"]], location: "Yokohama" },
-  {
-    columns: [["taxi"], [], ["running-kid"], []],
-    location: "Chinatown, Yokohama",
-  },
-  {
     columns: [[{ name: "asakusa", size: "full" }], ["banners"]],
     flex: [9, 4],
     location: "Asakusa, Tokyo",
   },
   {
+    columns: [["taxi"], [], ["running-kid"], []],
+    flex: [2, 1, 2, 1],
+    location: "Chinatown, Yokohama",
+  },
+  {
+    columns: [["deer"], ["door-deer"]],
+    location: "Miyajima Island, Hiroshima",
+  },
+  { columns: [["ocean-roads"]], location: "Yokohama" },
+  {
     columns: [[], ["sunset"], []],
     flex: [3, 3, 3],
     gap: 30,
-    location: "Yokohama",
+    location: "Yokohama (view of Mt. Fuji)",
   },
   { columns: [["beach"]], gap: 30, location: "Shichirigahama Beach, Kamakura" },
   {
@@ -311,19 +315,19 @@ export const JAPAN_ITEMS = [
       [{ name: "colorful-shrine", location: "Takayama, Gifu" }],
       ["buddha-shrine"],
     ],
-    locaiton: "Nagano",
+    location: "Nagano",
   },
   {
     columns: [["long-stick"], ["frozen-castle", []], []],
     flex: [10, 4, 6],
-    location: "Kanazawa, Ishikawa",
+    location: "Kanazawa Castle, Kanazawa, Ishikawa",
   },
   {
     columns: [["trees"], ["shrine"], ["snow-roots"]],
     flex: [9, 9, 4],
-    location: "Yunishigawa Onsen, Nikko, Tochigi",
+    location: "Yunishigawa, Nikko, Tochigi",
   },
-  { columns: [["tori"]], location: "Yunishigawa Onsen, Nikko, Tochigi" },
+  { columns: [["tori"]], location: "Yunishigawa, Nikko, Tochigi" },
 ];
 
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);
