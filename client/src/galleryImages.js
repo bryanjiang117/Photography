@@ -59,16 +59,24 @@ export function galleryPrefetchUrl(
 /**
  * @param {unknown} entry
  * @param {GalleryImageSize} [rowSize]
+ * @param {string} [rowLocation]
+ * @returns {{ name: string; size: GalleryImageSize; location?: string } | null}
  */
-export function parseImageEntry(entry, rowSize) {
+export function parseImageEntry(entry, rowSize, rowLocation) {
   if (typeof entry === "string") {
     if (!entry) return null;
-    return { name: entry, size: rowSize ?? "md" };
+    return {
+      name: entry,
+      size: rowSize ?? "md",
+      ...(rowLocation ? { location: rowLocation } : {}),
+    };
   }
   if (entry && typeof entry === "object" && "name" in entry && entry.name) {
+    const location = entry.location ?? rowLocation;
     return {
       name: entry.name,
       size: entry.size ?? rowSize ?? "md",
+      ...(location ? { location } : {}),
     };
   }
   return null;
@@ -89,23 +97,24 @@ export function rowDefaultSize(row) {
 }
 
 /**
- * @param {Array<{ columns: unknown[]; size?: GalleryImageSize }>} items
- * @returns {{ name: string; size: GalleryImageSize }[]}
+ * @param {Array<{ columns: unknown[]; size?: GalleryImageSize; location?: string }>} items
+ * @returns {{ name: string; size: GalleryImageSize; location?: string }[]}
  */
 export function flattenGalleryItems(items) {
-  /** @type {{ name: string; size: GalleryImageSize }[]} */
+  /** @type {{ name: string; size: GalleryImageSize; location?: string }[]} */
   const out = [];
   for (const row of items) {
     const rowSize = rowDefaultSize(row);
+    const rowLocation = row.location;
     for (const col of row.columns) {
       for (const entry of col) {
         if (Array.isArray(entry)) {
           for (const sub of entry) {
-            const parsed = parseImageEntry(sub, rowSize);
+            const parsed = parseImageEntry(sub, rowSize, rowLocation);
             if (parsed) out.push(parsed);
           }
         } else {
-          const parsed = parseImageEntry(entry, rowSize);
+          const parsed = parseImageEntry(entry, rowSize, rowLocation);
           if (parsed) out.push(parsed);
         }
       }

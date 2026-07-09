@@ -47,7 +47,7 @@ export default function MexicoCityGallery({ entrance = true }) {
           <GalleryImage
             key={photo.name}
             region="mexico"
-            entry={{ name: photo.name, size: photo.size }}
+            entry={photo}
             layout="mobile"
             loadProps={galleryImgLoadProps(i)}
             wrapperClassName="w-[80vw] shrink-0 snap-start"

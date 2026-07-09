@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from "react";
  *   onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
  *   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
  *   style?: React.CSSProperties;
+ *   overlay?: React.ReactNode;
  * }} props
  */
 export default function SkeletonImage({
@@ -33,6 +34,7 @@ export default function SkeletonImage({
   onLoad,
   onClick,
   style,
+  overlay,
 }) {
   const imgRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
@@ -78,6 +80,7 @@ export default function SkeletonImage({
         }}
         onClick={onClick}
       />
+      {overlay}
     </span>
   );
 }

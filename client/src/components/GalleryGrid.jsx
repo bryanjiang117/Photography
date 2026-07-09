@@ -7,7 +7,7 @@ import { galleryImgLoadProps } from "../galleryPrefetch";
 
 function GallerySkeletonCell({ region, entry, row, wrapperClassName }) {
   const rowSize = row ? rowDefaultSize(row) : "md";
-  const parsed = parseImageEntry(entry, rowSize);
+  const parsed = parseImageEntry(entry, rowSize, row.location);
   if (!parsed) {
     return <div className={wrapperClassName} aria-hidden="true" />;
   }
@@ -68,10 +68,10 @@ export default function GalleryGrid({
     const isFull =
       row.columns.length === 1 &&
       row.columns[0].length === 1 &&
-      parseImageEntry(row.columns[0][0], rowDefaultSize(row));
+      parseImageEntry(row.columns[0][0], rowDefaultSize(row), row.location);
 
     const key = isFull
-      ? parseImageEntry(row.columns[0][0], rowDefaultSize(row)).name
+      ? parseImageEntry(row.columns[0][0], rowDefaultSize(row), row.location).name
       : i;
 
     const content = isFull ? (
@@ -101,9 +101,9 @@ export default function GalleryGrid({
             : undefined;
           return col.length === 0 ? (
             <div key={j} className={colClass} style={colStyle} />
-          ) : col.length === 1 && parseImageEntry(col[0], rowDefaultSize(row)) ? (
+          ) : col.length === 1 && parseImageEntry(col[0], rowDefaultSize(row), row.location) ? (
             <div
-              key={parseImageEntry(col[0], rowDefaultSize(row)).name}
+              key={parseImageEntry(col[0], rowDefaultSize(row), row.location).name}
               className={`${colClass} flex`}
               style={colStyle}
             >

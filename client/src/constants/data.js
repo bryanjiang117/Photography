@@ -2,11 +2,11 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 
 // ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, CHINA_ITEMS, JAPAN_ITEMS) ────
 //
-// Row shape: { columns, size?, flex?, fit? }
+// Row shape: { columns, size?, flex?, fit?, gap?, location? }
 //
 // columns — array of columns. Each column is a vertical stack:
 //   "photo-name"           one image (string basename, no .avif)
-//   { name, size? }        per-image max tier; size overrides the row's size
+//   { name, size?, location? }  per-image overrides; size/location override the row's
 //   []                     empty spacer column
 //   ["a", "b"]             horizontal sub-row (images side by side)
 //   [[], ["x"]]            mix spacers and images within a column
@@ -18,17 +18,21 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 //   Files: name-sm.avif (800px longest side), name-md.avif (1400px longest side), name.avif (full)
 //   After adding/replacing name.avif:  cd client && npm run photos:variants
 //
+// location — optional place label for the whole row (e.g. "Kyoto"). Inherited by every
+//   photo in the row unless a photo entry sets its own `location`.
+//
 // flex — optional number[]; flex-grow per column (e.g. flex: [1, 2, 5])
 // fit — optional "contain"; keep aspect ratio, matched row heights (see chongqing row)
 // gap — optional number (Tailwind spacing scale) for the space ABOVE the row;
 //   default is 20 (the grid's gap-20 / 5rem). Smaller = tighter (gap: 8 → 2rem).
 //
 // Mobile galleries use the same lists; display caps at "sm". Lightbox uses "full".
+// Flattened photo lists (*_GALLERY_PHOTOS) include resolved `location` per photo.
 //
 // Examples:
-//   { columns: [["orange-wall"]], size: "full" }
-//   { columns: [["green-wall"], ["blue-door"]], size: "md" }
-//   { columns: [[{ name: "windmill", size: "full" }]] }   // override one cell
+//   { columns: [["orange-wall"]], size: "full", location: "Coyoacán" }
+//   { columns: [["green-wall"], ["blue-door"]], size: "md", location: "Roma Norte" }
+//   { columns: [[{ name: "windmill", size: "full", location: "Holbox" }]] }
 //   { columns: [[], ["palm-trees"], ["tree-reflection"]], flex: [1, 2, 5], size: "md" }
 //
 export const CANADA_ITEMS = [
@@ -223,47 +227,103 @@ export const JAPAN_ITEMS = [
   {
     columns: [[{ name: "jugs", size: "full" }], ["festival-object"]],
     flex: [9, 4],
+    location: "Fukuoka",
   },
-  { columns: [["train"], ["pigeons"]] },
-  { columns: [["tree-shadows"], ["tori-gates"], ["path"]], flex: [4, 9, 4] },
-  { columns: [["sakura"], ["nest"]] },
-  { columns: [["venusaur"]] },
-  { columns: [["iceberg"], ["ocean-kid"]] },
-  { columns: [["cats"]] },
+  {
+    columns: [
+      [{ name: "train", location: "Shingu, Fukuoka" }],
+      [{ name: "pigeons", location: "Shichirigahama Beach, Kamakura" }],
+    ],
+  },
+  {
+    columns: [["tree-shadows"], ["tori-gates"], ["path"]],
+    flex: [4, 9, 4],
+    location: "Fukuoka",
+  },
+  { columns: [["sakura"], ["nest"]], location: "Maizuru Park, Fukuoka" },
+  { columns: [["venusaur"]], location: "Fukuoka" },
+  { columns: [["iceberg"], ["ocean-kid"]], location: "Ainoshima, Fukuoka" },
+  { columns: [["cats"]], location: "Ainoshima, Fukuoka" },
   // {
   //   columns: [["gap"], ["fishing-village-2"]],
   //   size: "full",
   //   flex: [4, 9],
   // },
-  { columns: [["old-man"], [], ["river-students"]], flex: [5, 2, 5] },
-  { columns: [[], ["hiroshima"], []], flex: [3, 5, 3], gap: 12, size: "md" },
-  { columns: [["business-man"]] },
+  {
+    columns: [
+      [{ name: "old-man", location: "Peace Memorial Park, Hiroshima" }],
+      [],
+      [{ name: "river-students", location: "Hiroshima" }],
+    ],
+    flex: [5, 2, 5],
+  },
+  {
+    columns: [[], ["hiroshima"], []],
+    flex: [3, 5, 3],
+    gap: 12,
+    size: "md",
+    location: "Atomic Bomb Dome, Hiroshima",
+  },
+  { columns: [["business-man"]], location: "Shibuya, Tokyo" },
   // { columns: [["modes-of-transport"]] },
-  { columns: [["deer"], ["door-deer"]] },
-  { columns: [["ocean-roads"]] },
-  { columns: [["taxi"], [], ["running-kid"], []] },
-  { columns: [[{ name: "asakusa", size: "full" }], ["banners"]], flex: [9, 4] },
-  { columns: [[], ["sunset"], []], flex: [3, 3, 3], gap: 30 },
-  { columns: [["beach"]], gap: 30 },
+  {
+    columns: [["deer"], ["door-deer"]],
+    location: "Miyajima Island, Hiroshima",
+  },
+  { columns: [["ocean-roads"]], location: "Yokohama" },
+  {
+    columns: [["taxi"], [], ["running-kid"], []],
+    location: "Chinatown, Yokohama",
+  },
+  {
+    columns: [[{ name: "asakusa", size: "full" }], ["banners"]],
+    flex: [9, 4],
+    location: "Asakusa, Tokyo",
+  },
+  {
+    columns: [[], ["sunset"], []],
+    flex: [3, 3, 3],
+    gap: 30,
+    location: "Yokohama",
+  },
+  { columns: [["beach"]], gap: 30, location: "Shichirigahama Beach, Kamakura" },
   {
     columns: [[{ name: "purple-bar", size: "full" }], ["green-bar"]],
     flex: [9, 4],
+    location: "Shinjuku Golden Gai, Tokyo",
   },
-  { columns: [["takoyaki"]] },
+  { columns: [["takoyaki"]], location: "Fukuoka" },
   {
     columns: [["night-signs"], [{ name: "night-restaurant", size: "full" }]],
     flex: [4, 9],
+    location: "Shinjuku Golden Gai, Tokyo",
   },
-  { columns: [["lanterns"]] },
+  { columns: [["lanterns"]], location: "Zenkoji Temple, Nagano" },
   {
     columns: [[{ name: "monks", size: "full" }], ["snow-temple"]],
     flex: [9, 4],
+    location: "Zenkoji Temple, Nagano",
   },
-  { columns: [["river-mountains"]] },
-  { columns: [["mini-shrine"], ["colorful-shrine"], ["buddha-shrine"]] },
-  { columns: [["long-stick"], ["frozen-castle", []], []], flex: [10, 4, 6] },
-  { columns: [["trees"], ["shrine"], ["snow-roots"]], flex: [9, 9, 4] },
-  { columns: [["tori"]] },
+  { columns: [["river-mountains"]], location: "Nagano" },
+  {
+    columns: [
+      ["mini-shrine"],
+      [{ name: "colorful-shrine", location: "Takayama, Gifu" }],
+      ["buddha-shrine"],
+    ],
+    locaiton: "Nagano",
+  },
+  {
+    columns: [["long-stick"], ["frozen-castle", []], []],
+    flex: [10, 4, 6],
+    location: "Kanazawa, Ishikawa",
+  },
+  {
+    columns: [["trees"], ["shrine"], ["snow-roots"]],
+    flex: [9, 9, 4],
+    location: "Yunishigawa Onsen, Nikko, Tochigi",
+  },
+  { columns: [["tori"]], location: "Yunishigawa Onsen, Nikko, Tochigi" },
 ];
 
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);

@@ -13,7 +13,7 @@ import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
  * @param {{
  *   region: string;
  *   entry: unknown;
- *   row?: { size?: import('../galleryImages').GalleryImageSize; columns: unknown[] };
+ *   row?: { size?: import('../galleryImages').GalleryImageSize; columns: unknown[]; location?: string };
  *   layout?: 'grid' | 'full' | 'mobile';
  *   className?: string;
  *   wrapperClassName?: string;
@@ -34,7 +34,7 @@ export default function GalleryImage({
   onClick,
 }) {
   const rowSize = row ? rowDefaultSize(row) : "md";
-  const parsed = parseImageEntry(entry, rowSize);
+  const parsed = parseImageEntry(entry, rowSize, row?.location);
   if (!parsed) return null;
 
   const maxSize = capSizeForLayout(parsed.size, layout);
@@ -42,20 +42,37 @@ export default function GalleryImage({
   const srcSet = galleryImageSrcSet(region, parsed.name, maxSize);
   const sizes = gallerySizesAttrForImage(maxSize, layout);
   const aspectRatio = galleryPhotoDimensions(region, parsed.name);
+  const location = parsed.location;
+
+  const overlay = location ? (
+    <span
+      className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit] bg-black/70 p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+      aria-hidden="true"
+    >
+      <span className="text-center text-sm leading-snug text-white bodoni-small tracking-wide text-balance">
+        {location}
+      </span>
+    </span>
+  ) : null;
+
+  const roundedWrapper = layout === "mobile" ? "rounded-sm" : "";
 
   return (
     <SkeletonImage
       src={src}
       srcSet={srcSet}
       sizes={sizes}
-      alt=""
+      alt={location ?? ""}
       aspectRatio={aspectRatio}
       className={className}
-      wrapperClassName={wrapperClassName}
+      wrapperClassName={
+        `${location ? "group" : ""} ${roundedWrapper} ${wrapperClassName}`.trim()
+      }
       decoding="async"
       {...loadProps}
       onLoad={onLoad}
       onClick={onClick}
+      overlay={overlay}
     />
   );
 }
