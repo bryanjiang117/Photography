@@ -12,10 +12,9 @@ export default function JapanGallery({ entrance = true }) {
   const scrollRef = useGalleryScrollWarm();
 
   useEffect(() => {
-    if (JAPAN_GALLERY_PHOTOS.length > 0) {
-      warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS, { concurrency: 5 });
-    }
+    warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS, { concurrency: 5 });
   }, []);
+
   return (
     <motion.div
       {...gallerySlideMotion(entrance, "y")}
@@ -46,7 +45,7 @@ export default function JapanGallery({ entrance = true }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.42, duration: 0.55, ease: "easeOut" }}
           onClick={() => setShowJapanGallery(false)}
-          className="flex items-center gap-2 cursor-pointer transition-colors duration-200 p-3 -m-3"
+          className="flex items-center gap-2 text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200 p-3 -m-3"
         >
           <span className="text-lg leading-none">←</span>
           <span className="bodoni-small text-sm tracking-[0.25em] leading-none">
@@ -55,31 +54,19 @@ export default function JapanGallery({ entrance = true }) {
         </motion.button>
       </div>
 
-      {/* Scrollable photo column / placeholder */}
-      {ITEMS.length > 0 ? (
-        <div
-          ref={scrollRef}
-          className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide"
-        >
-          <GalleryGrid region="japan" items={ITEMS} />
-        </div>
-      ) : (
-        <div className="flex-1 min-w-0 min-h-0 flex flex-col items-center justify-center gap-6 px-40">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center gap-4 text-center text-white"
-          >
-            <p className="font-tsm text-2xl opacity-80" lang="zh-CN" translate="no">
-              此刻播放
-            </p>
-            <p className="bodoni-small text-lg tracking-wide opacity-60 max-w-md leading-relaxed">
-              This film is still being developed. Check out Mexico City and Canada first.
-            </p>
-          </motion.div>
-        </div>
-      )}
+      {/* Scrollable photo column */}
+      <div
+        ref={scrollRef}
+        className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide"
+      >
+        <GalleryGrid
+          region="japan"
+          items={ITEMS}
+          virtualize
+          scrollRootRef={scrollRef}
+          overscan="300%"
+        />
+      </div>
 
       {/* Right column: photography label */}
       <motion.div

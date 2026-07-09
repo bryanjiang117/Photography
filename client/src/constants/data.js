@@ -20,6 +20,8 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 //
 // flex — optional number[]; flex-grow per column (e.g. flex: [1, 2, 5])
 // fit — optional "contain"; keep aspect ratio, matched row heights (see chongqing row)
+// gap — optional number (Tailwind spacing scale) for the space ABOVE the row;
+//   default is 20 (the grid's gap-20 / 5rem). Smaller = tighter (gap: 8 → 2rem).
 //
 // Mobile galleries use the same lists; display caps at "sm". Lightbox uses "full".
 //
@@ -217,7 +219,52 @@ export const CHINA_ITEMS = [
 export const CHINA_GALLERY_PHOTOS = flattenGalleryItems(CHINA_ITEMS);
 export const CHINA_PHOTOS = CHINA_GALLERY_PHOTOS.map((p) => p.name);
 
-export const JAPAN_ITEMS = [];
+export const JAPAN_ITEMS = [
+  {
+    columns: [[{ name: "jugs", size: "full" }], ["festival-object"]],
+    flex: [9, 4],
+  },
+  { columns: [["train"], ["pigeons"]] },
+  { columns: [["tree-shadows"], ["tori-gates"], ["path"]], flex: [4, 9, 4] },
+  { columns: [["sakura"], ["nest"]] },
+  { columns: [["venusaur"]] },
+  { columns: [["iceberg"], ["ocean-kid"]] },
+  { columns: [["cats"]] },
+  // {
+  //   columns: [["gap"], ["fishing-village-2"]],
+  //   size: "full",
+  //   flex: [4, 9],
+  // },
+  { columns: [["old-man"], [], ["river-students"]], flex: [5, 2, 5] },
+  { columns: [[], ["hiroshima"], []], flex: [3, 5, 3], gap: 12, size: "md" },
+  { columns: [["business-man"]] },
+  // { columns: [["modes-of-transport"]] },
+  { columns: [["deer"], ["door-deer"]] },
+  { columns: [["ocean-roads"]] },
+  { columns: [["taxi"], [], ["running-kid"], []] },
+  { columns: [[{ name: "asakusa", size: "full" }], ["banners"]], flex: [9, 4] },
+  { columns: [[], ["sunset"], []], flex: [3, 3, 3], gap: 30 },
+  { columns: [["beach"]], gap: 30 },
+  {
+    columns: [[{ name: "purple-bar", size: "full" }], ["green-bar"]],
+    flex: [9, 4],
+  },
+  { columns: [["takoyaki"]] },
+  {
+    columns: [["night-signs"], [{ name: "night-restaurant", size: "full" }]],
+    flex: [4, 9],
+  },
+  { columns: [["lanterns"]] },
+  {
+    columns: [[{ name: "monks", size: "full" }], ["snow-temple"]],
+    flex: [9, 4],
+  },
+  { columns: [["river-mountains"]] },
+  { columns: [["mini-shrine"], ["colorful-shrine"], ["buddha-shrine"]] },
+  { columns: [["long-stick"], ["frozen-castle", []], []], flex: [10, 4, 6] },
+  { columns: [["trees"], ["shrine"], ["snow-roots"]], flex: [9, 9, 4] },
+  { columns: [["tori"]] },
+];
 
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);
 export const JAPAN_PHOTOS = JAPAN_GALLERY_PHOTOS.map((p) => p.name);

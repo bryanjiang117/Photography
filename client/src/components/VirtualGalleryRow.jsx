@@ -12,12 +12,14 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
  * @param {{
  *   rootRef?: React.RefObject<HTMLElement>;
  *   overscan?: string;
+ *   style?: React.CSSProperties;
  *   children: React.ReactNode;
  * }} props
  */
 export default function VirtualGalleryRow({
   rootRef,
   overscan = "300%",
+  style: styleProp,
   children,
 }) {
   const ref = useRef(null);
@@ -48,8 +50,8 @@ export default function VirtualGalleryRow({
 
   const style =
     !active && heightRef.current > 0
-      ? { height: `${heightRef.current}px` }
-      : undefined;
+      ? { ...styleProp, height: `${heightRef.current}px` }
+      : styleProp;
 
   return (
     <div ref={ref} className="w-full shrink-0" style={style}>

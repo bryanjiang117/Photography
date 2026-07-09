@@ -12,6 +12,7 @@ import { galleryImgLoadProps } from "../galleryPrefetch";
  *     size?: import('../galleryImages').GalleryImageSize;
  *     flex?: number[];
  *     fit?: string;
+ *     gap?: number;
  *   }>;
  *   virtualize?: boolean;
  *   scrollRootRef?: React.RefObject<HTMLElement>;
@@ -32,6 +33,15 @@ export default function GalleryGrid({
     const props = galleryImgLoadProps(rowIndex, imageIndex);
     return virtualize ? { ...props, loading: "eager" } : props;
   };
+
+  // Rows sit in a `gap-20` (5rem) flex column. `row.gap` (same Tailwind spacing
+  // scale) overrides the space ABOVE the row via a compensating margin-top:
+  // gap-20 → 0, gap-8 → -3rem (tighter), gap-24 → +1rem (looser).
+  const DEFAULT_ROW_GAP = 20;
+  const rowGapStyle = (row) =>
+    typeof row.gap === "number"
+      ? { marginTop: `${(row.gap - DEFAULT_ROW_GAP) * 0.25}rem` }
+      : undefined;
 
   return items.map((row, i) => {
     const isFull =
@@ -133,10 +143,21 @@ export default function GalleryGrid({
       </div>
     );
 
+    const rowStyle = rowGapStyle(row);
+
     return virtualize ? (
-      <VirtualGalleryRow key={key} rootRef={scrollRootRef} overscan={overscan}>
+      <VirtualGalleryRow
+        key={key}
+        rootRef={scrollRootRef}
+        overscan={overscan}
+        style={rowStyle}
+      >
         {content}
       </VirtualGalleryRow>
+    ) : rowStyle ? (
+      <div key={key} className="w-full shrink-0" style={rowStyle}>
+        {content}
+      </div>
     ) : (
       <Fragment key={key}>{content}</Fragment>
     );

@@ -69,8 +69,48 @@
     <meta property="og:url" content="https://jianghaozhou.studio" />
     <meta property="og:type" content="website" />
     <title>姜昊周</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #f0efeb;
+      }
+
+      /* Instant loader — visible before JS; removed when React mounts */
+      #intro-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0efeb;
+      }
+
+      #intro-loader .intro-square {
+        width: 16px;
+        height: 16px;
+        background: #88b04b;
+        opacity: 0.35;
+        animation: intro-pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes intro-pulse {
+        0%,
+        100% {
+          opacity: 0.35;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="intro-loader" aria-hidden="true">
+      <div class="intro-square"></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
