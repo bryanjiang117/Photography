@@ -369,6 +369,10 @@ export const GALLERY_ASPECT_RATIOS = {
     }
   },
   "china": {
+    "88-stage": {
+      "w": 6185,
+      "h": 3480
+    },
     "apartment-window": {
       "w": 2411,
       "h": 3616
@@ -400,6 +404,14 @@ export const GALLERY_ASPECT_RATIOS = {
     "baozi": {
       "w": 6240,
       "h": 4160
+    },
+    "bbq": {
+      "w": 3359,
+      "h": 5038
+    },
+    "bench": {
+      "w": 5447,
+      "h": 3631
     },
     "box-cat": {
       "w": 6240,
@@ -437,6 +449,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5664,
       "h": 3776
     },
+    "cable-cars": {
+      "w": 3741,
+      "h": 5612
+    },
     "camper": {
       "w": 3543,
       "h": 5315
@@ -450,12 +466,16 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 6240
     },
     "cat": {
-      "w": 4160,
-      "h": 6240
+      "w": 5604,
+      "h": 3736
     },
     "chess-table": {
       "w": 6240,
       "h": 3512
+    },
+    "china-flags": {
+      "w": 6240,
+      "h": 4160
     },
     "chongqing-flipped": {
       "w": 5849,
@@ -477,6 +497,22 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 3953,
       "h": 5930
     },
+    "everyday-1": {
+      "w": 4160,
+      "h": 6240
+    },
+    "everyday-2": {
+      "w": 4068,
+      "h": 6103
+    },
+    "everyday-3": {
+      "w": 4160,
+      "h": 6240
+    },
+    "farmer": {
+      "w": 4160,
+      "h": 6240
+    },
     "farmlands": {
       "w": 6240,
       "h": 4160
@@ -484,6 +520,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "farmlands2": {
       "w": 5713,
       "h": 3808
+    },
+    "father-daughter": {
+      "w": 6124,
+      "h": 4082
     },
     "fire": {
       "w": 6240,
@@ -516,6 +556,18 @@ export const GALLERY_ASPECT_RATIOS = {
     "fruit-truck": {
       "w": 5669,
       "h": 3779
+    },
+    "furong-bridge-view": {
+      "w": 5712,
+      "h": 3808
+    },
+    "furong-bridge": {
+      "w": 3824,
+      "h": 5737
+    },
+    "furong-town": {
+      "w": 4160,
+      "h": 6240
     },
     "garbage": {
       "w": 6240,
@@ -569,6 +621,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4160,
       "h": 6240
     },
+    "ladder": {
+      "w": 4160,
+      "h": 6240
+    },
     "lanterns-alley": {
       "w": 4160,
       "h": 6240
@@ -585,6 +641,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5316,
       "h": 2992
     },
+    "mao": {
+      "w": 6240,
+      "h": 4160
+    },
     "meituan-trio": {
       "w": 6240,
       "h": 4160
@@ -596,6 +656,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "mother-son": {
       "w": 5381,
       "h": 3587
+    },
+    "mountain-range": {
+      "w": 4160,
+      "h": 6240
     },
     "mountain-scene": {
       "w": 5988,
@@ -649,6 +713,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6240,
       "h": 4160
     },
+    "red-green": {
+      "w": 2928,
+      "h": 5203
+    },
     "red-museum": {
       "w": 3535,
       "h": 5303
@@ -669,6 +737,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 3512,
       "h": 6240
     },
+    "roof-worker": {
+      "w": 3512,
+      "h": 6240
+    },
     "rural-river": {
       "w": 5907,
       "h": 3938
@@ -684,6 +756,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "scooters": {
       "w": 5909,
       "h": 3939
+    },
+    "sleeping-cat": {
+      "w": 6240,
+      "h": 4160
     },
     "smoking": {
       "w": 6240,
@@ -741,6 +817,14 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5812,
       "h": 3875
     },
+    "winding-bus": {
+      "w": 4160,
+      "h": 6240
+    },
+    "winding-roads": {
+      "w": 4160,
+      "h": 6240
+    },
     "window-gramps": {
       "w": 5998,
       "h": 3998
@@ -748,6 +832,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "window": {
       "w": 6240,
       "h": 4160
+    },
+    "zhangjiajie": {
+      "w": 3854,
+      "h": 5781
     }
   },
   "japan": {

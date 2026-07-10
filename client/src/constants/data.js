@@ -44,7 +44,7 @@ export const CANADA_ITEMS = [
       ["autumn-pond"],
     ],
   },
-  { columns: [["ferry-lookout"]] }, // default size full
+  { columns: [["ferry-lookout"]] },
   {
     columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
   },
@@ -140,18 +140,26 @@ export const MEXICO_GALLERY_PHOTOS = flattenGalleryItems(MEXICO_ITEMS);
 export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 
 export const CHINA_ITEMS = [
-  { columns: [["rafts"]] },
+  {
+    columns: [["mountain-scene"]],
+  },
   {
     columns: [
-      ["gardener", "flying", "truck"],
-      [{ name: "mountain-scene", size: "full" }],
+      [{ name: "fire", location: "Yangshuo Guangxi" }],
+      ["farmlands"],
+      ["poles-in-farm"],
     ],
-    flex: [23, 60],
+    location: "Guangxi",
+    size: "sm",
   },
-  // { columns: [["two-dudes"], [""]], size: "full", flex: [4,1] },
   {
-    columns: [["grungy-apartment"], ["goldfish"], ["building-steps"]],
+    columns: [
+      ["grungy-apartment"],
+      [{ name: "goldfish", location: "Baixiangju, Chongqing" }],
+      ["building-steps"],
+    ],
     flex: [1, 2, 2],
+    location: "Chongqing",
   },
   {
     columns: [
@@ -160,14 +168,25 @@ export const CHINA_ITEMS = [
       ["park-gramps"],
     ],
     flex: [4, 1, 1],
+    location: "People's Park Chongqing",
+    size: "sm",
   },
-  { columns: [["meituan-trio"]] },
+  { columns: [["sleeping-cat"], ["cat"]] },
+  {
+    columns: [
+      ["zhangjiajie"],
+      ["winding-roads"],
+      ["mountain-range"],
+      ["winding-bus"],
+    ],
+  },
+  { columns: [["rafts"]] },
   {
     columns: [
       [{ name: "building-ac", size: "full" }],
       [
         "window-gramps",
-        "mahjong",
+        { name: "mahjong", location: "Baixiangju, Chongqing" },
         "messy-balcony",
         "hole-in-the-wall",
         "window",
@@ -175,48 +194,67 @@ export const CHINA_ITEMS = [
     ],
     flex: [20, 11],
     size: "sm",
+    location: "Chongqing",
+  },
+  { columns: [["chongqing-flipped"]], location: "Hongyadong, Chongqing" },
+  {
+    columns: [
+      [{ name: "furong-town", size: "full" }],
+      ["furong-bridge-view", []],
+      [],
+    ],
+    flex: [12, 6, 3],
+  },
+  { columns: [["china-flags"]] },
+  { columns: [["everyday-1"], ["everyday-2"], ["everyday-3"]] },
+  { columns: [["meituan-trio"]], location: "Chongqing" },
+  {
+    columns: [[{ name: "auntie-cooking", size: "full" }], [], ["happy-woman"]],
+    flex: [16, 2, 8],
+    location: "Chongqing",
+  },
+  { columns: [["roof-worker"], ["red-green"]], size: "full" },
+  {
+    columns: [
+      [{ name: "auntie-cleaning", location: "Chongqing" }],
+      [{ name: "baozi", size: "full", location: "Haochi Street, Chongqing" }],
+    ],
+    flex: [1, 2],
+  },
+  { columns: [["rainy-chongqing"]], location: "Raffles City, Chongqing" },
+  {
+    columns: [
+      [{ name: "hotpot", location: "Chongqing" }],
+      [{ name: "lanterns-alley", location: "Shancheng Alley, Chongqing" }],
+    ],
+    flex: [2, 1],
   },
   {
     columns: [
-      [["thinking-cards"], ["auntie-dance"], ["smoking"], ["robot-dog"]],
+      [
+        ["thinking-cards"],
+        [
+          {
+            name: "auntie-dance",
+            location: "Baixiang Street Historical Scene, Chongqing",
+          },
+        ],
+        ["smoking"],
+        ["robot-dog"],
+      ],
       [{ name: "card-uncs", size: "full" }],
     ],
-    flex: [11, 20],
+    flex: [112, 200],
     size: "sm",
+    location: "Baixiangju, Chongqing",
   },
-  // {
-  //   columns: [["mother-son"], ["cabbage-auntie"], ["frenchie"]],
-  //   size: "full",
-  // },
-  // { columns: [[""], ["garbage"]], size: "full", flex: [4, 6] },
   {
-    columns: [["auntie-cooking"], [], ["happy-woman"]],
-    flex: [16, 1, 8],
+    columns: [["two-dudes"]],
+    location: "Shancheng, Chongqing",
   },
-  { columns: [["crowded-dining"]] },
-  {
-    columns: [["auntie-cleaning"], ["baozi"]],
-    flex: [1, 2],
-  },
-  // { columns: [["robot-dog"], ["smoking"], ["auntie-dance"]], size: "full" },
-  { columns: [["rainy-chongqing"]] },
-  {
-    columns: [["hotpot"], ["lanterns-alley"]],
-    flex: [2, 1],
-  },
-  { columns: [["chongqing-flipped"]] },
-  { columns: [["fire"], ["farmlands"], ["poles-in-farm"]] },
-  { columns: [["posing"]] },
-  {
-    columns: [["flower-mountain"], ["rice-fields"], ["girthy-mountain"]],
-    flex: [1, 2, 1],
-  },
-
   {
     columns: [["bright-farmer"], ["rafting"]],
-  },
-  {
-    columns: [["plants-stairs"], ["laundry-woman"], ["stairwell-flowers"]],
+    location: "Yangshuo, Guangxi",
   },
 ];
 

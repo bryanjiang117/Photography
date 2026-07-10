@@ -46,7 +46,15 @@ const regionArg = process.argv
 const regions = regionArg ? [regionArg] : REGIONS;
 
 /** @type {Record<string, Record<string, { w: number; h: number }>>} */
-const data = {};
+let data = {};
+if (regionArg && fs.existsSync(OUT)) {
+  const prev = fs.readFileSync(OUT, "utf8");
+  const match = prev.match(
+    /export const GALLERY_ASPECT_RATIOS = (\{[\s\S]*?\});\s*\n/,
+  );
+  if (match) data = JSON.parse(match[1]);
+}
+
 for (const region of regions) {
   console.log(region);
   data[region] = await ratiosForRegion(region);
