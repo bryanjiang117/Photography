@@ -48,7 +48,7 @@ const ChinaPanel = () => {
         </section>
         <section className="relative flex-1 w-full bg-china-primary">
           <motion.img
-            src={galleryImageUrl("china", "mountain-scene", "md")}
+            src={galleryImageUrl("china", "temple", "md")}
             loading="lazy"
             className="absolute bottom-0 right-1/7 max-h-full cursor-pointer"
             animate={

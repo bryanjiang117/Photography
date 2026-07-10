@@ -13,7 +13,7 @@ const ChinaPanel = () => {
       bgColor="bg-china-primary"
       image={
         <motion.img
-          src={galleryImageUrl("china", "mountain-scene", "md")}
+          src={galleryImageUrl("china", "temple", "md")}
           className="absolute top-0 right-0 h-full object-cover text-black cursor-pointer"
           animate={
             showChinaGallery

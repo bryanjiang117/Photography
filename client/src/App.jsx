@@ -38,7 +38,7 @@ const CRITICAL_IMAGES = [
   galleryImageUrl("japan", "flowers", "md"),
   galleryImageUrl("mexico", "orange-wall", "md"),
   galleryImageUrl("canada", "leaves-glow", "sm"),
-  galleryImageUrl("china", "mountain-scene", "md"),
+  galleryImageUrl("china", "temple", "md"),
 ];
 
 function AnimatedRoutes() {
