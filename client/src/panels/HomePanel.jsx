@@ -13,39 +13,27 @@ const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePanel = () => {
   const { introReady } = useContext(GalleryContext);
+  const introReadyRef = useRef(introReady);
+  introReadyRef.current = introReady;
   const scrollRef = useRef(null);
   const setRef = useRef(null);
   const setWidthRef = useRef(0);
   const hasPositionedRef = useRef(false);
   const userInteractedRef = useRef(false);
-  const panels = useMemo(() => {
-    const items = [
+  const panels = useMemo(
+    () => [
       <IntroPanel scrollRef={scrollRef} key="intro" />,
       <ChinaPanel key="china" />,
       <JapanPanel key="japan" />,
       <MexicoCityPanel key="mexico-city" />,
       <CanadaPanel key="canada" />,
       <ProjectsPanel key="projects" />,
-    ];
-    if (introReady) {
-      items.push(
-        <Suspense key="extras" fallback={null}>
-          <ExtrasPanel />
-        </Suspense>,
-      );
-    }
-    return items;
-  }, [introReady]);
-
-  useEffect(() => {
-    if (!introReady) return;
-    const el = scrollRef.current;
-    const set = setRef.current;
-    if (!el || !set) return;
-    el.style.scrollBehavior = "auto";
-    el.scrollLeft = setWidthRef.current || set.getBoundingClientRect().width;
-    hasPositionedRef.current = true;
-  }, [introReady]);
+      <Suspense key="extras" fallback={null}>
+        <ExtrasPanel />
+      </Suspense>,
+    ],
+    [],
+  );
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -58,7 +46,7 @@ const HomePanel = () => {
     };
 
     const onScroll = () => {
-      if (!introReady) return;
+      if (!introReadyRef.current) return;
       const setWidth = setWidthRef.current;
       if (setWidth <= 0) return;
       const clientW = el.clientWidth;
@@ -77,12 +65,6 @@ const HomePanel = () => {
       }
     };
 
-    // Mark user interaction so we stop auto-repositioning once the user scrolls.
-    // wheel/touchstart won't fire from programmatic scrolls.
-    const onUserInteract = () => {
-      userInteractedRef.current = true;
-    };
-
     const ro = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect?.width ?? 0;
       if (width <= 0) return;
@@ -95,7 +77,7 @@ const HomePanel = () => {
       // This ensures async panel content changing widths doesn't leave us at the wrong position.
       if (!hasPositionedRef.current || !userInteractedRef.current) {
         withInstantScroll(() => {
-          el.scrollLeft = introReady ? width : 0;
+          el.scrollLeft = width;
         });
         hasPositionedRef.current = true;
       }
@@ -108,31 +90,28 @@ const HomePanel = () => {
     ro.observe(set);
     // Translate vertical wheel events to horizontal scroll
     const onWheel = (e) => {
+      userInteractedRef.current = true;
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault();
         el.scrollLeft += e.deltaY;
       }
     };
 
+    const onUserInteract = () => {
+      userInteractedRef.current = true;
+    };
+
     el.addEventListener("scroll", onScroll, { passive: true });
     el.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("wheel", onUserInteract, {
-      once: true,
-      passive: true,
-    });
-    window.addEventListener("touchstart", onUserInteract, {
-      once: true,
-      passive: true,
-    });
+    el.addEventListener("touchstart", onUserInteract, { passive: true });
 
     return () => {
       ro.disconnect();
       el.removeEventListener("scroll", onScroll);
       el.removeEventListener("wheel", onWheel);
-      window.removeEventListener("wheel", onUserInteract);
-      window.removeEventListener("touchstart", onUserInteract);
+      el.removeEventListener("touchstart", onUserInteract);
     };
-  }, [panels, introReady]);
+  }, []);
 
   const panelSet = (keyPrefix) => (
     <div className="flex h-screen min-h-[800px] shrink-0">
@@ -153,7 +132,7 @@ const HomePanel = () => {
       style={{ visibility: "hidden" }}
       className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scrollbar-hide"
     >
-      {introReady && panelSet("left")}
+      {panelSet("left")}
       <div ref={setRef} className="flex h-screen min-h-[800px] shrink-0">
         {panels.map((p, i) => (
           <div
@@ -164,7 +143,7 @@ const HomePanel = () => {
           </div>
         ))}
       </div>
-      {introReady && panelSet("right")}
+      {panelSet("right")}
     </div>
   );
 };
