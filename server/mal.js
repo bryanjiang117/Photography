@@ -1,6 +1,7 @@
 import crypto from "crypto";
+import { createJsonCache } from "./cacheStore.js";
 
-const CACHE_TTL_MS = 60000; // 60 seconds
+const POLL_INTERVAL_MS = 60 * 60 * 1000; // 1 hour — list rarely changes
 
 function makeCodeVerifier() {
   return crypto.randomBytes(32).toString("hex");
@@ -15,13 +16,14 @@ export async function registerMalRoutes(app, supabase) {
   const CLIENT_SECRET = process.env.MAL_CLIENT_SECRET;
   const REDIRECT_URI = process.env.MAL_REDIRECT_URI;
 
+  const listCache = createJsonCache(supabase, "cache_mal_list");
+
   let accessToken = null;
   let refreshToken = null;
   let expiresAtMs = 0;
 
-  let animeListCache;
-  let animeListCacheExpiresAtMs = 0;
-  let animeListInFlightPromise;
+  let animeListCache = null;
+  let isRefreshing = false;
 
   app.get("/api/mal/login", (req, res) => {
     try {
@@ -99,6 +101,7 @@ export async function registerMalRoutes(app, supabase) {
         return res.status(500).send(`Failed to save refresh token: ${dbError.message}`);
       }
 
+      refreshAnimeListCache();
       return res.send("MAL logged in. You can now call the API.");
     } catch (e) {
       return res.status(500).send(e?.message ?? "Unknown error");
@@ -168,66 +171,44 @@ export async function registerMalRoutes(app, supabase) {
     return accessToken;
   }
 
-  async function getCachedAnimeList() {
-    const now = Date.now();
+  async function refreshAnimeListCache() {
+    if (isRefreshing) return;
+    isRefreshing = true;
 
-    if (animeListCache && now < animeListCacheExpiresAtMs) {
-      return animeListCache;
-    }
+    try {
+      const token = await getAccessToken();
 
-    if (animeListInFlightPromise) {
-      return animeListInFlightPromise;
-    }
+      const params = new URLSearchParams({
+        status: "completed",
+        sort: "list_score",
+        limit: 10,
+        fields: "alternative_titles",
+      });
+      const response = await fetch(
+        `https://api.myanimelist.net/v2/users/@me/animelist?${params.toString()}`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
 
-    console.log("API call to fetch anime list");
-    animeListInFlightPromise = (async () => {
-      try {
-        const token = await getAccessToken();
+      const data = await response.json();
 
-        const params = new URLSearchParams({
-          status: "completed",
-          sort: "list_score",
-          limit: 10,
-          fields: "alternative_titles",
-        });
-        const response = await fetch(
-          `https://api.myanimelist.net/v2/users/@me/animelist?${params.toString()}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(`Error getting list from MAL: ${response.statusText}`);
-        }
-
-        const animeList = data.data;
-        animeListCache = animeList;
-        animeListCacheExpiresAtMs = Date.now() + CACHE_TTL_MS;
-
-        return animeList;
-      } finally {
-        animeListInFlightPromise = null;
+      if (!response.ok) {
+        throw new Error(`Error getting list from MAL: ${response.statusText}`);
       }
-    })();
 
-    return animeListInFlightPromise;
+      animeListCache = data.data;
+      await listCache.save({ data: animeListCache, updatedAt: Date.now() });
+    } catch (err) {
+      console.error("[mal] refresh error:", err?.message ?? err);
+    } finally {
+      isRefreshing = false;
+    }
   }
 
-  app.get("/api/mal/anime-list", async (req, res) => {
-    try {
-      const data = await getCachedAnimeList();
-      res.status(200).json(data);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+  // Always serve memory (hydrated from DB on boot). Never block on upstream.
+  app.get("/api/mal/anime-list", (req, res) => {
+    res.status(200).json(animeListCache ?? []);
   });
 
-  // Load MAL refresh token at startup
   refreshToken = await loadRefreshTokenFromDb();
 
   if (refreshToken) {
@@ -237,4 +218,13 @@ export async function registerMalRoutes(app, supabase) {
       "No MAL refresh token in database. Login at http://127.0.0.1:3001/api/mal/login",
     );
   }
+
+  const stored = await listCache.load();
+  if (Array.isArray(stored?.data)) {
+    animeListCache = stored.data;
+    console.log("Hydrated MAL anime list from cache.");
+  }
+
+  refreshAnimeListCache();
+  setInterval(refreshAnimeListCache, POLL_INTERVAL_MS);
 }

@@ -1,15 +1,18 @@
-const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+import { createJsonCache } from "./cacheStore.js";
+
+const POLL_INTERVAL_MS = 60 * 60 * 1000; // 1 hour — ratings rarely change
 const MAX_PAGES = 10; // cap at 200 items per type when fetching all rated
 
 export async function registerTmdbRoutes(app, supabase) {
   const API_KEY = process.env.TMDB_API_KEY;
 
+  const ratedCacheStore = createJsonCache(supabase, "cache_tmdb_rated");
+
   let sessionId = null;
   let accountId = null;
 
   let ratedCache = null;
-  let ratedCacheExpiresAtMs = 0;
-  let ratedInFlightPromise = null;
+  let isRefreshing = false;
 
   async function loadFromDb(name) {
     const { data } = await supabase
@@ -100,23 +103,19 @@ export async function registerTmdbRoutes(app, supabase) {
     });
   }
 
-  async function getCachedRated() {
-    const now = Date.now();
-    if (ratedCache && now < ratedCacheExpiresAtMs) return ratedCache;
-    if (ratedInFlightPromise) return ratedInFlightPromise;
+  async function refreshRatedCache() {
+    if (isRefreshing) return;
+    isRefreshing = true;
 
-    ratedInFlightPromise = (async () => {
-      try {
-        const data = await fetchRated();
-        ratedCache = data;
-        ratedCacheExpiresAtMs = Date.now() + CACHE_TTL_MS;
-        return data;
-      } finally {
-        ratedInFlightPromise = null;
-      }
-    })();
-
-    return ratedInFlightPromise;
+    try {
+      const data = await fetchRated();
+      ratedCache = data;
+      await ratedCacheStore.save({ data, updatedAt: Date.now() });
+    } catch (err) {
+      console.error("[tmdb] refresh error:", err?.message ?? err);
+    } finally {
+      isRefreshing = false;
+    }
   }
 
   // Pending request token (in-memory, only needed during the login flow)
@@ -190,19 +189,16 @@ export async function registerTmdbRoutes(app, supabase) {
       }
 
       await ensureAccountId();
+      refreshRatedCache();
       return res.send("TMDB logged in. You can now call /api/tmdb/rated.");
     } catch (e) {
       return res.status(500).send(e?.message ?? "Unknown error");
     }
   });
 
-  app.get("/api/tmdb/rated", async (req, res) => {
-    try {
-      const data = await getCachedRated();
-      res.json(data);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
+  // Always serve memory (hydrated from DB on boot). Never block on upstream.
+  app.get("/api/tmdb/rated", (req, res) => {
+    res.json(ratedCache ?? []);
   });
 
   // Load persisted session at startup
@@ -214,5 +210,16 @@ export async function registerTmdbRoutes(app, supabase) {
     console.log(
       "No TMDB session in database. Login at http://127.0.0.1:3001/api/tmdb/login",
     );
+  }
+
+  const stored = await ratedCacheStore.load();
+  if (Array.isArray(stored?.data)) {
+    ratedCache = stored.data;
+    console.log("Hydrated TMDB rated list from cache.");
+  }
+
+  if (sessionId) {
+    refreshRatedCache();
+    setInterval(refreshRatedCache, POLL_INTERVAL_MS);
   }
 }

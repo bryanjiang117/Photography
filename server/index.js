@@ -28,7 +28,7 @@ app.use(
   }),
 );
 
-registerSpotifyRoutes(app, supabase);
+await registerSpotifyRoutes(app, supabase);
 await registerMalRoutes(app, supabase);
 await registerTmdbRoutes(app, supabase);
 

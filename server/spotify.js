@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { createJsonCache } from "./cacheStore.js";
 
 const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
 const SPOTIFY_POLL_INTERVAL_MS = 90_000; // 1.5 minutes between Spotify fetches
@@ -23,20 +24,29 @@ function makeCodeChallenge(verifier) {
   return base64UrlEncode(hash);
 }
 
-export function registerSpotifyRoutes(app, supabase) {
+export async function registerSpotifyRoutes(app, supabase) {
   const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
   const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
   const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI;
+
+  const nowPlayingCache = createJsonCache(supabase, "cache_spotify_now");
 
   // In-memory token cache (resets when server restarts)
   let cachedAccessToken = null;
   let accessTokenExpiresAtMs = 0;
   let refreshToken = null;
 
-  // In-memory "now playing" cache (shared by ALL users)
+  // In-memory "now playing" cache (shared by ALL users); hydrated from DB on boot
   let cachedNowPlaying = null;
   let cachedNowPlayingUpdatedAt = 0;
   let isRefreshingNowPlaying = false;
+
+  async function persistNowPlaying() {
+    await nowPlayingCache.save({
+      data: cachedNowPlaying,
+      updatedAt: cachedNowPlayingUpdatedAt,
+    });
+  }
 
   /*
   1) One-time route: you visit this in browser to connect your Spotify account
@@ -276,6 +286,7 @@ export function registerSpotifyRoutes(app, supabase) {
         }
         if (cachedNowPlaying) {
           cachedNowPlayingUpdatedAt = Date.now();
+          await persistNowPlaying();
           return;
         }
       }
@@ -310,6 +321,7 @@ export function registerSpotifyRoutes(app, supabase) {
             }
           : null;
         cachedNowPlayingUpdatedAt = Date.now();
+        await persistNowPlaying();
       } catch (parseErr) {
         console.error(
           "[spotify] recently-played parse error:",
@@ -320,18 +332,13 @@ export function registerSpotifyRoutes(app, supabase) {
     } catch (err) {
       console.error("[spotify] refresh error:", err?.message ?? err);
       if (err?.stack) console.error(err.stack);
-      // Don't serve stale data forever — clear cache if last success was >10 min ago
-      const STALE_THRESHOLD_MS = 10 * 60 * 1000;
-      if (cachedNowPlayingUpdatedAt && Date.now() - cachedNowPlayingUpdatedAt > STALE_THRESHOLD_MS) {
-        console.warn("[spotify] cache stale for >10 min, clearing");
-        cachedNowPlaying = null;
-      }
+      // Keep serving last-known (incl. DB hydrate) on transient failures
     } finally {
       isRefreshingNowPlaying = false;
     }
   }
 
-  app.get("/api/spotify/currently-playing", async (req, res) => {
+  app.get("/api/spotify/currently-playing", (req, res) => {
     res.set("Cache-Control", "no-store");
     return res.json(
       cachedNowPlaying
@@ -339,6 +346,13 @@ export function registerSpotifyRoutes(app, supabase) {
         : null,
     );
   });
+
+  const stored = await nowPlayingCache.load();
+  if (stored && "data" in stored) {
+    cachedNowPlaying = stored.data ?? null;
+    cachedNowPlayingUpdatedAt = stored.updatedAt ?? 0;
+    console.log("Hydrated Spotify now-playing from cache.");
+  }
 
   refreshNowPlayingCache();
   setInterval(refreshNowPlayingCache, SPOTIFY_POLL_INTERVAL_MS);
