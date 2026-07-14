@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 /**
  * Image with a shimmer skeleton placeholder. Reserves space when `aspectRatio` is set.
+ *
+ * Cached images skip the shimmer and opacity fade so a warm HTTP cache paints
+ * at full opacity on the first frame.
  *
  * @param {{
  *   src: string;
@@ -38,17 +41,18 @@ export default function SkeletonImage({
 }) {
   const imgRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
+  const [fade, setFade] = useState(true);
 
-  useEffect(() => {
-    setLoaded(false);
-  }, [src]);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const img = imgRef.current;
     if (img?.complete && img.naturalWidth > 0) {
+      setFade(false);
       setLoaded(true);
+      return;
     }
-  }, [src]);
+    setFade(true);
+    setLoaded(false);
+  }, [src, srcSet]);
 
   const wrapperStyle = aspectRatio
     ? { aspectRatio: `${aspectRatio.w} / ${aspectRatio.h}`, ...style }
@@ -71,9 +75,11 @@ export default function SkeletonImage({
         decoding={decoding}
         loading={loading}
         fetchPriority={fetchPriority}
-        className={`block transition-opacity duration-300 ease-out ${
-          loaded ? "opacity-100" : "opacity-0"
-        } ${aspectRatio ? "h-full w-full" : ""} ${className}`}
+        className={`block ${
+          fade ? "transition-opacity duration-300 ease-out" : ""
+        } ${loaded ? "opacity-100" : "opacity-0"} ${
+          aspectRatio ? "h-full w-full" : ""
+        } ${className}`}
         onLoad={(e) => {
           setLoaded(true);
           onLoad?.(e);

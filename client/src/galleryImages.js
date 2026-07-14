@@ -40,7 +40,9 @@ export function galleryImageSrcSet(region, name, maxSize = "full") {
 }
 
 /**
- * Single URL to prefetch — same tier GalleryImage uses for `src`.
+ * URL for GalleryImage `src` (largest allowed tier for the layout).
+ * Prefer {@link galleryPrefetchUrls} for warming — the browser often picks a
+ * smaller candidate from `srcSet` based on `sizes`.
  * @param {string} region
  * @param {string} name
  * @param {GalleryImageSize} maxSize
@@ -54,6 +56,27 @@ export function galleryPrefetchUrl(
 ) {
   const size = capSizeForLayout(maxSize, layout);
   return galleryImageUrl(region, name, size);
+}
+
+/**
+ * Every AVIF tier GalleryImage may request via `src` / `srcSet` for this photo.
+ * @param {string} region
+ * @param {string} name
+ * @param {GalleryImageSize} maxSize
+ * @param {'grid' | 'full' | 'mobile'} [layout]
+ * @returns {string[]}
+ */
+export function galleryPrefetchUrls(
+  region,
+  name,
+  maxSize = "md",
+  layout = "grid",
+) {
+  const size = capSizeForLayout(maxSize, layout);
+  const maxIdx = SIZE_ORDER.indexOf(size);
+  return SIZE_ORDER.slice(0, maxIdx + 1).map((tier) =>
+    galleryImageUrl(region, name, tier),
+  );
 }
 
 /**

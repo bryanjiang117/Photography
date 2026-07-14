@@ -1,4 +1,4 @@
-import { galleryImageUrl, galleryPrefetchUrl } from "./galleryImages";
+import { galleryImageUrl, galleryPrefetchUrls } from "./galleryImages";
 import { loadGalleryChunk } from "./galleryChunkPrefetch";
 
 function prefetchLayout() {
@@ -35,7 +35,14 @@ export function warmGalleryImage(url) {
       inFlight.delete(url);
       resolve();
     };
-    img.onload = done;
+    img.onload = () => {
+      // Finish decode during prefetch so open-time presentation is cheaper.
+      if (typeof img.decode === "function") {
+        img.decode().then(done).catch(done);
+      } else {
+        done();
+      }
+    };
     img.onerror = done;
     img.src = url;
   });
@@ -63,22 +70,22 @@ export async function warmGalleryImages(urls, { concurrency = 8 } = {}) {
 
 export function warmGalleryRegion(region, photos, options = {}) {
   const layout = options.layout ?? prefetchLayout();
-  const urls = photos
-    .map((photo) => {
-      if (typeof photo === "string" && photo.length > 0) {
-        return galleryPrefetchUrl(region, photo, "md", layout);
-      }
-      if (photo?.name) {
-        return galleryPrefetchUrl(
-          region,
-          photo.name,
-          photo.size ?? "md",
-          layout,
-        );
-      }
-      return null;
-    })
-    .filter(Boolean);
+  // Warm every srcSet candidate — the browser often selects `sm` even when
+  // `src` points at `md`/`full`, so warming only `src` still causes a miss.
+  const urls = photos.flatMap((photo) => {
+    if (typeof photo === "string" && photo.length > 0) {
+      return galleryPrefetchUrls(region, photo, "md", layout);
+    }
+    if (photo?.name) {
+      return galleryPrefetchUrls(
+        region,
+        photo.name,
+        photo.size ?? "md",
+        layout,
+      );
+    }
+    return [];
+  });
   return warmGalleryImages(urls, options);
 }
 
