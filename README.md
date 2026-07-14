@@ -21,7 +21,7 @@ A personal site that pairs film photography with some software work and personal
 
 - **Infinite horizontal home** — Intro, photography panels, projects, and extras on a looping scroll track
 - **Regional galleries** — Mexico City, Canada, Japan, and more to come with editorial grid layouts
-- **Responsive AVIF** — `sm` / `md` / full variants with `srcset`, sized by longest edge for portraits and landscapes
+- **Responsive AVIF** — `sm` / `md` / `lg` / master (`full`) variants, sized by longest edge for portraits and landscapes
 - **Motion-driven UI** — Panel transitions, gallery overlays, and intro reveal via [Motion](https://motion.dev/)
 - **Live integrations** — Currently playing (Spotify), anime list (MAL), rated films (TMDB)
 - **Mobile layouts** — Dedicated gallery and panel components with touch-friendly lightboxes
@@ -98,7 +98,8 @@ Photos live in `client/public/assets/photos/{mexico,canada,china,japan}/`.
 
 | File | Longest side |
 |------|----------------|
-| `name.avif` | original |
+| `name.avif` | original (uncapped master) |
+| `name-lg.avif` | 2400px |
 | `name-md.avif` | 1400px |
 | `name-sm.avif` | 800px |
 
@@ -122,11 +123,12 @@ node scripts/generate-gallery-variants.mjs --region=mexico
 
 | `size` | When to use |
 |--------|-------------|
-| `full` | Hero / single full-width row |
+| `lg` | Hero / single full-width row (default for lone images) |
 | `md` | Default for 1–2 column rows |
 | `sm` | Dense rows (3+ columns), or set explicitly |
+| `full` | Uncapped master — only when you opt in intentionally |
 
-Per-image override: `{ name: "windmill", size: "full" }`. See comments at the top of `data.js` for column layout syntax (`flex`, `fit`, spacers).
+Per-image override: `{ name: "windmill", size: "lg" }`. See comments at the top of `data.js` for column layout syntax (`flex`, `fit`, spacers).
 
 ---
 

@@ -1,16 +1,20 @@
-/** @typedef {'sm' | 'md' | 'full'} GalleryImageSize */
+/** @typedef {'sm' | 'md' | 'lg' | 'full'} GalleryImageSize */
 
+/** Longest-side caps for sized tiers. `full` is the uncapped source master. */
 export const GALLERY_IMAGE_WIDTHS = {
   sm: 800,
   md: 1400,
-  full: 2400,
+  lg: 2400,
+  // Approximate descriptor only — masters are often ~4–6k.
+  full: 6000,
 };
 
-const SIZE_ORDER = /** @type {const} */ (["sm", "md", "full"]);
+const SIZE_ORDER = /** @type {const} */ (["sm", "md", "lg", "full"]);
 
 const SUFFIX = {
   sm: "-sm",
   md: "-md",
+  lg: "-lg",
   full: "",
 };
 
@@ -19,7 +23,7 @@ const SUFFIX = {
  * @param {string} name
  * @param {GalleryImageSize} [size]
  */
-export function galleryImageUrl(region, name, size = "full") {
+export function galleryImageUrl(region, name, size = "lg") {
   const suffix = SUFFIX[size];
   return `/assets/photos/${region}/${name}${suffix}.avif`;
 }
@@ -29,7 +33,7 @@ export function galleryImageUrl(region, name, size = "full") {
  * @param {string} name
  * @param {GalleryImageSize} maxSize
  */
-export function galleryImageSrcSet(region, name, maxSize = "full") {
+export function galleryImageSrcSet(region, name, maxSize = "lg") {
   const maxIdx = SIZE_ORDER.indexOf(maxSize);
   return SIZE_ORDER.slice(0, maxIdx + 1)
     .map(
@@ -104,7 +108,7 @@ export function parseImageEntry(entry, rowSize, rowLocation) {
   return null;
 }
 
-/** Row default when `size` is omitted: lone full-width → full, 4+ columns → sm, else md. */
+/** Row default when `size` is omitted: lone full-width → lg, 4+ columns → sm, else md. */
 export function rowDefaultSize(row) {
   if (row.size) return row.size;
   if (
@@ -112,7 +116,7 @@ export function rowDefaultSize(row) {
     row.columns[0].length === 1 &&
     parseImageEntry(row.columns[0][0])
   ) {
-    return "full";
+    return "lg";
   }
   if (row.columns.length >= 4) return "sm";
   return "md";
@@ -157,7 +161,7 @@ export function galleryImageSizesAttr(photos, layout = "grid") {
     0,
   );
   const maxSize = SIZE_ORDER[maxIdx];
-  if (maxSize === "full") return "100vw";
+  if (maxSize === "lg" || maxSize === "full") return "100vw";
   if (maxSize === "sm") return "(max-width: 768px) 40vw, 22vw";
   return "(max-width: 768px) 80vw, 40vw";
 }

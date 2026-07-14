@@ -21,7 +21,8 @@ function listFullAvifs(regionDir) {
       (f) =>
         f.endsWith(".avif") &&
         !f.endsWith("-sm.avif") &&
-        !f.endsWith("-md.avif"),
+        !f.endsWith("-md.avif") &&
+        !f.endsWith("-lg.avif"),
     )
     .map((f) => f.replace(/\.avif$/, ""));
 }

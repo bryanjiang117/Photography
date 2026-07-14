@@ -13,9 +13,9 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 //
 // One column with one image → rendered full-width across the scroll area.
 //
-// size — max AVIF tier for the row: "sm" | "md" | "full"
-//   Omitted → "full" for a lone full-width image, "sm" for 4+ columns, else "md"
-//   Files: name-sm.avif (800px longest side), name-md.avif (1400px longest side), name.avif (full)
+// size — max AVIF tier for the row: "sm" | "md" | "lg" | "full"
+//   Omitted → "lg" for a lone full-width image, "sm" for 4+ columns, else "md"
+//   Files: name-sm.avif (800px), name-md.avif (1400px), name-lg.avif (2400px), name.avif (uncapped master)
 //   After adding/replacing name.avif:  cd client && npm run photos:variants
 //
 // location — optional place label for the whole row (e.g. "Kyoto"). Inherited by every
@@ -26,13 +26,13 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 // gap — optional number (Tailwind spacing scale) for the space ABOVE the row;
 //   default is 20 (the grid's gap-20 / 5rem). Smaller = tighter (gap: 8 → 2rem).
 //
-// Mobile galleries use the same lists; display caps at "sm". Lightbox uses "full".
+// Mobile galleries use the same lists; display caps at "sm". Lightbox uses "lg".
 // Flattened photo lists (*_GALLERY_PHOTOS) include resolved `location` per photo.
 //
 // Examples:
-//   { columns: [["orange-wall"]], size: "full", location: "Coyoacán" }
+//   { columns: [["orange-wall"]], size: "lg", location: "Coyoacán" }
 //   { columns: [["green-wall"], ["blue-door"]], size: "md", location: "Roma Norte" }
-//   { columns: [[{ name: "windmill", size: "full", location: "Holbox" }]] }
+//   { columns: [[{ name: "windmill", size: "lg", location: "Holbox" }]] }
 //   { columns: [[], ["palm-trees"], ["tree-reflection"]], flex: [1, 2, 5], size: "md" }
 //
 export const CANADA_ITEMS = [
@@ -53,7 +53,7 @@ export const CANADA_ITEMS = [
     columns: [
       [],
       [[{ name: "hotdog-stand", size: "sm" }], []],
-      [{ name: "pacific-railway", size: "full" }],
+      [{ name: "pacific-railway", size: "lg" }],
     ],
     flex: [1, 1, 3],
   },
@@ -63,7 +63,7 @@ export const CANADA_ITEMS = [
   {
     columns: [["orca"], [[], []]],
     flex: [4, 5],
-    size: "full",
+    size: "lg",
   },
   {
     columns: [
@@ -76,7 +76,7 @@ export const CANADA_ITEMS = [
   { columns: [["sunset-seagull"], ["pink-jellyfish"]] },
   // { columns: [["shop-window"], ["bakery-kitchen"], ["bookstore"]] },
   { columns: [["walking-dog"], [], ["street-protester"]] },
-  { columns: [["towering-cloud"], ["golden-spires"]], size: "full" },
+  { columns: [["towering-cloud"], ["golden-spires"]], size: "lg" },
   {
     columns: [["scrap-sculpture"], [], ["gated-alley"], [], ["graffiti-alley"]],
   },
@@ -84,7 +84,7 @@ export const CANADA_ITEMS = [
     columns: [
       ["chongqing-restaurant"],
       ["chinatown-market"],
-      [{ name: "fruit-worker", size: "full" }],
+      [{ name: "fruit-worker", size: "lg" }],
     ],
     fit: "contain",
   },
@@ -92,7 +92,7 @@ export const CANADA_ITEMS = [
   {
     columns: [
       ["sun-rays", "empty-goalpost", "golden-grass"],
-      [{ name: "brick-tower", size: "full" }],
+      [{ name: "brick-tower", size: "lg" }],
     ],
     flex: [1, 3],
   },
@@ -108,21 +108,21 @@ export const CANADA_PHOTOS = CANADA_GALLERY_PHOTOS.map((p) => p.name);
 
 // Empty strings in arrays are spacers for the desktop grid layout.
 export const MEXICO_ITEMS = [
-  { columns: [["orange-wall"]], size: "full" },
+  { columns: [["orange-wall"]], size: "lg" },
   { columns: [["green-wall"], ["blue-door"], ["bike-leaves"]], size: "md" },
-  { columns: [["meat-vendor"], ["pastor-tacos"]], size: "full" },
+  { columns: [["meat-vendor"], ["pastor-tacos"]], size: "lg" },
   { columns: [[], ["street-vendor"], [], ["coke-store"]] },
   { columns: [["taco-vendor"], ["bakery"]] },
   { columns: [["fruit-store"], ["flowers"], ["fruit-vendor"]], size: "md" },
-  { columns: [["old-man"], []], size: "full" },
+  { columns: [["old-man"], []], size: "lg" },
   { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]], size: "md" },
-  { columns: [["windmill"]], size: "full" },
+  { columns: [["windmill"]], size: "lg" },
   // { columns: [["modern-balcony"], ["ferris"], ["old-building"]], size: "md" },
   {
-    columns: [[], ["palm-trees"], [{ name: "tree-reflection", size: "full" }]],
+    columns: [[], ["palm-trees"], [{ name: "tree-reflection", size: "lg" }]],
     flex: [1, 2, 5],
   },
-  { columns: [["playground"], []], size: "full" },
+  { columns: [["playground"], []], size: "lg" },
   {
     columns: [
       ["museum-reflection"],
@@ -163,7 +163,7 @@ export const CHINA_ITEMS = [
   },
   {
     columns: [
-      [{ name: "chess-table", size: "full" }],
+      [{ name: "chess-table", size: "lg" }],
       ["stick-gramps"],
       ["park-gramps"],
     ],
@@ -199,7 +199,7 @@ export const CHINA_ITEMS = [
   { columns: [["chongqing-flipped"]], location: "Hongyadong, Chongqing" },
   {
     columns: [
-      [{ name: "furong-town", size: "full" }],
+      [{ name: "furong-town", size: "lg" }],
       ["furong-bridge-view", []],
       [],
     ],
@@ -209,15 +209,15 @@ export const CHINA_ITEMS = [
   { columns: [["everyday-1"], ["everyday-2"], ["everyday-3"]] },
   { columns: [["meituan-trio"]], location: "Chongqing" },
   {
-    columns: [[{ name: "auntie-cooking", size: "full" }], [], ["happy-woman"]],
+    columns: [[{ name: "auntie-cooking", size: "lg" }], [], ["happy-woman"]],
     flex: [16, 2, 8],
     location: "Chongqing",
   },
-  { columns: [["roof-worker"], ["red-green"]], size: "full" },
+  { columns: [["roof-worker"], ["red-green"]], size: "lg" },
   {
     columns: [
       [{ name: "auntie-cleaning", location: "Chongqing" }],
-      [{ name: "baozi", size: "full", location: "Haochi Street, Chongqing" }],
+      [{ name: "baozi", size: "lg", location: "Haochi Street, Chongqing" }],
     ],
     flex: [1, 2],
   },
@@ -242,7 +242,7 @@ export const CHINA_ITEMS = [
         ["smoking"],
         ["robot-dog"],
       ],
-      [{ name: "card-uncs", size: "full" }],
+      [{ name: "card-uncs", size: "lg" }],
     ],
     flex: [112, 200],
     size: "sm",
@@ -263,7 +263,7 @@ export const CHINA_PHOTOS = CHINA_GALLERY_PHOTOS.map((p) => p.name);
 
 export const JAPAN_ITEMS = [
   {
-    columns: [[{ name: "jugs", size: "full" }], ["festival-object"]],
+    columns: [[{ name: "jugs", size: "lg" }], ["festival-object"]],
     flex: [9, 4],
     location: "Fukuoka",
   },
@@ -287,7 +287,7 @@ export const JAPAN_ITEMS = [
   { columns: [["cats"]], location: "Ainoshima (Cat Island), Fukuoka" },
   // {
   //   columns: [["gap"], ["fishing-village-2"]],
-  //   size: "full",
+  //   size: "lg",
   //   flex: [4, 9],
   // },
   {
@@ -308,7 +308,7 @@ export const JAPAN_ITEMS = [
   { columns: [["business-man"]], location: "Shibuya, Tokyo" },
   // { columns: [["modes-of-transport"]] },
   {
-    columns: [[{ name: "asakusa", size: "full" }], ["banners"]],
+    columns: [[{ name: "asakusa", size: "lg" }], ["banners"]],
     flex: [9, 4],
     location: "Asakusa, Tokyo",
   },
@@ -330,19 +330,19 @@ export const JAPAN_ITEMS = [
   },
   { columns: [["beach"]], gap: 30, location: "Shichirigahama Beach, Kamakura" },
   {
-    columns: [[{ name: "purple-bar", size: "full" }], ["green-bar"]],
+    columns: [[{ name: "purple-bar", size: "lg" }], ["green-bar"]],
     flex: [9, 4],
     location: "Shinjuku Golden Gai, Tokyo",
   },
   { columns: [["takoyaki"]], location: "Fukuoka" },
   {
-    columns: [["night-signs"], [{ name: "night-restaurant", size: "full" }]],
+    columns: [["night-signs"], [{ name: "night-restaurant", size: "lg" }]],
     flex: [4, 9],
     location: "Shinjuku Golden Gai, Tokyo",
   },
   { columns: [["lanterns"]], location: "Zenkoji Temple, Nagano" },
   {
-    columns: [[{ name: "monks", size: "full" }], ["snow-temple"]],
+    columns: [[{ name: "monks", size: "lg" }], ["snow-temple"]],
     flex: [9, 4],
     location: "Zenkoji Temple, Nagano",
   },

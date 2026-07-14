@@ -50,7 +50,7 @@ function rowDefaultSize(row) {
     row.columns[0].length === 1 &&
     parseImageEntry(row.columns[0][0])
   ) {
-    return "full";
+    return "lg";
   }
   if (row.columns.length >= 4) return "sm";
   return "md";
@@ -98,7 +98,7 @@ const items = Function(`"use strict"; return (${itemsMatch[1]});`)();
 const photos = flattenGalleryItems(items);
 
 const dir = path.join(ROOT, "public/assets/photos", regionArg);
-const missing = { full: [], sm: [], md: [], ratio: [] };
+const missing = { full: [], sm: [], md: [], lg: [], ratio: [] };
 
 for (const p of photos) {
   if (!fs.existsSync(path.join(dir, `${p.name}.avif`))) missing.full.push(p.name);
@@ -106,6 +106,8 @@ for (const p of photos) {
     missing.sm.push(p.name);
   if (!fs.existsSync(path.join(dir, `${p.name}-md.avif`)))
     missing.md.push(p.name);
+  if (!fs.existsSync(path.join(dir, `${p.name}-lg.avif`)))
+    missing.lg.push(p.name);
   if (!galleryPhotoDimensions(regionArg, p.name)) missing.ratio.push(p.name);
 }
 
@@ -114,5 +116,5 @@ for (const [kind, list] of Object.entries(missing)) {
   if (list.length) console.log(`MISSING ${kind}:`, list.join(", "));
 }
 if (Object.values(missing).every((l) => l.length === 0)) {
-  console.log("All grid photos have full/sm/md variants and aspect ratios.");
+  console.log("All grid photos have master/sm/md/lg variants and aspect ratios.");
 }

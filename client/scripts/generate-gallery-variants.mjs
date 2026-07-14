@@ -1,9 +1,14 @@
 /**
- * Generate -sm.avif (800px longest side) and -md.avif (1400px longest side).
+ * Generate sized AVIF variants from master `name.avif`:
+ *   -sm.avif (800px longest side)
+ *   -md.avif (1400px longest side)
+ *   -lg.avif (2400px longest side)
+ *
  * Re-runs overwrite existing variants. Stale variants are removed when no longer applicable.
  *
  *   npm run photos:variants
  *   node scripts/generate-gallery-variants.mjs --region=china
+ *   node scripts/generate-gallery-variants.mjs --only=lg
  */
 import fs from "fs";
 import path from "path";
@@ -13,8 +18,19 @@ import sharp from "sharp";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PHOTOS_ROOT = path.join(__dirname, "../public/assets/photos");
 const REGIONS = ["mexico", "canada", "china", "japan"];
-/** Max longest edge (px) per tier. */
-const LONGEST = { sm: 800, md: 1400 };
+/** Max longest edge (px) per sized tier. */
+const LONGEST = { sm: 800, md: 1400, lg: 2400 };
+const ALL_VARIANTS = /** @type {const} */ (["sm", "md", "lg"]);
+const onlyArg = process.argv
+  .find((a) => a.startsWith("--only="))
+  ?.split("=")[1];
+const VARIANTS = onlyArg
+  ? onlyArg.split(",").filter((v) => v in LONGEST)
+  : [...ALL_VARIANTS];
+if (VARIANTS.length === 0) {
+  console.error('No valid variants in --only= (use sm, md, and/or lg)');
+  process.exit(1);
+}
 
 function listFullAvifs(regionDir) {
   return fs
@@ -23,7 +39,8 @@ function listFullAvifs(regionDir) {
       (f) =>
         f.endsWith(".avif") &&
         !f.endsWith("-sm.avif") &&
-        !f.endsWith("-md.avif"),
+        !f.endsWith("-md.avif") &&
+        !f.endsWith("-lg.avif"),
     )
     .map((f) => f.replace(/\.avif$/, ""));
 }
@@ -64,7 +81,7 @@ async function generateForRegion(region) {
     const meta = await sharp(fullPath).metadata();
     const sourceLongest = longestSide(meta);
 
-    for (const variant of ["sm", "md"]) {
+    for (const variant of VARIANTS) {
       const outPath = path.join(dir, `${name}-${variant}.avif`);
 
       if (!shouldGenerateVariant(sourceLongest)) {

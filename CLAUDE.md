@@ -40,9 +40,9 @@ Add any new CJK characters to `TEXT` before running.
 
 ### Gallery photos (responsive AVIF)
 
-Each gallery photo has three variants: `name-sm.avif` (800px longest side), `name-md.avif` (1400px longest side), `name.avif` (full). Set max variant per row in `MEXICO_ITEMS` / `CANADA_ITEMS` / `CHINA_ITEMS` with `size: "sm" | "md" | "full"`, or per image with `{ name: "orange-wall", size: "full" }`.
+Each gallery photo has four files: `name-sm.avif` (800px longest side), `name-md.avif` (1400px), `name-lg.avif` (2400px), and `name.avif` (uncapped master). Set max variant per row in `MEXICO_ITEMS` / `CANADA_ITEMS` / `CHINA_ITEMS` / `JAPAN_ITEMS` with `size: "sm" | "md" | "lg" | "full"`, or per image with `{ name: "orange-wall", size: "lg" }`. Prefer `lg` for large display; leave `full` unused unless you explicitly want the master.
 
-After adding or replacing a full-size `.avif`, regenerate variants:
+After adding or replacing a master `.avif`, regenerate variants:
 
 ```bash
 cd client && npm run photos:variants
