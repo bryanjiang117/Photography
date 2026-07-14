@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef, useState } from "react";
+import { isGalleryUrlWarmed } from "../galleryPrefetch";
 
 /**
  * Image with a shimmer skeleton placeholder. Reserves space when `aspectRatio` is set.
  *
- * Cached images skip the shimmer and opacity fade so a warm HTTP cache paints
- * at full opacity on the first frame.
+ * URLs already marked warmed by gallery prefetch paint immediately (no shimmer /
+ * opacity fade) so opening a gallery after idle prefetch is instant.
  *
  * @param {{
  *   src: string;
@@ -40,12 +41,14 @@ export default function SkeletonImage({
   overlay,
 }) {
   const imgRef = useRef(null);
-  const [loaded, setLoaded] = useState(false);
-  const [fade, setFade] = useState(true);
+  const warmed = isGalleryUrlWarmed(src);
+  const [loaded, setLoaded] = useState(warmed);
+  const [fade, setFade] = useState(!warmed);
 
   useLayoutEffect(() => {
     const img = imgRef.current;
-    if (img?.complete && img.naturalWidth > 0) {
+    const ready = isGalleryUrlWarmed(src) || (img?.complete && img.naturalWidth > 0);
+    if (ready) {
       setFade(false);
       setLoaded(true);
       return;

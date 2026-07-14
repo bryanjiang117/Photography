@@ -1,4 +1,4 @@
-import { galleryImageUrl, galleryPrefetchUrls } from "./galleryImages";
+import { galleryImageUrl, galleryPrefetchUrl } from "./galleryImages";
 import { loadGalleryChunk } from "./galleryChunkPrefetch";
 
 function prefetchLayout() {
@@ -23,6 +23,10 @@ const inFlight = new Map();
 
 export { galleryImageUrl };
 
+export function isGalleryUrlWarmed(url) {
+  return Boolean(url && warmed.has(url));
+}
+
 export function warmGalleryImage(url) {
   if (!url || warmed.has(url)) return Promise.resolve();
   const pending = inFlight.get(url);
@@ -36,7 +40,6 @@ export function warmGalleryImage(url) {
       resolve();
     };
     img.onload = () => {
-      // Finish decode during prefetch so open-time presentation is cheaper.
       if (typeof img.decode === "function") {
         img.decode().then(done).catch(done);
       } else {
@@ -70,22 +73,23 @@ export async function warmGalleryImages(urls, { concurrency = 8 } = {}) {
 
 export function warmGalleryRegion(region, photos, options = {}) {
   const layout = options.layout ?? prefetchLayout();
-  // Warm every srcSet candidate — the browser often selects `sm` even when
-  // `src` points at `md`/`full`, so warming only `src` still causes a miss.
-  const urls = photos.flatMap((photo) => {
-    if (typeof photo === "string" && photo.length > 0) {
-      return galleryPrefetchUrls(region, photo, "md", layout);
-    }
-    if (photo?.name) {
-      return galleryPrefetchUrls(
-        region,
-        photo.name,
-        photo.size ?? "md",
-        layout,
-      );
-    }
-    return [];
-  });
+  // Same single URL GalleryImage uses for `src` (srcSet disabled there on purpose).
+  const urls = photos
+    .map((photo) => {
+      if (typeof photo === "string" && photo.length > 0) {
+        return galleryPrefetchUrl(region, photo, "md", layout);
+      }
+      if (photo?.name) {
+        return galleryPrefetchUrl(
+          region,
+          photo.name,
+          photo.size ?? "md",
+          layout,
+        );
+      }
+      return null;
+    })
+    .filter(Boolean);
   return warmGalleryImages(urls, options);
 }
 
@@ -133,10 +137,11 @@ export function scheduleGalleryPrefetch() {
   }
 }
 
-/** Props for gallery images: eager above the fold, lazy + low priority below. */
+/** Gallery images always eager so hidden warm-mounts still fetch/decode. */
 export function galleryImgLoadProps(rowIndex, imageIndex = 0) {
   const priority = rowIndex < 4 && imageIndex < 2;
-  return priority
-    ? { loading: "eager", fetchPriority: "high" }
-    : { loading: "lazy", fetchPriority: "low" };
+  return {
+    loading: "eager",
+    fetchPriority: priority ? "high" : "auto",
+  };
 }

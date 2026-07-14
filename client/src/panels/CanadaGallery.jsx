@@ -7,7 +7,7 @@ import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 
-export default function CanadaGallery({ entrance = true }) {
+export default function CanadaGallery({ entrance = true, slide = true }) {
   const { setShowCanadaGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
 
@@ -17,7 +17,7 @@ export default function CanadaGallery({ entrance = true }) {
 
   return (
     <motion.div
-      {...gallerySlideMotion(entrance, "y")}
+      {...gallerySlideMotion(entrance && slide, "y")}
       className="fixed inset-0 z-50 flex overflow-hidden bg-canada-primary min-w-[1200px] min-h-[800px]"
     >
       {/* Left column: title + back button */}

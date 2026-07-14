@@ -1,4 +1,4 @@
-import { flattenGalleryItems, galleryPrefetchUrls } from "../galleryImages";
+import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 
 // ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, CHINA_ITEMS, JAPAN_ITEMS) ────
 //
@@ -371,12 +371,10 @@ export const JAPAN_ITEMS = [
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);
 export const JAPAN_PHOTOS = JAPAN_GALLERY_PHOTOS.map((p) => p.name);
 
-/** Prefetch URLs for idle warming (all srcSet candidates per photo). */
+/** Prefetch URLs for idle warming (matches GalleryImage `src` — no srcSet). */
 export function getGalleryPrefetchUrls(layout = "grid") {
   const urls = (region, photos) =>
-    photos.flatMap((p) =>
-      galleryPrefetchUrls(region, p.name, p.size, layout),
-    );
+    photos.map((p) => galleryPrefetchUrl(region, p.name, p.size, layout));
   return [
     ...urls("mexico", MEXICO_GALLERY_PHOTOS),
     ...urls("canada", CANADA_GALLERY_PHOTOS),

@@ -7,7 +7,7 @@ import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 
-export default function JapanGallery({ entrance = true }) {
+export default function JapanGallery({ entrance = true, slide = true }) {
   const { setShowJapanGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
 
@@ -17,7 +17,7 @@ export default function JapanGallery({ entrance = true }) {
 
   return (
     <motion.div
-      {...gallerySlideMotion(entrance, "y")}
+      {...gallerySlideMotion(entrance && slide, "y")}
       className="fixed inset-0 z-50 flex overflow-hidden bg-japan-primary min-w-[1200px] min-h-[800px]"
     >
       {/* Left column: title + back button */}

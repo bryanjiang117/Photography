@@ -1,13 +1,12 @@
 import SkeletonImage from "./SkeletonImage";
 import {
   capSizeForLayout,
-  galleryImageSrcSet,
   galleryImageUrl,
-  gallerySizesAttrForImage,
   parseImageEntry,
   rowDefaultSize,
 } from "../galleryImages";
 import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
+import { isGalleryUrlWarmed } from "../galleryPrefetch";
 
 /**
  * @param {{
@@ -37,10 +36,11 @@ export default function GalleryImage({
   const parsed = parseImageEntry(entry, rowSize, row?.location);
   if (!parsed) return null;
 
+  // Single URL (no srcSet) so display matches prefetch exactly — the browser
+  // otherwise may pick a different srcSet candidate and miss the warm cache.
   const maxSize = capSizeForLayout(parsed.size, layout);
   const src = galleryImageUrl(region, parsed.name, maxSize);
-  const srcSet = galleryImageSrcSet(region, parsed.name, maxSize);
-  const sizes = gallerySizesAttrForImage(maxSize, layout);
+  const warmed = isGalleryUrlWarmed(src);
   const aspectRatio = galleryPhotoDimensions(region, parsed.name);
   const location = parsed.location;
 
@@ -60,15 +60,13 @@ export default function GalleryImage({
   return (
     <SkeletonImage
       src={src}
-      srcSet={srcSet}
-      sizes={sizes}
       alt={location ?? ""}
       aspectRatio={aspectRatio}
       className={className}
       wrapperClassName={
         `${location ? "group" : ""} ${roundedWrapper} ${wrapperClassName}`.trim()
       }
-      decoding="async"
+      decoding={warmed ? "sync" : "async"}
       {...loadProps}
       onLoad={onLoad}
       onClick={onClick}

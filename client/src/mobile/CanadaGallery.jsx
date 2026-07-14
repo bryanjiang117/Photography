@@ -11,7 +11,7 @@ import {
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 
-export default function CanadaGallery({ entrance = true }) {
+export default function CanadaGallery({ entrance = true, slide = true }) {
   const { setShowCanadaGallery } = useContext(GalleryContext);
   const [activeImage, setActiveImage] = useState(null);
   const scrollRef = useGalleryScrollWarm();
@@ -22,7 +22,7 @@ export default function CanadaGallery({ entrance = true }) {
 
   return (
     <motion.div
-      {...gallerySlideMotion(entrance, "x")}
+      {...gallerySlideMotion(entrance && slide, "x")}
       className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-canada-primary"
     >
       {/* Title */}

@@ -41,8 +41,7 @@ export function galleryImageSrcSet(region, name, maxSize = "full") {
 
 /**
  * URL for GalleryImage `src` (largest allowed tier for the layout).
- * Prefer {@link galleryPrefetchUrls} for warming — the browser often picks a
- * smaller candidate from `srcSet` based on `sizes`.
+ * Gallery images intentionally omit srcSet so this is the only request.
  * @param {string} region
  * @param {string} name
  * @param {GalleryImageSize} maxSize
@@ -59,7 +58,7 @@ export function galleryPrefetchUrl(
 }
 
 /**
- * Every AVIF tier GalleryImage may request via `src` / `srcSet` for this photo.
+ * Every AVIF tier up to maxSize (legacy helper; galleries use a single URL now).
  * @param {string} region
  * @param {string} name
  * @param {GalleryImageSize} maxSize

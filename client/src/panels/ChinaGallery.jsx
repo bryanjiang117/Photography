@@ -7,7 +7,7 @@ import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 
-export default function ChinaGallery({ entrance = true }) {
+export default function ChinaGallery({ entrance = true, slide = true }) {
   const { setShowChinaGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
 
@@ -17,7 +17,7 @@ export default function ChinaGallery({ entrance = true }) {
 
   return (
     <motion.div
-      {...gallerySlideMotion(entrance, "y")}
+      {...gallerySlideMotion(entrance && slide, "y")}
       className="fixed inset-0 z-50 flex overflow-hidden bg-china-primary min-w-[1200px] min-h-[800px]"
     >
       {/* Left column: title + back button */}
