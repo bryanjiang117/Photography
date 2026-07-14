@@ -1,11 +1,7 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { isGalleryUrlWarmed } from "../galleryPrefetch";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Image with a shimmer skeleton placeholder. Reserves space when `aspectRatio` is set.
- *
- * URLs already marked warmed by gallery prefetch paint immediately (no shimmer /
- * opacity fade) so opening a gallery after idle prefetch is instant.
  *
  * @param {{
  *   src: string;
@@ -41,21 +37,18 @@ export default function SkeletonImage({
   overlay,
 }) {
   const imgRef = useRef(null);
-  const warmed = isGalleryUrlWarmed(src);
-  const [loaded, setLoaded] = useState(warmed);
-  const [fade, setFade] = useState(!warmed);
+  const [loaded, setLoaded] = useState(false);
 
-  useLayoutEffect(() => {
-    const img = imgRef.current;
-    const ready = isGalleryUrlWarmed(src) || (img?.complete && img.naturalWidth > 0);
-    if (ready) {
-      setFade(false);
-      setLoaded(true);
-      return;
-    }
-    setFade(true);
+  useEffect(() => {
     setLoaded(false);
-  }, [src, srcSet]);
+  }, [src]);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, [src]);
 
   const wrapperStyle = aspectRatio
     ? { aspectRatio: `${aspectRatio.w} / ${aspectRatio.h}`, ...style }
@@ -78,11 +71,9 @@ export default function SkeletonImage({
         decoding={decoding}
         loading={loading}
         fetchPriority={fetchPriority}
-        className={`block ${
-          fade ? "transition-opacity duration-300 ease-out" : ""
-        } ${loaded ? "opacity-100" : "opacity-0"} ${
-          aspectRatio ? "h-full w-full" : ""
-        } ${className}`}
+        className={`block transition-opacity duration-300 ease-out ${
+          loaded ? "opacity-100" : "opacity-0"
+        } ${aspectRatio ? "h-full w-full" : ""} ${className}`}
         onLoad={(e) => {
           setLoaded(true);
           onLoad?.(e);

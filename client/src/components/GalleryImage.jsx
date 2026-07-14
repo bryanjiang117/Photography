@@ -6,7 +6,6 @@ import {
   rowDefaultSize,
 } from "../galleryImages";
 import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
-import { isGalleryUrlWarmed } from "../galleryPrefetch";
 
 /**
  * @param {{
@@ -40,7 +39,6 @@ export default function GalleryImage({
   // otherwise may pick a different srcSet candidate and miss the warm cache.
   const maxSize = capSizeForLayout(parsed.size, layout);
   const src = galleryImageUrl(region, parsed.name, maxSize);
-  const warmed = isGalleryUrlWarmed(src);
   const aspectRatio = galleryPhotoDimensions(region, parsed.name);
   const location = parsed.location;
 
@@ -66,7 +64,7 @@ export default function GalleryImage({
       wrapperClassName={
         `${location ? "group" : ""} ${roundedWrapper} ${wrapperClassName}`.trim()
       }
-      decoding={warmed ? "sync" : "async"}
+      decoding="async"
       {...loadProps}
       onLoad={onLoad}
       onClick={onClick}
