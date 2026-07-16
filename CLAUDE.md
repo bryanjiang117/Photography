@@ -10,7 +10,7 @@ If you add new Chinese/Japanese characters anywhere with `font-tsm`, regenerate 
 # Requires: pipx install fonttools && pipx inject fonttools brotli
 pyftsubset \
   client/public/assets/fonts/TsukuhouShogoMin-OFL.ttf \
-  --text="姜昊周日本にほん墨西哥城摄影加拿大中国最爱动漫此刻播放作品电脑 !\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_\`abcdefghijklmnopqrstuvwxyz{|}~‧←" \
+  --text="姜昊周日本にほん墨西哥城摄影加拿大中国最爱动漫此刻最近播放作品电脑 !\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_\`abcdefghijklmnopqrstuvwxyz{|}~‧←" \
   --flavor=woff2 \
   --output-file=client/public/assets/fonts/TsukuhouShogoMin-subset.woff2
 ```
@@ -25,7 +25,7 @@ If you add new Chinese characters anywhere with `font-sh`, regenerate both subse
 
 ```bash
 # Requires: pipx install fonttools && pipx inject fonttools brotli
-TEXT='姜昊周你好，我叫。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。墨西哥城摄影加拿大中国日本作品电脑设计软件最爱的影视动漫'
+TEXT='姜昊周你好，我叫。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。墨西哥城摄影加拿大中国日本作品电脑设计软件最爱的影视动漫最近播放'
 ASCII=' !"#$%&'"'"'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~‧←'
 for w in Medium Bold; do
   pyftsubset \

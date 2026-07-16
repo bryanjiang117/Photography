@@ -5,17 +5,14 @@ import { useSpotify } from "../SpotifyContext.jsx";
 
 const SpotifyComponent = () => {
   const spotifyState = useSpotify();
+  const currentlyPlaying = spotifyState && spotifyState.isPlaying;
 
   return (
     <div className="flex flex-col items-center gap-3 p-4 w-full">
       <div className="self-start">
         <SectionTitle
-          english={
-            !spotifyState || spotifyState.isPlaying
-              ? "CURRENTLY PLAYING"
-              : "RECENTLY PLAYED"
-          }
-          chinese="此刻播放"
+          english={currentlyPlaying ? "CURRENTLY PLAYING" : "RECENTLY PLAYED"}
+          chinese={currentlyPlaying ? "此刻播放" : "最近播放"}
         />
       </div>
       {spotifyState ? (

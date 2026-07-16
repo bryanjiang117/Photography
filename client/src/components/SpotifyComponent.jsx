@@ -4,6 +4,7 @@ import { useSpotify } from "../SpotifyContext.jsx";
 
 const SpotifyPanel = () => {
   const spotifyState = useSpotify();
+  const currentlyPlaying = !spotifyState || spotifyState.isPlaying;
 
   return (
     <div className="flex flex-1 justify-center items-center p-8 h-full min-w-fit min-h-fit">
@@ -12,24 +13,22 @@ const SpotifyPanel = () => {
         <div
           className={`flex flex-col pr-4 h-full basis-20 shrink-0 text-[5rem] leading-20 font-bold`}
         >
-          <div>
-            {!spotifyState || spotifyState.isPlaying ? "CURRENTLY" : "RECENTLY"}
-          </div>
+          <div>{currentlyPlaying ? "CURRENTLY" : "RECENTLY"}</div>
           <div className="flex items-center justify-between">
-            <span>
-              {!spotifyState || spotifyState.isPlaying ? "PLAYING" : "PLAYED"}
-            </span>
+            <span>{currentlyPlaying ? "PLAYING" : "PLAYED"}</span>
             <span className="ml-1">:</span>
             <div className="flex flex-col justify-center">
               <div
                 className="text-center text-[2rem] leading-8 font-tsm"
                 lang="zh-CN"
+                translate="no"
               >
-                此刻
+                {currentlyPlaying ? "此刻" : "最近"}
               </div>
               <div
                 className="text-center text-[2rem] leading-8 font-tsm"
                 lang="zh-CN"
+                translate="no"
               >
                 播放
               </div>
