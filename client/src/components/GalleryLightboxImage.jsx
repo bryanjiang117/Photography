@@ -1,17 +1,21 @@
-import SkeletonImage from "./SkeletonImage";
 import { galleryImageUrl } from "../galleryImages";
 import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
 
-/**
- * Large lightbox image (`lg` tier) with skeleton placeholder.
- */
+/** Lightbox image using the `lg` tier. */
 export default function GalleryLightboxImage({ region, name, onClick }) {
+  const dimensions = galleryPhotoDimensions(region, name);
+
   return (
-    <SkeletonImage
+    <img
       src={galleryImageUrl(region, name, "lg")}
-      aspectRatio={galleryPhotoDimensions(region, name)}
-      wrapperClassName="max-w-full max-h-full"
-      className="max-w-full max-h-full object-contain rounded-sm"
+      alt=""
+      decoding="async"
+      style={
+        dimensions
+          ? { aspectRatio: `${dimensions.w} / ${dimensions.h}` }
+          : undefined
+      }
+      className="max-w-full max-h-full object-contain"
       onClick={onClick}
     />
   );

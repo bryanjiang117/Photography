@@ -41,7 +41,7 @@ export default function JapanGallery({ entrance = true, slide = true }) {
       {/* Horizontal scroll gallery */}
       <div
         ref={scrollRef}
-        className="flex flex-1 min-h-0 flex-row items-stretch gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide"
+        className="flex flex-1 min-h-0 flex-row items-center gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide"
       >
         {JAPAN_GALLERY_PHOTOS.map((photo, i) => (
           <GalleryImage
@@ -50,8 +50,8 @@ export default function JapanGallery({ entrance = true, slide = true }) {
             entry={photo}
             layout="mobile"
             loadProps={galleryImgLoadProps(i)}
-            wrapperClassName="w-[80vw] shrink-0 snap-start"
-            className="rounded-sm object-cover cursor-pointer h-full"
+            wrapperClassName="w-32 h-32 shrink-0 snap-start"
+            className="object-cover cursor-pointer h-full w-full"
             onClick={() => setActiveImage(photo.name)}
           />
         ))}

@@ -53,8 +53,6 @@ export default function GalleryImage({
     </span>
   ) : null;
 
-  const roundedWrapper = layout === "mobile" ? "rounded-sm" : "";
-
   return (
     <SkeletonImage
       src={src}
@@ -62,7 +60,7 @@ export default function GalleryImage({
       aspectRatio={aspectRatio}
       className={className}
       wrapperClassName={
-        `${location ? "group" : ""} ${roundedWrapper} ${wrapperClassName}`.trim()
+        `${location ? "group" : ""} ${wrapperClassName}`.trim()
       }
       decoding="async"
       {...loadProps}
