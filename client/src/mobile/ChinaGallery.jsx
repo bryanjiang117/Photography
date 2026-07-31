@@ -41,20 +41,22 @@ export default function ChinaGallery({ entrance = true, slide = true }) {
       {/* Horizontal scroll gallery */}
       <div
         ref={scrollRef}
-        className="flex flex-1 min-h-0 flex-row items-center gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide"
+        className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide touch-pan-x"
       >
-        {CHINA_GALLERY_PHOTOS.map((photo, i) => (
-          <GalleryImage
-            key={photo.name}
-            region="china"
-            entry={photo}
-            layout="mobile"
-            loadProps={galleryImgLoadProps(i)}
-            wrapperClassName="w-32 h-32 shrink-0 snap-start"
-            className="object-cover cursor-pointer h-full w-full"
-            onClick={() => setActiveImage(photo.name)}
-          />
-        ))}
+        <div className="flex h-full w-max min-w-full flex-row items-center gap-3 px-4 py-3">
+          {CHINA_GALLERY_PHOTOS.map((photo, i) => (
+            <GalleryImage
+              key={photo.name}
+              region="china"
+              entry={photo}
+              layout="mobile"
+              loadProps={galleryImgLoadProps(i)}
+              wrapperClassName="w-32 h-32 shrink-0 snap-start"
+              className="object-cover cursor-pointer h-full w-full"
+              onClick={() => setActiveImage(photo.name)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Bottom bar */}
