@@ -1,8 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { JAPAN_GALLERY_PHOTOS, JAPAN_ITEMS as ITEMS } from "../constants/data";
 import GalleryGrid from "../components/GalleryGrid";
+import GalleryLightbox from "../components/GalleryLightbox";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
@@ -10,6 +11,7 @@ import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 export default function JapanGallery({ entrance = true, slide = true }) {
   const { setShowJapanGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
+  const [activeImage, setActiveImage] = useState(null);
 
   useEffect(() => {
     warmGalleryRegion("japan", JAPAN_GALLERY_PHOTOS, { concurrency: 5 });
@@ -60,6 +62,7 @@ export default function JapanGallery({ entrance = true, slide = true }) {
             virtualize
             scrollRootRef={scrollRef}
             overscan="300%"
+            onImageClick={setActiveImage}
           />
         </div>
 
@@ -80,6 +83,14 @@ export default function JapanGallery({ entrance = true, slide = true }) {
           </div>
         </motion.div>
       </div>
+
+      <GalleryLightbox
+        region="japan"
+        photos={JAPAN_GALLERY_PHOTOS}
+        activeName={activeImage}
+        onClose={() => setActiveImage(null)}
+        onChange={setActiveImage}
+      />
     </motion.div>
   );
 }

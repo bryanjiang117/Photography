@@ -46,6 +46,7 @@ function GallerySkeletonCell({
  *   scrollRootRef?: React.RefObject<HTMLElement>;
  *   overscan?: string;
  *   skeleton?: boolean;
+ *   onImageClick?: (name: string) => void;
  * }} props
  */
 export default function GalleryGrid({
@@ -55,6 +56,7 @@ export default function GalleryGrid({
   scrollRootRef,
   overscan,
   skeleton = false,
+  onImageClick,
 }) {
   // When virtualized, VirtualGalleryRow already gates mounting to near the
   // viewport (via overscan), so mounted rows should fetch/decode immediately
@@ -62,6 +64,21 @@ export default function GalleryGrid({
   const loadPropsFor = (rowIndex, imageIndex) => {
     const props = galleryImgLoadProps(rowIndex, imageIndex);
     return virtualize ? { ...props, loading: "eager" } : props;
+  };
+
+  const clickProps = (entry, row, baseClassName = "") => {
+    if (!onImageClick) {
+      return baseClassName ? { className: baseClassName } : {};
+    }
+    const rowSize = row ? rowDefaultSize(row) : "md";
+    const parsed = parseImageEntry(entry, rowSize, row?.location);
+    if (!parsed) {
+      return baseClassName ? { className: baseClassName } : {};
+    }
+    return {
+      onClick: () => onImageClick(parsed.name),
+      className: `${baseClassName} cursor-pointer`.trim(),
+    };
   };
 
   // Rows sit in a `gap-20` (5rem) flex column. `row.gap` (same Tailwind spacing
@@ -101,6 +118,7 @@ export default function GalleryGrid({
             layout="full"
             loadProps={loadPropsFor(i)}
             wrapperClassName="w-full shrink-0"
+            {...clickProps(row.columns[0][0], row)}
           />
         );
       }
@@ -146,7 +164,7 @@ export default function GalleryGrid({
                         : undefined
                     }
                     wrapperClassName="w-full"
-                    className="object-cover"
+                    {...clickProps(col[0], row, "object-cover")}
                   />
                 )}
               </div>
@@ -187,7 +205,7 @@ export default function GalleryGrid({
                               layout="grid"
                               loadProps={loadPropsFor(i, k)}
                               wrapperClassName="flex-1 min-w-0"
-                              className="object-cover"
+                              {...clickProps(img, row, "object-cover")}
                             />
                           ),
                         )}
@@ -215,7 +233,7 @@ export default function GalleryGrid({
                       layout="grid"
                       loadProps={loadPropsFor(i, k)}
                       wrapperClassName="w-full"
-                      className="object-cover"
+                      {...clickProps(entry, row, "object-cover")}
                     />
                   ),
                 )}

@@ -1,8 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { MEXICO_GALLERY_PHOTOS, MEXICO_ITEMS as ITEMS } from "../constants/data";
 import GalleryGrid from "../components/GalleryGrid";
+import GalleryLightbox from "../components/GalleryLightbox";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
@@ -10,6 +11,7 @@ import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 export default function MexicoCityGallery({ entrance = true, slide = true }) {
   const { setShowMexicoGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
+  const [activeImage, setActiveImage] = useState(null);
 
   useEffect(() => {
     warmGalleryRegion("mexico", MEXICO_GALLERY_PHOTOS, { concurrency: 5 });
@@ -54,7 +56,11 @@ export default function MexicoCityGallery({ entrance = true, slide = true }) {
 
         {/* Photo column */}
         <div className="flex-1 min-w-0 flex flex-col items-center gap-20 py-16 px-40">
-          <GalleryGrid region="mexico" items={ITEMS} />
+          <GalleryGrid
+            region="mexico"
+            items={ITEMS}
+            onImageClick={setActiveImage}
+          />
         </div>
 
         {/* Right column: photography label */}
@@ -74,6 +80,14 @@ export default function MexicoCityGallery({ entrance = true, slide = true }) {
           </div>
         </motion.div>
       </div>
+
+      <GalleryLightbox
+        region="mexico"
+        photos={MEXICO_GALLERY_PHOTOS}
+        activeName={activeImage}
+        onClose={() => setActiveImage(null)}
+        onChange={setActiveImage}
+      />
     </motion.div>
   );
 }

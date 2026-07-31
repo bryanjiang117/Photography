@@ -1,8 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { CANADA_GALLERY_PHOTOS, CANADA_ITEMS as ITEMS } from "../constants/data";
 import GalleryGrid from "../components/GalleryGrid";
+import GalleryLightbox from "../components/GalleryLightbox";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
@@ -10,6 +11,7 @@ import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
 export default function CanadaGallery({ entrance = true, slide = true }) {
   const { setShowCanadaGallery } = useContext(GalleryContext);
   const scrollRef = useGalleryScrollWarm();
+  const [activeImage, setActiveImage] = useState(null);
 
   useEffect(() => {
     warmGalleryRegion("canada", CANADA_GALLERY_PHOTOS, { concurrency: 5 });
@@ -54,7 +56,11 @@ export default function CanadaGallery({ entrance = true, slide = true }) {
 
         {/* Photo column */}
         <div className="flex-1 min-w-0 flex flex-col items-center gap-20 py-16 px-40">
-          <GalleryGrid region="canada" items={ITEMS} />
+          <GalleryGrid
+            region="canada"
+            items={ITEMS}
+            onImageClick={setActiveImage}
+          />
         </div>
 
         {/* Right column: photography label */}
@@ -74,6 +80,14 @@ export default function CanadaGallery({ entrance = true, slide = true }) {
           </div>
         </motion.div>
       </div>
+
+      <GalleryLightbox
+        region="canada"
+        photos={CANADA_GALLERY_PHOTOS}
+        activeName={activeImage}
+        onClose={() => setActiveImage(null)}
+        onChange={setActiveImage}
+      />
     </motion.div>
   );
 }
