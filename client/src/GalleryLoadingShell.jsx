@@ -11,7 +11,6 @@ import {
   MEXICO_GALLERY_PHOTOS,
   MEXICO_ITEMS,
 } from "./constants/data";
-import { galleryPhotoDimensions } from "./constants/galleryAspectRatios";
 import GalleryGrid from "./components/GalleryGrid";
 import { gallerySlideMotion } from "./galleryMotion";
 
@@ -122,21 +121,14 @@ const REGION_CONFIG = {
   },
 };
 
-function MobileSkeletonStrip({ region, photos }) {
-  return photos.slice(0, 8).map((photo) => {
-    const aspectRatio = galleryPhotoDimensions(region, photo.name);
-    const style = aspectRatio
-      ? { aspectRatio: `${aspectRatio.w} / ${aspectRatio.h}` }
-      : undefined;
-    return (
-      <span
-        key={photo.name}
-        className="block h-full w-[80vw] shrink-0 snap-start overflow-hidden rounded-sm skeleton-shimmer"
-        style={style}
-        aria-hidden="true"
-      />
-    );
-  });
+function MobileSkeletonStrip({ photos }) {
+  return photos.slice(0, 8).map((photo) => (
+    <span
+      key={photo.name}
+      className="block h-32 w-32 shrink-0 snap-start overflow-hidden skeleton-shimmer"
+      aria-hidden="true"
+    />
+  ));
 }
 
 /**
@@ -170,8 +162,10 @@ export default function GalleryLoadingShell({ region, isMobile }) {
           </span>
         </div>
 
-        <div className="flex flex-1 min-h-0 flex-row items-stretch gap-3 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-4 py-3 scrollbar-hide">
-          <MobileSkeletonStrip region={region} photos={config.photos} />
+        <div className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide touch-pan-x">
+          <div className="flex h-full w-max min-w-full flex-row items-center gap-3 px-4 py-3">
+            <MobileSkeletonStrip photos={config.photos} />
+          </div>
         </div>
 
         <div
@@ -210,62 +204,62 @@ export default function GalleryLoadingShell({ region, isMobile }) {
   return (
     <motion.div
       {...gallerySlideMotion(true, axis)}
-      className={`fixed inset-0 z-50 flex overflow-hidden ${config.bg} ${ui.shellClass}`}
+      ref={scrollRef}
+      className={`fixed inset-0 z-50 overflow-y-auto overflow-x-hidden scrollbar-hide ${config.bg} ${ui.shellClass}`}
     >
-      <div
-        className={`shrink-0 flex flex-col justify-between px-8 pt-6 pb-6 ${ui.leftClass}`}
-      >
-        <div className="flex flex-col items-start">
+      <div className="flex min-h-full">
+        <div
+          className={`sticky top-0 self-start h-dvh shrink-0 flex flex-col justify-between px-8 pt-6 pb-6 ${ui.leftClass}`}
+        >
+          <div className="flex flex-col items-start">
+            <div
+              className={`font-tsm text-[9rem] leading-none [writing-mode:vertical-rl] ${ui.titleClass}`}
+              lang={ui.titleLang}
+              translate="no"
+            >
+              {ui.title}
+            </div>
+            <span className="bodoni-small mt-4 text-lg uppercase tracking-widest opacity-60">
+              {ui.subtitle}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className={`flex items-center gap-2 p-3 -m-3 ${ui.backClass}`}
+          >
+            <span className="text-lg leading-none">←</span>
+            <span className="bodoni-small text-sm tracking-[0.25em] leading-none">
+              BACK
+            </span>
+          </button>
+        </div>
+
+        <div className="flex-1 min-w-0 flex flex-col items-center gap-20 py-16 px-40">
+          <GalleryGrid
+            region={region}
+            items={config.items}
+            skeleton
+            virtualize
+            scrollRootRef={scrollRef}
+            overscan="300%"
+          />
+        </div>
+
+        <div
+          className={`sticky top-0 self-start h-dvh shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6 ${ui.rightClass}`}
+        >
           <div
-            className={`font-tsm text-[9rem] leading-none [writing-mode:vertical-rl] ${ui.titleClass}`}
-            lang={ui.titleLang}
+            className="font-tsm text-xl font-extrabold leading-none [writing-mode:vertical-rl] opacity-60"
+            lang="zh-CN"
             translate="no"
           >
-            {ui.title}
+            摄影
           </div>
-          <span className="bodoni-small mt-4 text-lg uppercase tracking-widest opacity-60">
-            {ui.subtitle}
-          </span>
-        </div>
-
-        <button
-          type="button"
-          onClick={onClose}
-          className={`flex items-center gap-2 p-3 -m-3 ${ui.backClass}`}
-        >
-          <span className="text-lg leading-none">←</span>
-          <span className="bodoni-small text-sm tracking-[0.25em] leading-none">
-            BACK
-          </span>
-        </button>
-      </div>
-
-      <div
-        ref={scrollRef}
-        className="flex-1 min-w-0 min-h-0 flex flex-col items-center gap-20 overflow-y-auto py-16 px-40 scrollbar-hide"
-      >
-        <GalleryGrid
-          region={region}
-          items={config.items}
-          skeleton
-          virtualize
-          scrollRootRef={scrollRef}
-          overscan="300%"
-        />
-      </div>
-
-      <div
-        className={`shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6 ${ui.rightClass}`}
-      >
-        <div
-          className="font-tsm text-xl font-extrabold leading-none [writing-mode:vertical-rl] opacity-60"
-          lang="zh-CN"
-          translate="no"
-        >
-          摄影
-        </div>
-        <div className="translate-x-1 text-lg tracking-widest bodoni-small opacity-60 [writing-mode:vertical-rl]">
-          PHOTOGRAPHY
+          <div className="translate-x-1 text-lg tracking-widest bodoni-small opacity-60 [writing-mode:vertical-rl]">
+            PHOTOGRAPHY
+          </div>
         </div>
       </div>
     </motion.div>
