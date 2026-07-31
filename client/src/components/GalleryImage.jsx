@@ -44,7 +44,7 @@ export default function GalleryImage({
 
   const overlay = location ? (
     <span
-      className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit] bg-black/70 p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+      className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit] bg-black/40 p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
       aria-hidden="true"
     >
       <span className="text-center text-sm leading-snug text-white bodoni-small tracking-wide text-balance">
