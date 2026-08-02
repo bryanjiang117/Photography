@@ -1,4 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { motion, useAnimationControls } from "motion/react";
 import { GalleryContext } from "./GalleryContext";
 import {
@@ -39,7 +45,9 @@ export default function GallerySlot({ show, region, isMobile }) {
     if (!Comp && show) usedShellRef.current = true;
   }, [Comp, show]);
 
-  useEffect(() => {
+  // Layout effect so park/open styles apply before paint (avoids a visible
+  // inert flash when warm-mounted galleries first mount).
+  useLayoutEffect(() => {
     if (!Comp) return;
     let cancelled = false;
     const onPos = { x: 0, y: 0 };
