@@ -36,6 +36,9 @@ export async function registerSpotifyRoutes(app, supabase) {
   let accessTokenExpiresAtMs = 0;
   let refreshToken = null;
 
+  // PKCE verifiers keyed by OAuth `state` (survives cookie loss on Safe Browsing interstitials)
+  const pendingPkce = new Map();
+
   // In-memory "now playing" cache (shared by ALL users); hydrated from DB on boot
   let cachedNowPlaying = null;
   let cachedNowPlayingUpdatedAt = 0;
@@ -63,10 +66,23 @@ export async function registerSpotifyRoutes(app, supabase) {
     const codeVerifier = makeCodeVerifier();
     const codeChallenge = makeCodeChallenge(codeVerifier);
 
+    // Prefer HTTPS Secure cookies in production so Chrome keeps the PKCE
+    // verifier across the Spotify redirect (esp. after Safe Browsing interstitials).
+    const isHttps =
+      process.env.BACKEND_ORIGIN?.startsWith("https") ||
+      req.secure ||
+      req.headers["x-forwarded-proto"] === "https";
+
+    const state = base64UrlEncode(crypto.randomBytes(16));
+    pendingPkce.set(state, {
+      verifier: codeVerifier,
+      expiresAt: Date.now() + 10 * 60 * 1000,
+    });
+
     res.cookie("spotify_code_verifier", codeVerifier, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: Boolean(isHttps),
       maxAge: 10 * 60 * 1000, // 10 min
     });
 
@@ -81,7 +97,10 @@ export async function registerSpotifyRoutes(app, supabase) {
       redirect_uri: SPOTIFY_REDIRECT_URI,
       code_challenge_method: "S256",
       code_challenge: codeChallenge,
+      state,
       scope,
+      // Force consent so a stale/revoked grant is replaced on re-login
+      show_dialog: "true",
     });
 
     res.redirect(`https://accounts.spotify.com/authorize?${params.toString()}`);
@@ -99,13 +118,21 @@ export async function registerSpotifyRoutes(app, supabase) {
       }
 
       const code = req.query.code;
-      const codeVerifier = req.cookies.spotify_code_verifier;
+      const state = typeof req.query.state === "string" ? req.query.state : null;
+      const pending = state ? pendingPkce.get(state) : null;
+      if (state) pendingPkce.delete(state);
+
+      const codeVerifier =
+        (pending && pending.expiresAt > Date.now() && pending.verifier) ||
+        req.cookies.spotify_code_verifier;
 
       if (!code || typeof code !== "string") {
         return res.status(400).send("Missing ?code in callback");
       }
       if (!codeVerifier) {
-        return res.status(400).send("Missing code verifier cookie — go to /api/spotify/login again");
+        return res.status(400).send(
+          "Missing PKCE verifier (cookie/state) — go to /api/spotify/login again",
+        );
       }
 
       const basic = Buffer.from(
@@ -207,17 +234,21 @@ export async function registerSpotifyRoutes(app, supabase) {
 
     cachedAccessToken = tokenJson.access_token;
     accessTokenExpiresAtMs = Date.now() + tokenJson.expires_in * 1000;
-    refreshToken = tokenJson.refresh_token;
 
-    const { error } = await supabase.from("tokens").upsert({
-      name: "spotify_refresh_token",
-      value: refreshToken,
-      updated_at: new Date(),
-    });
+    // Spotify often omits refresh_token on refresh — keep the existing one.
+    // Writing undefined/null here used to wipe the DB token and cause 401s.
+    if (tokenJson.refresh_token) {
+      refreshToken = tokenJson.refresh_token;
 
-    if (error) {
-      console.error("Insert failed:", error.message);
-      return;
+      const { error } = await supabase.from("tokens").upsert({
+        name: "spotify_refresh_token",
+        value: refreshToken,
+        updated_at: new Date(),
+      });
+
+      if (error) {
+        console.error("Insert failed:", error.message);
+      }
     }
 
     return cachedAccessToken;
@@ -255,8 +286,11 @@ export async function registerSpotifyRoutes(app, supabase) {
       }
 
       if (currentlyPlayingRes.status === 401) {
+        // Drop cached access token so the next poll re-refreshes from the refresh token
+        cachedAccessToken = null;
+        accessTokenExpiresAtMs = 0;
         throw new Error(
-          "Spotify returned 401 (currently-playing). Refresh token invalid or expired.",
+          "Spotify returned 401 (currently-playing). Access token rejected — will re-refresh next poll.",
         );
       }
 
