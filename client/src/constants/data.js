@@ -117,7 +117,6 @@ export const MEXICO_ITEMS = [
   { columns: [["old-man"], []], size: "lg" },
   { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]], size: "md" },
   { columns: [["windmill"]], size: "lg" },
-  // { columns: [["modern-balcony"], ["ferris"], ["old-building"]], size: "md" },
   {
     columns: [[], ["palm-trees"], [{ name: "tree-reflection", size: "lg" }]],
     flex: [1, 2, 5],
@@ -142,6 +141,7 @@ export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 export const CHINA_ITEMS = [
   {
     columns: [["mountain-scene"]],
+    location: 'Yangshuo, Guangxi'
   },
   {
     columns: [
@@ -285,11 +285,6 @@ export const JAPAN_ITEMS = [
     location: "Ainoshima (Cat Island), Fukuoka",
   },
   { columns: [["cats"]], location: "Ainoshima (Cat Island), Fukuoka" },
-  // {
-  //   columns: [["gap"], ["fishing-village-2"]],
-  //   size: "lg",
-  //   flex: [4, 9],
-  // },
   {
     columns: [
       [{ name: "old-man", location: "Peace Memorial Park, Hiroshima" }],

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { CHINA_GALLERY_PHOTOS } from "../constants/data";
 import GalleryImage from "../components/GalleryImage";
-import GalleryLightboxImage from "../components/GalleryLightboxImage";
+import GalleryLightbox from "../components/GalleryLightbox";
 import { useGalleryScrollWarm } from "../hooks/useGalleryScrollWarm";
 import { galleryImgLoadProps, warmGalleryRegion } from "../galleryPrefetch";
 import { galleryFadeMotion, gallerySlideMotion } from "../galleryMotion";
@@ -90,25 +90,14 @@ export default function ChinaGallery({ entrance = true, slide = true }) {
         </div>
       </motion.div>
 
-      {/* Lightbox */}
-      <AnimatePresence>
-        {activeImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-8"
-            onClick={() => setActiveImage(null)}
-          >
-            <GalleryLightboxImage
-              region="china"
-              name={activeImage}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <GalleryLightbox
+        region="china"
+        photos={CHINA_GALLERY_PHOTOS}
+        activeName={activeImage}
+        onClose={() => setActiveImage(null)}
+        onChange={setActiveImage}
+        arrows="bottom"
+      />
     </motion.div>
   );
 }
