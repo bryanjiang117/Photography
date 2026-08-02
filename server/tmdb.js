@@ -3,6 +3,44 @@ import { createJsonCache } from "./cacheStore.js";
 const POLL_INTERVAL_MS = 60 * 60 * 1000; // 1 hour — ratings rarely change
 const MAX_PAGES = 10; // cap at 200 items per type when fetching all rated
 
+/** Preferred display order for the top-10 list (case-insensitive title match). */
+const DISPLAY_ORDER = [
+  "game of thrones",
+  "reply 1988",
+  "my mister",
+  "a love so beautiful",
+  "river flows to you",
+  "harry potter and the philosopher's stone",
+  "parasite",
+  "rick and morty",
+  "a knight of the seven kingdoms",
+];
+
+function normalizeTitle(title) {
+  return (title ?? "")
+    .toLowerCase()
+    .replace(/^the\s+/, "")
+    .replace(/['']/g, "'")
+    .trim();
+}
+
+/** Pull preferred titles to the front (in DISPLAY_ORDER), leave the rest in place. */
+function applyDisplayOrder(items) {
+  const remaining = [...items];
+  const ordered = [];
+
+  for (const needle of DISPLAY_ORDER) {
+    const normNeedle = normalizeTitle(needle);
+    const idx = remaining.findIndex((item) => {
+      const title = normalizeTitle(item.title ?? item.name);
+      return title === normNeedle || title.includes(normNeedle);
+    });
+    if (idx !== -1) ordered.push(...remaining.splice(idx, 1));
+  }
+
+  return [...ordered, ...remaining];
+}
+
 export async function registerTmdbRoutes(app, supabase) {
   const API_KEY = process.env.TMDB_API_KEY;
 
@@ -87,7 +125,9 @@ export async function registerTmdbRoutes(app, supabase) {
         (a.title ?? a.name).localeCompare(b.title ?? b.name),
     );
 
-    return combined.slice(0, 10).map((item) => {
+    return applyDisplayOrder(combined)
+      .slice(0, 10)
+      .map((item) => {
       return {
         id: item.id,
         media_type: item.media_type,
