@@ -108,7 +108,7 @@ export const CANADA_PHOTOS = CANADA_GALLERY_PHOTOS.map((p) => p.name);
 
 // Empty strings in arrays are spacers for the desktop grid layout.
 export const MEXICO_ITEMS = [
-  { columns: [["orange-wall"]], size: "lg" },
+  { columns: [["orange-wall"]], size: "lg", },
   { columns: [["green-wall"], ["blue-door"], ["bike-leaves"]], size: "md" },
   { columns: [["meat-vendor"], ["pastor-tacos"]], size: "lg" },
   { columns: [[], ["street-vendor"], [], ["coke-store"]] },
@@ -141,15 +141,15 @@ export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 export const CHINA_ITEMS = [
   {
     columns: [["mountain-scene"]],
-    location: 'Yangshuo, Guangxi'
+    location: "Yangshuo, Guilin, Guangxi",
   },
   {
     columns: [
-      [{ name: "fire", location: "Yangshuo Guangxi" }],
+      [{ name: "fire", location: "Yangshuo, Guilin, Guangxi" }],
       ["farmlands"],
       ["poles-in-farm"],
     ],
-    location: "Guangxi",
+    location: "Somewhere in Guangxi/Hunan",
     size: "sm",
   },
   {
@@ -168,19 +168,30 @@ export const CHINA_ITEMS = [
       ["park-gramps"],
     ],
     flex: [4, 1, 1],
-    location: "People's Park Chongqing",
+    location: "People's Park, Chongqing",
     size: "sm",
   },
-  { columns: [["sleeping-cat"], ["cat"]] },
   {
     columns: [
-      ["zhangjiajie"],
+      [{ name: "sleeping-cat", location: "Xiaohaoli, Chongqing" }],
+      [{ name: "cat", location: "Shibati, Chongqing" }],
+    ],
+  },
+  {
+    columns: [
+      [
+        {
+          name: "zhangjiajie",
+          location: "Zhangjiajie Forest National Park, Zhangjiajie, Hunan",
+        },
+      ],
       ["winding-roads"],
       ["mountain-range"],
       ["winding-bus"],
     ],
+    location: "Tianmen Mountain National Park, Zhangjiajie, Hunan",
   },
-  { columns: [["rafts"]] },
+  { columns: [["rafts"]], location: "Yangshuo, Guilin, Guangxi" },
   {
     columns: [
       [{ name: "building-ac", size: "full" }],
@@ -204,16 +215,27 @@ export const CHINA_ITEMS = [
       [],
     ],
     flex: [12, 6, 3],
+    location: "Furong Town, Yongshun, Xiangxi, Hunan",
   },
-  { columns: [["china-flags"]] },
-  { columns: [["everyday-1"], ["everyday-2"], ["everyday-3"]] },
+  {
+    columns: [["china-flags"]],
+    location: "Zhangjiajie, Hunan",
+  },
+  {
+    columns: [["everyday-1"], ["everyday-2"], ["everyday-3"]],
+    location: "Zhangjiajie, Hunan",
+  },
   { columns: [["meituan-trio"]], location: "Chongqing" },
   {
     columns: [[{ name: "auntie-cooking", size: "lg" }], [], ["happy-woman"]],
     flex: [16, 2, 8],
     location: "Chongqing",
   },
-  { columns: [["roof-worker"], ["red-green"]], size: "lg" },
+  {
+    columns: [["roof-worker"], ["red-green"]],
+    size: "lg",
+    location: "People's Park, Chongqing",
+  },
   {
     columns: [
       [{ name: "auntie-cleaning", location: "Chongqing" }],
@@ -250,11 +272,11 @@ export const CHINA_ITEMS = [
   },
   {
     columns: [["two-dudes"]],
-    location: "Shancheng, Chongqing",
+    location: "Shancheng Alley, Chongqing",
   },
   {
     columns: [["bright-farmer"], ["rafting"]],
-    location: "Yangshuo, Guangxi",
+    location: "Yangshuo, Guilin, Guangxi",
   },
 ];
 
@@ -270,7 +292,7 @@ export const JAPAN_ITEMS = [
   {
     columns: [
       [{ name: "train", location: "Shingu, Fukuoka" }],
-      [{ name: "pigeons", location: "Shichirigahama Beach, Kamakura" }],
+      [{ name: "pigeons", location: "Shichirigahama Beach, Kamakura, Kanagawa" }],
     ],
   },
   {
@@ -323,7 +345,7 @@ export const JAPAN_ITEMS = [
     gap: 30,
     location: "Yokohama (view of Mt. Fuji)",
   },
-  { columns: [["beach"]], gap: 30, location: "Shichirigahama Beach, Kamakura" },
+  { columns: [["beach"]], gap: 30, location: "Shichirigahama Beach, Kamakura, Kanagawa" },
   {
     columns: [[{ name: "purple-bar", size: "lg" }], ["green-bar"]],
     flex: [9, 4],
