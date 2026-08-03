@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify-icon/react";
 import GalleryLightboxImage from "./GalleryLightboxImage";
@@ -42,6 +42,9 @@ export default function GalleryLightbox({
   const showCaption = Boolean(
     location || dateLine || cameraLine || exposureLine,
   );
+  // Ignore backdrop close when either end of the click was on the caption
+  // (so text selection that starts or ends on the caption doesn't dismiss).
+  const captionPointerRef = useRef(false);
 
   const go = (delta) => {
     if (!open || photos.length === 0) return;
@@ -67,6 +70,26 @@ export default function GalleryLightbox({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, index, photos, onClose, onChange]);
+
+  const isCaptionTarget = (target) =>
+    target instanceof Element &&
+    Boolean(target.closest("[data-lightbox-caption]"));
+
+  const onOverlayPointerDown = (e) => {
+    captionPointerRef.current = isCaptionTarget(e.target);
+  };
+
+  const onOverlayPointerUp = (e) => {
+    if (isCaptionTarget(e.target)) captionPointerRef.current = true;
+  };
+
+  const onOverlayClick = () => {
+    if (captionPointerRef.current) {
+      captionPointerRef.current = false;
+      return;
+    }
+    onClose();
+  };
 
   const arrowBtnClass =
     "flex items-center justify-center p-3 text-white/35 hover:text-white/70 focus-visible:text-white/70 active:text-white/70 transition-colors duration-200 cursor-pointer bg-transparent border-0";
@@ -116,7 +139,9 @@ export default function GalleryLightbox({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           className="fixed inset-0 z-60 bg-black/70"
-          onClick={onClose}
+          onPointerDown={onOverlayPointerDown}
+          onPointerUp={onOverlayPointerUp}
+          onClick={onOverlayClick}
         >
           {!bottomArrows && prevButton}
           <div
@@ -125,7 +150,6 @@ export default function GalleryLightbox({
                 ? "absolute inset-0 flex items-center justify-center p-8 pb-20"
                 : "absolute inset-0 flex items-center justify-center p-8"
             }
-            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex max-h-full max-w-full flex-col items-center gap-4">
               <div className="flex min-h-0 min-w-0 max-h-full items-center justify-center">
@@ -137,10 +161,14 @@ export default function GalleryLightbox({
                       ? "max-h-[calc(100vh-12rem)]"
                       : "max-h-[calc(100vh-8rem)]"
                   }
+                  onClick={(e) => e.stopPropagation()}
                 />
               </div>
               {showCaption ? (
-                <div className="max-w-full shrink-0 px-2 text-center text-balance">
+                <div
+                  data-lightbox-caption
+                  className="max-w-full shrink-0 px-2 text-center text-balance select-text cursor-text"
+                >
                   {location ? (
                     <div className="text-sm font-medium text-white bodoni-small">
                       {location}
