@@ -86,8 +86,8 @@ function App() {
   const [showJapanGallery, setShowJapanGallery] = useState(false);
   const [bootstrap, setBootstrap] = useState({
     spotify: null,
-    mal: [],
-    tmdb: [],
+    mal: null,
+    tmdb: null,
   });
 
   // Hand off from the static HTML loader to React before first paint.

@@ -1,0 +1,13 @@
+---
+description: Never write implementation plan files
+alwaysApply: true
+---
+
+# No Implementation Plan Files
+
+NEVER create implementation plan documents (e.g. `docs/superpowers/plans/*.md`, or any "implementation plan" markdown).
+
+- After a design is approved, implement the code directly.
+- Do not invoke writing-plans or equivalent workflows that produce plan files.
+- Design specs under `docs/superpowers/specs/` are fine when brainstorming requires them; plan files are not.
+- If a skill or checklist says to write an implementation plan file, skip that step and code instead.

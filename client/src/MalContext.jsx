@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-const MalContext = createContext([]);
+const MalContext = createContext(null);
 
-export function MalProvider({ children, initialData = [] }) {
+export function MalProvider({ children, initialData = null }) {
   const [malData, setMalData] = useState(initialData);
 
   useEffect(() => {
