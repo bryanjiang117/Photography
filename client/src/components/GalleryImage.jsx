@@ -6,6 +6,8 @@ import {
   rowDefaultSize,
 } from "../galleryImages";
 import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
+import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
+import { formatHoverMetaLine } from "../galleryPhotoMetaFormat";
 
 /**
  * @param {{
@@ -41,14 +43,27 @@ export default function GalleryImage({
   const src = galleryImageUrl(region, parsed.name, maxSize);
   const aspectRatio = galleryPhotoDimensions(region, parsed.name);
   const location = parsed.location;
+  const metaLine = formatHoverMetaLine(
+    galleryPhotoMeta(region, parsed.name),
+  );
+  const showOverlay = Boolean(location || metaLine);
 
-  const overlay = location ? (
+  const overlay = showOverlay ? (
     <span
       className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit] bg-black/40 p-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
       aria-hidden="true"
     >
-      <span className="text-center text-sm leading-snug text-white bodoni-small tracking-wide text-balance">
-        {location}
+      <span className="flex flex-col items-center gap-1 text-center text-balance">
+        {location ? (
+          <span className="text-md font-light leading-snug tracking-wide text-white bodoni-small">
+            {location}
+          </span>
+        ) : null}
+        {metaLine ? (
+          <span className="text-xs leading-snug text-white/90 [font-family:system-ui,sans-serif]">
+            {metaLine}
+          </span>
+        ) : null}
       </span>
     </span>
   ) : null;
@@ -60,7 +75,7 @@ export default function GalleryImage({
       aspectRatio={aspectRatio}
       className={className}
       wrapperClassName={
-        `${location ? "group" : ""} ${wrapperClassName}`.trim()
+        `${showOverlay ? "group" : ""} ${wrapperClassName}`.trim()
       }
       decoding="async"
       {...loadProps}

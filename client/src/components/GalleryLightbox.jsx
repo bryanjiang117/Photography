@@ -2,12 +2,18 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify-icon/react";
 import GalleryLightboxImage from "./GalleryLightboxImage";
+import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
+import {
+  formatCameraLine,
+  formatExposureLine,
+  formatPhotoDate,
+} from "../galleryPhotoMetaFormat";
 
 /**
  * Full-image overlay for gallery lightbox (web + mobile).
  * @param {{
  *   region: string;
- *   photos: { name: string }[];
+ *   photos: { name: string; location?: string }[];
  *   activeName: string | null;
  *   onClose: () => void;
  *   onChange: (name: string) => void;
@@ -27,6 +33,15 @@ export default function GalleryLightbox({
     : -1;
   const open = index >= 0;
   const bottomArrows = arrows === "bottom";
+  const activePhoto = open ? photos[index] : null;
+  const location = activePhoto?.location;
+  const meta = activeName ? galleryPhotoMeta(region, activeName) : null;
+  const dateLine = formatPhotoDate(meta?.takenAt);
+  const cameraLine = formatCameraLine(meta);
+  const exposureLine = formatExposureLine(meta);
+  const showCaption = Boolean(
+    location || dateLine || cameraLine || exposureLine,
+  );
 
   const go = (delta) => {
     if (!open || photos.length === 0) return;
@@ -100,15 +115,46 @@ export default function GalleryLightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-8"
+          className="fixed inset-0 z-60 flex flex-col bg-black/70 p-8"
           onClick={onClose}
         >
           {!bottomArrows && prevButton}
-          <GalleryLightboxImage
-            region={region}
-            name={activeName}
+          <div
+            className={
+              bottomArrows
+                ? "flex min-h-0 w-full flex-1 flex-col items-center pb-14"
+                : "flex min-h-0 w-full flex-1 flex-col items-center"
+            }
             onClick={(e) => e.stopPropagation()}
-          />
+          >
+            <div className="flex min-h-0 min-w-0 w-full flex-1 items-center justify-center">
+              <GalleryLightboxImage region={region} name={activeName} />
+            </div>
+            {showCaption ? (
+              <div className="mt-3 max-w-full shrink-0 px-2 text-center text-balance">
+                {location ? (
+                  <div className="text-sm font-medium text-white bodoni-small">
+                    {location}
+                  </div>
+                ) : null}
+                {dateLine ? (
+                  <div className="mt-1 text-xs text-white/90 [font-family:system-ui,sans-serif]">
+                    {dateLine}
+                  </div>
+                ) : null}
+                {cameraLine ? (
+                  <div className="mt-0.5 text-xs text-white/90 [font-family:system-ui,sans-serif]">
+                    {cameraLine}
+                  </div>
+                ) : null}
+                {exposureLine ? (
+                  <div className="mt-0.5 text-xs text-white/90 [font-family:system-ui,sans-serif]">
+                    {exposureLine}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
           {!bottomArrows && nextButton}
           {bottomArrows && (
             <div

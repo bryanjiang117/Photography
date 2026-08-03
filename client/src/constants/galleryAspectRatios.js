@@ -369,14 +369,6 @@ export const GALLERY_ASPECT_RATIOS = {
     }
   },
   "china": {
-    "88-stage": {
-      "w": 6185,
-      "h": 3480
-    },
-    "apartment-window": {
-      "w": 2411,
-      "h": 3616
-    },
     "auntie-cleaning": {
       "w": 6240,
       "h": 4160
@@ -389,49 +381,13 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5953,
       "h": 3969
     },
-    "balcony": {
-      "w": 6240,
-      "h": 3512
-    },
-    "bald-cards": {
-      "w": 6240,
-      "h": 4160
-    },
-    "baozi-shop": {
-      "w": 3767,
-      "h": 5651
-    },
     "baozi": {
       "w": 6240,
       "h": 4160
     },
-    "bbq": {
-      "w": 3359,
-      "h": 5038
-    },
-    "bench": {
-      "w": 5447,
-      "h": 3631
-    },
-    "box-cat": {
-      "w": 6240,
-      "h": 4160
-    },
-    "bridge-officer": {
-      "w": 3880,
-      "h": 5820
-    },
     "bright-farmer": {
       "w": 6240,
       "h": 4160
-    },
-    "bright-red": {
-      "w": 3512,
-      "h": 6240
-    },
-    "buddha": {
-      "w": 5956,
-      "h": 3971
     },
     "building-ac": {
       "w": 3512,
@@ -441,27 +397,7 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6066,
       "h": 3414
     },
-    "busy-restaurant": {
-      "w": 6240,
-      "h": 4160
-    },
-    "cabbage-auntie": {
-      "w": 5664,
-      "h": 3776
-    },
-    "cable-cars": {
-      "w": 3741,
-      "h": 5612
-    },
-    "camper": {
-      "w": 3543,
-      "h": 5315
-    },
     "card-uncs": {
-      "w": 4160,
-      "h": 6240
-    },
-    "cards": {
       "w": 4160,
       "h": 6240
     },
@@ -481,22 +417,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5849,
       "h": 3899
     },
-    "clapper": {
-      "w": 5905,
-      "h": 3936
-    },
-    "crowded-dining": {
-      "w": 6157,
-      "h": 4104
-    },
-    "dragon-lights": {
-      "w": 5309,
-      "h": 3539
-    },
-    "dragon": {
-      "w": 3953,
-      "h": 5930
-    },
     "everyday-1": {
       "w": 4160,
       "h": 6240
@@ -509,93 +429,25 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4160,
       "h": 6240
     },
-    "farmer": {
-      "w": 4160,
-      "h": 6240
-    },
     "farmlands": {
       "w": 6240,
       "h": 4160
-    },
-    "farmlands2": {
-      "w": 5713,
-      "h": 3808
-    },
-    "father-daughter": {
-      "w": 6124,
-      "h": 4082
     },
     "fire": {
       "w": 6240,
       "h": 4160
     },
-    "fisherman": {
-      "w": 5038,
-      "h": 3359
-    },
-    "fishing-lady": {
-      "w": 6240,
-      "h": 4160
-    },
-    "flower-mountain": {
-      "w": 3925,
-      "h": 5888
-    },
-    "flower-pots": {
-      "w": 6240,
-      "h": 4160
-    },
-    "flying": {
-      "w": 6240,
-      "h": 4160
-    },
-    "frenchie": {
-      "w": 6019,
-      "h": 4013
-    },
-    "fruit-truck": {
-      "w": 5669,
-      "h": 3779
-    },
     "furong-bridge-view": {
       "w": 5712,
       "h": 3808
-    },
-    "furong-bridge": {
-      "w": 3824,
-      "h": 5737
     },
     "furong-town": {
       "w": 4160,
       "h": 6240
     },
-    "garbage": {
-      "w": 6240,
-      "h": 4160
-    },
-    "gardener": {
-      "w": 6240,
-      "h": 4160
-    },
-    "girthy-mountain": {
-      "w": 3029,
-      "h": 4543
-    },
     "goldfish": {
       "w": 5051,
       "h": 3367
-    },
-    "gramps": {
-      "w": 6169,
-      "h": 3472
-    },
-    "grandaughter": {
-      "w": 6240,
-      "h": 4160
-    },
-    "grandma-cat": {
-      "w": 6240,
-      "h": 4160
     },
     "grungy-apartment": {
       "w": 4160,
@@ -613,37 +465,13 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6240,
       "h": 4160
     },
-    "humble-house": {
-      "w": 4160,
-      "h": 6240
-    },
-    "incense": {
-      "w": 4160,
-      "h": 6240
-    },
-    "ladder": {
-      "w": 4160,
-      "h": 6240
-    },
     "lanterns-alley": {
       "w": 4160,
       "h": 6240
     },
-    "laundry-woman": {
-      "w": 2848,
-      "h": 5061
-    },
-    "longmenhao": {
-      "w": 3397,
-      "h": 5096
-    },
     "mahjong": {
       "w": 5316,
       "h": 2992
-    },
-    "mao": {
-      "w": 6240,
-      "h": 4160
     },
     "meituan-trio": {
       "w": 6240,
@@ -653,10 +481,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6240,
       "h": 4160
     },
-    "mother-son": {
-      "w": 5381,
-      "h": 3587
-    },
     "mountain-range": {
       "w": 4160,
       "h": 6240
@@ -665,39 +489,11 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5988,
       "h": 3992
     },
-    "neighborhood": {
-      "w": 6064,
-      "h": 4043
-    },
-    "noodle-shop": {
-      "w": 4160,
-      "h": 6240
-    },
-    "overexposed-garden": {
-      "w": 4160,
-      "h": 6240
-    },
-    "overexposed-mist": {
-      "w": 4160,
-      "h": 6240
-    },
-    "overexposed-mountain": {
-      "w": 4160,
-      "h": 6240
-    },
     "park-gramps": {
       "w": 3899,
       "h": 5849
     },
-    "plants-stairs": {
-      "w": 4160,
-      "h": 6240
-    },
     "poles-in-farm": {
-      "w": 6240,
-      "h": 4160
-    },
-    "posing": {
       "w": 6240,
       "h": 4160
     },
@@ -717,45 +513,13 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 2928,
       "h": 5203
     },
-    "red-museum": {
-      "w": 3535,
-      "h": 5303
-    },
-    "rice-fields": {
-      "w": 6240,
-      "h": 4160
-    },
     "robot-dog": {
       "w": 5441,
       "h": 3627
     },
-    "roof-cat": {
-      "w": 3512,
-      "h": 6240
-    },
-    "roof-cleaner": {
-      "w": 3512,
-      "h": 6240
-    },
     "roof-worker": {
       "w": 3512,
       "h": 6240
-    },
-    "rural-river": {
-      "w": 5907,
-      "h": 3938
-    },
-    "school-sign": {
-      "w": 6240,
-      "h": 4160
-    },
-    "scooter-woman": {
-      "w": 4160,
-      "h": 6240
-    },
-    "scooters": {
-      "w": 5909,
-      "h": 3939
     },
     "sleeping-cat": {
       "w": 6240,
@@ -765,36 +529,8 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6240,
       "h": 3512
     },
-    "stairwell-flowers": {
-      "w": 4160,
-      "h": 6240
-    },
-    "station-officer": {
-      "w": 4160,
-      "h": 6240
-    },
     "stick-gramps": {
       "w": 2773,
-      "h": 4160
-    },
-    "store-cat-1": {
-      "w": 4160,
-      "h": 6240
-    },
-    "store-cat": {
-      "w": 6240,
-      "h": 4160
-    },
-    "sunrise-mountains": {
-      "w": 4160,
-      "h": 6240
-    },
-    "tall-building": {
-      "w": 4160,
-      "h": 6240
-    },
-    "tea-house": {
-      "w": 6240,
       "h": 4160
     },
     "temple": {
@@ -804,14 +540,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "thinking-cards": {
       "w": 6240,
       "h": 4160
-    },
-    "train": {
-      "w": 4160,
-      "h": 6240
-    },
-    "truck": {
-      "w": 5342,
-      "h": 3561
     },
     "two-dudes": {
       "w": 5812,
@@ -851,41 +579,13 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6016,
       "h": 4016
     },
-    "big-buddha": {
-      "w": 6016,
-      "h": 4016
-    },
-    "bikes": {
-      "w": 6016,
-      "h": 4016
-    },
-    "birds": {
-      "w": 6016,
-      "h": 4016
-    },
-    "boat": {
-      "w": 5423,
-      "h": 3620
-    },
-    "bridge": {
-      "w": 6016,
-      "h": 4016
-    },
     "buddha-shrine": {
       "w": 3738,
       "h": 5600
     },
-    "buddhas": {
-      "w": 5764,
-      "h": 3848
-    },
     "business-man": {
       "w": 4932,
       "h": 3292
-    },
-    "cafeteria": {
-      "w": 6016,
-      "h": 4016
     },
     "cats": {
       "w": 5663,
@@ -895,17 +595,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4016,
       "h": 6016
     },
-    "creepy-tree": {
-      "w": 6016,
-      "h": 4016
-    },
     "deer": {
       "w": 5687,
       "h": 3796
-    },
-    "door-deer-2": {
-      "w": 6016,
-      "h": 4016
     },
     "door-deer": {
       "w": 6016,
@@ -915,14 +607,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4016,
       "h": 6016
     },
-    "fishing-village-2": {
-      "w": 5785,
-      "h": 3862
-    },
-    "fishing-village": {
-      "w": 6016,
-      "h": 4016
-    },
     "flowers": {
       "w": 1221,
       "h": 2400
@@ -931,33 +615,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4016,
       "h": 6016
     },
-    "frozen-lake": {
-      "w": 3724,
-      "h": 5578
-    },
-    "fuji-sunset": {
-      "w": 6016,
-      "h": 4016
-    },
-    "gap": {
-      "w": 3926,
-      "h": 5881
-    },
-    "goshuin": {
-      "w": 6016,
-      "h": 4016
-    },
-    "graves": {
-      "w": 4016,
-      "h": 6016
-    },
     "green-bar": {
       "w": 4016,
       "h": 6016
-    },
-    "grungy-street": {
-      "w": 3878,
-      "h": 5810
     },
     "hiroshima": {
       "w": 5957,
@@ -983,21 +643,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6016,
       "h": 4016
     },
-    "misty-garden": {
-      "w": 4016,
-      "h": 6016
-    },
-    "modes-of-transport": {
-      "w": 6016,
-      "h": 4016
-    },
     "monks": {
       "w": 5449,
       "h": 3637
-    },
-    "mountains": {
-      "w": 4016,
-      "h": 6016
     },
     "nest": {
       "w": 6016,
@@ -1010,10 +658,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "night-signs": {
       "w": 3858,
       "h": 5780
-    },
-    "night-stall": {
-      "w": 5319,
-      "h": 3551
     },
     "ocean-kid": {
       "w": 6016,
@@ -1039,14 +683,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6016,
       "h": 4016
     },
-    "rapper": {
-      "w": 5573,
-      "h": 3720
-    },
-    "restaurant": {
-      "w": 4016,
-      "h": 6016
-    },
     "river-mountains": {
       "w": 6016,
       "h": 4016
@@ -1054,14 +690,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "river-students": {
       "w": 6016,
       "h": 4016
-    },
-    "room": {
-      "w": 5812,
-      "h": 3880
-    },
-    "roots": {
-      "w": 4000,
-      "h": 6000
     },
     "running-kid": {
       "w": 4016,
@@ -1071,29 +699,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6016,
       "h": 4016
     },
-    "school-temple": {
-      "w": 6016,
-      "h": 4016
-    },
-    "shibuya": {
-      "w": 4016,
-      "h": 6016
-    },
-    "shinkansen": {
-      "w": 6016,
-      "h": 4016
-    },
-    "shopping-street": {
-      "w": 6016,
-      "h": 4016
-    },
     "shrine": {
       "w": 6016,
       "h": 4016
-    },
-    "small-bridge": {
-      "w": 4016,
-      "h": 6016
     },
     "snow-roots": {
       "w": 4000,
@@ -1103,33 +711,17 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 2452,
       "h": 3674
     },
-    "snowman": {
-      "w": 3306,
-      "h": 4952
-    },
     "sunset": {
       "w": 1788,
       "h": 2679
-    },
-    "swings": {
-      "w": 6016,
-      "h": 4016
     },
     "takoyaki": {
       "w": 6016,
       "h": 4016
     },
-    "tall-tree": {
-      "w": 4016,
-      "h": 6016
-    },
     "taxi": {
       "w": 4016,
       "h": 6016
-    },
-    "temple": {
-      "w": 3658,
-      "h": 5480
     },
     "tori-gates": {
       "w": 6016,
@@ -1138,10 +730,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "tori": {
       "w": 6016,
       "h": 4016
-    },
-    "train-tracks": {
-      "w": 5690,
-      "h": 3798
     },
     "train": {
       "w": 6016,

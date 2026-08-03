@@ -15,7 +15,7 @@ export default function GalleryLightboxImage({ region, name, onClick }) {
           ? { aspectRatio: `${dimensions.w} / ${dimensions.h}` }
           : undefined
       }
-      className="max-w-full max-h-full object-contain"
+      className="max-h-full max-w-full min-h-0 object-contain"
       onClick={onClick}
     />
   );

@@ -140,3 +140,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Local gallery masters (EXIF source for photos:meta — do not deploy)
+client/originals/

@@ -54,3 +54,13 @@ When adding gallery photos, add them to the region’s `*_ITEMS` grid in `client
 ```bash
 cd client && npm run photos:ratios
 ```
+
+### Gallery photo metadata (EXIF)
+
+Local masters for EXIF live in `client/originals/{region}/` (gitignored; basename must match the gallery name, e.g. `hotpot.jpeg`). After adding or replacing originals:
+
+```bash
+cd client && npm run photos:meta
+```
+
+This writes `client/src/constants/galleryPhotoMeta.js` for hover + lightbox captions.
