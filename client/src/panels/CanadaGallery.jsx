@@ -23,21 +23,21 @@ export default function CanadaGallery({ entrance = true, slide = true }) {
       ref={scrollRef}
       className="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden bg-canada-primary min-w-[1200px] min-h-[800px] scrollbar-hide"
     >
-      <div className="flex min-h-full">
+      <div className="grid min-h-full grid-cols-[8rem_minmax(0,1fr)_8rem]">
         {/* Left column: title + back button */}
-        <div className="sticky top-0 self-start h-dvh shrink-0 flex flex-col justify-between px-8 pt-6 pb-6 text-white">
+        <div className="sticky top-0 self-start h-dvh flex flex-col justify-between px-8 pt-6 pb-6 text-white">
           <motion.div
             {...galleryFadeMotion(entrance)}
             className="flex flex-col items-start"
           >
             <div
-              className="font-tsm text-[9rem] leading-none [writing-mode:vertical-rl]"
+              className="-translate-x-1 font-tsm text-[8rem] leading-none [writing-mode:vertical-rl]"
               lang="zh-CN"
               translate="no"
             >
               加拿大
             </div>
-            <span className="bodoni-small mt-4 text-lg uppercase tracking-widest opacity-60">
+            <span className="bodoni-small mt-4 text-lg uppercase tracking-widest opacity-60 [writing-mode:vertical-rl]">
               CANADA
             </span>
           </motion.div>
@@ -45,17 +45,15 @@ export default function CanadaGallery({ entrance = true, slide = true }) {
           <motion.button
             {...galleryFadeMotion(entrance, 0.42)}
             onClick={() => setShowCanadaGallery(false)}
-            className="flex items-center gap-2 text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200 p-3 -m-3"
+            aria-label="Back"
+            className="self-start text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200 p-3 -m-3"
           >
-            <span className="text-lg leading-none">←</span>
-            <span className="bodoni-small text-xs tracking-[0.25em] leading-none">
-              BACK
-            </span>
+            <span className="block text-xl leading-none">←</span>
           </motion.button>
         </div>
 
-        {/* Photo column */}
-        <div className="flex-1 min-w-0 flex flex-col items-center gap-20 py-16 px-40">
+        {/* Photo column — centered between equal side tracks */}
+        <div className="min-w-0 flex flex-col items-center gap-20 py-16 px-40">
           <GalleryGrid
             region="canada"
             items={ITEMS}
@@ -63,20 +61,20 @@ export default function CanadaGallery({ entrance = true, slide = true }) {
           />
         </div>
 
-        {/* Right column: photography label */}
+        {/* Right column: photography label (mirrors country title) */}
         <motion.div
           {...galleryFadeMotion(entrance, 0.42)}
-          className="sticky top-0 self-start h-dvh shrink-0 flex flex-col items-end justify-end gap-3 px-10 pb-6 text-white"
+          className="sticky top-0 self-start h-dvh flex flex-col items-end justify-end px-10 pb-6 text-white"
         >
+          <div className="text-lg tracking-widest bodoni-small opacity-60 [writing-mode:vertical-rl]">
+            PHOTOGRAPHY
+          </div>
           <div
-            className="font-tsm text-xl font-extrabold leading-none [writing-mode:vertical-rl] opacity-60"
+            className="mt-4 translate-x-1 font-tsm text-[8rem] leading-none [writing-mode:vertical-rl]"
             lang="zh-CN"
             translate="no"
           >
             摄影
-          </div>
-          <div className="translate-x-1 text-lg tracking-widest bodoni-small opacity-60 [writing-mode:vertical-rl]">
-            PHOTOGRAPHY
           </div>
         </motion.div>
       </div>
