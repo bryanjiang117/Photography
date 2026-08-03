@@ -18,8 +18,10 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 //   Files: name-sm.avif (800px), name-md.avif (1400px), name-lg.avif (2400px), name.avif (uncapped master)
 //   After adding/replacing name.avif:  cd client && npm run photos:variants
 //
-// location — optional place label for the whole row (e.g. "Kyoto"). Inherited by every
-//   photo in the row unless a photo entry sets its own `location`.
+// location — optional place label for the whole row. Inherited by every photo in the
+//   row unless a photo entry sets its own `location`. China / Japan use bilingual
+//   form: "English · Local". Mexico only when English ≠ Spanish ("English / Spanish");
+//   same-name places stay single (e.g. "Roma Norte"). Canada is English-only.
 //
 // flex — optional number[]; flex-grow per column (e.g. flex: [1, 2, 5])
 // fit — optional "contain"; keep aspect ratio, matched row heights (see chongqing row)
@@ -30,7 +32,7 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 // Flattened photo lists (*_GALLERY_PHOTOS) include resolved `location` per photo.
 //
 // Examples:
-//   { columns: [["orange-wall"]], size: "lg", location: "Coyoacán" }
+//   { columns: [["orange-wall"]], size: "lg", location: "La Condesa" }
 //   { columns: [["green-wall"], ["blue-door"]], size: "md", location: "Roma Norte" }
 //   { columns: [[{ name: "windmill", size: "lg", location: "Holbox" }]] }
 //   { columns: [[], ["palm-trees"], ["tree-reflection"]], flex: [1, 2, 5], size: "md" }
@@ -43,12 +45,20 @@ export const CANADA_ITEMS = [
       ["fallen-leaves"],
       ["autumn-pond"],
     ],
+    location: "Bond Lake, Richmond Hill, Ontario",
   },
-  { columns: [["ferry-lookout"]] },
+  {
+    columns: [["ferry-lookout"]],
+    location: "Tsawwassen–Swartz Bay Ferry, British Columbia",
+  },
   {
     columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
+    location: "Vancouver, British Columbia",
   },
-  { columns: [["fish-vendor"], [], ["boat-cabin"]] },
+  {
+    columns: [["fish-vendor"], [], ["boat-cabin"]],
+    location: "Steveston Village, Richmond, British Columbia",
+  },
   {
     columns: [
       [],
@@ -56,14 +66,17 @@ export const CANADA_ITEMS = [
       [{ name: "pacific-railway", size: "lg" }],
     ],
     flex: [1, 1, 3],
+    location: "Vancouver, British Columbia",
   },
   {
     columns: [[], ["totem-top"], ["parliament-flowers"], ["war-memorial"]],
+    location: "Victoria, British Columbia",
   },
   {
     columns: [["orca"], [[], []]],
     flex: [4, 5],
     size: "lg",
+    location: "Victoria, British Columbia",
   },
   {
     columns: [
@@ -72,13 +85,40 @@ export const CANADA_ITEMS = [
       [[], "totem-pole"],
     ],
     flex: [1, 2, 1],
+    location: "Victoria, British Columbia",
   },
-  { columns: [["sunset-seagull"], ["pink-jellyfish"]] },
-  // { columns: [["shop-window"], ["bakery-kitchen"], ["bookstore"]] },
-  { columns: [["walking-dog"], [], ["street-protester"]] },
-  { columns: [["towering-cloud"], ["golden-spires"]], size: "lg" },
   {
-    columns: [["scrap-sculpture"], [], ["gated-alley"], [], ["graffiti-alley"]],
+    columns: [
+      [{ name: "sunset-seagull", location: "HTO Park, Toronto, Ontario" }],
+      [
+        {
+          name: "pink-jellyfish",
+          location: "Ripley's Aquarium, Toronto, Ontario",
+        },
+      ],
+    ],
+  },
+  // { columns: [["shop-window"], ["bakery-kitchen"], ["bookstore"]] },
+  {
+    columns: [["walking-dog"], [], ["street-protester"]],
+    location: "Toronto, Ontario",
+  },
+  {
+    columns: [
+      [{ name: "towering-cloud", location: "Somewhere in Ontario" }],
+      [{ name: "golden-spires", location: "Victoria, British Columbia" }],
+    ],
+    size: "lg",
+  },
+  {
+    columns: [
+      [{ name: "scrap-sculpture", location: "Toronto, Ontario" }],
+      [],
+      ["gated-alley"],
+      [],
+      ["graffiti-alley"],
+    ],
+    location: "Graffiti Alley, Toronto, Ontario",
   },
   {
     columns: [
@@ -87,20 +127,35 @@ export const CANADA_ITEMS = [
       [{ name: "fruit-worker", size: "lg" }],
     ],
     fit: "contain",
+    location: "Chinatown, Toronto, Ontario",
   },
-  { columns: [["wet-leaves"], ["rainy-roses"], ["blurred-rain"]] },
+  {
+    columns: [
+      ["wet-leaves"],
+      ["rainy-roses"],
+      [{ name: "blurred-rain", location: "Newmarket, Ontario" }],
+    ],
+    location: "Scarborough, Ontario",
+  },
   {
     columns: [
       ["sun-rays", "empty-goalpost", "golden-grass"],
       [{ name: "brick-tower", size: "lg" }],
     ],
     flex: [1, 3],
+    location: "Scarborough, Ontario",
   },
-  { columns: [["cans"], ["peach-roses"]] },
+  {
+    columns: [
+      [{ name: "cans", location: "Somewhere in Ontario" }],
+      [{ name: "peach-roses", location: "Scarborough, Ontario" }],
+    ],
+  },
   {
     columns: [["farm-ca"], ["windows-xp-grass"], ["wheat"]],
+    location: "Somewhere in Ontario",
   },
-  { columns: [["moon"], ["firework"]] },
+  { columns: [["moon"], ["firework"]], location: "Somewhere in Ontario" },
 ];
 
 export const CANADA_GALLERY_PHOTOS = flattenGalleryItems(CANADA_ITEMS);
@@ -108,20 +163,73 @@ export const CANADA_PHOTOS = CANADA_GALLERY_PHOTOS.map((p) => p.name);
 
 // Empty strings in arrays are spacers for the desktop grid layout.
 export const MEXICO_ITEMS = [
-  { columns: [["orange-wall"]], size: "lg", },
-  { columns: [["green-wall"], ["blue-door"], ["bike-leaves"]], size: "md" },
-  { columns: [["meat-vendor"], ["pastor-tacos"]], size: "lg" },
-  { columns: [[], ["street-vendor"], [], ["coke-store"]] },
-  { columns: [["taco-vendor"], ["bakery"]] },
-  { columns: [["fruit-store"], ["flowers"], ["fruit-vendor"]], size: "md" },
-  { columns: [["old-man"], []], size: "lg" },
-  { columns: [["bikes"], [], ["pool"], [], ["street-stalls"]], size: "md" },
-  { columns: [["windmill"]], size: "lg" },
+  { columns: [["orange-wall"]], size: "lg", location: "La Condesa" },
   {
-    columns: [[], ["palm-trees"], [{ name: "tree-reflection", size: "lg" }]],
+    columns: [
+      ["green-wall"],
+      ["blue-door"],
+      [{ name: "bike-leaves", location: "Roma Norte" }],
+    ],
+    size: "md",
+    location:
+      "Francisco Sosa Avenue, Coyoacán / Avenida Francisco Sosa, Coyoacán",
+  },
+  {
+    columns: [
+      [
+        {
+          name: "meat-vendor",
+          location: "Medellín Market, Roma / Mercado Medellín, Roma",
+        },
+      ],
+      [{ name: "pastor-tacos", location: "Roma Norte" }],
+    ],
+    size: "lg",
+  },
+  {
+    columns: [[], ["street-vendor"], [], ["coke-store"]],
+    location: "Roma Norte",
+  },
+  {
+    columns: [
+      [{ name: "taco-vendor", location: "La Condesa" }],
+      [{ name: "bakery", location: "Roma Sur" }],
+    ],
+  },
+  {
+    columns: [
+      [{ name: "fruit-store", location: "Roma Sur" }],
+      ["flowers"],
+      ["fruit-vendor"],
+    ],
+    size: "md",
+    location: "Medellín Market, Roma Sur / Mercado Medellín, Roma Sur",
+  },
+  {
+    columns: [["old-man"], []],
+    size: "lg",
+    location: "Historic Center / Centro Histórico",
+  },
+  {
+    columns: [["bikes"], [], ["pool"], [], ["street-stalls"]],
+    size: "md",
+    location: "Roma Norte",
+  },
+  { columns: [["windmill"]], size: "lg", location: "Roma Sur" },
+  {
+    columns: [
+      [],
+      [
+        {
+          name: "palm-trees",
+          location: "Garibaldi Plaza / Plaza Garibaldi",
+        },
+      ],
+      [{ name: "tree-reflection", size: "lg", location: "Roma Norte" }],
+    ],
     flex: [1, 2, 5],
   },
-  { columns: [["playground"], []], size: "lg" },
+  { columns: [["playground"], []], size: "lg", location: "Roma Norte" },
   {
     columns: [
       ["museum-reflection"],
@@ -130,9 +238,15 @@ export const MEXICO_ITEMS = [
       ["palace"],
       [],
     ],
+    location:
+      "National Art Museum, Historic Center / Museo Nacional de Arte, Centro Histórico",
   },
-  { columns: [["plaza-garibaldi"]] },
-  { columns: [["sunset-dark"]], size: "full" },
+  {
+    columns: [["plaza-garibaldi"]],
+    location:
+      "Garibaldi Plaza, Historic Center / Plaza Garibaldi, Centro Histórico",
+  },
+  { columns: [["sunset-dark"]], size: "full", location: "Roma Norte" },
 ];
 
 export const MEXICO_GALLERY_PHOTOS = flattenGalleryItems(MEXICO_ITEMS);
@@ -141,25 +255,30 @@ export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 export const CHINA_ITEMS = [
   {
     columns: [["mountain-scene"]],
-    location: "Yangshuo, Guilin, Guangxi",
+    location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
   {
     columns: [
-      [{ name: "fire", location: "Yangshuo, Guilin, Guangxi" }],
+      [
+        {
+          name: "fire",
+          location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
+        },
+      ],
       ["farmlands"],
       ["poles-in-farm"],
     ],
-    location: "Somewhere in Guangxi/Hunan",
+    location: "Somewhere in Guangxi/Hunan · 广西/湖南某处",
     size: "sm",
   },
   {
     columns: [
       ["grungy-apartment"],
-      [{ name: "goldfish", location: "Baixiangju, Chongqing" }],
+      [{ name: "goldfish", location: "Baixiangju, Chongqing · 百象居，重庆" }],
       ["building-steps"],
     ],
     flex: [1, 2, 2],
-    location: "Chongqing",
+    location: "Chongqing · 重庆",
   },
   {
     columns: [
@@ -168,13 +287,18 @@ export const CHINA_ITEMS = [
       ["park-gramps"],
     ],
     flex: [4, 1, 1],
-    location: "People's Park, Chongqing",
+    location: "People's Park, Chongqing · 人民公园，重庆",
     size: "sm",
   },
   {
     columns: [
-      [{ name: "sleeping-cat", location: "Xiaohaoli, Chongqing" }],
-      [{ name: "cat", location: "Shibati, Chongqing" }],
+      [
+        {
+          name: "sleeping-cat",
+          location: "Xiaohaoli, Chongqing · 小浩里，重庆",
+        },
+      ],
+      [{ name: "cat", location: "Shibati, Chongqing · 十八梯，重庆" }],
     ],
   },
   {
@@ -182,22 +306,27 @@ export const CHINA_ITEMS = [
       [
         {
           name: "zhangjiajie",
-          location: "Zhangjiajie Forest National Park, Zhangjiajie, Hunan",
+          location:
+            "Zhangjiajie Forest National Park, Zhangjiajie, Hunan · 张家界国家森林公园，张家界，湖南",
         },
       ],
       ["winding-roads"],
       ["mountain-range"],
       ["winding-bus"],
     ],
-    location: "Tianmen Mountain National Park, Zhangjiajie, Hunan",
+    location:
+      "Tianmen Mountain National Park, Zhangjiajie, Hunan · 天门山国家森林公园，张家界，湖南",
   },
-  { columns: [["rafts"]], location: "Yangshuo, Guilin, Guangxi" },
+  {
+    columns: [["rafts"]],
+    location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
+  },
   {
     columns: [
       [{ name: "building-ac", size: "full" }],
       [
         "window-gramps",
-        { name: "mahjong", location: "Baixiangju, Chongqing" },
+        { name: "mahjong", location: "Baixiangju, Chongqing · 百象居，重庆" },
         "messy-balcony",
         "hole-in-the-wall",
         "window",
@@ -205,9 +334,12 @@ export const CHINA_ITEMS = [
     ],
     flex: [20, 11],
     size: "sm",
-    location: "Chongqing",
+    location: "Chongqing · 重庆",
   },
-  { columns: [["chongqing-flipped"]], location: "Hongyadong, Chongqing" },
+  {
+    columns: [["chongqing-flipped"]],
+    location: "Hongyadong, Chongqing · 洪崖洞，重庆",
+  },
   {
     columns: [
       [{ name: "furong-town", size: "lg" }],
@@ -215,39 +347,53 @@ export const CHINA_ITEMS = [
       [],
     ],
     flex: [12, 6, 3],
-    location: "Furong Town, Yongshun, Xiangxi, Hunan",
+    location: "Furong Town, Yongshun, Xiangxi, Hunan · 芙蓉镇，永顺，湘西，湖南",
   },
   {
     columns: [["china-flags"]],
-    location: "Zhangjiajie, Hunan",
+    location: "Zhangjiajie, Hunan · 张家界，湖南",
   },
   {
     columns: [["everyday-1"], ["everyday-2"], ["everyday-3"]],
-    location: "Zhangjiajie, Hunan",
+    location: "Zhangjiajie, Hunan · 张家界，湖南",
   },
-  { columns: [["meituan-trio"]], location: "Chongqing" },
+  { columns: [["meituan-trio"]], location: "Chongqing · 重庆" },
   {
     columns: [[{ name: "auntie-cooking", size: "lg" }], [], ["happy-woman"]],
     flex: [16, 2, 8],
-    location: "Chongqing",
+    location: "Chongqing · 重庆",
   },
   {
     columns: [["roof-worker"], ["red-green"]],
     size: "lg",
-    location: "People's Park, Chongqing",
+    location: "People's Park, Chongqing · 人民公园，重庆",
   },
   {
     columns: [
-      [{ name: "auntie-cleaning", location: "Chongqing" }],
-      [{ name: "baozi", size: "lg", location: "Haochi Street, Chongqing" }],
+      [{ name: "auntie-cleaning", location: "Chongqing · 重庆" }],
+      [
+        {
+          name: "baozi",
+          size: "lg",
+          location: "Haochi Street, Chongqing · 好吃街，重庆",
+        },
+      ],
     ],
     flex: [1, 2],
   },
-  { columns: [["rainy-chongqing"]], location: "Raffles City, Chongqing" },
+  {
+    columns: [["rainy-chongqing"]],
+    location: "Raffles City, Chongqing · 来福士，重庆",
+  },
   {
     columns: [
-      [{ name: "hotpot", location: "Chongqing" }],
-      [{ name: "lanterns-alley", location: "Shancheng Alley, Chongqing" }],
+      [{ name: "hotpot", location: "Chongqing · 重庆" }],
+      [
+        {
+          name: "lanterns-alley",
+          location: "Shancheng Alley, Chongqing · 山城巷，重庆",
+        },
+      ],
     ],
     flex: [2, 1],
   },
@@ -258,7 +404,8 @@ export const CHINA_ITEMS = [
         [
           {
             name: "auntie-dance",
-            location: "Baixiang Street Historical Scene, Chongqing",
+            location:
+              "Baixiangju Historical District, Chongqing · 百象居历史风貌区，重庆",
           },
         ],
         ["smoking"],
@@ -268,15 +415,15 @@ export const CHINA_ITEMS = [
     ],
     flex: [112, 200],
     size: "sm",
-    location: "Baixiangju, Chongqing",
+    location: "Baixiangju, Chongqing · 百象居，重庆",
   },
   {
     columns: [["two-dudes"]],
-    location: "Shancheng Alley, Chongqing",
+    location: "Shancheng Alley, Chongqing · 山城巷，重庆",
   },
   {
     columns: [["bright-farmer"], ["rafting"]],
-    location: "Yangshuo, Guilin, Guangxi",
+    location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
 ];
 
@@ -287,31 +434,48 @@ export const JAPAN_ITEMS = [
   {
     columns: [[{ name: "jugs", size: "lg" }], ["festival-object"]],
     flex: [9, 4],
-    location: "Fukuoka",
+    location: "Fukuoka · 福岡",
   },
   {
     columns: [
-      [{ name: "train", location: "Shingu, Fukuoka" }],
-      [{ name: "pigeons", location: "Shichirigahama Beach, Kamakura, Kanagawa" }],
+      [{ name: "train", location: "Shingu, Fukuoka · 新宮，福岡" }],
+      [
+        {
+          name: "pigeons",
+          location:
+            "Shichirigahama Beach, Kamakura, Kanagawa · 七里ヶ浜，鎌倉，神奈川",
+        },
+      ],
     ],
   },
   {
     columns: [["tree-shadows"], ["tori-gates"], ["path"]],
     flex: [4, 9, 4],
-    location: "Fukuoka",
+    location: "Fukuoka · 福岡",
   },
-  { columns: [["sakura"], ["nest"]], location: "Maizuru Park, Fukuoka" },
-  { columns: [["venusaur"]], location: "Fukuoka" },
+  {
+    columns: [["sakura"], ["nest"]],
+    location: "Maizuru Park, Fukuoka · 舞鶴公園，福岡",
+  },
+  { columns: [["venusaur"]], location: "Fukuoka · 福岡" },
   {
     columns: [["iceberg"], ["ocean-kid"]],
-    location: "Ainoshima (Cat Island), Fukuoka",
+    location: "Ainoshima Cat Island, Fukuoka · 相島，福岡",
   },
-  { columns: [["cats"]], location: "Ainoshima (Cat Island), Fukuoka" },
+  {
+    columns: [["cats"]],
+    location: "Ainoshima Cat Island, Fukuoka · 相島，福岡",
+  },
   {
     columns: [
-      [{ name: "old-man", location: "Peace Memorial Park, Hiroshima" }],
+      [
+        {
+          name: "old-man",
+          location: "Peace Memorial Park, Hiroshima · 平和記念公園，広島",
+        },
+      ],
       [],
-      [{ name: "river-students", location: "Hiroshima" }],
+      [{ name: "river-students", location: "Hiroshima · 広島" }],
     ],
     flex: [5, 2, 5],
   },
@@ -320,69 +484,80 @@ export const JAPAN_ITEMS = [
     flex: [3, 5, 3],
     gap: 12,
     size: "md",
-    location: "Atomic Bomb Dome, Hiroshima",
+    location: "Atomic Bomb Dome, Hiroshima · 原爆ドーム，広島",
   },
-  { columns: [["business-man"]], location: "Shibuya, Tokyo" },
+  { columns: [["business-man"]], location: "Shibuya, Tokyo · 渋谷，東京" },
   // { columns: [["modes-of-transport"]] },
   {
     columns: [[{ name: "asakusa", size: "lg" }], ["banners"]],
     flex: [9, 4],
-    location: "Asakusa, Tokyo",
+    location: "Asakusa, Tokyo · 浅草，東京",
   },
   {
     columns: [["taxi"], [], ["running-kid"], []],
     flex: [2, 1, 2, 1],
-    location: "Chinatown, Yokohama",
+    location: "Chinatown, Yokohama · 中華街，横浜",
   },
   {
     columns: [["deer"], ["door-deer"]],
-    location: "Miyajima Island, Hiroshima",
+    location: "Miyajima Island, Hiroshima · 宮島，広島",
   },
-  { columns: [["ocean-roads"]], location: "Yokohama" },
+  { columns: [["ocean-roads"]], location: "Yokohama · 横浜" },
   {
     columns: [[], ["sunset"], []],
     flex: [3, 3, 3],
     gap: 30,
-    location: "Yokohama (view of Mt. Fuji)",
+    location: "Yokohama, view of Mt. Fuji · 横浜（富士山展望）",
   },
-  { columns: [["beach"]], gap: 30, location: "Shichirigahama Beach, Kamakura, Kanagawa" },
+  {
+    columns: [["beach"]],
+    gap: 30,
+    location:
+      "Shichirigahama Beach, Kamakura, Kanagawa · 七里ヶ浜，鎌倉，神奈川",
+  },
   {
     columns: [[{ name: "purple-bar", size: "lg" }], ["green-bar"]],
     flex: [9, 4],
-    location: "Shinjuku Golden Gai, Tokyo",
+    location: "Shinjuku Golden Gai, Tokyo · 新宿ゴールデン街，東京",
   },
-  { columns: [["takoyaki"]], location: "Fukuoka" },
+  { columns: [["takoyaki"]], location: "Fukuoka · 福岡" },
   {
     columns: [["night-signs"], [{ name: "night-restaurant", size: "lg" }]],
     flex: [4, 9],
-    location: "Shinjuku Golden Gai, Tokyo",
+    location: "Shinjuku Golden Gai, Tokyo · 新宿ゴールデン街，東京",
   },
-  { columns: [["lanterns"]], location: "Zenkoji Temple, Nagano" },
+  {
+    columns: [["lanterns"]],
+    location: "Zenkoji Temple, Nagano · 善光寺，長野",
+  },
   {
     columns: [[{ name: "monks", size: "lg" }], ["snow-temple"]],
     flex: [9, 4],
-    location: "Zenkoji Temple, Nagano",
+    location: "Zenkoji Temple, Nagano · 善光寺，長野",
   },
-  { columns: [["river-mountains"]], location: "Nagano" },
+  { columns: [["river-mountains"]], location: "Nagano · 長野" },
   {
     columns: [
       ["mini-shrine"],
-      [{ name: "colorful-shrine", location: "Takayama, Gifu" }],
+      [{ name: "colorful-shrine", location: "Takayama, Gifu · 高山，岐阜" }],
       ["buddha-shrine"],
     ],
-    location: "Nagano",
+    location: "Nagano · 長野",
   },
   {
     columns: [["long-stick"], ["frozen-castle", []], []],
     flex: [10, 4, 6],
-    location: "Kanazawa Castle, Kanazawa, Ishikawa",
+    location: "Kanazawa Castle, Kanazawa, Ishikawa · 金沢城，金沢，石川",
   },
   {
     columns: [["trees"], ["shrine"], ["snow-roots"]],
     flex: [9, 9, 4],
-    location: "Yunishigawa, Nikko, Tochigi",
+    location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
   },
-  { columns: [["tori"]], location: "Yunishigawa, Nikko, Tochigi" },
+  {
+    columns: [["tori"]],
+    location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
+  },
 ];
 
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);

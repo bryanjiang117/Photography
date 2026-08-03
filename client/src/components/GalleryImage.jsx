@@ -1,4 +1,5 @@
 import SkeletonImage from "./SkeletonImage";
+import GalleryLocationLabel from "./GalleryLocationLabel";
 import {
   capSizeForLayout,
   galleryImageUrl,
@@ -56,7 +57,7 @@ export default function GalleryImage({
       <span className="flex flex-col items-center gap-1 text-center text-balance">
         {location ? (
           <span className="text-md font-light leading-snug tracking-wide text-white bodoni-small">
-            {location}
+            <GalleryLocationLabel location={location} />
           </span>
         ) : null}
         {metaLine ? (

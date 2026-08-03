@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Icon } from "@iconify-icon/react";
 import GalleryLightboxImage from "./GalleryLightboxImage";
+import GalleryLocationLabel from "./GalleryLocationLabel";
 import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
 import {
   formatCameraLine,
@@ -171,7 +172,7 @@ export default function GalleryLightbox({
                 >
                   {location ? (
                     <div className="text-sm font-medium text-white bodoni-small">
-                      {location}
+                      <GalleryLocationLabel location={location} />
                     </div>
                   ) : null}
                   {dateLine || cameraLine || exposureLine ? (
