@@ -10,6 +10,14 @@ import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
 import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
 import { formatHoverMetaLine } from "../galleryPhotoMetaFormat";
 
+/** Subtle type scale by gallery size tier — sm smallest, full largest. */
+const OVERLAY_TYPE = {
+  sm: { location: "text-sm", meta: "text-[10px]" },
+  md: { location: "text-[0.9375rem]", meta: "text-xs" },
+  lg: { location: "text-base", meta: "text-[13px]" },
+  full: { location: "text-base", meta: "text-sm" },
+};
+
 /**
  * @param {{
  *   region: string;
@@ -48,6 +56,7 @@ export default function GalleryImage({
     galleryPhotoMeta(region, parsed.name),
   );
   const showOverlay = Boolean(location || metaLine);
+  const type = OVERLAY_TYPE[parsed.size] ?? OVERLAY_TYPE.md;
 
   const overlay = showOverlay ? (
     <span
@@ -56,12 +65,16 @@ export default function GalleryImage({
     >
       <span className="flex flex-col items-center gap-1 text-center text-balance">
         {location ? (
-          <span className="text-md font-light leading-snug tracking-wide text-white bodoni-small">
+          <span
+            className={`${type.location} font-light leading-snug tracking-wide text-white bodoni-small`}
+          >
             <GalleryLocationLabel location={location} />
           </span>
         ) : null}
         {metaLine ? (
-          <span className="text-xs leading-snug text-white/90 [font-family:system-ui,sans-serif]">
+          <span
+            className={`${type.meta} leading-snug text-white/90 [font-family:system-ui,sans-serif]`}
+          >
             {metaLine}
           </span>
         ) : null}
