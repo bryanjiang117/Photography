@@ -115,45 +115,49 @@ export default function GalleryLightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-60 flex flex-col bg-black/70 p-8"
+          className="fixed inset-0 z-60 bg-black/70"
           onClick={onClose}
         >
           {!bottomArrows && prevButton}
           <div
             className={
               bottomArrows
-                ? "flex min-h-0 w-full flex-1 flex-col items-center pb-14"
-                : "flex min-h-0 w-full flex-1 flex-col items-center"
+                ? "absolute inset-0 flex items-center justify-center p-8 pb-20"
+                : "absolute inset-0 flex items-center justify-center p-8"
             }
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex min-h-0 min-w-0 w-full flex-1 items-center justify-center">
-              <GalleryLightboxImage region={region} name={activeName} />
-            </div>
-            {showCaption ? (
-              <div className="mt-3 max-w-full shrink-0 px-2 text-center text-balance">
-                {location ? (
-                  <div className="text-sm font-medium text-white bodoni-small">
-                    {location}
-                  </div>
-                ) : null}
-                {dateLine ? (
-                  <div className="mt-1 text-xs text-white/90 [font-family:system-ui,sans-serif]">
-                    {dateLine}
-                  </div>
-                ) : null}
-                {cameraLine ? (
-                  <div className="mt-0.5 text-xs text-white/90 [font-family:system-ui,sans-serif]">
-                    {cameraLine}
-                  </div>
-                ) : null}
-                {exposureLine ? (
-                  <div className="mt-0.5 text-xs text-white/90 [font-family:system-ui,sans-serif]">
-                    {exposureLine}
-                  </div>
-                ) : null}
+            <div className="flex max-h-full max-w-full flex-col items-center gap-4">
+              <div className="flex min-h-0 min-w-0 max-h-full items-center justify-center">
+                <GalleryLightboxImage
+                  region={region}
+                  name={activeName}
+                  className={
+                    showCaption
+                      ? "max-h-[calc(100vh-12rem)]"
+                      : "max-h-[calc(100vh-8rem)]"
+                  }
+                />
               </div>
-            ) : null}
+              {showCaption ? (
+                <div className="max-w-full shrink-0 px-2 text-center text-balance">
+                  {location ? (
+                    <div className="text-sm font-medium text-white bodoni-small">
+                      {location}
+                    </div>
+                  ) : null}
+                  {dateLine || cameraLine || exposureLine ? (
+                    <div
+                      className={`text-xs text-white/90 [font-family:system-ui,sans-serif]${location ? " mt-1" : ""}`}
+                    >
+                      {[dateLine, cameraLine, exposureLine]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
           </div>
           {!bottomArrows && nextButton}
           {bottomArrows && (
