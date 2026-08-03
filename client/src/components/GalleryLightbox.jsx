@@ -152,15 +152,15 @@ export default function GalleryLightbox({
                 : "absolute inset-0 flex items-center justify-center p-8"
             }
           >
-            <div className="flex max-h-full max-w-full flex-col items-center gap-4">
-              <div className="flex min-h-0 min-w-0 max-h-full items-center justify-center">
+            <div className="flex max-h-full w-full max-w-full flex-col items-center gap-4">
+              <div className="flex w-full min-h-0 min-w-0 max-h-full items-center justify-center">
                 <GalleryLightboxImage
                   region={region}
                   name={activeName}
-                  className={
+                  maxHeight={
                     showCaption
-                      ? "max-h-[calc(100vh-12rem)]"
-                      : "max-h-[calc(100vh-8rem)]"
+                      ? "calc(100vh - 12rem)"
+                      : "calc(100vh - 8rem)"
                   }
                   onClick={(e) => e.stopPropagation()}
                 />

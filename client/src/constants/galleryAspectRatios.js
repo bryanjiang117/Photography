@@ -111,19 +111,7 @@ export const GALLERY_ASPECT_RATIOS = {
     }
   },
   "canada": {
-    "aquarium-sharks": {
-      "w": 1600,
-      "h": 1067
-    },
     "autumn-pond": {
-      "w": 1067,
-      "h": 1600
-    },
-    "bakery-kitchen": {
-      "w": 1067,
-      "h": 1600
-    },
-    "basketball-shot": {
       "w": 1067,
       "h": 1600
     },
@@ -132,10 +120,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 1067
     },
     "boat-cabin": {
-      "w": 1067,
-      "h": 1600
-    },
-    "bookstore": {
       "w": 1067,
       "h": 1600
     },
@@ -159,21 +143,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
-    "city-bokeh": {
-      "w": 1067,
-      "h": 1600
-    },
     "container-ship": {
       "w": 1600,
       "h": 1067
-    },
-    "distillery-lights": {
-      "w": 1600,
-      "h": 1067
-    },
-    "docked-ferry": {
-      "w": 1067,
-      "h": 1600
     },
     "empty-goalpost": {
       "w": 1600,
@@ -207,10 +179,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 1067
     },
-    "garden-kid": {
-      "w": 1600,
-      "h": 1067
-    },
     "gated-alley": {
       "w": 1067,
       "h": 1600
@@ -220,10 +188,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 1067
     },
     "golden-maples": {
-      "w": 1067,
-      "h": 1600
-    },
-    "golden-pine": {
       "w": 1067,
       "h": 1600
     },
@@ -283,14 +247,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
-    "seaplane-landing": {
-      "w": 1067,
-      "h": 1600
-    },
-    "shop-window": {
-      "w": 1067,
-      "h": 1600
-    },
     "street-protester": {
       "w": 1600,
       "h": 1067
@@ -302,10 +258,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "sunset-seagull": {
       "w": 1600,
       "h": 1067
-    },
-    "sunset-walkers": {
-      "w": 1067,
-      "h": 1600
     },
     "totem-pole": {
       "w": 1067,
