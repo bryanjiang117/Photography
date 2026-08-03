@@ -25,10 +25,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 2400
     },
-    "ferris": {
-      "w": 1600,
-      "h": 2400
-    },
     "flowers": {
       "w": 1600,
       "h": 2400
@@ -45,19 +41,7 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 2400
     },
-    "line-squirrel": {
-      "w": 2400,
-      "h": 1600
-    },
     "meat-vendor": {
-      "w": 1600,
-      "h": 2400
-    },
-    "mercado": {
-      "w": 1600,
-      "h": 2400
-    },
-    "modern-balcony": {
       "w": 1600,
       "h": 2400
     },
@@ -68,10 +52,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "museum-roof": {
       "w": 2400,
       "h": 1600
-    },
-    "old-building": {
-      "w": 1600,
-      "h": 2400
     },
     "old-man": {
       "w": 1600,
@@ -101,15 +81,7 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 2400,
       "h": 1600
     },
-    "pole-squirrel": {
-      "w": 2400,
-      "h": 1600
-    },
     "pool": {
-      "w": 2400,
-      "h": 1600
-    },
-    "skeleton-dinner": {
       "w": 2400,
       "h": 1600
     },
@@ -122,8 +94,8 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 2400
     },
     "sunset-dark": {
-      "w": 1600,
-      "h": 2400
+      "w": 4160,
+      "h": 6240
     },
     "taco-vendor": {
       "w": 2400,
