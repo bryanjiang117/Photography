@@ -106,8 +106,8 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 1600
     },
     "windmill": {
-      "w": 2400,
-      "h": 1600
+      "w": 6240,
+      "h": 4160
     }
   },
   "canada": {
@@ -338,8 +338,8 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 4160
     },
     "chongqing-flipped": {
-      "w": 5849,
-      "h": 3899
+      "w": 6111,
+      "h": 4074
     },
     "everyday-1": {
       "w": 4160,
@@ -502,6 +502,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "beach": {
       "w": 6016,
       "h": 4016
+    },
+    "boats": {
+      "w": 5496,
+      "h": 3664
     },
     "buddha-shrine": {
       "w": 3738,
