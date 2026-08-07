@@ -119,6 +119,13 @@ Per region:
 node scripts/generate-gallery-variants.mjs --region=mexico
 ```
 
+Only generate missing variants (skip files that already exist — useful after adding new masters):
+
+```bash
+npm run photos:variants -- --missing
+npm run photos:variants -- --missing --region=mexico
+```
+
 **Row `size` in `data.js`** (optional — smart defaults apply)
 
 | `size` | When to use |

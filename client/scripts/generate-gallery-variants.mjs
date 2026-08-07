@@ -4,11 +4,14 @@
  *   -md.avif (1400px longest side)
  *   -lg.avif (2400px longest side)
  *
- * Re-runs overwrite existing variants. Stale variants are removed when no longer applicable.
+ * By default re-runs overwrite existing variants. Stale variants are removed when
+ * no longer applicable (unless --missing, which never deletes).
  *
  *   npm run photos:variants
  *   node scripts/generate-gallery-variants.mjs --region=china
  *   node scripts/generate-gallery-variants.mjs --only=lg
+ *   node scripts/generate-gallery-variants.mjs --missing
+ *   node scripts/generate-gallery-variants.mjs --missing --region=japan
  */
 import fs from "fs";
 import path from "path";
@@ -28,9 +31,10 @@ const VARIANTS = onlyArg
   ? onlyArg.split(",").filter((v) => v in LONGEST)
   : [...ALL_VARIANTS];
 if (VARIANTS.length === 0) {
-  console.error('No valid variants in --only= (use sm, md, and/or lg)');
+  console.error("No valid variants in --only= (use sm, md, and/or lg)");
   process.exit(1);
 }
+const missingOnly = process.argv.includes("--missing");
 
 function listFullAvifs(regionDir) {
   return fs
@@ -70,10 +74,11 @@ async function writeVariant(inputPath, outputPath, maxLongest) {
 
 async function generateForRegion(region) {
   const dir = path.join(PHOTOS_ROOT, region);
-  if (!fs.existsSync(dir)) return { written: 0, removed: 0 };
+  if (!fs.existsSync(dir)) return { written: 0, skipped: 0, removed: 0 };
 
   const names = listFullAvifs(dir);
   let written = 0;
+  let skipped = 0;
   let removed = 0;
 
   for (const name of names) {
@@ -85,11 +90,16 @@ async function generateForRegion(region) {
       const outPath = path.join(dir, `${name}-${variant}.avif`);
 
       if (!shouldGenerateVariant(sourceLongest)) {
-        if (fs.existsSync(outPath)) {
+        if (!missingOnly && fs.existsSync(outPath)) {
           fs.unlinkSync(outPath);
           console.log(`${region}/${name}-${variant}.avif (removed)`);
           removed++;
         }
+        continue;
+      }
+
+      if (missingOnly && fs.existsSync(outPath)) {
+        skipped++;
         continue;
       }
 
@@ -104,7 +114,7 @@ async function generateForRegion(region) {
     }
   }
 
-  return { written, removed };
+  return { written, skipped, removed };
 }
 
 const regionArg = process.argv
@@ -112,15 +122,21 @@ const regionArg = process.argv
   ?.split("=")[1];
 const regions = regionArg ? [regionArg] : REGIONS;
 
+if (missingOnly) console.log("Mode: missing variants only");
+
 let totalWritten = 0;
+let totalSkipped = 0;
 let totalRemoved = 0;
 for (const region of regions) {
   console.log(`\n${region}`);
-  const { written, removed } = await generateForRegion(region);
+  const { written, skipped, removed } = await generateForRegion(region);
   totalWritten += written;
+  totalSkipped += skipped;
   totalRemoved += removed;
 }
 
 console.log(
-  `\nDone. Wrote ${totalWritten} variant files, removed ${totalRemoved} stale files.`,
+  `\nDone. Wrote ${totalWritten} variant files` +
+    (missingOnly ? `, skipped ${totalSkipped} existing` : "") +
+    `, removed ${totalRemoved} stale files.`,
 );

@@ -47,6 +47,9 @@ After adding or replacing a master `.avif`, regenerate variants:
 ```bash
 cd client && npm run photos:variants
 # or one region: node scripts/generate-gallery-variants.mjs --region=china
+# only create missing sm/md/lg (skip existing; good for new photos):
+npm run photos:variants -- --missing
+npm run photos:variants -- --missing --region=china
 ```
 
 When adding gallery photos, add them to the region’s `*_ITEMS` grid in `client/src/constants/data.js` (and optionally `*_ALL_PHOTOS` for extras not in the grid). Regenerate aspect ratios for skeleton placeholders:
