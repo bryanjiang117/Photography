@@ -4,6 +4,7 @@
  *   takenAt?: string;
  *   camera?: string;
  *   lens?: string;
+ *   shutterCount?: number;
  *   focalLengthMm?: number;
  *   focalLength35mm?: number;
  *   aperture?: number;
@@ -29,8 +30,18 @@ export function formatPhotoDate(takenAt) {
 
 /** @param {GalleryPhotoMeta | null | undefined} meta */
 export function formatCameraLine(meta) {
+  if (!meta?.camera) return null;
+  return meta.camera;
+}
+
+/** Lens · shutter count (omit empties). */
+/** @param {GalleryPhotoMeta | null | undefined} meta */
+export function formatLensLine(meta) {
   if (!meta) return null;
-  const parts = [meta.camera, meta.lens].filter(Boolean);
+  /** @type {string[]} */
+  const parts = [];
+  if (meta.lens) parts.push(meta.lens);
+  if (meta.shutterCount != null) parts.push(`shutter #${meta.shutterCount}`);
   return parts.length ? parts.join(" · ") : null;
 }
 

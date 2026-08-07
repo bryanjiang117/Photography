@@ -4,11 +4,13 @@
  *   npm run photos:meta
  *   node scripts/generate-gallery-photo-meta.mjs --region=japan
  *
- * Expects originals at client/originals/{region}/{name}.jpeg (basename = gallery name).
+ * Expects originals at client/originals/{region}/{name}.ext (basename = gallery name).
+ * Uses exifr, then enriches with exiftool when available (Nikon MakerNotes: lens, shutter count).
  */
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { execFileSync } from "child_process";
 import exifr from "exifr";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -31,6 +33,62 @@ const IMAGE_EXT = new Set([
   ".cr3",
   ".arw",
 ]);
+const RAW_EXT = new Set([".nef", ".raf", ".dng", ".cr2", ".cr3", ".arw"]);
+
+function hasExiftool() {
+  try {
+    execFileSync("exiftool", ["-ver"], { stdio: "pipe" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Batch-read MakerNote-friendly fields via exiftool.
+ * @param {string[]} filePaths absolute paths
+ * @returns {Map<string, Record<string, unknown>>} keyed by absolute path
+ */
+function exiftoolEnrichment(filePaths) {
+  /** @type {Map<string, Record<string, unknown>>} */
+  const map = new Map();
+  if (!filePaths.length || !hasExiftool()) return map;
+  try {
+    const json = execFileSync(
+      "exiftool",
+      [
+        "-json",
+        "-Lens",
+        "-LensModel",
+        "-ShutterCount",
+        "-ImageWidth",
+        "-ImageHeight",
+        ...filePaths,
+      ],
+      { maxBuffer: 64 * 1024 * 1024 },
+    ).toString("utf8");
+    const rows = JSON.parse(json);
+    for (const row of rows) {
+      if (row?.SourceFile) map.set(path.resolve(row.SourceFile), row);
+    }
+  } catch (err) {
+    console.warn("  exiftool enrichment failed:", err.message);
+  }
+  return map;
+}
+
+/** Prefer LensModel; fall back to Nikon/Fuji Lens string. */
+function pickLens(exifrRaw, toolRow) {
+  for (const v of [
+    exifrRaw?.LensModel,
+    toolRow?.LensModel,
+    toolRow?.Lens,
+    exifrRaw?.Lens,
+  ]) {
+    if (typeof v === "string" && v.trim()) return v.trim();
+  }
+  return undefined;
+}
 
 /** @param {number} t seconds */
 function formatShutter(t) {
@@ -77,13 +135,17 @@ function toIsoWithOffset(takenAt, offset) {
   return d.toISOString();
 }
 
-/** @param {string} filePath */
-async function metaForFile(filePath) {
+/**
+ * @param {string} filePath
+ * @param {Record<string, unknown> | undefined} toolRow
+ */
+async function metaForFile(filePath, toolRow) {
   const raw = await exifr.parse(filePath, {
     gps: true,
     pick: [
       "Make",
       "Model",
+      "Lens",
       "LensModel",
       "LensMake",
       "FocalLength",
@@ -103,40 +165,54 @@ async function metaForFile(filePath) {
       "ExifImageHeight",
     ],
   });
-  if (!raw) return null;
+  if (!raw && !toolRow) return null;
 
   /** @type {Record<string, unknown>} */
   const out = {};
   const taken =
-    raw.DateTimeOriginal ?? raw.CreateDate ?? undefined;
-  const takenAt = toIsoWithOffset(taken, raw.OffsetTimeOriginal);
+    raw?.DateTimeOriginal ?? raw?.CreateDate ?? undefined;
+  const takenAt = toIsoWithOffset(taken, raw?.OffsetTimeOriginal);
   if (takenAt) out.takenAt = takenAt;
 
-  const camera = inferCamera(raw);
+  const camera = raw ? inferCamera(raw) : undefined;
   if (camera) out.camera = camera;
 
-  if (typeof raw.LensModel === "string" && raw.LensModel.trim()) {
-    out.lens = raw.LensModel.trim();
+  const lens = pickLens(raw, toolRow);
+  if (lens) out.lens = lens;
+
+  const shutterCount = toolRow?.ShutterCount;
+  if (typeof shutterCount === "number" && Number.isFinite(shutterCount)) {
+    out.shutterCount = shutterCount;
   }
 
-  if (typeof raw.FocalLength === "number") out.focalLengthMm = raw.FocalLength;
-  if (typeof raw.FocalLengthIn35mmFormat === "number") {
+  if (typeof raw?.FocalLength === "number") out.focalLengthMm = raw.FocalLength;
+  if (typeof raw?.FocalLengthIn35mmFormat === "number") {
     out.focalLength35mm = raw.FocalLengthIn35mmFormat;
   }
-  if (typeof raw.FNumber === "number") out.aperture = raw.FNumber;
+  if (typeof raw?.FNumber === "number") out.aperture = raw.FNumber;
 
-  const shutter = formatShutter(raw.ExposureTime);
+  const shutter = formatShutter(raw?.ExposureTime);
   if (shutter) out.shutter = shutter;
 
-  const iso = raw.ISO ?? raw.PhotographicSensitivity;
+  const iso = raw?.ISO ?? raw?.PhotographicSensitivity;
   if (typeof iso === "number") out.iso = iso;
 
-  if (typeof raw.ExposureCompensation === "number") {
+  if (typeof raw?.ExposureCompensation === "number") {
     out.exposureComp = raw.ExposureCompensation;
   }
 
-  const width = raw.ExifImageWidth ?? raw.ImageWidth;
-  const height = raw.ExifImageHeight ?? raw.ImageHeight;
+  // RAW IFD0 width/height is often the thumbnail (e.g. 160×120); prefer exiftool.
+  const ext = path.extname(filePath).toLowerCase();
+  let width = raw?.ExifImageWidth ?? raw?.ImageWidth;
+  let height = raw?.ExifImageHeight ?? raw?.ImageHeight;
+  if (
+    RAW_EXT.has(ext) &&
+    typeof toolRow?.ImageWidth === "number" &&
+    typeof toolRow?.ImageHeight === "number"
+  ) {
+    width = toolRow.ImageWidth;
+    height = toolRow.ImageHeight;
+  }
   if (typeof width === "number") out.width = width;
   if (typeof height === "number") out.height = height;
 
@@ -153,12 +229,19 @@ function listOriginals(regionDir) {
 
 async function metaForRegion(region) {
   const dir = path.join(ORIGINALS_ROOT, region);
+  const files = listOriginals(dir);
+  const absPaths = files.map((f) => path.join(dir, f));
+  const toolByPath = exiftoolEnrichment(absPaths);
+  if (toolByPath.size) {
+    console.log(`  exiftool: ${toolByPath.size}/${files.length} files`);
+  }
   /** @type {Record<string, Record<string, unknown>>} */
   const out = {};
-  for (const file of listOriginals(dir)) {
+  for (const file of files) {
     const name = file.replace(/\.[^.]+$/, "");
+    const abs = path.join(dir, file);
     try {
-      const meta = await metaForFile(path.join(dir, file));
+      const meta = await metaForFile(abs, toolByPath.get(path.resolve(abs)));
       if (meta) out[name] = meta;
     } catch (err) {
       console.warn(`  skip ${region}/${file}:`, err.message);

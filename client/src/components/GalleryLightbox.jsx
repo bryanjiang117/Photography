@@ -7,6 +7,7 @@ import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
 import {
   formatCameraLine,
   formatExposureLine,
+  formatLensLine,
   formatPhotoDate,
 } from "../galleryPhotoMetaFormat";
 
@@ -40,9 +41,11 @@ export default function GalleryLightbox({
   const dateLine = formatPhotoDate(meta?.takenAt);
   const cameraLine = formatCameraLine(meta);
   const exposureLine = formatExposureLine(meta);
-  const showCaption = Boolean(
-    location || dateLine || cameraLine || exposureLine,
-  );
+  const lensLine = formatLensLine(meta);
+  const primaryMeta = [dateLine, cameraLine, exposureLine]
+    .filter(Boolean)
+    .join(" · ");
+  const showCaption = Boolean(location || primaryMeta || lensLine);
   // Ignore backdrop close when either end of the click was on the caption
   // (so text selection that starts or ends on the caption doesn't dismiss).
   const captionPointerRef = useRef(false);
@@ -175,13 +178,16 @@ export default function GalleryLightbox({
                       <GalleryLocationLabel location={location} />
                     </div>
                   ) : null}
-                  {dateLine || cameraLine || exposureLine ? (
+                  {primaryMeta || lensLine ? (
                     <div
                       className={`text-xs text-white/90 [font-family:system-ui,sans-serif]${location ? " mt-1" : ""}`}
                     >
-                      {[dateLine, cameraLine, exposureLine]
-                        .filter(Boolean)
-                        .join(" · ")}
+                      {primaryMeta ? <div>{primaryMeta}</div> : null}
+                      {lensLine ? (
+                        <div className={primaryMeta ? "mt-0.5" : undefined}>
+                          {lensLine}
+                        </div>
+                      ) : null}
                     </div>
                   ) : null}
                 </div>
