@@ -135,7 +135,7 @@ function MobileSkeletonStrip({ photos }) {
  * Eager gallery chrome shown while the lazy gallery chunk loads.
  * Title, back button, and skeleton grid appear on the first frame.
  */
-export default function GalleryLoadingShell({ region, isMobile }) {
+export default function GalleryLoadingShell({ region, isMobile, instant = false }) {
   const ctx = useContext(GalleryContext);
   const config = REGION_CONFIG[region];
   const scrollRef = useRef(null);
@@ -144,11 +144,12 @@ export default function GalleryLoadingShell({ region, isMobile }) {
   const onClose = () => ctx[config.closeKey](false);
   const axis = isMobile ? "x" : "y";
   const ui = isMobile ? config.mobile : config.desktop;
+  const slide = gallerySlideMotion(!instant, axis);
 
   if (isMobile) {
     return (
       <motion.div
-        {...gallerySlideMotion(true, axis)}
+        {...slide}
         className={`fixed inset-0 z-50 flex flex-col overflow-hidden ${config.bg}`}
       >
         <div
@@ -203,7 +204,7 @@ export default function GalleryLoadingShell({ region, isMobile }) {
 
   return (
     <motion.div
-      {...gallerySlideMotion(true, axis)}
+      {...slide}
       ref={scrollRef}
       className={`fixed inset-0 z-50 overflow-y-auto overflow-x-hidden scrollbar-hide ${config.bg} ${ui.shellClass}`}
     >

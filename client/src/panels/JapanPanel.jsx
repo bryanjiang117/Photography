@@ -13,6 +13,7 @@ const JapanPanel = () => {
           src={galleryImageUrl("japan", "flowers", "md")}
           loading="lazy"
           className="absolute top-4 left-16 max-w-3/10 max-h-8/10 cursor-pointer"
+          initial={false}
           animate={
             showJapanGallery
               ? { clipPath: "inset(0 0 100% 0)" }

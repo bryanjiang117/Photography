@@ -15,6 +15,7 @@ const MexicoCityPanel = () => {
         <motion.img
           src={galleryImageUrl("mexico", "orange-wall", "md")}
           className="absolute h-[80%] object-cover"
+          initial={false}
           animate={
             showMexicoGallery
               ? { clipPath: "inset(0 0 0 100%)" }

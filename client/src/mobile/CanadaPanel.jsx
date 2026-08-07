@@ -15,6 +15,7 @@ const CanadaPanel = () => {
         <motion.img
           src={galleryImageUrl("canada", "leaves-glow", "sm")}
           className="absolute top-1/5 right-1/6 max-w-1/5 max-h-1/4 object-cover cursor-pointer"
+          initial={false}
           animate={
             showCanadaGallery
               ? { clipPath: "inset(0 0 0 100%)" }

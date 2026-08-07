@@ -27,6 +27,9 @@ export default function GallerySlot({ show, region, isMobile }) {
   const controls = useAnimationControls();
   const usedShellRef = useRef(false);
   const parkedRef = useRef(true);
+  // Deep-link / hard refresh: open already at rest (no entrance slide/fade).
+  const deepLinkRef = useRef(show);
+  const [suppressFade, setSuppressFade] = useState(() => show);
   const axis = isMobile ? "x" : "y";
 
   useEffect(() => {
@@ -45,6 +48,10 @@ export default function GallerySlot({ show, region, isMobile }) {
     if (!Comp && show) usedShellRef.current = true;
   }, [Comp, show]);
 
+  useEffect(() => {
+    if (!show) setSuppressFade(false);
+  }, [show]);
+
   // Layout effect so park/open styles apply before paint (avoids a visible
   // inert flash when warm-mounted galleries first mount).
   useLayoutEffect(() => {
@@ -57,8 +64,20 @@ export default function GallerySlot({ show, region, isMobile }) {
     (async () => {
       if (show) {
         if (usedShellRef.current) {
-          // Shell already slid in — take over at rest without a second slide.
+          // Shell already in — take over at rest without a second slide.
           usedShellRef.current = false;
+          deepLinkRef.current = false;
+          parkedRef.current = false;
+          controls.set({
+            ...onPos,
+            opacity: 1,
+            zIndex: 50,
+            pointerEvents: "auto",
+          });
+          return;
+        }
+        if (deepLinkRef.current) {
+          deepLinkRef.current = false;
           parkedRef.current = false;
           controls.set({
             ...onPos,
@@ -114,6 +133,7 @@ export default function GallerySlot({ show, region, isMobile }) {
         key="gallery-shell"
         region={region}
         isMobile={isMobile}
+        instant={deepLinkRef.current}
       />
     );
   }
@@ -127,7 +147,7 @@ export default function GallerySlot({ show, region, isMobile }) {
       inert={!show ? true : undefined}
     >
       {/* slide=false: slot owns the slide; entrance drives chrome fades only */}
-      <Comp entrance={show} slide={false} />
+      <Comp entrance={show && !suppressFade} slide={false} />
     </motion.div>
   );
 }

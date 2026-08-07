@@ -45,6 +45,7 @@ const CanadaPanel = () => {
             src={galleryImageUrl("canada", "leaves-glow", "sm")}
             loading="lazy"
             className="absolute top-2/10 right-3/20 max-w-1/10 max-h-2/10 cursor-pointer"
+            initial={false}
             animate={
               showCanadaGallery
                 ? { clipPath: "inset(0 0 100% 0)" }

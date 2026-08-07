@@ -15,6 +15,7 @@ const MexicoCityPanel = () => {
             src={galleryImageUrl("mexico", "orange-wall", "md")}
             loading="lazy"
             className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
+            initial={false}
             animate={
               showMexicoGallery
                 ? { clipPath: "inset(0 0 100% 0)" }

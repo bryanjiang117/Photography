@@ -1,14 +1,17 @@
 import {
   lazy,
   Suspense,
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useState,
 } from "react";
 import {
   BrowserRouter as Router,
   useLocation,
+  useNavigate,
   Navigate,
 } from "react-router-dom";
 import { motion } from "motion/react";
@@ -27,6 +30,11 @@ import {
 import { scheduleGalleryPrefetch } from "./galleryPrefetch";
 import { galleryImageUrl } from "./galleryImages";
 import GallerySlot from "./GallerySlot";
+import {
+  GALLERY_PATHS,
+  galleryRegionFromPath,
+  isGalleryPath,
+} from "./galleryRoutes";
 
 import "./App.scss";
 import "./Fonts.scss";
@@ -41,9 +49,55 @@ const CRITICAL_IMAGES = [
   galleryImageUrl("china", "temple", "md"),
 ];
 
+function useGalleryNavigateSetter(path) {
+  const navigate = useNavigate();
+  return useCallback(
+    (open) => {
+      if (open) navigate(path);
+      else navigate(-1);
+    },
+    [navigate, path],
+  );
+}
+
+function GalleryRouteProvider({ introReady, children }) {
+  const { pathname } = useLocation();
+  const region = galleryRegionFromPath(pathname);
+
+  const setShowJapanGallery = useGalleryNavigateSetter(GALLERY_PATHS.japan);
+  const setShowMexicoGallery = useGalleryNavigateSetter(GALLERY_PATHS.mexico);
+  const setShowCanadaGallery = useGalleryNavigateSetter(GALLERY_PATHS.canada);
+  const setShowChinaGallery = useGalleryNavigateSetter(GALLERY_PATHS.china);
+
+  const value = useMemo(
+    () => ({
+      introReady,
+      showJapanGallery: region === "japan",
+      setShowJapanGallery,
+      showMexicoGallery: region === "mexico",
+      setShowMexicoGallery,
+      showCanadaGallery: region === "canada",
+      setShowCanadaGallery,
+      showChinaGallery: region === "china",
+      setShowChinaGallery,
+    }),
+    [
+      introReady,
+      region,
+      setShowJapanGallery,
+      setShowMexicoGallery,
+      setShowCanadaGallery,
+      setShowChinaGallery,
+    ],
+  );
+
+  return (
+    <GalleryContext.Provider value={value}>{children}</GalleryContext.Provider>
+  );
+}
+
 function AnimatedRoutes() {
-  const location = useLocation();
-  const path = location.pathname;
+  const { pathname } = useLocation();
   const {
     showMexicoGallery,
     showCanadaGallery,
@@ -52,7 +106,7 @@ function AnimatedRoutes() {
   } = useContext(GalleryContext);
   const isMobile = useIsMobile();
 
-  if (path !== "/") {
+  if (pathname !== "/" && !isGalleryPath(pathname)) {
     return <Navigate to="/" replace />;
   }
 
@@ -80,10 +134,6 @@ function AnimatedRoutes() {
 function App() {
   const [phase, setPhase] = useState("loading"); // 'loading' | 'revealing' | 'done'
   const [squareTarget, setSquareTarget] = useState({ x: 0, y: 0 });
-  const [showMexicoGallery, setShowMexicoGallery] = useState(false);
-  const [showCanadaGallery, setShowCanadaGallery] = useState(false);
-  const [showChinaGallery, setShowChinaGallery] = useState(false);
-  const [showJapanGallery, setShowJapanGallery] = useState(false);
   const [bootstrap, setBootstrap] = useState({
     spotify: null,
     mal: null,
@@ -148,19 +198,7 @@ function App() {
   }, [isDone]);
 
   return (
-    <GalleryContext.Provider
-      value={{
-        introReady: isDone,
-        showMexicoGallery,
-        setShowMexicoGallery,
-        showCanadaGallery,
-        setShowCanadaGallery,
-        showChinaGallery,
-        setShowChinaGallery,
-        showJapanGallery,
-        setShowJapanGallery,
-      }}
-    >
+    <>
       {/* Intro overlay — outside Router so it paints on the first frame */}
       {!isDone && (
         <>
@@ -191,12 +229,14 @@ function App() {
         <MalProvider initialData={bootstrap.mal}>
           <TmdbProvider initialData={bootstrap.tmdb}>
             <Router>
-              <AnimatedRoutes />
+              <GalleryRouteProvider introReady={isDone}>
+                <AnimatedRoutes />
+              </GalleryRouteProvider>
             </Router>
           </TmdbProvider>
         </MalProvider>
       </SpotifyProvider>
-    </GalleryContext.Provider>
+    </>
   );
 }
 

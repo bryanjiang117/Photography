@@ -51,6 +51,7 @@ const ChinaPanel = () => {
             src={galleryImageUrl("china", "temple", "md")}
             loading="lazy"
             className="absolute bottom-0 right-1/7 max-h-full cursor-pointer"
+            initial={false}
             animate={
               showChinaGallery
                 ? { clipPath: "inset(0 0 100% 0)" }
