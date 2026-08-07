@@ -2,15 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { galleryImageUrl } from "../galleryImages";
 import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
 
+/** Matches lightbox overlay `p-8` (2rem × 2). */
+const PAD = "4rem";
+
 /**
  * Explicit width + height from viewport — never depends on % of a flex parent.
+ * Width fills to lightbox padding (`p-8` → 4rem total).
  * @param {{ w: number; h: number } | null} dims
  * @param {string} maxHeight
  */
 function frameStyle(dims, maxHeight) {
   if (!dims) {
     return {
-      width: "min(calc(100vw - 4rem), 40rem)",
+      width: `calc(100vw - ${PAD})`,
       height: maxHeight,
       minWidth: "16rem",
       minHeight: "16rem",
@@ -18,8 +22,8 @@ function frameStyle(dims, maxHeight) {
   }
   const { w, h } = dims;
   return {
-    width: `min(calc(100vw - 4rem), calc((${maxHeight}) * ${w} / ${h}))`,
-    height: `min(${maxHeight}, calc((100vw - 4rem) * ${h} / ${w}))`,
+    width: `min(calc(100vw - ${PAD}), calc((${maxHeight}) * ${w} / ${h}))`,
+    height: `min(${maxHeight}, calc((100vw - ${PAD}) * ${h} / ${w}))`,
   };
 }
 
@@ -32,7 +36,7 @@ export default function GalleryLightboxImage({
   region,
   name,
   onClick,
-  maxHeight = "calc(100vh - 8rem)",
+  maxHeight = "calc(100vh - 4rem)",
 }) {
   const src = galleryImageUrl(region, name, "lg");
   const dimensions = galleryPhotoDimensions(region, name);

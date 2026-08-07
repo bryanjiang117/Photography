@@ -151,19 +151,26 @@ export default function GalleryLightbox({
           <div
             className={
               bottomArrows
-                ? "absolute inset-0 flex items-center justify-center p-8 pb-20"
-                : "absolute inset-0 flex items-center justify-center p-8"
+                ? "absolute inset-0 p-8 pb-20"
+                : "absolute inset-0 p-8"
             }
           >
-            <div className="flex max-h-full w-full max-w-full flex-col items-center gap-4">
-              <div className="flex w-full min-h-0 min-w-0 max-h-full items-center justify-center">
+            <div className="flex h-full w-full max-w-full flex-col items-center gap-3">
+              <div className="flex min-h-0 w-full min-w-0 flex-1 items-center justify-center">
                 <GalleryLightboxImage
                   region={region}
                   name={activeName}
                   maxHeight={
+                    // Available height inside overlay padding only.
+                    // Caption + gap ≈ 5rem; bottom-arrow layout uses pb-20 (5rem)
+                    // instead of p-8 bottom (2rem) → +3rem.
                     showCaption
-                      ? "calc(100vh - 12rem)"
-                      : "calc(100vh - 8rem)"
+                      ? bottomArrows
+                        ? "calc(100vh - 12rem)"
+                        : "calc(100vh - 9rem)"
+                      : bottomArrows
+                        ? "calc(100vh - 7rem)"
+                        : "calc(100vh - 4rem)"
                   }
                   onClick={(e) => e.stopPropagation()}
                 />
@@ -171,7 +178,7 @@ export default function GalleryLightbox({
               {showCaption ? (
                 <div
                   data-lightbox-caption
-                  className="max-w-full shrink-0 px-2 text-center text-balance select-text cursor-text"
+                  className="max-w-full shrink-0 text-center text-balance select-text cursor-text"
                 >
                   {location ? (
                     <div className="text-sm font-medium text-white bodoni-small">
