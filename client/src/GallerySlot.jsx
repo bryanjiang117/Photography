@@ -87,14 +87,23 @@ export default function GallerySlot({ show, region, isMobile }) {
           });
           return;
         }
+        const fromParked = parkedRef.current;
         parkedRef.current = false;
-        controls.set({
-          ...offPos,
+        if (fromParked) {
+          controls.set({
+            ...offPos,
+            opacity: 1,
+            zIndex: 50,
+            pointerEvents: "auto",
+          });
+        }
+        await controls.start({
+          ...onPos,
           opacity: 1,
           zIndex: 50,
           pointerEvents: "auto",
+          transition: SLIDE_TRANSITION,
         });
-        await controls.start({ ...onPos, transition: SLIDE_TRANSITION });
         return;
       }
 
