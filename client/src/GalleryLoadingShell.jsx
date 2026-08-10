@@ -12,6 +12,8 @@ import {
   MEXICO_ITEMS,
 } from "./constants/data";
 import GalleryGrid from "./components/GalleryGrid";
+import GalleryImage from "./components/GalleryImage";
+import { galleryImgLoadProps } from "./galleryPrefetch";
 import { gallerySlideMotion } from "./galleryMotion";
 
 const REGION_CONFIG = {
@@ -121,19 +123,10 @@ const REGION_CONFIG = {
   },
 };
 
-function MobileSkeletonStrip({ photos }) {
-  return photos.slice(0, 8).map((photo) => (
-    <span
-      key={photo.name}
-      className="block h-32 w-32 shrink-0 snap-start overflow-hidden skeleton-shimmer"
-      aria-hidden="true"
-    />
-  ));
-}
-
 /**
  * Eager gallery chrome shown while the lazy gallery chunk loads.
- * Title, back button, and skeleton grid appear on the first frame.
+ * Title/back are solid immediately; real images mount so each can appear
+ * as soon as it loads (instead of waiting on a skeleton-only shell).
  */
 export default function GalleryLoadingShell({ region, isMobile, instant = false }) {
   const ctx = useContext(GalleryContext);
@@ -165,7 +158,17 @@ export default function GalleryLoadingShell({ region, isMobile, instant = false 
 
         <div className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide touch-pan-x">
           <div className="flex h-full w-max min-w-full flex-row items-center gap-3 px-4 py-3">
-            <MobileSkeletonStrip photos={config.photos} />
+            {config.photos.map((photo, i) => (
+              <GalleryImage
+                key={photo.name}
+                region={region}
+                entry={photo}
+                layout="mobile"
+                loadProps={galleryImgLoadProps(i)}
+                wrapperClassName="w-32 h-32 shrink-0 snap-start"
+                className="object-cover h-full w-full"
+              />
+            ))}
           </div>
         </div>
 
@@ -239,7 +242,6 @@ export default function GalleryLoadingShell({ region, isMobile, instant = false 
           <GalleryGrid
             region={region}
             items={config.items}
-            skeleton
             virtualize
             scrollRootRef={scrollRef}
             overscan="300%"

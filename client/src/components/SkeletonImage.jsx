@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 /**
  * Image with a shimmer skeleton placeholder. Reserves space when `aspectRatio` is set.
@@ -39,14 +39,13 @@ export default function SkeletonImage({
   const imgRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    setLoaded(false);
-  }, [src]);
-
-  useEffect(() => {
+  // Before paint: cache hits stay solid; src changes reset without a shimmer flash.
+  useLayoutEffect(() => {
     const img = imgRef.current;
     if (img?.complete && img.naturalWidth > 0) {
       setLoaded(true);
+    } else {
+      setLoaded(false);
     }
   }, [src]);
 

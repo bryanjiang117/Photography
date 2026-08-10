@@ -45,7 +45,11 @@ export default function GallerySlot({ show, region, isMobile }) {
   }, [introReady, show, region, isMobile]);
 
   useEffect(() => {
-    if (!Comp && show) usedShellRef.current = true;
+    if (!Comp && show) {
+      usedShellRef.current = true;
+      // Shell already painted solid chrome — don't re-fade titles on handoff.
+      setSuppressFade(true);
+    }
   }, [Comp, show]);
 
   useEffect(() => {
