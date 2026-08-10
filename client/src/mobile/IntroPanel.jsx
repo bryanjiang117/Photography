@@ -67,10 +67,13 @@ const IntroPanel = () => {
           <p className="text-sm font-sh" lang="zh-CN" translate="no">
             你好，我叫姜昊周。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。
           </p>
-          <p className="text-base leading-tight bodoni-small">
-            Nice to meet you. My name is Bryan Jiang. I'm a developer who loves
-            visual art. Welcome to my WIP site.
-          </p>
+          <div className="text-base leading-tight bodoni-small">
+            Nice to meet you. My name is{" "}
+            <h1 className="inline m-0 p-0 text-[length:inherit] leading-[inherit] font-[inherit] font-normal">
+              Bryan Jiang
+            </h1>
+            . I'm a developer who loves visual art. Welcome to my WIP site.
+          </div>
         </div>
       </div>
 
