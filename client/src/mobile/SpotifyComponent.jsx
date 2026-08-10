@@ -8,8 +8,8 @@ const SpotifyComponent = () => {
   const currentlyPlaying = spotifyState && spotifyState.isPlaying;
 
   return (
-    <div className="flex flex-col items-center gap-3 p-4 w-full">
-      <div className="self-start">
+    <div className="flex flex-col items-center gap-3 py-4 w-full">
+      <div className="self-start px-4">
         <SectionTitle
           english={currentlyPlaying ? "CURRENTLY PLAYING" : "RECENTLY PLAYED"}
           chinese={currentlyPlaying ? "此刻播放" : "最近播放"}

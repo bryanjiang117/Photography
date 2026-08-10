@@ -7,9 +7,12 @@ const TMDBComponent = () => {
   const loading = items == null;
 
   return (
-    <div className="relative flex flex-col p-4 w-full">
+    <div className="relative flex flex-col py-4 w-full">
       {loading && <LoadingDots />}
-      <div className={loading ? "invisible" : ""} aria-hidden={loading}>
+      <div
+        className={`px-4 ${loading ? "invisible" : ""}`}
+        aria-hidden={loading}
+      >
         <SectionTitle english="TOP TITLES" chinese="最爱的影视" />
       </div>
 
@@ -22,7 +25,7 @@ const TMDBComponent = () => {
           items.map((item, i) => (
             <div
               key={`${item.media_type ?? "unknown"}-${item.id ?? item.title}`}
-              className="flex shrink-0 h-32 w-32"
+              className="flex shrink-0 h-32 w-[calc(100%/2.4)]"
             >
               {i > 0 && <div className="w-px shrink-0 bg-gray-300" />}
               <div className="flex flex-col gap-1 p-3">
@@ -38,7 +41,7 @@ const TMDBComponent = () => {
         )}
       </div>
       <div
-        className={`mt-2 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
+        className={`mt-2 px-4 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
       >
         via TMDB API

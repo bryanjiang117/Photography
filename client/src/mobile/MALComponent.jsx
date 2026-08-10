@@ -7,9 +7,12 @@ const MALComponent = () => {
   const loading = malData == null;
 
   return (
-    <div className="relative flex flex-col p-4 w-full">
+    <div className="relative flex flex-col py-4 w-full">
       {loading && <LoadingDots />}
-      <div className={`mb-2 ${loading ? "invisible" : ""}`} aria-hidden={loading}>
+      <div
+        className={`mb-2 px-4 ${loading ? "invisible" : ""}`}
+        aria-hidden={loading}
+      >
         <SectionTitle english="TOP ANIME" chinese="最爱动漫" />
       </div>
       <div
@@ -21,7 +24,7 @@ const MALComponent = () => {
           malData.map((item, i) => {
             const anime = item.node;
             return (
-              <div key={anime.id} className="flex shrink-0 h-32 w-32">
+              <div key={anime.id} className="flex shrink-0 h-32 w-[calc(100%/2.4)]">
                 {i > 0 && <div className="w-px shrink-0 bg-gray-300" />}
                 <div className="flex flex-col p-3">
                   <span
@@ -37,7 +40,7 @@ const MALComponent = () => {
         )}
       </div>
       <div
-        className={`mt-2 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
+        className={`mt-2 px-4 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
       >
         via MAL API

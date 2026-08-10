@@ -24,7 +24,7 @@ const ProjectsPanel = () => {
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 w-[80vw] block no-underline text-inherit"
+            className="shrink-0 w-[calc(100%/1.4)] block no-underline text-inherit"
           >
             <div className="flex h-full">
               {i > 0 && <div className="w-px shrink-0 bg-gray-400" />}
