@@ -1,5 +1,4 @@
 import Marquee from "react-fast-marquee";
-import { motion } from "motion/react";
 import { useSpotify } from "../SpotifyContext.jsx";
 
 const SpotifyPanel = () => {
@@ -38,17 +37,7 @@ const SpotifyPanel = () => {
         {spotifyState ? (
           <img className="ml-2 max-h-full" src={spotifyState.albumImage} />
         ) : (
-          <motion.img
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 3,
-              ease: "linear",
-              repeat: Infinity,
-            }}
-            className="max-h-full"
-            src="/assets/vinyl.png"
-            transformOrigin="center"
-          />
+          <img className="max-h-full vinyl-spin" src="/assets/vinyl.png" alt="" />
         )}
 
         <div className="absolute top-4 right-0 h-10 w-39">

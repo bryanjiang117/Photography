@@ -65,6 +65,18 @@
   animation: skeleton-shimmer 1.2s ease-in-out infinite;
 }
 
+/* Spotify vinyl placeholder — CSS so it keeps spinning in prod (Motion JS rotate can stall) */
+@keyframes vinyl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.vinyl-spin {
+  transform-origin: center;
+  animation: vinyl-spin 3s linear infinite;
+}
+
 /* Cycles `.` → `..` → `...` for loading placeholders; fixed width avoids layout shift */
 @keyframes loading-dots {
   0% {
