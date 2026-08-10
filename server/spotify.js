@@ -1,8 +1,11 @@
 import crypto from "crypto";
 import { createJsonCache } from "./cacheStore.js";
+import { nextRateLimitedUntilMs } from "./spotifyRateLimit.js";
 
 const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
 const SPOTIFY_POLL_INTERVAL_MS = 90_000; // 1.5 minutes between Spotify fetches
+/** Fallback wait when Spotify 429 omits Retry-After */
+const SPOTIFY_RATE_LIMIT_FALLBACK_MS = SPOTIFY_POLL_INTERVAL_MS * 2;
 
 /*
 PKCE helpers
@@ -43,6 +46,8 @@ export async function registerSpotifyRoutes(app, supabase) {
   let cachedNowPlaying = null;
   let cachedNowPlayingUpdatedAt = 0;
   let isRefreshingNowPlaying = false;
+  /** Skip Spotify API calls until this time after a 429 */
+  let rateLimitedUntilMs = 0;
 
   async function persistNowPlaying() {
     await nowPlayingCache.save({
@@ -266,8 +271,22 @@ export async function registerSpotifyRoutes(app, supabase) {
     return await refreshAccessToken();
   }
 
+  function applyRateLimit(retryAfterHeader, endpoint) {
+    const now = Date.now();
+    rateLimitedUntilMs = nextRateLimitedUntilMs(
+      retryAfterHeader,
+      now,
+      SPOTIFY_RATE_LIMIT_FALLBACK_MS,
+    );
+    const waitSec = Math.ceil((rateLimitedUntilMs - now) / 1000);
+    console.warn(
+      `[spotify] rate limited (${endpoint}). Waiting ${waitSec}s before next poll (Retry-After=${retryAfterHeader ?? "none"}).`,
+    );
+  }
+
   async function refreshNowPlayingCache() {
     if (isRefreshingNowPlaying) return;
+    if (Date.now() < rateLimitedUntilMs) return;
     isRefreshingNowPlaying = true;
 
     try {
@@ -279,10 +298,11 @@ export async function registerSpotifyRoutes(app, supabase) {
       );
 
       if (currentlyPlayingRes.status === 429) {
-        const retryAfter = currentlyPlayingRes.headers.get("Retry-After");
-        throw new Error(
-          `Spotify rate limited (currently-playing). Retry-After=${retryAfter}s`,
+        applyRateLimit(
+          currentlyPlayingRes.headers.get("Retry-After"),
+          "currently-playing",
         );
+        return;
       }
 
       if (currentlyPlayingRes.status === 401) {
@@ -331,10 +351,11 @@ export async function registerSpotifyRoutes(app, supabase) {
       );
 
       if (lastPlayedRes.status === 429) {
-        const retryAfter = lastPlayedRes.headers.get("Retry-After");
-        throw new Error(
-          `Spotify rate limited (recently-played). Retry-After=${retryAfter}s`,
+        applyRateLimit(
+          lastPlayedRes.headers.get("Retry-After"),
+          "recently-played",
         );
+        return;
       }
 
       if (!lastPlayedRes.ok) {
