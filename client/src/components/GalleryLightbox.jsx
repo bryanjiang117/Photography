@@ -1,5 +1,11 @@
-import { useEffect, useRef } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  useDragControls,
+  useMotionValue,
+} from "motion/react";
 import { Icon } from "@iconify-icon/react";
 import GalleryLightboxImage from "./GalleryLightboxImage";
 import GalleryLocationLabel from "./GalleryLocationLabel";
@@ -7,9 +13,45 @@ import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
 import {
   formatCameraLine,
   formatExposureLine,
-  formatLensLine,
   formatPhotoDate,
 } from "../galleryPhotoMetaFormat";
+
+const SWIPE_VELOCITY = 400;
+/** Horizontal space between lightbox slides while swiping. */
+const SLIDE_GAP = 24;
+/** Pointer travel above this is a swipe/drag, not a tap-to-dismiss. */
+const TAP_SLOP_PX = 12;
+
+/**
+ * @param {string} region
+ * @param {{ name: string; location?: string }} photo
+ */
+function photoCaptionParts(region, photo) {
+  const location = photo.location;
+  const meta = galleryPhotoMeta(region, photo.name);
+  const dateLine = formatPhotoDate(meta?.takenAt);
+  const cameraLine = formatCameraLine(meta);
+  const exposureLine = formatExposureLine(meta);
+  const primaryMeta = [dateLine, cameraLine, exposureLine]
+    .filter(Boolean)
+    .join(" · ");
+  return {
+    location,
+    primaryMeta,
+    show: Boolean(location || primaryMeta),
+  };
+}
+
+function isLightboxChrome(target) {
+  return (
+    target instanceof Element &&
+    Boolean(
+      target.closest(
+        "[data-lightbox-content], [data-lightbox-caption], button",
+      ),
+    )
+  );
+}
 
 /**
  * Full-image overlay for gallery lightbox (web + mobile).
@@ -35,20 +77,6 @@ export default function GalleryLightbox({
     : -1;
   const open = index >= 0;
   const bottomArrows = arrows === "bottom";
-  const activePhoto = open ? photos[index] : null;
-  const location = activePhoto?.location;
-  const meta = activeName ? galleryPhotoMeta(region, activeName) : null;
-  const dateLine = formatPhotoDate(meta?.takenAt);
-  const cameraLine = formatCameraLine(meta);
-  const exposureLine = formatExposureLine(meta);
-  const lensLine = formatLensLine(meta);
-  const primaryMeta = [dateLine, cameraLine, exposureLine]
-    .filter(Boolean)
-    .join(" · ");
-  const showCaption = Boolean(location || primaryMeta || lensLine);
-  // Ignore backdrop close when either end of the click was on the caption
-  // (so text selection that starts or ends on the caption doesn't dismiss).
-  const captionPointerRef = useRef(false);
 
   const go = (delta) => {
     if (!open || photos.length === 0) return;
@@ -75,25 +103,10 @@ export default function GalleryLightbox({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, index, photos, onClose, onChange]);
 
-  const isCaptionTarget = (target) =>
-    target instanceof Element &&
-    Boolean(target.closest("[data-lightbox-caption]"));
-
-  const onOverlayPointerDown = (e) => {
-    captionPointerRef.current = isCaptionTarget(e.target);
-  };
-
-  const onOverlayPointerUp = (e) => {
-    if (isCaptionTarget(e.target)) captionPointerRef.current = true;
-  };
-
-  const onOverlayClick = () => {
-    if (captionPointerRef.current) {
-      captionPointerRef.current = false;
-      return;
-    }
-    onClose();
-  };
+  // Reserve caption + arrow chrome so each slide's image fits with its caption.
+  const maxHeight = bottomArrows
+    ? "calc(100vh - 12rem)"
+    : "calc(100vh - 9rem)";
 
   const arrowBtnClass =
     "flex items-center justify-center p-3 text-white/35 hover:text-white/70 focus-visible:text-white/70 active:text-white/70 transition-colors duration-200 cursor-pointer bg-transparent border-0";
@@ -143,63 +156,24 @@ export default function GalleryLightbox({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           className="fixed inset-0 z-60 bg-black/70"
-          onPointerDown={onOverlayPointerDown}
-          onPointerUp={onOverlayPointerUp}
-          onClick={onOverlayClick}
+          onClick={onClose}
         >
           {!bottomArrows && prevButton}
           <div
             className={
               bottomArrows
-                ? "absolute inset-0 p-8 pb-20"
-                : "absolute inset-0 p-8"
+                ? "absolute inset-0 py-8 pb-20"
+                : "absolute inset-0 py-8"
             }
           >
-            <div className="flex h-full w-full max-w-full flex-col items-center gap-3">
-              <div className="flex min-h-0 w-full min-w-0 flex-1 items-center justify-center">
-                <GalleryLightboxImage
-                  region={region}
-                  name={activeName}
-                  maxHeight={
-                    // Available height inside overlay padding only.
-                    // Caption + gap ≈ 5rem; bottom-arrow layout uses pb-20 (5rem)
-                    // instead of p-8 bottom (2rem) → +3rem.
-                    showCaption
-                      ? bottomArrows
-                        ? "calc(100vh - 12rem)"
-                        : "calc(100vh - 9rem)"
-                      : bottomArrows
-                        ? "calc(100vh - 7rem)"
-                        : "calc(100vh - 4rem)"
-                  }
-                  onClick={(e) => e.stopPropagation()}
-                />
-              </div>
-              {showCaption ? (
-                <div
-                  data-lightbox-caption
-                  className="max-w-full shrink-0 text-center text-balance select-text cursor-text"
-                >
-                  {location ? (
-                    <div className="text-sm font-medium text-white bodoni-small">
-                      <GalleryLocationLabel location={location} />
-                    </div>
-                  ) : null}
-                  {primaryMeta || lensLine ? (
-                    <div
-                      className={`text-xs text-white/90 [font-family:system-ui,sans-serif]${location ? " mt-1" : ""}`}
-                    >
-                      {primaryMeta ? <div>{primaryMeta}</div> : null}
-                      {lensLine ? (
-                        <div className={primaryMeta ? "mt-0.5" : undefined}>
-                          {lensLine}
-                        </div>
-                      ) : null}
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
+            <LightboxSwipeTrack
+              region={region}
+              photos={photos}
+              index={index}
+              maxHeight={maxHeight}
+              onGo={go}
+              onDismiss={onClose}
+            />
           </div>
           {!bottomArrows && nextButton}
           {bottomArrows && (
@@ -214,5 +188,186 @@ export default function GalleryLightbox({
         </motion.div>
       )}
     </AnimatePresence>
+  );
+}
+
+/**
+ * @param {{
+ *   region: string;
+ *   photo: { name: string; location?: string };
+ * }} props
+ */
+function LightboxCaption({ region, photo }) {
+  const { location, primaryMeta, show } = photoCaptionParts(region, photo);
+  if (!show) return null;
+  return (
+    <div className="mx-auto max-w-full shrink-0 px-8 text-center text-balance">
+      {location ? (
+        <div
+          data-lightbox-caption
+          className="mx-auto w-fit max-w-full text-sm font-medium text-white bodoni-small select-text cursor-text"
+        >
+          <GalleryLocationLabel location={location} />
+        </div>
+      ) : null}
+      {primaryMeta ? (
+        <div
+          data-lightbox-caption
+          className={`mx-auto w-fit max-w-full text-xs text-white/90 [font-family:system-ui,sans-serif] select-text cursor-text${location ? " mt-1" : ""}`}
+        >
+          {primaryMeta}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Full-area touch drag (including dark space). Tap on dark dismisses;
+ * tap on image/caption does not. Swipe never dismisses.
+ */
+function LightboxSwipeTrack({
+  region,
+  photos,
+  index,
+  maxHeight,
+  onGo,
+  onDismiss,
+}) {
+  const containerRef = useRef(/** @type {HTMLDivElement | null} */ (null));
+  const [width, setWidth] = useState(0);
+  const x = useMotionValue(0);
+  const dragControls = useDragControls();
+  const settlingRef = useRef(false);
+  /** Touch pointerup already handled — ignore the synthetic click. */
+  const consumeClickRef = useRef(false);
+  const pointerStartRef = useRef({ x: 0, y: 0 });
+  const canSwipe = photos.length > 1;
+
+  const prevPhoto = photos[(index - 1 + photos.length) % photos.length];
+  const currentPhoto = photos[index];
+  const nextPhoto = photos[(index + 1) % photos.length];
+
+  useLayoutEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => setWidth(el.clientWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (width <= 0) return;
+    x.set(-(width + SLIDE_GAP));
+    settlingRef.current = false;
+  }, [index, width, x]);
+
+  const onDragEnd = (_, info) => {
+    if (!canSwipe || width <= 0 || settlingRef.current) return;
+
+    const stride = width + SLIDE_GAP;
+    const threshold = Math.min(80, width * 0.2);
+    const goNext =
+      info.offset.x < -threshold || info.velocity.x < -SWIPE_VELOCITY;
+    const goPrev =
+      info.offset.x > threshold || info.velocity.x > SWIPE_VELOCITY;
+
+    if (!goNext && !goPrev) {
+      animate(x, -stride, { type: "spring", stiffness: 450, damping: 42 });
+      return;
+    }
+
+    settlingRef.current = true;
+    const target = goNext ? -stride * 2 : 0;
+    const delta = goNext ? 1 : -1;
+    animate(x, target, { type: "spring", stiffness: 450, damping: 42 }).then(
+      () => {
+        onGo(delta);
+        x.set(-stride);
+      },
+    );
+  };
+
+  const movementExceedsTap = (clientX, clientY) => {
+    const { x: sx, y: sy } = pointerStartRef.current;
+    return (
+      Math.abs(clientX - sx) > TAP_SLOP_PX ||
+      Math.abs(clientY - sy) > TAP_SLOP_PX
+    );
+  };
+
+  /** Dismiss only on a true tap (little/no movement) outside photo chrome. */
+  const tryDismissFromTap = (e) => {
+    if (movementExceedsTap(e.clientX, e.clientY)) return;
+    if (isLightboxChrome(e.target)) return;
+    onDismiss();
+  };
+
+  const slides =
+    width > 0 ? [prevPhoto, currentPhoto, nextPhoto] : [currentPhoto];
+  const keyFor = (photo, slot) =>
+    photos.length === 2 ? `${slot}-${photo.name}` : photo.name;
+  const trackWidth = width > 0 ? width * 3 + SLIDE_GAP * 2 : undefined;
+
+  return (
+    <div
+      ref={containerRef}
+      className="h-full w-full min-w-0 max-w-full overflow-hidden touch-none"
+      onPointerDown={(e) => {
+        pointerStartRef.current = { x: e.clientX, y: e.clientY };
+        if (!canSwipe || e.pointerType !== "touch" || settlingRef.current) {
+          return;
+        }
+        dragControls.start(e);
+      }}
+      onPointerUp={(e) => {
+        // Decide tap vs swipe here — onDragEnd often runs *after* pointerup,
+        // so we can't rely on a flag set there.
+        if (e.pointerType === "touch") {
+          consumeClickRef.current = true;
+        }
+        tryDismissFromTap(e);
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (consumeClickRef.current) {
+          consumeClickRef.current = false;
+          return;
+        }
+        tryDismissFromTap(e);
+      }}
+    >
+      <motion.div
+        className="flex h-full items-stretch"
+        style={{
+          x,
+          width: trackWidth,
+          gap: width > 0 ? SLIDE_GAP : undefined,
+        }}
+        drag={canSwipe ? "x" : false}
+        dragControls={dragControls}
+        dragListener={false}
+        dragDirectionLock
+        dragElastic={0.12}
+        onDragEnd={onDragEnd}
+      >
+        {slides.map((photo, slot) => (
+          <div
+            key={width > 0 ? keyFor(photo, slot) : `solo-${photo.name}`}
+            className="flex h-full shrink-0 flex-col items-center justify-center gap-3"
+            style={{ width: width > 0 ? width : "100%" }}
+          >
+            <GalleryLightboxImage
+              region={region}
+              name={photo.name}
+              maxHeight={maxHeight}
+            />
+            <LightboxCaption region={region} photo={photo} />
+          </div>
+        ))}
+      </motion.div>
+    </div>
   );
 }

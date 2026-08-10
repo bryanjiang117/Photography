@@ -26,6 +26,7 @@ const ExtrasPanel = () => {
       >
         <source src="/assets/photos/mountain-view.mp4" type="video/mp4" />
       </video>
+      <div className="h-px w-full bg-gray-800" />
     </div>
   );
 };

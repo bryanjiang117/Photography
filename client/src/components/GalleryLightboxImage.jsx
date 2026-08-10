@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { galleryImageUrl } from "../galleryImages";
 import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
 
 /** Matches lightbox overlay `p-8` (2rem × 2). */
 const PAD = "4rem";
+
+/** Survives remounts so peeked slides don't skeleton-flash when they become current. */
+const decodedSrcs = new Set();
 
 /**
  * Explicit width + height from viewport — never depends on % of a flex parent.
@@ -29,8 +32,8 @@ function frameStyle(dims, maxHeight) {
 
 /**
  * Lightbox image using the `lg` tier.
- * Holds the previous frame until the next is downloaded + decoded so
- * caption/layout don't jump and half-decoded paints don't flash.
+ * On name change, shows a skeleton immediately (sized to the incoming photo)
+ * until the new image is loaded + decoded — never keeps the previous frame.
  */
 export default function GalleryLightboxImage({
   region,
@@ -52,15 +55,23 @@ export default function GalleryLightboxImage({
     setRequest({ id: requestIdRef.current, src, dimensions });
   }
 
-  /** Decoded src currently painted (may lag the request while loading). */
-  const [paintSrc, setPaintSrc] = useState(/** @type {string | null} */ (null));
-  const [paintDims, setPaintDims] = useState(dimensions);
-  const loading = paintSrc !== request.src;
+  /** Decoded src currently painted; null / mismatch → skeleton. */
+  const [paintSrc, setPaintSrc] = useState(
+    /** @type {string | null} */ (decodedSrcs.has(src) ? src : null),
+  );
+  if (paintSrc !== null && paintSrc !== request.src) {
+    setPaintSrc(decodedSrcs.has(request.src) ? request.src : null);
+  }
+  const ready = paintSrc === request.src;
+  const loading = !ready;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const id = request.id;
     const nextSrc = request.src;
-    const nextDims = request.dimensions;
+    if (decodedSrcs.has(nextSrc)) {
+      setPaintSrc(nextSrc);
+      return;
+    }
     let cancelled = false;
     /** @type {HTMLImageElement | null} */
     let preloader = null;
@@ -70,8 +81,8 @@ export default function GalleryLightboxImage({
 
     const commit = () => {
       if (cancelled || id !== requestIdRef.current) return;
+      decodedSrcs.add(nextSrc);
       setPaintSrc(nextSrc);
-      setPaintDims(nextDims);
     };
 
     const afterLoad = () => {
@@ -99,8 +110,7 @@ export default function GalleryLightboxImage({
     };
   }, [request]);
 
-  // Size to the painted frame while holding; first open uses the target.
-  const box = frameStyle(paintSrc ? paintDims : request.dimensions, maxHeight);
+  const box = frameStyle(request.dimensions, maxHeight);
 
   return (
     <div
@@ -108,13 +118,17 @@ export default function GalleryLightboxImage({
       style={box}
       onClick={onClick}
       aria-busy={loading}
+      data-lightbox-content
     >
-      {paintSrc ? (
+      {loading ? (
+        <div className="absolute inset-0 lightbox-shimmer" aria-hidden="true" />
+      ) : null}
+      {ready ? (
         <img
           src={paintSrc}
           alt=""
-          width={paintDims?.w}
-          height={paintDims?.h}
+          width={request.dimensions?.w}
+          height={request.dimensions?.h}
           decoding="sync"
           className="absolute inset-0 h-full w-full object-contain"
           draggable={false}
