@@ -35,7 +35,18 @@ const SpotifyPanel = () => {
           </div>
         </div>
         {spotifyState ? (
-          <img className="ml-2 max-h-full" src={spotifyState.albumImage} />
+          spotifyState.trackUrl ? (
+            <a
+              className="ml-2 max-h-full"
+              href={spotifyState.trackUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img className="max-h-full" src={spotifyState.albumImage} alt="" />
+            </a>
+          ) : (
+            <img className="ml-2 max-h-full" src={spotifyState.albumImage} alt="" />
+          )
         ) : (
           <img className="max-h-full vinyl-spin" src="/assets/vinyl.png" alt="" />
         )}

@@ -15,7 +15,17 @@ const SpotifyComponent = () => {
         />
       </div>
       {spotifyState ? (
-        <img className="max-h-40" src={spotifyState.albumImage} />
+        spotifyState.trackUrl ? (
+          <a
+            href={spotifyState.trackUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img className="max-h-40" src={spotifyState.albumImage} alt="" />
+          </a>
+        ) : (
+          <img className="max-h-40" src={spotifyState.albumImage} alt="" />
+        )
       ) : (
         <img className="max-h-40 vinyl-spin" src="/assets/vinyl.png" alt="" />
       )}

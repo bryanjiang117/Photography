@@ -328,6 +328,7 @@ export async function registerSpotifyRoutes(app, supabase) {
                 artists: item.artists?.map((a) => a.name) ?? [],
                 album: item.album?.name,
                 albumImage: item.album?.images?.[0]?.url,
+                trackUrl: item.external_urls?.spotify ?? null,
                 isPlaying: data.is_playing ?? true,
               }
             : null;
@@ -371,6 +372,7 @@ export async function registerSpotifyRoutes(app, supabase) {
               artists: item.track.artists?.map((a) => a.name) ?? [],
               album: item.track.album?.name,
               albumImage: item.track.album?.images?.[0]?.url,
+              trackUrl: item.track.external_urls?.spotify ?? null,
               isPlaying: false,
               playedAt: item.played_at,
             }
