@@ -3,7 +3,7 @@ import { createJsonCache } from "./cacheStore.js";
 import { nextRateLimitedUntilMs } from "./spotifyRateLimit.js";
 
 const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
-const SPOTIFY_POLL_INTERVAL_MS = 90_000; // 1.5 minutes between Spotify fetches
+const SPOTIFY_POLL_INTERVAL_MS = 60_000; // 1 minute between Spotify fetches
 /** Fallback wait when Spotify 429 omits Retry-After */
 const SPOTIFY_RATE_LIMIT_FALLBACK_MS = SPOTIFY_POLL_INTERVAL_MS * 2;
 
