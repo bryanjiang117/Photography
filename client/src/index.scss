@@ -36,6 +36,16 @@ body {
   background-color: rgb(240, 239, 235);
 }
 
+::selection {
+  background-color: black;
+  color: white;
+}
+
+::-moz-selection {
+  background-color: black;
+  color: white;
+}
+
 #root {
   min-height: 100vh;
 }
