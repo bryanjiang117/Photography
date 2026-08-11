@@ -40,12 +40,16 @@ const MALComponent = () => {
         <div className="mt-1 ml-1">TOP ANIME</div>
       </div>
 
-      <div
+      <a
+        href="https://myanimelist.net/animelist/BryanJiang?status=2&order=4&order2=0"
+        target="_blank"
+        rel="noopener noreferrer"
         className={`absolute left-10 bottom-3 text-xs bodoni-small tracking-wider opacity-50 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
+        tabIndex={loading ? -1 : undefined}
       >
         via MAL API
-      </div>
+      </a>
     </div>
   );
 };

@@ -40,12 +40,16 @@ const TMDBComponent = () => {
           ))
         )}
       </div>
-      <div
-        className={`mt-2 px-4 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
+      <a
+        href="https://www.themoviedb.org/u/bryanjiang117/ratings/tv"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`mt-2 block px-4 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
+        tabIndex={loading ? -1 : undefined}
       >
         via TMDB API
-      </div>
+      </a>
     </div>
   );
 };
