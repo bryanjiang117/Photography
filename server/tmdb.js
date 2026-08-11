@@ -14,6 +14,7 @@ const DISPLAY_ORDER = [
   "parasite",
   "rick and morty",
   "a knight of the seven kingdoms",
+  "arcane",
 ];
 
 function normalizeTitle(title) {
