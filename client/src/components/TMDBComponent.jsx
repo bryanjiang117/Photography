@@ -12,7 +12,7 @@ const TMDBComponent = () => {
         className={`px-10 pt-10 pb-1 shrink-0 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
       >
-        <div className="relative text-[64px] font-medium tracking-tighter leading-none bodoni-small">
+        <div className="relative text-[64px] font-semibold tracking-tighter leading-none bodoni-small">
           <div className="-translate-x-2">TOP TITLES</div>
           <div className="justify-self-end -translate-y-1 text-lg font-sh font-semibold tracking-widest">
             最爱的影视
