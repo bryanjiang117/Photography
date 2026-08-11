@@ -1,3 +1,4 @@
+import { Icon } from "@iconify-icon/react";
 import SectionTitle from "./SectionTitle";
 import { useTmdb } from "../TmdbContext.jsx";
 import LoadingDots from "../components/LoadingDots.jsx";
@@ -44,11 +45,17 @@ const TMDBComponent = () => {
         href="https://www.themoviedb.org/u/bryanjiang117/ratings/tv"
         target="_blank"
         rel="noopener noreferrer"
-        className={`mt-2 block px-4 text-right text-xs bodoni-small tracking-wider opacity-80 ${loading ? "invisible" : ""}`}
+        className={`mt-2 ml-auto flex w-fit items-center gap-1.5 px-4 text-xs bodoni-small tracking-wider ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
         tabIndex={loading ? -1 : undefined}
       >
-        via TMDB API
+        <Icon
+          icon="simple-icons:themoviedatabase"
+          width={18}
+          height={18}
+          style={{ color: "#01B4E4" }}
+        />
+        <span className="opacity-80">via TMDB API</span>
       </a>
     </div>
   );

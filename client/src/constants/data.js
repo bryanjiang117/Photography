@@ -613,7 +613,7 @@ export const SOCIALS = [
     link: "https://github.com/bryanjiang117",
   },
   {
-    name: "Other Site",
+    name: "Old Site",
     link: "https://www.bryan-jiang.com/",
   },
 ];

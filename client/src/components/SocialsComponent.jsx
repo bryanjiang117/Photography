@@ -10,9 +10,6 @@ const SocialsPanel = () => {
           </a>
         </div>
       ))}
-      <div className="absolute -right-6 bottom-4 flex items-center gap-2">
-        <span className="bg-primary-light px-2">see more</span>
-      </div>
     </div>
   );
 };

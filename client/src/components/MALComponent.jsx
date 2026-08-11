@@ -1,3 +1,4 @@
+import { Icon } from "@iconify-icon/react";
 import { useMal } from "../MalContext.jsx";
 import LoadingDots from "./LoadingDots.jsx";
 
@@ -44,11 +45,17 @@ const MALComponent = () => {
         href="https://myanimelist.net/animelist/BryanJiang?status=2&order=4&order2=0"
         target="_blank"
         rel="noopener noreferrer"
-        className={`absolute left-10 bottom-3 text-xs bodoni-small tracking-wider opacity-50 ${loading ? "invisible" : ""}`}
+        className={`absolute left-10 bottom-3 inline-flex items-center gap-1.5 text-xs bodoni-small tracking-wider ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
         tabIndex={loading ? -1 : undefined}
       >
-        via MAL API
+        <Icon
+          icon="simple-icons:myanimelist"
+          width={22}
+          height={22}
+          style={{ color: "#2E51A2" }}
+        />
+        <span className="opacity-50">via MAL API</span>
       </a>
     </div>
   );
