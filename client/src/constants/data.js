@@ -276,26 +276,6 @@ export const CHINA_ITEMS = [
   },
   {
     columns: [
-      ["grungy-apartment"],
-      [{ name: "goldfish", location: "Baixiangju, Chongqing · 百象居，重庆" }],
-      ["building-steps"],
-    ],
-    flex: [1, 2, 2],
-    size: "sm",
-    location: "Chongqing · 重庆",
-  },
-  {
-    columns: [
-      [{ name: "chess-table", size: "md" }],
-      ["stick-gramps"],
-      ["park-gramps"],
-    ],
-    flex: [4, 1, 1],
-    size: "sm",
-    location: "People's Park, Chongqing · 人民公园，重庆",
-  },
-  {
-    columns: [
       [
         {
           name: "sleeping-cat",
@@ -320,6 +300,26 @@ export const CHINA_ITEMS = [
     ],
     location:
       "Tianmen Mountain National Park, Zhangjiajie, Hunan · 天门山国家森林公园，张家界，湖南",
+  },
+  {
+    columns: [
+      ["grungy-apartment"],
+      [{ name: "goldfish", location: "Baixiangju, Chongqing · 百象居，重庆" }],
+      ["building-steps"],
+    ],
+    flex: [1, 2, 2],
+    size: "sm",
+    location: "Chongqing · 重庆",
+  },
+  {
+    columns: [
+      [{ name: "chess-table", size: "md" }],
+      ["stick-gramps"],
+      ["park-gramps"],
+    ],
+    flex: [4, 1, 1],
+    size: "sm",
+    location: "People's Park, Chongqing · 人民公园，重庆",
   },
   {
     columns: [["rafts"]],
@@ -504,7 +504,7 @@ export const JAPAN_ITEMS = [
   {
     columns: [["taxi"], [], ["running-kid"], []],
     flex: [2, 1, 2, 1],
-    size: 'md',
+    size: "md",
     location: "Chinatown, Yokohama · 中華街，横浜",
   },
   {
@@ -555,12 +555,12 @@ export const JAPAN_ITEMS = [
     location: "Nagano · 長野",
   },
   {
-    columns: [["long-stick"], [{name: "frozen-castle", size: 'sm'}, []], []],
+    columns: [["long-stick"], [{ name: "frozen-castle", size: "sm" }, []], []],
     flex: [10, 4, 6],
     location: "Kanazawa Castle, Kanazawa, Ishikawa · 金沢城，金沢，石川",
   },
   {
-    columns: [["trees"], ["shrine"], [{name: "snow-roots", size: 'sm'}]],
+    columns: [["trees"], ["shrine"], [{ name: "snow-roots", size: "sm" }]],
     flex: [9, 9, 4],
     location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
   },
