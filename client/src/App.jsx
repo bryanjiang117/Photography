@@ -145,18 +145,11 @@ function App() {
     document.getElementById("intro-loader")?.remove();
   }, []);
 
+  // While the square pulses: fonts + home/intro chunk only (for handoff).
   useEffect(() => {
     const prevent = (e) => e.preventDefault();
     window.addEventListener("wheel", prevent, { passive: false });
     window.addEventListener("touchmove", prevent, { passive: false });
-
-    CRITICAL_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-
-    const apis = fetchBootstrapApis();
-    apis.then((data) => setBootstrap(data));
 
     const homeChunk = preloadHomeChunk();
 
@@ -192,8 +185,16 @@ function App() {
   const isRevealing = phase === "revealing";
   const isDone = phase === "done";
 
+  // After overlay is gone: hero images, APIs, gallery prefetch.
   useEffect(() => {
     if (!isDone) return;
+
+    CRITICAL_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+
+    fetchBootstrapApis().then((data) => setBootstrap(data));
     scheduleGalleryPrefetch();
   }, [isDone]);
 

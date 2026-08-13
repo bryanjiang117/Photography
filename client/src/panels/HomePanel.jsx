@@ -2,12 +2,12 @@ import { lazy, Suspense, useContext, useEffect, useMemo, useRef } from "react";
 import { GalleryContext } from "../GalleryContext";
 
 import IntroPanel from "./IntroPanel";
-import JapanPanel from "./JapanPanel";
-import MexicoCityPanel from "../components/MexicoCityPanel";
-import CanadaPanel from "./CanadaPanel";
-import ChinaPanel from "./ChinaPanel";
-import ProjectsPanel from "../components/ProjectsPanel";
 
+const JapanPanel = lazy(() => import("./JapanPanel"));
+const MexicoCityPanel = lazy(() => import("../components/MexicoCityPanel"));
+const CanadaPanel = lazy(() => import("./CanadaPanel"));
+const ChinaPanel = lazy(() => import("./ChinaPanel"));
+const ProjectsPanel = lazy(() => import("../components/ProjectsPanel"));
 const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
@@ -20,20 +20,34 @@ const HomePanel = () => {
   const setWidthRef = useRef(0);
   const hasPositionedRef = useRef(false);
   const userInteractedRef = useRef(false);
-  const panels = useMemo(
-    () => [
-      <IntroPanel scrollRef={scrollRef} key="intro" />,
-      <ChinaPanel key="china" />,
-      <JapanPanel key="japan" />,
-      <MexicoCityPanel key="mexico-city" />,
-      <CanadaPanel key="canada" />,
-      <ProjectsPanel key="projects" />,
+
+  // Intro-only under the pulsing square so region images / video don't contend.
+  const panels = useMemo(() => {
+    const intro = <IntroPanel scrollRef={scrollRef} key="intro" />;
+    if (!introReady) return [intro];
+
+    return [
+      intro,
+      <Suspense key="china" fallback={null}>
+        <ChinaPanel />
+      </Suspense>,
+      <Suspense key="japan" fallback={null}>
+        <JapanPanel />
+      </Suspense>,
+      <Suspense key="mexico-city" fallback={null}>
+        <MexicoCityPanel />
+      </Suspense>,
+      <Suspense key="canada" fallback={null}>
+        <CanadaPanel />
+      </Suspense>,
+      <Suspense key="projects" fallback={null}>
+        <ProjectsPanel />
+      </Suspense>,
       <Suspense key="extras" fallback={null}>
         <ExtrasPanel />
       </Suspense>,
-    ],
-    [],
-  );
+    ];
+  }, [introReady]);
 
   useEffect(() => {
     const el = scrollRef.current;

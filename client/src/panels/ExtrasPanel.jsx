@@ -27,7 +27,7 @@ const ExtrasPanel = () => {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         poster="/assets/photos/mountain-view-thumbnail.avif"
       >
         <source src="/assets/photos/mountain-view.mp4" type="video/mp4" />

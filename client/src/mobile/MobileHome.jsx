@@ -1,31 +1,48 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useContext } from "react";
+import { GalleryContext } from "../GalleryContext";
 import IntroPanel from "./IntroPanel";
-import JapanPanel from "./JapanPanel";
-import MexicoCityPanel from "./MexicoCityPanel";
-import CanadaPanel from "./CanadaPanel";
-import ChinaPanel from "./ChinaPanel";
-import ProjectsPanel from "./ProjectsPanel";
 
+const JapanPanel = lazy(() => import("./JapanPanel"));
+const MexicoCityPanel = lazy(() => import("./MexicoCityPanel"));
+const CanadaPanel = lazy(() => import("./CanadaPanel"));
+const ChinaPanel = lazy(() => import("./ChinaPanel"));
+const ProjectsPanel = lazy(() => import("./ProjectsPanel"));
 const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 
 const MobileHome = () => {
+  const { introReady } = useContext(GalleryContext);
+
   return (
     <div className="flex w-screen flex-col overflow-x-hidden">
       <IntroPanel />
-      <div className="flex flex-col gap-8">
-        <ChinaPanel />
-        <JapanPanel />
-        <MexicoCityPanel />
-        <CanadaPanel />
-      </div>
-      <div className="mt-38">
-        <ProjectsPanel />
-      </div>
-      <div className="mt-50">
-        <Suspense fallback={null}>
-          <ExtrasPanel />
-        </Suspense>
-      </div>
+      {introReady && (
+        <>
+          <div className="flex flex-col gap-8">
+            <Suspense fallback={null}>
+              <ChinaPanel />
+            </Suspense>
+            <Suspense fallback={null}>
+              <JapanPanel />
+            </Suspense>
+            <Suspense fallback={null}>
+              <MexicoCityPanel />
+            </Suspense>
+            <Suspense fallback={null}>
+              <CanadaPanel />
+            </Suspense>
+          </div>
+          <div className="mt-38">
+            <Suspense fallback={null}>
+              <ProjectsPanel />
+            </Suspense>
+          </div>
+          <div className="mt-50">
+            <Suspense fallback={null}>
+              <ExtrasPanel />
+            </Suspense>
+          </div>
+        </>
+      )}
     </div>
   );
 };
