@@ -20,6 +20,7 @@ import { GalleryContext } from "./GalleryContext";
 import { SpotifyProvider } from "./SpotifyContext.jsx";
 import { MalProvider } from "./MalContext.jsx";
 import { TmdbProvider } from "./TmdbContext.jsx";
+import { GithubProvider } from "./GithubContext.jsx";
 import {
   fetchBootstrapApis,
   introSquareTarget,
@@ -138,6 +139,7 @@ function App() {
     spotify: null,
     mal: null,
     tmdb: null,
+    github: null,
   });
 
   // Hand off from the static HTML loader to React before first paint.
@@ -229,11 +231,13 @@ function App() {
       <SpotifyProvider initialState={bootstrap.spotify}>
         <MalProvider initialData={bootstrap.mal}>
           <TmdbProvider initialData={bootstrap.tmdb}>
-            <Router>
-              <GalleryRouteProvider introReady={isDone}>
-                <AnimatedRoutes />
-              </GalleryRouteProvider>
-            </Router>
+            <GithubProvider initialData={bootstrap.github}>
+              <Router>
+                <GalleryRouteProvider introReady={isDone}>
+                  <AnimatedRoutes />
+                </GalleryRouteProvider>
+              </Router>
+            </GithubProvider>
           </TmdbProvider>
         </MalProvider>
       </SpotifyProvider>

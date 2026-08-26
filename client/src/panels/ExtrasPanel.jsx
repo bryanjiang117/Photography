@@ -3,6 +3,7 @@ import SocialsPanel from "../components/SocialsComponent.jsx";
 import MALComponent from "../components/MALComponent.jsx";
 import TMDBComponent from "../components/TMDBComponent.jsx";
 import AboutMeComponent from "../components/AboutMeComponent.jsx";
+import GithubComponent from "../components/GithubComponent.jsx";
 
 const ExtrasPanel = () => {
   return (
@@ -24,6 +25,8 @@ const ExtrasPanel = () => {
       <div className="h-screen w-px min-w-px bg-gray-400" />
       <div className="flex flex-col h-full w-[480px] min-w-[420px] shrink-0">
         <AboutMeComponent />
+        <div className="h-px w-full bg-gray-400" />
+        <GithubComponent />
       </div>
       <div className="h-screen w-px min-w-px bg-gray-400" />
       <video

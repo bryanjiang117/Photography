@@ -25,16 +25,18 @@ async function fetchApi(url, { expectArray = false } = {}) {
   }
 }
 
-/** Fetches Spotify / MAL / TMDB without blocking the intro animation. */
+/** Fetches Spotify / MAL / TMDB / GitHub without blocking the intro animation. */
 export function fetchBootstrapApis() {
   return Promise.all([
     fetchApi("/api/spotify/currently-playing"),
     fetchApi("/api/mal/anime-list", { expectArray: true }),
     fetchApi("/api/tmdb/rated", { expectArray: true }),
-  ]).then(([spotify, mal, tmdb]) => ({
+    fetchApi("/api/github/repo"),
+  ]).then(([spotify, mal, tmdb, github]) => ({
     spotify: spotify ?? null,
     mal: mal ?? [],
     tmdb: tmdb ?? [],
+    github: github ?? null,
   }));
 }
 

@@ -681,5 +681,11 @@ export const EXTRAS_COPY = {
     titleEn: "TOP ANIME",
     titleZh: "最爱动漫",
   },
+  github: {
+    title: "WORK DONE ON THIS SITE",
+    commits: "Commits",
+    contributions: "Contributions",
+    latest: "Latest",
+  },
 };
 

@@ -170,6 +170,8 @@ Set these on Render so CORS and OAuth callbacks match [jianghaozhou.studio](http
 | `SPOTIFY_CLIENT_ID` / `SECRET` / `REDIRECT_URI` | Spotify OAuth |
 | `MAL_CLIENT_ID` / `SECRET` / `REDIRECT_URI` | MyAnimeList OAuth |
 | `TMDB_API_KEY` | The Movie Database API |
+| `GITHUB_TOKEN` | Optional PAT (higher rate limit for repo stats) |
+| `GITHUB_OWNER` / `GITHUB_REPO` | Repo to display (defaults `bryanjiang117` / `Photography`) |
 
 ---
 
