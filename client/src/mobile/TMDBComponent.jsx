@@ -35,7 +35,7 @@ const TMDBComponent = () => {
                 <span className="text-sm bodoni-small select-text leading-tight">
                   {item.title}
                 </span>
-                <span className="text-[10px] uppercase tracking-widest opacity-60">
+                <span className="text-[10px] uppercase tracking-widest text-gray-500">
                   {item.media_type === "movie" ? "film" : "tv"}
                 </span>
               </div>
@@ -57,7 +57,7 @@ const TMDBComponent = () => {
           height={18}
           style={{ color: "#01B4E4" }}
         />
-        <span className="opacity-80">via TMDB API</span>
+        <span className="text-gray-600">via TMDB API</span>
       </a>
     </div>
   );

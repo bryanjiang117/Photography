@@ -15,6 +15,20 @@
   --color-china-text: rgb(65, 65, 58);
   --color-china-text-small: rgba(120, 120, 110);
   --color-china-text-small-hovered: rgba(160, 160, 140);
+
+  /* Warm greys — same hue as the cream background, no blue cast */
+  --color-gray-*: initial;
+  --color-gray-50: rgb(246, 245, 243);
+  --color-gray-100: rgb(240, 239, 236);
+  --color-gray-200: rgb(226, 224, 220);
+  --color-gray-300: rgb(210, 208, 203);
+  --color-gray-400: rgb(168, 166, 160);
+  --color-gray-500: rgb(130, 128, 122);
+  --color-gray-600: rgb(100, 98, 93);
+  --color-gray-700: rgb(74, 72, 68);
+  --color-gray-800: rgb(48, 47, 44);
+  --color-gray-900: rgb(28, 27, 26);
+  --color-gray-950: rgb(18, 17, 16);
 }
 
 @keyframes skeleton-shimmer {

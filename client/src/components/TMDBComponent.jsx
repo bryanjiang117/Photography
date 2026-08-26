@@ -38,12 +38,12 @@ const TMDBComponent = () => {
                     {item.title}
                   </span>
                   {item.original_title && (
-                    <span className="text-sm font-sh select-text leading-tight opacity-60 shrink-0">
+                    <span className="text-sm font-sh select-text leading-tight text-gray-500 shrink-0">
                       ({item.original_title})
                     </span>
                   )}
                 </div>
-                <span className="text-[10px] uppercase tracking-widest opacity-30 shrink-0">
+                <span className="text-[10px] uppercase tracking-widest text-gray-400 shrink-0">
                   {item.media_type === "movie" ? "film" : "tv"}
                 </span>
               </div>
@@ -61,7 +61,7 @@ const TMDBComponent = () => {
         aria-hidden={loading}
         tabIndex={loading ? -1 : undefined}
       >
-        <span className="opacity-50">via TMDB API</span>
+        <span className="text-gray-500">via TMDB API</span>
         <Icon
           icon="simple-icons:themoviedatabase"
           width={18}
