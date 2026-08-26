@@ -45,7 +45,7 @@ const ProjectsPanel = () => {
               <Tag
                 key={project.name}
                 {...linkProps}
-                className={`relative block no-underline text-inherit overflow-hidden${project.link ? " group" : ""}`}
+                className={`relative block no-underline text-inherit overflow-hidden group`}
               >
                 {project.image && (
                   <img

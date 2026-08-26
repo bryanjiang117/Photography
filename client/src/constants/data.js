@@ -613,6 +613,7 @@ export const PROJECTS = [
   {
     name: "Coming Soon",
     description: "A new project is on the way...",
+    image: "/assets/projects/coming-soon.svg",
     comingSoon: true,
     isDesign: false,
   },
