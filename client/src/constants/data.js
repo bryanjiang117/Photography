@@ -595,20 +595,20 @@ export const PROJECTS = [
     isDesign: false,
   },
   {
-    name: "Taster",
-    description:
-      "Web app that finds authentic recipes and analyzes their contents to piece together an accurate taste profile.",
-    link: "https://taster.website/",
-    image: "/assets/projects/taster.png",
-    isDesign: false,
-  },
-  {
     name: "Unclutter",
     description:
       "Design for a mobile app that provides a new take on note organization where notes sorted into semantically-grouped visual bubbles.",
     link: "https://www.figma.com/community/file/1578143880936148685/unclutter?q_id=686bfa3e-ba29-4173-9ace-550c973c9522",
     image: "/assets/projects/unclutter.png",
     isDesign: true,
+  },
+  {
+    name: "Taster",
+    description:
+      "Web app that finds authentic recipes and analyzes their contents to piece together an accurate taste profile.",
+    link: "https://taster.website/",
+    image: "/assets/projects/taster.png",
+    isDesign: false,
   },
   {
     name: "Coming Soon",
