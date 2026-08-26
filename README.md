@@ -172,6 +172,16 @@ Set these on Render so CORS and OAuth callbacks match [jianghaozhou.studio](http
 | `TMDB_API_KEY` | The Movie Database API |
 | `GITHUB_TOKEN` | Optional PAT (higher rate limit for repo stats) |
 | `GITHUB_OWNER` / `GITHUB_REPO` | Repo to display (defaults `bryanjiang117` / `Photography`) |
+| `GITHUB_WEBHOOK_SECRET` | Shared secret for GitHub push webhook (`/api/github/webhook`) |
+
+**GitHub push webhook (optional):** In the repo → Settings → Webhooks → Add webhook:
+
+- Payload URL: `https://photography-28rz.onrender.com/api/github/webhook`
+- Content type: `application/json`
+- Secret: same value as `GITHUB_WEBHOOK_SECRET` on Render
+- Events: just the `push` event
+
+Hourly polling still runs as a fallback.
 
 ---
 

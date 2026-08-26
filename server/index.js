@@ -20,7 +20,16 @@ const SUPABASE_SECRET_KEY = process.env.SUPABASE_SECRET_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 
 const app = express();
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      // GitHub webhook HMAC needs the exact raw body bytes.
+      if (req.originalUrl === "/api/github/webhook") {
+        req.rawBody = buf;
+      }
+    },
+  }),
+);
 app.use(cookieParser());
 app.use(
   cors({

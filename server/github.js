@@ -1,8 +1,10 @@
+import crypto from "crypto";
 import { createJsonCache } from "./cacheStore.js";
 
 const POLL_INTERVAL_MS = 60 * 60 * 1000;
 const STATS_RETRIES = 10;
 const STATS_RETRY_MS = 3000;
+const WEBHOOK_STATS_RETRY_MS = [5_000, 20_000, 60_000];
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -18,10 +20,25 @@ function firstLine(message) {
   return (message ?? "").split(/\r?\n/)[0].trim();
 }
 
+function verifyGithubSignature(rawBody, signatureHeader, secret) {
+  if (!rawBody || !signatureHeader || !secret) return false;
+  const expected =
+    "sha256=" +
+    crypto.createHmac("sha256", secret).update(rawBody).digest("hex");
+  try {
+    const a = Buffer.from(expected, "utf8");
+    const b = Buffer.from(signatureHeader, "utf8");
+    return a.length === b.length && crypto.timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
+}
+
 export async function registerGithubRoutes(app, supabase) {
   const TOKEN = process.env.GITHUB_TOKEN;
   const OWNER = process.env.GITHUB_OWNER || "bryanjiang117";
   const REPO = process.env.GITHUB_REPO || "Photography";
+  const WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET;
 
   const cacheStore = createJsonCache(supabase, "cache_github_repo");
   let repoCache = null;
@@ -136,16 +153,69 @@ export async function registerGithubRoutes(app, supabase) {
     return refreshPromise;
   }
 
+  function scheduleStatsRetries() {
+    for (const delayMs of WEBHOOK_STATS_RETRY_MS) {
+      setTimeout(() => {
+        refreshStats();
+      }, delayMs);
+    }
+  }
+
   app.get("/api/github/repo", async (req, res) => {
     if (!repoCache) await refreshRepoCache();
     else if (repoCache.additions == null) await refreshStats();
     res.json(repoCache ?? null);
   });
 
+  app.post("/api/github/webhook", async (req, res) => {
+    if (!WEBHOOK_SECRET) {
+      console.error(
+        "[github] webhook received but GITHUB_WEBHOOK_SECRET is unset",
+      );
+      return res.status(503).send("Webhook secret not configured");
+    }
+
+    const signature = req.get("x-hub-signature-256");
+    const rawBody = req.rawBody;
+    if (!verifyGithubSignature(rawBody, signature, WEBHOOK_SECRET)) {
+      return res.status(401).send("Invalid signature");
+    }
+
+    const event = req.get("x-github-event");
+    if (event === "ping") {
+      return res.status(200).json({ ok: true, event: "ping" });
+    }
+    if (event !== "push") {
+      return res.status(200).json({ ok: true, ignored: event ?? "unknown" });
+    }
+
+    const fullName = req.body?.repository?.full_name;
+    const expected = `${OWNER}/${REPO}`.toLowerCase();
+    if (fullName && fullName.toLowerCase() !== expected) {
+      return res.status(200).json({ ok: true, ignored: "other-repo" });
+    }
+
+    // Respond quickly; refresh in the background.
+    res.status(202).json({ ok: true, refreshing: true });
+    refreshRepoCache()
+      .then(() => scheduleStatsRetries())
+      .catch((err) => {
+        console.error("[github] webhook refresh failed:", err?.message ?? err);
+      });
+  });
+
   const stored = await cacheStore.load();
   if (stored?.data && typeof stored.data === "object") {
     repoCache = stored.data;
     console.log("Hydrated GitHub repo stats from cache.");
+  }
+
+  if (!WEBHOOK_SECRET) {
+    console.log(
+      "[github] GITHUB_WEBHOOK_SECRET unset — push webhooks disabled; hourly poll only.",
+    );
+  } else {
+    console.log("[github] push webhook enabled at /api/github/webhook");
   }
 
   refreshRepoCache();
