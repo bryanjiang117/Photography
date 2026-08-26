@@ -1,4 +1,12 @@
-import { lazy, Suspense, useContext, useEffect, useMemo, useRef } from "react";
+import {
+  lazy,
+  Suspense,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { GalleryContext } from "../GalleryContext";
 
 import IntroPanel from "./IntroPanel";
@@ -12,19 +20,20 @@ const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 
 // Infinite horizontal scrolling in both directions (panels can have variable width)
 const HomePanel = () => {
-  const { introReady } = useContext(GalleryContext);
+  const { introReady, stripReady } = useContext(GalleryContext);
   const introReadyRef = useRef(introReady);
   introReadyRef.current = introReady;
   const scrollRef = useRef(null);
   const setRef = useRef(null);
   const setWidthRef = useRef(0);
   const hasPositionedRef = useRef(false);
-  const userInteractedRef = useRef(false);
+  const restoringRef = useRef(false);
 
-  // Intro-only under the pulsing square so region images / video don't contend.
+  // Extra panels mount while the overlay still covers the page, so the strip
+  // width is stable before the user can scroll.
   const panels = useMemo(() => {
     const intro = <IntroPanel scrollRef={scrollRef} key="intro" />;
-    if (!introReady) return [intro];
+    if (!stripReady) return [intro];
 
     return [
       intro,
@@ -47,7 +56,30 @@ const HomePanel = () => {
         <ExtrasPanel />
       </Suspense>,
     ];
-  }, [introReady]);
+  }, [stripReady]);
+
+  const applySetWidth = (el, width) => {
+    if (width <= 0) return;
+    const prev = setWidthRef.current;
+    el.style.scrollBehavior = "auto";
+    restoringRef.current = true;
+    if (!hasPositionedRef.current || prev <= 0) {
+      el.scrollLeft = width;
+      hasPositionedRef.current = true;
+    } else if (width !== prev) {
+      el.scrollLeft += width - prev;
+    }
+    setWidthRef.current = width;
+    restoringRef.current = false;
+    el.style.visibility = "visible";
+  };
+
+  useLayoutEffect(() => {
+    const el = scrollRef.current;
+    const set = setRef.current;
+    if (!el || !set) return;
+    applySetWidth(el, set.getBoundingClientRect().width);
+  }, [stripReady]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -60,6 +92,7 @@ const HomePanel = () => {
     };
 
     const onScroll = () => {
+      if (restoringRef.current) return;
       if (!introReadyRef.current) return;
       const setWidth = setWidthRef.current;
       if (setWidth <= 0) return;
@@ -81,24 +114,7 @@ const HomePanel = () => {
 
     const ro = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect?.width ?? 0;
-      if (width <= 0) return;
-
-      setWidthRef.current = width;
-
-      // Re-apply the initial scroll position when:
-      // - We haven't positioned yet (first firing), OR
-      // - The user hasn't scrolled yet and content is still loading (e.g. Spotify/MAL)
-      // This ensures async panel content changing widths doesn't leave us at the wrong position.
-      if (!hasPositionedRef.current || !userInteractedRef.current) {
-        withInstantScroll(() => {
-          el.scrollLeft = width;
-        });
-        hasPositionedRef.current = true;
-      }
-
-      // ResizeObserver callbacks fire before the browser paints, so making the
-      // container visible here means the user never sees scrollLeft=0.
-      el.style.visibility = "visible";
+      applySetWidth(el, width);
     });
 
     ro.observe(set);
@@ -112,7 +128,10 @@ const HomePanel = () => {
         Boolean(e.target.closest("[data-vertical-scroll]"));
     };
     const onWheel = (e) => {
-      userInteractedRef.current = true;
+      if (!introReadyRef.current) {
+        e.preventDefault();
+        return;
+      }
       const verticalRoot =
         e.target instanceof Element
           ? e.target.closest("[data-vertical-scroll]")
@@ -138,21 +157,15 @@ const HomePanel = () => {
       }
     };
 
-    const onUserInteract = () => {
-      userInteractedRef.current = true;
-    };
-
     el.addEventListener("scroll", onScroll, { passive: true });
     el.addEventListener("mousemove", onMouseMove, { passive: true });
     el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("touchstart", onUserInteract, { passive: true });
 
     return () => {
       ro.disconnect();
       el.removeEventListener("scroll", onScroll);
       el.removeEventListener("mousemove", onMouseMove);
       el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchstart", onUserInteract);
     };
   }, []);
 

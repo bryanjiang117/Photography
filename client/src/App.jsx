@@ -61,7 +61,7 @@ function useGalleryNavigateSetter(path) {
   );
 }
 
-function GalleryRouteProvider({ introReady, children }) {
+function GalleryRouteProvider({ introReady, stripReady, children }) {
   const { pathname } = useLocation();
   const region = galleryRegionFromPath(pathname);
 
@@ -73,6 +73,7 @@ function GalleryRouteProvider({ introReady, children }) {
   const value = useMemo(
     () => ({
       introReady,
+      stripReady,
       showJapanGallery: region === "japan",
       setShowJapanGallery,
       showMexicoGallery: region === "mexico",
@@ -84,6 +85,7 @@ function GalleryRouteProvider({ introReady, children }) {
     }),
     [
       introReady,
+      stripReady,
       region,
       setShowJapanGallery,
       setShowMexicoGallery,
@@ -233,7 +235,10 @@ function App() {
           <TmdbProvider initialData={bootstrap.tmdb}>
             <GithubProvider initialData={bootstrap.github}>
               <Router>
-                <GalleryRouteProvider introReady={isDone}>
+                <GalleryRouteProvider
+                  introReady={isDone}
+                  stripReady={phase !== "loading"}
+                >
                   <AnimatedRoutes />
                 </GalleryRouteProvider>
               </Router>

@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 export const GalleryContext = createContext({
   introReady: false,
+  stripReady: false,
   showMexicoGallery: false,
   setShowMexicoGallery: () => {},
   showCanadaGallery: false,
