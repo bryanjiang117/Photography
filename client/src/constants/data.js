@@ -589,17 +589,32 @@ export const PROJECTS = [
   {
     name: "FOMO",
     description:
-      "An Android location tracking social app made for friends to stay connected. Cool features are the on-my-way status and shared places.",
+      "Social Android app made for friend groups to stay connected. See each other's statuses, location, and real-time route!",
     link: "https://github.com/bryanjiang117/FOMO",
     image: "/assets/projects/fomo.png",
     isDesign: false,
   },
   {
+    name: "Taster",
+    description:
+      "Web app that finds authentic recipes and analyzes their contents to piece together an accurate taste profile.",
+    link: "https://taster.website/",
+    image: "/assets/projects/taster.png",
+    isDesign: false,
+  },
+  {
     name: "Unclutter",
     description:
-      "A mobile app that provides a new take on note organization. Notes are sorted into semantically-grouped visual bubbles.",
+      "Design for a mobile app that provides a new take on note organization where notes sorted into semantically-grouped visual bubbles.",
     link: "https://www.figma.com/community/file/1578143880936148685/unclutter?q_id=686bfa3e-ba29-4173-9ace-550c973c9522",
+    image: "/assets/projects/unclutter.png",
     isDesign: true,
+  },
+  {
+    name: "Coming Soon",
+    description: "A new project is on the way...",
+    comingSoon: true,
+    isDesign: false,
   },
 ];
 
@@ -689,3 +704,13 @@ export const EXTRAS_COPY = {
   },
 };
 
+export const PROJECTS_COPY = {
+  titleZhParts: ["电脑", "作品"],
+  softwareEn: "Software",
+  projectsEn: "Projects",
+  worksEn: "Works",
+  designEn: "Design",
+  designZh: "设计",
+  programmingEn: "Programming",
+  programmingZh: "软件",
+};

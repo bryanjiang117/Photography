@@ -156,7 +156,7 @@ export default function GalleryLoadingShell({ region, isMobile, instant = false 
           </span>
         </div>
 
-        <div className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide touch-pan-x">
+        <div className="flex-1 min-h-0 overflow-x-auto overflow-y-hidden overscroll-none snap-x snap-mandatory scrollbar-hide touch-pan-x">
           <div className="flex h-full w-max min-w-full flex-row items-center gap-3 px-4 py-3">
             {config.photos.map((photo, i) => (
               <GalleryImage

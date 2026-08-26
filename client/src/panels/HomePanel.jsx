@@ -102,9 +102,25 @@ const HomePanel = () => {
     });
 
     ro.observe(set);
-    // Translate vertical wheel events to horizontal scroll
+    // Translate vertical wheel events to horizontal scroll, except inside
+    // panels that scroll vertically (e.g. the projects list).
     const onWheel = (e) => {
       userInteractedRef.current = true;
+      const verticalRoot =
+        e.target instanceof Element
+          ? e.target.closest("[data-vertical-scroll]")
+          : null;
+
+      if (verticalRoot && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        const { scrollTop, scrollHeight, clientHeight } = verticalRoot;
+        const atTop = scrollTop <= 0;
+        const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+        if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) {
+          e.preventDefault();
+        }
+        return;
+      }
+
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault();
         el.scrollLeft += e.deltaY;
