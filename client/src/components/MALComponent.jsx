@@ -1,10 +1,12 @@
 import { Icon } from "@iconify-icon/react";
 import { useMal } from "../MalContext.jsx";
 import LoadingDots from "./LoadingDots.jsx";
+import { EXTRAS_COPY } from "../constants/data";
 
 const MALComponent = () => {
   const malData = useMal();
   const loading = malData == null;
+  const { titleEn, titleZh } = EXTRAS_COPY.mal;
 
   return (
     <div className="relative flex flex-1 items-start p-10 h-full min-h-fit">
@@ -36,9 +38,9 @@ const MALComponent = () => {
           className="text-8xl font-tsm [writing-mode:vertical-rl]"
           lang="zh-CN"
         >
-          最爱动漫
+          {titleZh}
         </div>
-        <div className="mt-1 ml-1">TOP ANIME</div>
+        <div className="mt-1 ml-1">{titleEn}</div>
       </div>
 
       <a

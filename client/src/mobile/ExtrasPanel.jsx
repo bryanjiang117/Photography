@@ -2,6 +2,7 @@ import SpotifyComponent from "./SpotifyComponent";
 import SocialsComponent from "./SocialsComponent";
 import MALComponent from "./MALComponent";
 import TMDBComponent from "./TMDBComponent";
+import AboutMeComponent from "./AboutMeComponent";
 
 const ExtrasPanel = () => {
   return (
@@ -14,6 +15,8 @@ const ExtrasPanel = () => {
       <MALComponent />
       <div className="h-px w-full bg-gray-400" />
       <SocialsComponent />
+      <div className="h-px w-full bg-gray-400" />
+      <AboutMeComponent />
       <div className="h-px w-full bg-gray-400" />
       <video
         className="w-full max-h-[70vh] object-cover object-bottom"

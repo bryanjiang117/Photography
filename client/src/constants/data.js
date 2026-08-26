@@ -617,3 +617,69 @@ export const SOCIALS = [
     link: "https://www.bryan-jiang.com/",
   },
 ];
+
+export const INTRO = {
+  nameZh: "姜昊周",
+  nameEn: "Bryan Jiang",
+  nameCaption: "This is my name",
+  location: "Toronto",
+  timezone: "EST",
+  blurbZh:
+    "你好，我叫姜昊周。我是个喜欢美术的软件工程师。这是我的一些作品。欢迎来到我的网站。",
+  blurbEnBefore: "Nice to meet you. My name is ",
+  blurbEnAfter:
+    ". I'm a developer who loves visual art. Welcome to my WIP site.",
+};
+
+export const ABOUT_ME = {
+  titleEn: "ABOUT",
+  titleZh: "关于我",
+  blurbEn:
+    "Nice to meet you — I'm Bryan. I'm a software engineer in Toronto, and I care about pictures, stories, and making things look right. If that sounds like who you're looking for, feel free to contact me.",
+  blurbZh:
+    "嗨，我叫姜昊周。我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。欢迎联系我。",
+  affiliations: [
+    {
+      logo: "/assets/logos/ib.svg",
+      primary: "Victoria Park C.I.",
+      caption: "my high school",
+    },
+    {
+      logo: "/assets/logos/waterloo.svg",
+      primary: "University of Waterloo",
+      caption: "my university",
+    },
+    {
+      logo: "/assets/logos/vividseats.svg",
+      primary: "Vivid Seats Ltd.",
+      caption: "my company",
+    },
+  ],
+};
+
+export const EXTRAS_COPY = {
+  spotify: {
+    currently: {
+      en: "CURRENTLY PLAYING",
+      enParts: ["CURRENTLY", "PLAYING"],
+      zh: "此刻播放",
+      zhParts: ["此刻", "播放"],
+    },
+    recently: {
+      en: "RECENTLY PLAYED",
+      enParts: ["RECENTLY", "PLAYED"],
+      zh: "最近播放",
+      zhParts: ["最近", "播放"],
+    },
+    rateLimited: "Spotify rate-limited me D:",
+  },
+  tmdb: {
+    titleEn: "TOP TITLES",
+    titleZh: "最爱的影视",
+  },
+  mal: {
+    titleEn: "TOP ANIME",
+    titleZh: "最爱动漫",
+  },
+};
+

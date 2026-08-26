@@ -2,10 +2,11 @@ import SpotifyPanel from "../components/SpotifyComponent.jsx";
 import SocialsPanel from "../components/SocialsComponent.jsx";
 import MALComponent from "../components/MALComponent.jsx";
 import TMDBComponent from "../components/TMDBComponent.jsx";
+import AboutMeComponent from "../components/AboutMeComponent.jsx";
 
 const ExtrasPanel = () => {
   return (
-    <div className="shrink-0 h-screen min-h-[800px] min-w-[1200px] flex mr-40">
+    <div className="shrink-0 h-screen min-h-[800px] min-w-[1680px] flex mr-40">
       <div className="h-screen w-px min-w-px bg-gray-400" />
       <div className="relative flex flex-col items-right h-screen w-fit min-h-fit min-w-fit">
         <div className="flex items-center min-w-fit min-h-fit">
@@ -19,6 +20,10 @@ const ExtrasPanel = () => {
           <div className="h-full w-px min-w-px bg-gray-400" />
           <TMDBComponent />
         </div>
+      </div>
+      <div className="h-screen w-px min-w-px bg-gray-400" />
+      <div className="flex flex-col h-full w-[480px] min-w-[420px] shrink-0">
+        <AboutMeComponent />
       </div>
       <div className="h-screen w-px min-w-px bg-gray-400" />
       <video

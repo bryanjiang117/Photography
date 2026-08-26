@@ -2,10 +2,12 @@ import { Icon } from "@iconify-icon/react";
 import SectionTitle from "./SectionTitle";
 import { useTmdb } from "../TmdbContext.jsx";
 import LoadingDots from "../components/LoadingDots.jsx";
+import { EXTRAS_COPY } from "../constants/data";
 
 const TMDBComponent = () => {
   const items = useTmdb();
   const loading = items == null;
+  const { titleEn, titleZh } = EXTRAS_COPY.tmdb;
 
   return (
     <div className="relative flex flex-col py-4 w-full">
@@ -14,11 +16,11 @@ const TMDBComponent = () => {
         className={`px-4 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
       >
-        <SectionTitle english="TOP TITLES" chinese="最爱的影视" />
+        <SectionTitle english={titleEn} chinese={titleZh} />
       </div>
 
       <div
-        className={`flex flex-row overflow-x-auto mt-3 scrollbar-hide ${loading ? "invisible" : ""}`}
+        className={`flex flex-row overflow-x-auto mt-3 overscroll-none scrollbar-hide ${loading ? "invisible" : ""}`}
       >
         {loading ? (
           <div className="h-32 w-full" />

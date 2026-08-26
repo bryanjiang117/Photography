@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { INTRO } from "../constants/data";
 
 function getTorontoTime() {
   return new Date().toLocaleString("en-CA", {
@@ -18,11 +19,16 @@ const IntroPanel = () => {
     const interval = setInterval(() => setTime(getTorontoTime()), 1000);
     const onScroll = () => setShowScroll(false);
     const timeout = setTimeout(() => {
-      window.addEventListener("scroll", onScroll, { once: true });
+      const scroller = document.getElementById("root") ?? window;
+      scroller.addEventListener("scroll", onScroll, { once: true });
     }, 1000);
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
+      (document.getElementById("root") ?? window).removeEventListener(
+        "scroll",
+        onScroll,
+      );
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
@@ -36,19 +42,19 @@ const IntroPanel = () => {
           lang="zh-CN"
           translate="no"
         >
-          姜昊周
+          {INTRO.nameZh}
         </div>
         <div className="flex items-center gap-4 mt-2">
-          <div>This is my name</div>
+          <div>{INTRO.nameCaption}</div>
           <div data-intro-square className="h-4 w-4 bg-primary" />
         </div>
       </section>
 
       {/* Time */}
       <div className="flex gap-1.5 flex-wrap justify-center text-sm">
-        <span>Toronto</span>
+        <span>{INTRO.location}</span>
         <span>‧</span>
-        <span>EST</span>
+        <span>{INTRO.timezone}</span>
         <span>‧</span>
         <span className="tabular-nums">{time}</span>
         <span>‧</span>
@@ -65,14 +71,14 @@ const IntroPanel = () => {
       <div className="mt-auto pb-12 max-w-full">
         <div className="flex flex-col gap-2">
           <p className="text-sm font-sh" lang="zh-CN" translate="no">
-            你好，我叫姜昊周。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。
+            {INTRO.blurbZh}
           </p>
           <div className="text-base leading-tight bodoni-small">
-            Nice to meet you. My name is{" "}
+            {INTRO.blurbEnBefore}
             <h1 className="inline m-0 p-0 text-[length:inherit] leading-[inherit] font-[inherit] font-normal">
-              Bryan Jiang
+              {INTRO.nameEn}
             </h1>
-            . I'm a developer who loves visual art. Welcome to my WIP site.
+            {INTRO.blurbEnAfter}
           </div>
         </div>
       </div>

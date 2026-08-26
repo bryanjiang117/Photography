@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
+import { INTRO } from "../constants/data";
 
 function getTorontoTime() {
   return new Date().toLocaleString("en-CA", {
@@ -45,11 +46,11 @@ const IntroPanel = ({ scrollRef }) => {
           lang="zh-CN"
           translate="no"
         >
-          姜昊周
+          {INTRO.nameZh}
         </div>
         <div className="-translate-x-2 flex flex-col justify-between h-full">
           <div className="pt-6 [writing-mode:vertical-lr] ">
-            This is my name
+            {INTRO.nameCaption}
           </div>
           <div
             data-intro-square
@@ -60,9 +61,9 @@ const IntroPanel = ({ scrollRef }) => {
 
       {/* Current time in toronto */}
       <div className="absolute top-6 right-8 flex gap-2">
-        <span>Toronto</span>
+        <span>{INTRO.location}</span>
         <span>‧</span>
-        <span>EST</span>
+        <span>{INTRO.timezone}</span>
         <span>‧</span>
         <span className="tabular-nums">{time}</span>
         <span>‧</span>
@@ -80,14 +81,14 @@ const IntroPanel = ({ scrollRef }) => {
       <div className="absolute bottom-2/10 right-24 max-w-4/10">
         <div className="flex flex-col gap-2">
           <p className="mr-[30%] text-lg font-sh" lang="zh-CN" translate="no">
-            你好，我叫姜昊周。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。
+            {INTRO.blurbZh}
           </p>
           <div className="ml-8 mr-[15%] text-xl leading-tight bodoni-small">
-            Nice to meet you. My name is{" "}
+            {INTRO.blurbEnBefore}
             <h1 className="inline m-0 p-0 text-[length:inherit] leading-[inherit] font-[inherit] font-normal">
-              Bryan Jiang
+              {INTRO.nameEn}
             </h1>
-            . I'm a developer who loves visual art. Welcome to my WIP site.
+            {INTRO.blurbEnAfter}
           </div>
         </div>
       </div>

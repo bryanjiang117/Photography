@@ -2,10 +2,12 @@ import { Icon } from "@iconify-icon/react";
 import SectionTitle from "./SectionTitle";
 import { useMal } from "../MalContext.jsx";
 import LoadingDots from "../components/LoadingDots.jsx";
+import { EXTRAS_COPY } from "../constants/data";
 
 const MALComponent = () => {
   const malData = useMal();
   const loading = malData == null;
+  const { titleEn, titleZh } = EXTRAS_COPY.mal;
 
   return (
     <div className="relative flex flex-col py-4 w-full">
@@ -14,10 +16,10 @@ const MALComponent = () => {
         className={`mb-2 px-4 ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
       >
-        <SectionTitle english="TOP ANIME" chinese="最爱动漫" />
+        <SectionTitle english={titleEn} chinese={titleZh} />
       </div>
       <div
-        className={`flex flex-row overflow-x-auto mt-1 scrollbar-hide ${loading ? "invisible" : ""}`}
+        className={`flex flex-row overflow-x-auto mt-1 overscroll-none scrollbar-hide ${loading ? "invisible" : ""}`}
       >
         {loading ? (
           <div className="h-32 w-full" />

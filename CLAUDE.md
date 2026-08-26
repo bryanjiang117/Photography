@@ -25,7 +25,7 @@ If you add new Chinese characters anywhere with `font-sh`, regenerate both subse
 
 ```bash
 # Requires: pipx install fonttools && pipx inject fonttools brotli
-TEXT='姜昊周你好，我叫。我是一名热爱美术的软件工程师。这是我的一些作品。欢迎来到我的网站。墨西哥城摄影加拿大中国日本作品电脑设计软件最爱的影视动漫最近播放'
+TEXT='姜昊周你好，我叫。我是个喜欢美术的软件工程师。这是我的一些作品。欢迎来到我的网站。墨西哥城摄影加拿大中国日本作品电脑设计软件最爱的影视动漫最近播放。我在多伦多写代码，也喜欢拍照、看片和画画。下面是一点关于我的事。爱好仓库提交贡献即将推出。嗨，我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。欢迎联系我。'
 ASCII=' !"#$%&'"'"'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~‧←'
 for w in Medium Bold; do
   pyftsubset \

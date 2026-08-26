@@ -1,18 +1,19 @@
 import Marquee from "react-fast-marquee";
 import SectionTitle from "./SectionTitle";
 import { useSpotify } from "../SpotifyContext.jsx";
+import { EXTRAS_COPY } from "../constants/data";
 
 const SpotifyComponent = () => {
   const spotifyState = useSpotify();
   const currentlyPlaying = spotifyState && spotifyState.isPlaying;
+  const copy = currentlyPlaying
+    ? EXTRAS_COPY.spotify.currently
+    : EXTRAS_COPY.spotify.recently;
 
   return (
     <div className="flex flex-col items-center gap-3 py-4 w-full">
-      <div className="self-start px-4">
-        <SectionTitle
-          english={currentlyPlaying ? "CURRENTLY PLAYING" : "RECENTLY PLAYED"}
-          chinese={currentlyPlaying ? "此刻播放" : "最近播放"}
-        />
+      <div className="w-full px-4">
+        <SectionTitle english={copy.en} chinese={copy.zh} />
       </div>
       {spotifyState ? (
         spotifyState.trackUrl ? (
@@ -40,7 +41,7 @@ const SpotifyComponent = () => {
             </div>
           ) : (
             <div className="px-2 font-tsm text-sm">
-              Spotify rate-limited me D:
+              {EXTRAS_COPY.spotify.rateLimited}
             </div>
           )}
         </Marquee>

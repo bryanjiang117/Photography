@@ -1,10 +1,12 @@
 import { Icon } from "@iconify-icon/react";
 import { useTmdb } from "../TmdbContext.jsx";
 import LoadingDots from "./LoadingDots.jsx";
+import { EXTRAS_COPY } from "../constants/data";
 
 const TMDBComponent = () => {
   const items = useTmdb();
   const loading = items == null;
+  const { titleEn, titleZh } = EXTRAS_COPY.tmdb;
 
   return (
     <div className="relative flex flex-col flex-1 h-full min-w-fit min-h-fit">
@@ -14,9 +16,9 @@ const TMDBComponent = () => {
         aria-hidden={loading}
       >
         <div className="relative text-[64px] font-semibold tracking-tighter leading-none bodoni-small">
-          <div className="-translate-x-2">TOP TITLES</div>
+          <div className="-translate-x-2">{titleEn}</div>
           <div className="justify-self-end -translate-y-1 text-lg font-sh font-semibold tracking-widest">
-            最爱的影视
+            {titleZh}
           </div>
         </div>
       </div>
