@@ -39,10 +39,10 @@ const GithubComponent = () => {
       ];
 
   return (
-    <div className="relative flex flex-col shrink-0 px-10 pt-4 pb-10">
+    <div className="relative flex flex-col shrink-0 px-10 pt-4 pb-11">
       {loading && <LoadingDots />}
       <div
-        className={`shrink-0 text-xs tracking-widest uppercase opacity-40 bodoni-small ${loading ? "invisible" : ""}`}
+        className={`my-1 shrink-0 text-[0.60rem] tracking-widest uppercase bodoni-small ${loading ? "invisible" : ""}`}
         aria-hidden={loading}
       >
         {copy.title}

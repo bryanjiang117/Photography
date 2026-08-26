@@ -39,7 +39,7 @@ const GithubComponent = () => {
       ];
 
   return (
-    <div className="relative flex flex-col py-6 w-full">
+    <div className="relative flex flex-col pt-6 pb-7 w-full">
       {loading && <LoadingDots />}
       <div
         className={`px-4 text-xs tracking-widest uppercase opacity-50 bodoni-small ${loading ? "invisible" : ""}`}

@@ -9,7 +9,7 @@ const MALComponent = () => {
   const { titleEn, titleZh } = EXTRAS_COPY.mal;
 
   return (
-    <div className="relative flex flex-1 items-start p-10 h-full min-h-fit">
+    <div className="relative flex flex-1 items-start pt-10 px-10 pb-11 h-full min-h-fit">
       {loading && <LoadingDots />}
       <div className={`flex flex-1 h-full ${loading ? "invisible" : ""}`}>
         {!loading &&

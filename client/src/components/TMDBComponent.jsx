@@ -24,7 +24,7 @@ const TMDBComponent = () => {
       </div>
 
       <div
-        className={`flex flex-col justify-center flex-1 h-full min-h-0 px-10 pb-10 w-full ${loading ? "invisible" : ""}`}
+        className={`flex flex-col justify-center flex-1 h-full min-h-0 px-10 pb-11 w-full ${loading ? "invisible" : ""}`}
       >
         {!loading && (
           <>

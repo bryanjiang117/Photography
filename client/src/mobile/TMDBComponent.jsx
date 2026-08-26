@@ -10,7 +10,7 @@ const TMDBComponent = () => {
   const { titleEn, titleZh } = EXTRAS_COPY.tmdb;
 
   return (
-    <div className="relative flex flex-col py-4 w-full">
+    <div className="relative flex flex-col pt-4 pb-5 w-full">
       {loading && <LoadingDots />}
       <div
         className={`px-4 ${loading ? "invisible" : ""}`}
