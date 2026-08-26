@@ -3,7 +3,15 @@ import { createJsonCache } from "./cacheStore.js";
 import { nextRateLimitedUntilMs } from "./spotifyRateLimit.js";
 
 const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
-const SPOTIFY_POLL_INTERVAL_MS = 60_000; // 1 minute between Spotify fetches
+const SPOTIFY_POLL_PRODUCTION_MS = 60_000; // 1 minute in production
+const SPOTIFY_POLL_LOCAL_MS = 15 * 60_000; // 15 minutes on localhost — spare the API
+const isLocalDev =
+  /localhost|127\.0\.0\.1/.test(process.env.FRONTEND_ORIGIN ?? "") ||
+  /localhost|127\.0\.0\.1/.test(process.env.BACKEND_ORIGIN ?? "") ||
+  (!process.env.BACKEND_ORIGIN && !process.env.RENDER && !process.env.RENDER_EXTERNAL_URL);
+const SPOTIFY_POLL_INTERVAL_MS = isLocalDev
+  ? SPOTIFY_POLL_LOCAL_MS
+  : SPOTIFY_POLL_PRODUCTION_MS;
 /** Fallback wait when Spotify 429 omits Retry-After */
 const SPOTIFY_RATE_LIMIT_FALLBACK_MS = SPOTIFY_POLL_INTERVAL_MS * 2;
 
@@ -413,4 +421,7 @@ export async function registerSpotifyRoutes(app, supabase) {
 
   refreshNowPlayingCache();
   setInterval(refreshNowPlayingCache, SPOTIFY_POLL_INTERVAL_MS);
+  console.log(
+    `[spotify] poll interval ${SPOTIFY_POLL_INTERVAL_MS / 1000}s${isLocalDev ? " (local)" : ""}`,
+  );
 }

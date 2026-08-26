@@ -3,7 +3,12 @@ import { GalleryContext } from "./GalleryContext";
 
 const SpotifyContext = createContext(null);
 
-const POLL_INTERVAL_MS = 10_000;
+const isLocalhost =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1");
+/** Client only hits our cache; keep this slower on localhost. */
+const POLL_INTERVAL_MS = isLocalhost ? 2 * 60_000 : 10_000;
 
 export function SpotifyProvider({ children, initialState = null }) {
   const { introReady } = useContext(GalleryContext);
