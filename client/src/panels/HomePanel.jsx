@@ -102,8 +102,15 @@ const HomePanel = () => {
     });
 
     ro.observe(set);
-    // Translate vertical wheel events to horizontal scroll, except inside
-    // panels that scroll vertically (e.g. the projects list).
+    // Translate vertical wheel to horizontal scroll, except inside a
+    // vertical panel the pointer actually moved into (not one that
+    // scrolled under a still cursor).
+    let verticalArmed = false;
+    const onMouseMove = (e) => {
+      verticalArmed =
+        e.target instanceof Element &&
+        Boolean(e.target.closest("[data-vertical-scroll]"));
+    };
     const onWheel = (e) => {
       userInteractedRef.current = true;
       const verticalRoot =
@@ -111,7 +118,11 @@ const HomePanel = () => {
           ? e.target.closest("[data-vertical-scroll]")
           : null;
 
-      if (verticalRoot && Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      if (
+        verticalRoot &&
+        verticalArmed &&
+        Math.abs(e.deltaY) > Math.abs(e.deltaX)
+      ) {
         const { scrollTop, scrollHeight, clientHeight } = verticalRoot;
         const atTop = scrollTop <= 0;
         const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
@@ -132,12 +143,14 @@ const HomePanel = () => {
     };
 
     el.addEventListener("scroll", onScroll, { passive: true });
+    el.addEventListener("mousemove", onMouseMove, { passive: true });
     el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("touchstart", onUserInteract, { passive: true });
 
     return () => {
       ro.disconnect();
       el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("mousemove", onMouseMove);
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("touchstart", onUserInteract);
     };
