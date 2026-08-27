@@ -1,6 +1,7 @@
 import {
   importOriginal,
   listMasterNames,
+  deletePhotoFiles,
   REGIONS,
   saveRegionItems,
 } from "./scripts/galleryDevPipeline.mjs";
@@ -62,6 +63,17 @@ export default function galleryDevPlugin() {
               name: typeof name === "string" ? decodeURIComponent(name) : "",
             });
             return send(res, 200, result);
+          }
+
+          if (req.method === "POST" && pathname === "/__gallery-dev/delete") {
+            const body = JSON.parse((await readBody(req)).toString("utf8"));
+            const region = body.region;
+            const name = body.name;
+            if (!REGIONS.includes(region) || typeof name !== "string") {
+              return send(res, 400, { error: "Missing region or name" });
+            }
+            const removed = deletePhotoFiles(region, name);
+            return send(res, 200, { name, removed: removed.length });
           }
 
           if (req.method === "POST" && pathname === "/__gallery-dev/save") {

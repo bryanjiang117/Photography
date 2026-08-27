@@ -157,16 +157,6 @@ export function deletePhotoFiles(region, name) {
       }
     }
   }
-  const ratios = loadAspectRatios();
-  if (ratios[region]?.[name]) {
-    delete ratios[region][name];
-    writeAspectRatios(ratios);
-  }
-  const meta = loadPhotoMeta();
-  if (meta[region]?.[name]) {
-    delete meta[region][name];
-    writePhotoMeta(meta);
-  }
   return removed;
 }
 

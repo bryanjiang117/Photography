@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { flattenGalleryItems, galleryImageUrl } from "../galleryImages";
-import { fetchPhotos, importPhoto, saveGallery } from "./api";
+import { fetchPhotos, importPhoto, saveGallery, deleteUnusedPhoto } from "./api";
 import { setGalleryDimensionOverride } from "../galleryDimensions";
 import {
   ColumnInsert,
@@ -16,6 +16,7 @@ import {
   addBlankColumn,
   addRow,
   applyDrop,
+  collectNames,
   deleteBlank,
   deletePhoto,
   deleteRow,
@@ -129,6 +130,11 @@ export default function GalleryEditor({
     else clearDraft(region);
   }, [region, items, pendingDeletes]);
 
+  useEffect(() => {
+    const used = new Set(collectNames(itemsRef.current));
+    setPendingDeletes((prev) => prev.filter((n) => used.has(n)));
+  }, []);
+
   const dirty =
     snapshot(items) !== savedSnap.current || pendingDeletes.length > 0;
 
@@ -141,6 +147,8 @@ export default function GalleryEditor({
     try {
       const { names } = await fetchPhotos(region);
       setDiskNames(names);
+      const used = new Set(collectNames(itemsRef.current));
+      setPendingDeletes((prev) => prev.filter((n) => used.has(n)));
     } catch (err) {
       setError(err.message);
     }
@@ -298,8 +306,18 @@ export default function GalleryEditor({
       setSelected(null);
       setConfirmDelete(null);
     },
-    onDeleteUnused: (name) => {
-      setPendingDeletes((prev) => (prev.includes(name) ? prev : [...prev, name]));
+    onDeleteUnused: async (name) => {
+      setBusy(true);
+      setError("");
+      try {
+        await deleteUnusedPhoto(region, name);
+        setDiskNames((prev) => prev.filter((n) => n !== name));
+        setPendingDeletes((prev) => prev.filter((n) => n !== name));
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setBusy(false);
+      }
     },
     onImport: async (fileOrFiles) => {
       const files = [...(fileOrFiles?.length != null ? fileOrFiles : [fileOrFiles])].filter(
@@ -322,6 +340,7 @@ export default function GalleryEditor({
             const result = await importPhoto(region, file);
             added.push(result.name);
             setGalleryDimensionOverride(region, result.name, result);
+            setPendingDeletes((prev) => prev.filter((n) => n !== result.name));
             setDiskNames((prev) => [
               result.name,
               ...prev.filter((n) => n !== result.name),

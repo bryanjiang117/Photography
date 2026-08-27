@@ -432,19 +432,6 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
-    "cans": {
-      "takenAt": "2025-08-01T13:45:21.000Z",
-      "camera": "FUJIFILM X-S20",
-      "lens": "XF70-300mmF4-5.6 R LM OIS WR",
-      "focalLengthMm": 122.5,
-      "focalLength35mm": 184,
-      "aperture": 5.6,
-      "shutter": "1/800",
-      "iso": 640,
-      "exposureComp": 0,
-      "width": 6240,
-      "height": 4160
-    },
     "cargo-cranes": {
       "takenAt": "2025-07-20T19:40:36.000Z",
       "camera": "FUJIFILM X-S20",
@@ -471,16 +458,16 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
-    "chongqing-restaurant": {
-      "takenAt": "2026-03-16T22:55:02.000Z",
+    "clothes": {
+      "takenAt": "2026-06-07T21:00:19.000Z",
       "camera": "FUJIFILM X-S20",
-      "lens": "XF70-300mmF4-5.6 R LM OIS WR",
-      "focalLengthMm": 289,
-      "focalLength35mm": 434,
-      "aperture": 5.6,
-      "shutter": "1/850",
-      "iso": 8000,
-      "exposureComp": -1.33,
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 8,
+      "shutter": "1/2000",
+      "iso": 640,
+      "exposureComp": -1.67,
       "width": 6240,
       "height": 4160
     },
@@ -653,6 +640,19 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
+    "homeless": {
+      "takenAt": "2026-05-17T22:27:56.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF16-50mmF2.8-4.8 R LM WR",
+      "focalLengthMm": 50,
+      "focalLength35mm": 75,
+      "aperture": 6.4,
+      "shutter": "1/500",
+      "iso": 640,
+      "exposureComp": -0.67,
+      "width": 6240,
+      "height": 4160
+    },
     "hotdog-stand": {
       "takenAt": "2025-07-20T18:50:19.000Z",
       "camera": "FUJIFILM X-S20",
@@ -663,6 +663,32 @@ export const GALLERY_PHOTO_META = {
       "shutter": "1/1000",
       "iso": 2000,
       "exposureComp": 1,
+      "width": 6240,
+      "height": 4160
+    },
+    "jimmys-coffee": {
+      "takenAt": "2026-06-27T19:19:46.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 6.4,
+      "shutter": "1/400",
+      "iso": 3200,
+      "exposureComp": -2,
+      "width": 6240,
+      "height": 4160
+    },
+    "komorebi-flowers": {
+      "takenAt": "2026-06-27T19:16:42.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 6.4,
+      "shutter": "1/550",
+      "iso": 640,
+      "exposureComp": -2,
       "width": 6240,
       "height": 4160
     },
@@ -679,16 +705,16 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
-    "moon": {
-      "takenAt": "2025-07-02T01:16:26.000Z",
+    "lion-statue": {
+      "takenAt": "2026-08-15T18:53:36.000Z",
       "camera": "FUJIFILM X-S20",
-      "lens": "XF16-50mmF2.8-4.8 R LM WR",
-      "focalLengthMm": 40.8,
-      "focalLength35mm": 61,
-      "aperture": 4.3,
-      "shutter": "1/400",
-      "iso": 2500,
-      "exposureComp": -0.67,
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 4,
+      "shutter": "1/1100",
+      "iso": 640,
+      "exposureComp": -1,
       "width": 6240,
       "height": 4160
     },
@@ -731,6 +757,19 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
+    "paint": {
+      "takenAt": "2026-08-15T18:38:24.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 4,
+      "shutter": "1/3500",
+      "iso": 640,
+      "exposureComp": -0.33,
+      "width": 6240,
+      "height": 4160
+    },
     "parliament-flowers": {
       "takenAt": "2025-07-25T14:56:07.000Z",
       "camera": "FUJIFILM X-S20",
@@ -757,6 +796,32 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
+    "petal-bike": {
+      "takenAt": "2026-05-17T21:48:25.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF16-50mmF2.8-4.8 R LM WR",
+      "focalLengthMm": 50,
+      "focalLength35mm": 75,
+      "aperture": 5,
+      "shutter": "1/1900",
+      "iso": 640,
+      "exposureComp": -0.33,
+      "width": 6240,
+      "height": 4160
+    },
+    "pink-flowers": {
+      "takenAt": "2026-06-07T20:49:13.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 5.6,
+      "shutter": "1/3500",
+      "iso": 640,
+      "exposureComp": -1.67,
+      "width": 6240,
+      "height": 4160
+    },
     "pink-jellyfish": {
       "takenAt": "2025-08-13T01:45:51.000Z",
       "camera": "FUJIFILM X-S20",
@@ -767,6 +832,58 @@ export const GALLERY_PHOTO_META = {
       "shutter": "1/20",
       "iso": 12800,
       "exposureComp": 0,
+      "width": 6240,
+      "height": 4160
+    },
+    "proud-dog": {
+      "takenAt": "2026-06-28T20:17:20.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 11,
+      "shutter": "1/600",
+      "iso": 640,
+      "exposureComp": -1,
+      "width": 6240,
+      "height": 4160
+    },
+    "proud-romans": {
+      "takenAt": "2026-06-28T19:55:14.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 9,
+      "shutter": "1/400",
+      "iso": 640,
+      "exposureComp": 0.33,
+      "width": 6240,
+      "height": 4160
+    },
+    "proud-woman": {
+      "takenAt": "2026-06-28T20:14:12.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 11,
+      "shutter": "1/400",
+      "iso": 1000,
+      "exposureComp": -1.33,
+      "width": 6240,
+      "height": 4160
+    },
+    "pylons": {
+      "takenAt": "2026-06-22T21:46:20.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 7.1,
+      "shutter": "1/400",
+      "iso": 6400,
+      "exposureComp": 0.33,
       "width": 6240,
       "height": 4160
     },
@@ -835,6 +952,19 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
+    "thick-tree": {
+      "takenAt": "2026-06-07T20:47:45.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 5.6,
+      "shutter": "1/2200",
+      "iso": 640,
+      "exposureComp": -1.67,
+      "width": 6240,
+      "height": 4160
+    },
     "totem-pole": {
       "takenAt": "2025-07-25T14:50:21.000Z",
       "camera": "FUJIFILM X-S20",
@@ -874,6 +1004,19 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
+    "tree-shadow": {
+      "takenAt": "2026-06-06T22:03:43.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 10,
+      "shutter": "1/1400",
+      "iso": 640,
+      "exposureComp": -1.67,
+      "width": 6240,
+      "height": 4160
+    },
     "walking-dog": {
       "takenAt": "2025-06-08T22:47:25.000Z",
       "camera": "FUJIFILM X-S20",
@@ -900,6 +1043,19 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
+    "watering-can": {
+      "takenAt": "2026-06-27T19:12:48.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 8,
+      "shutter": "1/400",
+      "iso": 4000,
+      "exposureComp": -0.67,
+      "width": 6240,
+      "height": 4160
+    },
     "wet-leaves": {
       "takenAt": "2025-05-29T00:46:58.000Z",
       "camera": "FUJIFILM X-S20",
@@ -913,16 +1069,16 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
-    "wheat": {
-      "takenAt": "2025-07-01T19:48:57.000Z",
+    "white-flowers": {
+      "takenAt": "2026-08-15T18:37:29.000Z",
       "camera": "FUJIFILM X-S20",
-      "lens": "XF70-300mmF4-5.6 R LM OIS WR",
-      "focalLengthMm": 153.2,
-      "focalLength35mm": 230,
-      "aperture": 8,
-      "shutter": "1/3200",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 4,
+      "shutter": "1/7500",
       "iso": 640,
-      "exposureComp": 0.33,
+      "exposureComp": -0.33,
       "width": 6240,
       "height": 4160
     },
@@ -936,6 +1092,19 @@ export const GALLERY_PHOTO_META = {
       "shutter": "1/3000",
       "iso": 640,
       "exposureComp": 1,
+      "width": 6240,
+      "height": 4160
+    },
+    "yellow-flowers": {
+      "takenAt": "2026-08-15T18:40:32.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 4,
+      "shutter": "1/5000",
+      "iso": 640,
+      "exposureComp": -1,
       "width": 6240,
       "height": 4160
     }

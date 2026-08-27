@@ -34,6 +34,16 @@ export function importPhoto(region, file, name = "") {
   );
 }
 
+export function deleteUnusedPhoto(region, name) {
+  return parse(
+    fetch(`${BASE}/delete`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ region, name }),
+    }),
+  );
+}
+
 export function saveGallery(region, items, deleteNames = []) {
   return parse(
     fetch(`${BASE}/save`, {

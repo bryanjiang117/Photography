@@ -127,10 +127,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 1067
     },
-    "cans": {
-      "w": 1600,
-      "h": 1067
-    },
     "cargo-cranes": {
       "w": 1600,
       "h": 1067
@@ -139,9 +135,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
-    "chongqing-restaurant": {
-      "w": 1067,
-      "h": 1600
+    "clothes": {
+      "w": 6240,
+      "h": 4160
     },
     "container-ship": {
       "w": 1600,
@@ -162,10 +158,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "ferry-lookout": {
       "w": 1600,
       "h": 1067
-    },
-    "firework": {
-      "w": 1600,
-      "h": 1066
     },
     "fish-vendor": {
       "w": 1067,
@@ -199,17 +191,29 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
+    "homeless": {
+      "w": 5780,
+      "h": 3853
+    },
     "hotdog-stand": {
       "w": 1067,
       "h": 1600
+    },
+    "jimmys-coffee": {
+      "w": 4160,
+      "h": 6240
+    },
+    "komorebi-flowers": {
+      "w": 4160,
+      "h": 6240
     },
     "leaves-glow": {
       "w": 1067,
       "h": 1600
     },
-    "moon": {
-      "w": 1600,
-      "h": 1067
+    "lion-statue": {
+      "w": 4160,
+      "h": 6240
     },
     "nootka-court": {
       "w": 1067,
@@ -223,6 +227,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
+    "paint": {
+      "w": 6240,
+      "h": 4160
+    },
     "parliament-flowers": {
       "w": 1067,
       "h": 1600
@@ -231,6 +239,14 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 1067
     },
+    "petal-bike": {
+      "w": 6240,
+      "h": 4160
+    },
+    "pink-flowers": {
+      "w": 2159,
+      "h": 3238
+    },
     "pink-jellyfish": {
       "w": 1600,
       "h": 1067
@@ -238,6 +254,22 @@ export const GALLERY_ASPECT_RATIOS = {
     "port-cranes": {
       "w": 1600,
       "h": 1067
+    },
+    "proud-dog": {
+      "w": 6240,
+      "h": 4160
+    },
+    "proud-romans": {
+      "w": 4668,
+      "h": 3112
+    },
+    "proud-woman": {
+      "w": 3767,
+      "h": 5651
+    },
+    "pylons": {
+      "w": 6240,
+      "h": 4160
     },
     "rainy-roses": {
       "w": 1600,
@@ -259,6 +291,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 1067
     },
+    "thick-tree": {
+      "w": 4160,
+      "h": 6240
+    },
     "totem-pole": {
       "w": 1067,
       "h": 1600
@@ -271,6 +307,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
+    "tree-shadow": {
+      "w": 4160,
+      "h": 6240
+    },
     "walking-dog": {
       "w": 1600,
       "h": 949
@@ -279,17 +319,25 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
+    "watering-can": {
+      "w": 6240,
+      "h": 4160
+    },
     "wet-leaves": {
       "w": 1600,
       "h": 1067
     },
-    "wheat": {
-      "w": 1600,
-      "h": 1067
+    "white-flowers": {
+      "w": 6240,
+      "h": 4160
     },
     "windows-xp-grass": {
       "w": 1600,
       "h": 1066
+    },
+    "yellow-flowers": {
+      "w": 2502,
+      "h": 3755
     }
   },
   "china": {

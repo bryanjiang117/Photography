@@ -48,40 +48,79 @@ export const CANADA_ITEMS = [
     location: "Bond Lake, Richmond Hill, Ontario",
   },
   {
-    columns: [["ferry-lookout"]],
+    columns: [
+      ["ferry-lookout"],
+    ],
     location: "Tsawwassen–Swartz Bay Ferry, British Columbia",
   },
   {
-    columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
+    columns: [
+      ["container-ship"],
+      ["port-cranes"],
+      ["cargo-cranes"],
+    ],
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [["fish-vendor"], [], ["boat-cabin"]],
+    columns: [
+      ["fish-vendor"],
+      [],
+      ["boat-cabin"],
+    ],
     location: "Steveston Village, Richmond, British Columbia",
   },
   {
     columns: [
       [],
-      [[{ name: "hotdog-stand", size: "sm" }], []],
-      [{ name: "pacific-railway", size: "lg" }],
+      [
+        [
+          {
+            name: "hotdog-stand",
+            size: "sm",
+          },
+        ],
+        [],
+      ],
+      [
+        {
+          name: "pacific-railway",
+          size: "lg",
+        },
+      ],
     ],
     flex: [1, 1, 3],
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [[], ["totem-top"], ["parliament-flowers"], ["war-memorial"]],
+    columns: [
+      [],
+      ["totem-top"],
+      ["parliament-flowers"],
+      ["war-memorial"],
+    ],
     location: "Victoria, British Columbia",
-  },
-  {
-    columns: [["orca"], []],
-    flex: [4, 5],
-    location: "Victoria, British Columbia",
-    size: "lg",
   },
   {
     columns: [
-      [["flower-lamppost"], []],
-      [{ name: "nootka-court", size: "lg" }],
+      ["orca"],
+      [],
+    ],
+    size: "lg",
+    flex: [4, 5],
+    location: "Victoria, British Columbia",
+  },
+  {
+    columns: [
+      [
+        ["flower-lamppost"],
+        [],
+      ],
+      [
+        {
+          name: "nootka-court",
+          size: "lg",
+        },
+      ],
       [[], "totem-pole"],
     ],
     size: "sm",
@@ -90,7 +129,38 @@ export const CANADA_ITEMS = [
   },
   {
     columns: [
-      [{ name: "sunset-seagull", location: "HTO Park, Toronto, Ontario" }],
+      [
+        {
+          name: "towering-cloud",
+          location: "Somewhere in Ontario",
+        },
+      ],
+      [
+        {
+          name: "golden-spires",
+          location: "Victoria, British Columbia",
+        },
+      ],
+    ],
+    size: "lg",
+  },
+  {
+    columns: [
+      ["walking-dog"],
+      [],
+      ["street-protester"],
+    ],
+    size: "sm",
+    location: "Toronto, Ontario",
+  },
+  {
+    columns: [
+      [
+        {
+          name: "sunset-seagull",
+          location: "HTO Park, Toronto, Ontario",
+        },
+      ],
       [
         {
           name: "pink-jellyfish",
@@ -99,22 +169,14 @@ export const CANADA_ITEMS = [
       ],
     ],
   },
-  // { columns: [["shop-window"], ["bakery-kitchen"], ["bookstore"]] },
-  {
-    columns: [["walking-dog"], [], ["street-protester"]],
-    size: "sm",
-    location: "Toronto, Ontario",
-  },
   {
     columns: [
-      [{ name: "towering-cloud", location: "Somewhere in Ontario" }],
-      [{ name: "golden-spires", location: "Victoria, British Columbia" }],
-    ],
-    size: "lg",
-  },
-  {
-    columns: [
-      [{ name: "scrap-sculpture", location: "Toronto, Ontario" }],
+      [
+        {
+          name: "scrap-sculpture",
+          location: "Toronto, Ontario",
+        },
+      ],
       [],
       ["gated-alley"],
       [],
@@ -124,43 +186,138 @@ export const CANADA_ITEMS = [
   },
   {
     columns: [
-      ["chongqing-restaurant"],
-      ["chinatown-market"],
-      [{ name: "fruit-worker", size: "md" }],
+      ["proud-romans"],
     ],
-    fit: "contain",
+  },
+  {
+    columns: [
+      ["proud-woman"],
+      [
+        {
+          name: "proud-dog",
+          size: "lg",
+        },
+      ],
+    ],
+    size: "md",
+    flex: [4, 9],
+  },
+  {
+    columns: [
+      ["pylons"],
+      [],
+      ["watering-can"],
+    ],
     size: "sm",
-    location: "Chinatown, Toronto, Ontario",
+    flex: [3, 1, 3],
+  },
+  {
+    columns: [
+      ["komorebi-flowers"],
+      ["jimmys-coffee"],
+      ["pink-flowers"],
+    ],
+    size: "md",
+    flex: [1, 1, 1],
+  },
+  {
+    columns: [
+      ["tree-shadow"],
+      [
+        {
+          name: "paint",
+          size: "md",
+        },
+      ],
+      ["thick-tree"],
+    ],
+    size: "sm",
+    flex: [4, 9, 4],
+  },
+  {
+    columns: [
+      ["white-flowers"],
+      [],
+      ["lion-statue"],
+    ],
+    size: "sm",
+    flex: [9, 0.5, 4],
+    fit: "contain",
+  },
+  {
+    columns: [
+      ["homeless"],
+      ["petal-bike"],
+    ],
+  },
+  {
+    columns: [
+      ["yellow-flowers"],
+      [
+        {
+          name: "clothes",
+          size: "md",
+        },
+      ],
+    ],
+    size: "sm",
+    flex: [4, 9],
   },
   {
     columns: [
       ["wet-leaves"],
       ["rainy-roses"],
-      [{ name: "blurred-rain", location: "Newmarket, Ontario" }],
+      [
+        {
+          name: "blurred-rain",
+          location: "Newmarket, Ontario",
+        },
+      ],
     ],
     size: "sm",
     location: "Scarborough, Ontario",
+  },
+  {
+    columns: [
+      [
+        {
+          name: "fruit-worker",
+          size: "md",
+        },
+      ],
+      ["chinatown-market"],
+    ],
+    size: "sm",
+    flex: [9, 4],
+    fit: "contain",
+    location: "Chinatown, Toronto, Ontario",
   },
   {
     columns: [
       ["sun-rays", "empty-goalpost", "golden-grass"],
-      [{ name: "brick-tower", size: "lg" }],
+      [
+        {
+          name: "brick-tower",
+          size: "lg",
+        },
+      ],
     ],
-    flex: [1, 3],
     size: "sm",
+    flex: [1, 3],
     location: "Scarborough, Ontario",
   },
   {
     columns: [
-      [{ name: "cans", location: "Somewhere in Ontario" }],
-      [{ name: "peach-roses", location: "Scarborough, Ontario" }],
+      ["farm-ca"],
+      ["windows-xp-grass"],
     ],
+    size: "md",
   },
   {
-    columns: [["farm-ca"], ["windows-xp-grass"], ["wheat"]],
-    location: "Somewhere in Ontario",
+    columns: [
+      ["peach-roses"],
+    ],
   },
-  { columns: [["moon"], ["firework"]], location: "Somewhere in Ontario" },
 ];
 
 export const CANADA_GALLERY_PHOTOS = flattenGalleryItems(CANADA_ITEMS);
