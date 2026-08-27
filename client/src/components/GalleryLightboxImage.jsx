@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { galleryImageUrl } from "../galleryImages";
-import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
+import { photoDimensions } from "../galleryDimensions";
 
 /** Matches lightbox overlay `p-8` (2rem × 2). */
 const PAD = "4rem";
@@ -42,7 +42,7 @@ export default function GalleryLightboxImage({
   maxHeight = "calc(100vh - 4rem)",
 }) {
   const src = galleryImageUrl(region, name, "lg");
-  const dimensions = galleryPhotoDimensions(region, name);
+  const dimensions = photoDimensions(region, name);
   const requestIdRef = useRef(0);
 
   const [request, setRequest] = useState({

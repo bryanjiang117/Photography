@@ -6,7 +6,7 @@ import {
   parseImageEntry,
   rowDefaultSize,
 } from "../galleryImages";
-import { galleryPhotoDimensions } from "../constants/galleryAspectRatios";
+import { photoDimensions } from "../galleryDimensions";
 import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
 import { formatHoverMetaLine } from "../galleryPhotoMetaFormat";
 
@@ -50,7 +50,7 @@ export default function GalleryImage({
   // otherwise may pick a different srcSet candidate and miss the warm cache.
   const maxSize = capSizeForLayout(parsed.size, layout);
   const src = galleryImageUrl(region, parsed.name, maxSize);
-  const aspectRatio = galleryPhotoDimensions(region, parsed.name);
+  const aspectRatio = photoDimensions(region, parsed.name);
   const location = parsed.location;
   const metaLine = formatHoverMetaLine(
     galleryPhotoMeta(region, parsed.name),

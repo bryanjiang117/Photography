@@ -71,8 +71,8 @@ export default function SkeletonImage({
         loading={loading}
         fetchPriority={fetchPriority}
         className={`block transition-opacity duration-300 ease-out ${
-          loaded ? "opacity-100" : "opacity-0"
-        } ${aspectRatio ? "h-full w-full" : ""} ${className}`}
+          loaded || !aspectRatio ? "opacity-100" : "opacity-0"
+        } ${aspectRatio ? "h-full w-full" : "h-auto w-full"} ${className}`}
         onLoad={(e) => {
           setLoaded(true);
           onLoad?.(e);
