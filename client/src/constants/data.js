@@ -48,25 +48,15 @@ export const CANADA_ITEMS = [
     location: "Bond Lake, Richmond Hill, Ontario",
   },
   {
-    columns: [
-      ["ferry-lookout"],
-    ],
+    columns: [["ferry-lookout"]],
     location: "Tsawwassen–Swartz Bay Ferry, British Columbia",
   },
   {
-    columns: [
-      ["container-ship"],
-      ["port-cranes"],
-      ["cargo-cranes"],
-    ],
+    columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [
-      ["fish-vendor"],
-      [],
-      ["boat-cabin"],
-    ],
+    columns: [["fish-vendor"], [], ["boat-cabin"]],
     location: "Steveston Village, Richmond, British Columbia",
   },
   {
@@ -92,29 +82,18 @@ export const CANADA_ITEMS = [
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [
-      [],
-      ["totem-top"],
-      ["parliament-flowers"],
-      ["war-memorial"],
-    ],
+    columns: [[], ["totem-top"], ["parliament-flowers"], ["war-memorial"]],
     location: "Victoria, British Columbia",
   },
   {
-    columns: [
-      ["orca"],
-      [],
-    ],
+    columns: [["orca"], []],
     size: "lg",
     flex: [4, 5],
     location: "Victoria, British Columbia",
   },
   {
     columns: [
-      [
-        ["flower-lamppost"],
-        [],
-      ],
+      [["flower-lamppost"], []],
       [
         {
           name: "nootka-court",
@@ -145,11 +124,7 @@ export const CANADA_ITEMS = [
     size: "lg",
   },
   {
-    columns: [
-      ["walking-dog"],
-      [],
-      ["street-protester"],
-    ],
+    columns: [["walking-dog"], [], ["street-protester"]],
     size: "sm",
     location: "Toronto, Ontario",
   },
@@ -185,9 +160,7 @@ export const CANADA_ITEMS = [
     location: "Graffiti Alley, Toronto, Ontario",
   },
   {
-    columns: [
-      ["proud-romans"],
-    ],
+    columns: [["proud-romans"]],
   },
   {
     columns: [
@@ -203,20 +176,12 @@ export const CANADA_ITEMS = [
     flex: [4, 9],
   },
   {
-    columns: [
-      ["pylons"],
-      [],
-      ["watering-can"],
-    ],
+    columns: [["pylons"], [], ["watering-can"]],
     size: "sm",
     flex: [3, 1, 3],
   },
   {
-    columns: [
-      ["komorebi-flowers"],
-      ["jimmys-coffee"],
-      ["pink-flowers"],
-    ],
+    columns: [["komorebi-flowers"], ["jimmys-coffee"], ["pink-flowers"]],
     size: "md",
     flex: [1, 1, 1],
   },
@@ -235,20 +200,13 @@ export const CANADA_ITEMS = [
     flex: [4, 9, 4],
   },
   {
-    columns: [
-      ["white-flowers"],
-      [],
-      ["lion-statue"],
-    ],
+    columns: [["white-flowers"], [], ["lion-statue"]],
     size: "sm",
     flex: [9, 0.5, 4],
     fit: "contain",
   },
   {
-    columns: [
-      ["homeless"],
-      ["petal-bike"],
-    ],
+    columns: [["homeless"], ["petal-bike"]],
   },
   {
     columns: [
@@ -307,16 +265,11 @@ export const CANADA_ITEMS = [
     location: "Scarborough, Ontario",
   },
   {
-    columns: [
-      ["farm-ca"],
-      ["windows-xp-grass"],
-    ],
+    columns: [["farm-ca"], ["windows-xp-grass"]],
     size: "md",
   },
   {
-    columns: [
-      ["peach-roses"],
-    ],
+    columns: [["peach-roses"]],
   },
 ];
 
@@ -593,6 +546,34 @@ export const CHINA_PHOTOS = CHINA_GALLERY_PHOTOS.map((p) => p.name);
 
 export const JAPAN_ITEMS = [
   {
+    columns: [[{ name: "monks", size: "lg" }], ["snow-temple"]],
+    flex: [9, 4],
+    location: "Zenkoji Temple, Nagano · 善光寺，長野",
+  },
+  { columns: [["river-mountains"]], location: "Nagano · 長野" },
+  {
+    columns: [
+      ["mini-shrine"],
+      [{ name: "colorful-shrine", location: "Takayama, Gifu · 高山，岐阜" }],
+      ["buddha-shrine"],
+    ],
+    location: "Nagano · 長野",
+  },
+  {
+    columns: [["long-stick"], [{ name: "frozen-castle", size: "sm" }, []], []],
+    flex: [10, 4, 6],
+    location: "Kanazawa Castle, Kanazawa, Ishikawa · 金沢城，金沢，石川",
+  },
+  {
+    columns: [["trees"], ["shrine"], [{ name: "snow-roots", size: "sm" }]],
+    flex: [9, 9, 4],
+    location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
+  },
+  {
+    columns: [["tori"]],
+    location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
+  },
+  {
     columns: [
       [{ name: "jugs", size: "lg" }],
       [{ name: "festival-object", size: "sm" }],
@@ -696,34 +677,6 @@ export const JAPAN_ITEMS = [
   {
     columns: [["lanterns"]],
     location: "Zenkoji Temple, Nagano · 善光寺，長野",
-  },
-  {
-    columns: [[{ name: "monks", size: "lg" }], ["snow-temple"]],
-    flex: [9, 4],
-    location: "Zenkoji Temple, Nagano · 善光寺，長野",
-  },
-  { columns: [["river-mountains"]], location: "Nagano · 長野" },
-  {
-    columns: [
-      ["mini-shrine"],
-      [{ name: "colorful-shrine", location: "Takayama, Gifu · 高山，岐阜" }],
-      ["buddha-shrine"],
-    ],
-    location: "Nagano · 長野",
-  },
-  {
-    columns: [["long-stick"], [{ name: "frozen-castle", size: "sm" }, []], []],
-    flex: [10, 4, 6],
-    location: "Kanazawa Castle, Kanazawa, Ishikawa · 金沢城，金沢，石川",
-  },
-  {
-    columns: [["trees"], ["shrine"], [{ name: "snow-roots", size: "sm" }]],
-    flex: [9, 9, 4],
-    location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
-  },
-  {
-    columns: [["tori"]],
-    location: "Yunishigawa, Nikko, Tochigi · 湯西川，日光，栃木",
   },
 ];
 
