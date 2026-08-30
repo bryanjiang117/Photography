@@ -464,7 +464,7 @@ export const CHINA_ITEMS = [
   },
   {
     columns: [
-      ["rice-fields"],
+      ["rafting"],
       ["farmlands"],
       ["fire"],
     ],
@@ -504,12 +504,7 @@ export const CHINA_ITEMS = [
   },
   {
     columns: [
-      [
-        {
-          name: "chess-table",
-          size: "md",
-        },
-      ],
+      ["chess-table"],
       ["stick-gramps"],
       [
         {
@@ -520,7 +515,7 @@ export const CHINA_ITEMS = [
       ],
     ],
     size: "sm",
-    flex: [9, 4, 9],
+    flex: [12, 4, 9],
     location: "People's Park, Chongqing · 人民公园，重庆",
   },
   {
@@ -528,8 +523,7 @@ export const CHINA_ITEMS = [
       [
         {
           name: "drawers",
-          size: "md",
-          location: "Xiaohaoli, Chongqing · 下浩里，重庆",
+          location: "Shancheng Alley, Chongqing · 山城巷，重庆",
         },
       ],
       [
@@ -546,7 +540,7 @@ export const CHINA_ITEMS = [
       ],
     ],
     size: "sm",
-    flex: [4, 1, 1],
+    flex: [7, 2, 2],
     location: "Chongqing · 重庆",
   },
   {
@@ -642,7 +636,6 @@ export const CHINA_ITEMS = [
       [
         {
           name: "auntie-cleaning",
-          size: "sm",
           location: "Chongqing · 重庆",
         },
       ],
@@ -707,14 +700,6 @@ export const CHINA_ITEMS = [
       ["window"],
     ],
     location: "Baixiangju, Chongqing · 百象居，重庆",
-  },
-  {
-    columns: [
-      ["bright-farmer"],
-      ["rafting"],
-    ],
-    size: "md",
-    location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
 ];
 
