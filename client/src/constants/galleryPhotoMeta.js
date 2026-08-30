@@ -1318,19 +1318,6 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 4160
     },
-    "dscf0196": {
-      "takenAt": "2026-05-09T07:26:06.000Z",
-      "camera": "FUJIFILM X-S20",
-      "lens": "XF16-50mmF2.8-4.8 R LM WR",
-      "focalLengthMm": 48.6,
-      "focalLength35mm": 73,
-      "aperture": 5,
-      "shutter": "1/1300",
-      "iso": 640,
-      "exposureComp": -4,
-      "width": 6240,
-      "height": 4160
-    },
     "everyday-1": {
       "takenAt": "2026-05-05T10:32:01.000Z",
       "camera": "FUJIFILM X-S20",
@@ -1591,19 +1578,6 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 3512
     },
-    "rice-fields": {
-      "takenAt": "2026-05-01T02:00:33.000Z",
-      "camera": "FUJIFILM X-S20",
-      "lens": "XF16-50mmF2.8-4.8 R LM WR",
-      "focalLengthMm": 16,
-      "focalLength35mm": 24,
-      "aperture": 8,
-      "shutter": "1/1900",
-      "iso": 640,
-      "exposureComp": -0.33,
-      "width": 6240,
-      "height": 4160
-    },
     "robot-dog": {
       "takenAt": "2026-05-08T08:22:06.000Z",
       "camera": "FUJIFILM X-S20",
@@ -1692,19 +1666,6 @@ export const GALLERY_PHOTO_META = {
       "shutter": "1/320",
       "iso": 1250,
       "exposureComp": -1.33,
-      "width": 6240,
-      "height": 4160
-    },
-    "two-dudes": {
-      "takenAt": "2026-05-09T09:34:07.000Z",
-      "camera": "FUJIFILM X-S20",
-      "lens": "XF70-300mmF4-5.6 R LM OIS WR",
-      "focalLengthMm": 300,
-      "focalLength35mm": 450,
-      "aperture": 8,
-      "shutter": "1/2400",
-      "iso": 640,
-      "exposureComp": -1.67,
       "width": 6240,
       "height": 4160
     },

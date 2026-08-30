@@ -1,4 +1,4 @@
-import { dropKey, isHover, samePath } from "./dropUtils";
+import { dropKey, isHover, samePath } from "./dropUtils.mjs";
 
 const zoneBase = "absolute z-20 pointer-events-auto";
 
@@ -124,8 +124,9 @@ export function EditRow({ rowIndex, edit, children, style }) {
         draggingThis ? "opacity-35" : ""
       }`}
       style={style}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) edit.onSelect({ type: "row", row: rowIndex });
+      onClick={() => {
+        if (edit.consumeClickSkip?.()) return;
+        edit.onSelect({ type: "row", row: rowIndex });
       }}
     >
       {draggingRow ? (

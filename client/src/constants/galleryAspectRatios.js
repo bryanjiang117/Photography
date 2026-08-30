@@ -405,10 +405,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 5432,
       "h": 3621
     },
-    "dscf0196": {
-      "w": 5155,
-      "h": 3437
-    },
     "everyday-1": {
       "w": 4160,
       "h": 6240
@@ -489,10 +485,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 2928,
       "h": 5203
     },
-    "rice-fields": {
-      "w": 6240,
-      "h": 4160
-    },
     "robot-dog": {
       "w": 5441,
       "h": 3627
@@ -524,10 +516,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "thinking-cards": {
       "w": 6240,
       "h": 4160
-    },
-    "two-dudes": {
-      "w": 5812,
-      "h": 3875
     },
     "winding-bus": {
       "w": 4160,

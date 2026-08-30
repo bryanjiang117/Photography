@@ -26,6 +26,7 @@ import {
   EditPhoto,
   EditRow,
 } from "./EditCells";
+import { selectionFromDragSource } from "./dropUtils.mjs";
 import EditPanel from "./EditPanel";
 import EditTray from "./EditTray";
 import {
@@ -259,13 +260,19 @@ export default function GalleryEditor({
       };
       const onUp = () => {
         window.removeEventListener("pointermove", onMove);
-        if (dragRef.current) skipClickRef.current = true;
-        finishDrag(hoverRef.current);
+        const didDrag = Boolean(dragRef.current);
+        if (didDrag) {
+          skipClickRef.current = true;
+          finishDrag(hoverRef.current);
+          return;
+        }
+        const sel = selectionFromDragSource(source);
+        if (sel) onSelect(sel);
       };
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp, { once: true });
     },
-    [finishDrag],
+    [finishDrag, onSelect],
   );
 
   const liveItems = items;
