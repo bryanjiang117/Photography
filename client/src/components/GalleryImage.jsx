@@ -1,11 +1,13 @@
+import { useState } from "react";
 import SkeletonImage from "./SkeletonImage";
 import GalleryLocationLabel from "./GalleryLocationLabel";
 import {
   capSizeForLayout,
-  galleryImageUrl,
+  gallerySrcFallbackToFull,
   parseImageEntry,
   rowDefaultSize,
 } from "../galleryImages";
+import { galleryDisplayUrl } from "../galleryPreview";
 import { photoDimensions } from "../galleryDimensions";
 import { galleryPhotoMeta } from "../constants/galleryPhotoMeta";
 import { formatHoverMetaLine } from "../galleryPhotoMetaFormat";
@@ -42,6 +44,7 @@ export default function GalleryImage({
   onLoad,
   onClick,
 }) {
+  const [failedSrc, setFailedSrc] = useState(null);
   const rowSize = row ? rowDefaultSize(row) : "md";
   const parsed = parseImageEntry(entry, rowSize, row?.location);
   if (!parsed) return null;
@@ -49,7 +52,11 @@ export default function GalleryImage({
   // Single URL (no srcSet) so display matches prefetch exactly — the browser
   // otherwise may pick a different srcSet candidate and miss the warm cache.
   const maxSize = capSizeForLayout(parsed.size, layout);
-  const src = galleryImageUrl(region, parsed.name, maxSize);
+  const preferred = galleryDisplayUrl(region, parsed.name, maxSize);
+  const src =
+    failedSrc === preferred
+      ? gallerySrcFallbackToFull(region, parsed.name, preferred)
+      : preferred;
   const aspectRatio = photoDimensions(region, parsed.name);
   const location = parsed.location;
   const metaLine = formatHoverMetaLine(
@@ -94,6 +101,7 @@ export default function GalleryImage({
       decoding="async"
       {...loadProps}
       onLoad={onLoad}
+      onError={() => setFailedSrc(preferred)}
       onClick={onClick}
       overlay={overlay}
     />

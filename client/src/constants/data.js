@@ -367,22 +367,20 @@ export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 
 export const CHINA_ITEMS = [
   {
-    columns: [["mountain-scene"]],
+    columns: [
+      ["mountain-scene"],
+    ],
     location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
   {
     columns: [
-      [
-        {
-          name: "fire",
-          location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
-        },
-      ],
+      ["rice-fields"],
       ["farmlands"],
-      ["poles-in-farm"],
+      ["fire"],
     ],
-    location: "Somewhere in Guangxi/Hunan · 广西/湖南某处",
     size: "sm",
+    gap: 20,
+    location: "Somewhere in Guangxi/Hunan · 广西/湖南某处",
   },
   {
     columns: [
@@ -392,7 +390,12 @@ export const CHINA_ITEMS = [
           location: "Xiaohaoli, Chongqing · 小浩里，重庆",
         },
       ],
-      [{ name: "cat", location: "Shibati, Chongqing · 十八梯，重庆" }],
+      [
+        {
+          name: "cat",
+          location: "Shibati, Chongqing · 十八梯，重庆",
+        },
+      ],
     ],
   },
   {
@@ -400,92 +403,159 @@ export const CHINA_ITEMS = [
       [
         {
           name: "zhangjiajie",
-          location:
-            "Zhangjiajie Forest National Park, Zhangjiajie, Hunan · 张家界国家森林公园，张家界，湖南",
+          location: "Zhangjiajie Forest National Park, Zhangjiajie, Hunan · 张家界国家森林公园，张家界，湖南",
         },
       ],
       ["winding-roads"],
       ["mountain-range"],
       ["winding-bus"],
     ],
-    location:
-      "Tianmen Mountain National Park, Zhangjiajie, Hunan · 天门山国家森林公园，张家界，湖南",
+    location: "Tianmen Mountain National Park, Zhangjiajie, Hunan · 天门山国家森林公园，张家界，湖南",
   },
   {
     columns: [
-      ["grungy-apartment"],
-      [{ name: "goldfish", location: "Baixiangju, Chongqing · 百象居，重庆" }],
-      ["building-steps"],
+      [
+        {
+          name: "chess-table",
+          size: "md",
+        },
+      ],
+      ["stick-gramps"],
+      [
+        {
+          name: "building-steps",
+          size: "md",
+          location: "Chongqing · 重庆",
+        },
+      ],
     ],
-    flex: [1, 2, 2],
     size: "sm",
+    flex: [9, 4, 9],
+    location: "People's Park, Chongqing · 人民公园，重庆",
+  },
+  {
+    columns: [
+      [
+        {
+          name: "drawers",
+          size: "md",
+          location: "Xiaohaoli, Chongqing · 下浩里，重庆",
+        },
+      ],
+      [
+        {
+          name: "dragon",
+          location: "Shibati, Chongqing · 十八梯，重庆",
+        },
+      ],
+      [
+        {
+          name: "stairs",
+          location: "Baixiangju, Chongqing · 百象居，重庆",
+        },
+      ],
+    ],
+    size: "sm",
+    flex: [4, 1, 1],
     location: "Chongqing · 重庆",
   },
   {
     columns: [
-      [{ name: "chess-table", size: "md" }],
-      ["stick-gramps"],
-      ["park-gramps"],
+      ["rafts"],
     ],
-    flex: [4, 1, 1],
-    size: "sm",
-    location: "People's Park, Chongqing · 人民公园，重庆",
-  },
-  {
-    columns: [["rafts"]],
     location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
   {
     columns: [
-      [{ name: "building-ac", size: "full" }],
       [
-        "window-gramps",
-        { name: "mahjong", location: "Baixiangju, Chongqing · 百象居，重庆" },
-        "messy-balcony",
-        "hole-in-the-wall",
-        "window",
+        {
+          name: "building-ac",
+          size: "full",
+        },
       ],
+      ["grandaughter", "clapper", "delivery", "goons", "fruit-truck"],
     ],
-    flex: [20, 11],
     size: "sm",
+    flex: [20, 11],
     location: "Chongqing · 重庆",
   },
   {
-    columns: [["chongqing-flipped"]],
+    columns: [
+      ["chongqing-flipped"],
+    ],
     location: "Hongyadong, Chongqing · 洪崖洞，重庆",
   },
   {
     columns: [
-      [{ name: "furong-town", size: "lg" }],
-      [{ name: "furong-bridge-view", size: "sm" }, []],
+      [
+        {
+          name: "furong-town",
+          size: "lg",
+        },
+      ],
+      [
+        {
+          name: "furong-bridge-view",
+          size: "sm",
+        },
+        [],
+      ],
       [],
     ],
     flex: [12, 6, 3],
-    location:
-      "Furong Town, Yongshun, Xiangxi, Hunan · 芙蓉镇，永顺，湘西，湖南",
+    location: "Furong Town, Yongshun, Xiangxi, Hunan · 芙蓉镇，永顺，湘西，湖南",
   },
   {
-    columns: [["china-flags"]],
+    columns: [
+      ["china-flags"],
+    ],
     location: "Zhangjiajie, Hunan · 张家界，湖南",
   },
   {
-    columns: [["everyday-1"], ["everyday-2"], ["everyday-3"]],
+    columns: [
+      [
+        {
+          name: "looking-up",
+          location: "Baixiangju, Chongqing · 百象居，重庆",
+        },
+      ],
+      ["everyday-2"],
+      ["everyday-1"],
+    ],
     location: "Zhangjiajie, Hunan · 张家界，湖南",
   },
-  { columns: [["meituan-trio"]], location: "Chongqing · 重庆" },
   {
-    columns: [[{ name: "auntie-cooking", size: "md" }], [], ["happy-woman"]],
+    columns: [
+      ["meituan-trio"],
+    ],
+    location: "Chongqing · 重庆",
+  },
+  {
+    columns: [
+      ["auntie-cooking"],
+      [],
+      ["happy-woman"],
+    ],
     flex: [16, 2, 8],
     location: "Chongqing · 重庆",
   },
   {
-    columns: [["roof-worker"], ["red-green"]],
+    columns: [
+      ["roof-worker"],
+      ["red-green"],
+    ],
     size: "lg",
     location: "People's Park, Chongqing · 人民公园，重庆",
   },
   {
     columns: [
-      [{ name: "auntie-cleaning", location: "Chongqing · 重庆" }],
+      [
+        {
+          name: "auntie-cleaning",
+          size: "sm",
+          location: "Chongqing · 重庆",
+        },
+      ],
       [
         {
           name: "baozi",
@@ -496,12 +566,19 @@ export const CHINA_ITEMS = [
     flex: [1, 2],
   },
   {
-    columns: [["rainy-chongqing"]],
+    columns: [
+      ["rainy-chongqing"],
+    ],
     location: "Raffles City, Chongqing · 来福士，重庆",
   },
   {
     columns: [
-      [{ name: "hotpot", location: "Chongqing · 重庆" }],
+      [
+        {
+          name: "hotpot",
+          location: "Chongqing · 重庆",
+        },
+      ],
       [
         {
           name: "lanterns-alley",
@@ -518,25 +595,35 @@ export const CHINA_ITEMS = [
         [
           {
             name: "auntie-dance",
-            location:
-              "Baixiangju Historical District, Chongqing · 百象居历史风貌区，重庆",
+            location: "Baixiangju Historical District, Chongqing · 百象居历史风貌区，重庆",
           },
         ],
         ["smoking"],
         ["robot-dog"],
       ],
-      [{ name: "card-uncs", size: "lg" }],
+      [
+        {
+          name: "card-uncs",
+          size: "lg",
+        },
+      ],
     ],
-    flex: [112, 200],
     size: "sm",
+    flex: [112, 200],
     location: "Baixiangju, Chongqing · 百象居，重庆",
   },
   {
-    columns: [["two-dudes"]],
-    location: "Shancheng Alley, Chongqing · 山城巷，重庆",
+    columns: [
+      ["window"],
+    ],
+    location: "Baixiangju, Chongqing · 百象居，重庆",
   },
   {
-    columns: [["bright-farmer"], ["rafting"]],
+    columns: [
+      ["bright-farmer"],
+      ["rafting"],
+    ],
+    size: "md",
     location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
 ];

@@ -8,6 +8,9 @@ export default defineConfig({
   plugins: [react(), tailwindcss(), galleryDevPlugin()],
   server: {
     port: 3000,
+    watch: {
+      ignored: ["**/originals/**", "**/public/assets/photos/**"],
+    },
     proxy: {
       "/api": "http://127.0.0.1:3001",
     },

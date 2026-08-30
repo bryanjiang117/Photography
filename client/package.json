@@ -10,7 +10,7 @@
     "photos:variants": "node scripts/generate-gallery-variants.mjs",
     "photos:ratios": "node scripts/generate-gallery-aspect-ratios.mjs",
     "photos:meta": "node scripts/generate-gallery-photo-meta.mjs",
-    "test": "node --test src/galleryDev/*.test.mjs"
+    "test": "node --test src/galleryDev/*.test.mjs scripts/*.test.mjs"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
-import { galleryImageUrl } from "../galleryImages";
+import { galleryFullUrl } from "../galleryImages";
+import { galleryDisplayUrl } from "../galleryPreview";
 
 export default function EditTray({ region, unused, edit }) {
   return createPortal(
@@ -49,21 +50,15 @@ export default function EditTray({ region, unused, edit }) {
               }
             >
               <img
-                src={galleryImageUrl(region, name, "sm")}
+                src={galleryDisplayUrl(region, name, "sm")}
                 alt={name}
                 className="h-full w-full object-cover"
                 draggable={false}
                 onError={(e) => {
                   const img = e.currentTarget;
-                  if (img.dataset.fallback === "lg") {
-                    img.src = galleryImageUrl(region, name, "full");
-                    img.dataset.fallback = "full";
-                    return;
-                  }
-                  if (!img.dataset.fallback) {
-                    img.src = galleryImageUrl(region, name, "lg");
-                    img.dataset.fallback = "lg";
-                  }
+                  if (img.dataset.fallback === "full") return;
+                  img.src = galleryFullUrl(region, name);
+                  img.dataset.fallback = "full";
                 }}
               />
               <span className="absolute inset-x-0 bottom-0 truncate bg-black/55 px-1 py-0.5 text-xs text-white [font-family:system-ui,sans-serif]">

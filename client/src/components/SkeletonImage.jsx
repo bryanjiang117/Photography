@@ -15,6 +15,7 @@ import { useLayoutEffect, useRef, useState } from "react";
  *   loading?: "eager" | "lazy";
  *   fetchPriority?: "high" | "low" | "auto";
  *   onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+ *   onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
  *   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
  *   style?: React.CSSProperties;
  *   overlay?: React.ReactNode;
@@ -32,6 +33,7 @@ export default function SkeletonImage({
   loading,
   fetchPriority,
   onLoad,
+  onError,
   onClick,
   style,
   overlay,
@@ -39,13 +41,12 @@ export default function SkeletonImage({
   const imgRef = useRef(null);
   const [loaded, setLoaded] = useState(false);
 
-  // Before paint: cache hits stay solid; src changes reset without a shimmer flash.
+  // If this src is already decoded, stay solid. Do not set loaded to false on
+  // src change — that blanks a photo that was already on screen.
   useLayoutEffect(() => {
     const img = imgRef.current;
     if (img?.complete && img.naturalWidth > 0) {
       setLoaded(true);
-    } else {
-      setLoaded(false);
     }
   }, [src]);
 
@@ -74,9 +75,14 @@ export default function SkeletonImage({
           loaded || !aspectRatio ? "opacity-100" : "opacity-0"
         } ${aspectRatio ? "h-full w-full" : "h-auto w-full"} ${className}`}
         onLoad={(e) => {
+          if (e.currentTarget.naturalWidth === 0) {
+            onError?.(e);
+            return;
+          }
           setLoaded(true);
           onLoad?.(e);
         }}
+        onError={onError}
         onClick={onClick}
       />
       {overlay}

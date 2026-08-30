@@ -72,6 +72,6 @@ This writes `client/src/constants/galleryPhotoMeta.js` for hover + lightbox capt
 
 In `npm run dev`, open a desktop gallery and click **Edit** (above the back arrow). You can drag photos, drop blanks, stack, nest groups, and set location / size / fit / widths / gap in the side panel.
 
-- **Import** drops one or more originals (JPEG, TIFF, HEIC, PNG, WebP) into `client/originals/{region}/`, generates AVIFs, then puts them in the unused tray to place on the grid.
+- **Import** drops one or more originals (JPEG, TIFF, HEIC, PNG, WebP) into `client/originals/{region}/` and puts them in the unused tray as soon as the original is saved, so you can place them while sm/md/lg AVIFs generate in the background.
 - **Save** writes that region’s `*_ITEMS` in `data.js`. **×** on an unused tray photo deletes the original and AVIFs immediately. Deleting a photo from the grid removes it from the layout; those files are deleted when you save.
 - **Done** hides the editor chrome and keeps unsaved changes. **Discard** restores the last saved layout. Production builds do not include the editor button.

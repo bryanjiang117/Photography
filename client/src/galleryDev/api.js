@@ -34,6 +34,14 @@ export function importPhoto(region, file, name = "") {
   );
 }
 
+export function waitForVariants(region, name) {
+  return parse(
+    fetch(
+      `${BASE}/variants-ready?region=${encodeURIComponent(region)}&name=${encodeURIComponent(name)}`,
+    ),
+  );
+}
+
 export function deleteUnusedPhoto(region, name) {
   return parse(
     fetch(`${BASE}/delete`, {

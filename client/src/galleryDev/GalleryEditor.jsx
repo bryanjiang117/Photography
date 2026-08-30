@@ -1,8 +1,24 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { flattenGalleryItems, galleryImageUrl } from "../galleryImages";
-import { fetchPhotos, importPhoto, saveGallery, deleteUnusedPhoto } from "./api";
+import { flattenGalleryItems, galleryFullUrl } from "../galleryImages";
+import {
+  fetchPhotos,
+  importPhoto,
+  saveGallery,
+  deleteUnusedPhoto,
+  waitForVariants,
+} from "./api";
 import { setGalleryDimensionOverride } from "../galleryDimensions";
+import {
+  browserCanDisplayFile,
+  clearGalleryPreviewUrl,
+  galleryDevPreviewUrl,
+  galleryDisplayUrl,
+  getGalleryPreviewVersion,
+  promotePreviewToFull,
+  setGalleryPreviewUrl,
+  subscribeGalleryPreview,
+} from "../galleryPreview";
 import {
   ColumnInsert,
   EditBlank,
@@ -111,6 +127,7 @@ export default function GalleryEditor({
   itemsRef.current = items;
   pendingDeletesRef.current = pendingDeletes;
   hoverRef.current = hover;
+  useSyncExternalStore(subscribeGalleryPreview, getGalleryPreviewVersion);
 
   useEffect(() => {
     const incoming = snapshot(sourceItems);
@@ -311,6 +328,7 @@ export default function GalleryEditor({
       setError("");
       try {
         await deleteUnusedPhoto(region, name);
+        clearGalleryPreviewUrl(region, name);
         setDiskNames((prev) => prev.filter((n) => n !== name));
         setPendingDeletes((prev) => prev.filter((n) => n !== name));
       } catch (err) {
@@ -340,11 +358,21 @@ export default function GalleryEditor({
             const result = await importPhoto(region, file);
             added.push(result.name);
             setGalleryDimensionOverride(region, result.name, result);
+            const preview = browserCanDisplayFile(file)
+              ? URL.createObjectURL(file)
+              : galleryDevPreviewUrl(region, result.name);
+            setGalleryPreviewUrl(region, result.name, preview);
             setPendingDeletes((prev) => prev.filter((n) => n !== result.name));
             setDiskNames((prev) => [
               result.name,
               ...prev.filter((n) => n !== result.name),
             ]);
+            setStatus(`${result.name} ready — drag it onto the grid`);
+            void waitForVariants(region, result.name)
+              .then(() => promotePreviewToFull(region, result.name))
+              .catch((err) => {
+                console.warn("gallery-dev variants:", err.message);
+              });
           } catch (err) {
             failures.push(`${file.name}: ${err.message}`);
           }
@@ -483,10 +511,13 @@ export default function GalleryEditor({
       {editing && drag?.name
         ? createPortal(
             <img
-              src={galleryImageUrl(region, drag.name, "sm")}
+              src={galleryDisplayUrl(region, drag.name, "sm")}
               alt=""
               className="pointer-events-none fixed z-[300] h-16 w-16 object-cover opacity-80"
               style={{ left: drag.x + 12, top: drag.y + 12 }}
+              onError={(e) => {
+                e.currentTarget.src = galleryFullUrl(region, drag.name);
+              }}
             />,
             document.body,
           )

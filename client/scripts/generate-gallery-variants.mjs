@@ -66,9 +66,9 @@ export async function writeVariant(inputPath, outputPath, maxLongest) {
 export async function generateVariantsForName(
   region,
   name,
-  { missingOnly = false, variants = ALL_VARIANTS } = {},
+  { missingOnly = false, variants = ALL_VARIANTS, photosRoot = PHOTOS_ROOT } = {},
 ) {
-  const dir = path.join(PHOTOS_ROOT, region);
+  const dir = path.join(photosRoot, region);
   const fullPath = path.join(dir, `${name}.avif`);
   if (!fs.existsSync(fullPath)) {
     return { written: 0, skipped: 0, removed: 0 };

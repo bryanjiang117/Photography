@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import { rowDefaultSize } from "../galleryImages";
 
 const SIZES = ["", "sm", "md", "lg", "full"];
 
 const fieldClass =
-  "w-full bg-transparent border-0 border-b border-white/35 px-0 py-1.5 text-base text-white outline-none focus:border-white/80 placeholder:text-white/40 [font-family:system-ui,sans-serif]";
+  "w-full bg-transparent border-0 border-b border-white/35 px-0 py-1.5 text-base text-white outline-none focus:border-white/80 placeholder:text-white/40 [font-family:system-ui,sans-serif] select-text selection:bg-white/40 selection:text-white";
 const labelClass =
   "block text-xs tracking-wide text-white/75 mb-1.5 [font-family:system-ui,sans-serif]";
 const btnClass =
@@ -90,7 +91,7 @@ export default function EditPanel({ edit }) {
               edit.setRowField(selected.row, "size", e.target.value)
             }
           >
-            <option value="">default</option>
+            <option value="">{rowDefaultSize({ columns: row.columns })} (default)</option>
             {SIZES.filter(Boolean).map((s) => (
               <option key={s} value={s}>
                 {s}
@@ -204,7 +205,8 @@ export default function EditPanel({ edit }) {
   }
 
   if (selected.type === "photo") {
-    const col = items[selected.row]?.columns?.[selected.col];
+    const row = items[selected.row];
+    const col = row?.columns?.[selected.col];
     const entry =
       selected.sub != null
         ? col?.[selected.entry]?.[selected.sub]
@@ -214,6 +216,7 @@ export default function EditPanel({ edit }) {
       : { name: typeof entry === "string" ? entry : "" };
     if (!parsed.name) return null;
     const confirming = edit.confirmDelete === parsed.name;
+    const inheritSize = row ? rowDefaultSize(row) : "md";
     return (
       <div className="flex h-full flex-col gap-5 overflow-y-auto px-6 py-6 text-white scrollbar-hide">
         <p className={`${headingClass} break-all`}>
@@ -239,7 +242,7 @@ export default function EditPanel({ edit }) {
               edit.setPhotoField(selected, "size", e.target.value)
             }
           >
-            <option value="">row default</option>
+            <option value="">{inheritSize} (default)</option>
             {SIZES.filter(Boolean).map((s) => (
               <option key={s} value={s}>
                 {s}

@@ -28,6 +28,22 @@ export function galleryImageUrl(region, name, size = "lg") {
   return `/assets/photos/${region}/${name}${suffix}.avif`;
 }
 
+/** Uncapped master. Use when a sized variant is missing (import still generating). */
+export function galleryFullUrl(region, name) {
+  return galleryImageUrl(region, name, "full");
+}
+
+/**
+ * After a sized (or preview) URL fails to load, use the master.
+ * @param {string} region
+ * @param {string} name
+ * @param {string} failedSrc
+ */
+export function gallerySrcFallbackToFull(region, name, failedSrc) {
+  const full = galleryFullUrl(region, name);
+  return failedSrc === full ? failedSrc : full;
+}
+
 /**
  * @param {string} region
  * @param {string} name

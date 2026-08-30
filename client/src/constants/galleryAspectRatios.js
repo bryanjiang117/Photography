@@ -389,6 +389,26 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6111,
       "h": 4074
     },
+    "clapper": {
+      "w": 5905,
+      "h": 3936
+    },
+    "delivery": {
+      "w": 5017,
+      "h": 3345
+    },
+    "dragon": {
+      "w": 3953,
+      "h": 5930
+    },
+    "drawers": {
+      "w": 5432,
+      "h": 3621
+    },
+    "dscf0196": {
+      "w": 5155,
+      "h": 3437
+    },
     "everyday-1": {
       "w": 4160,
       "h": 6240
@@ -397,15 +417,15 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4068,
       "h": 6103
     },
-    "everyday-3": {
-      "w": 4160,
-      "h": 6240
-    },
     "farmlands": {
       "w": 6240,
       "h": 4160
     },
     "fire": {
+      "w": 6240,
+      "h": 4160
+    },
+    "fruit-truck": {
       "w": 6240,
       "h": 4160
     },
@@ -417,21 +437,17 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4160,
       "h": 6240
     },
-    "goldfish": {
-      "w": 5051,
-      "h": 3367
+    "goons": {
+      "w": 5382,
+      "h": 3588
     },
-    "grungy-apartment": {
-      "w": 4160,
-      "h": 6240
+    "grandaughter": {
+      "w": 5337,
+      "h": 3558
     },
     "happy-woman": {
       "w": 4160,
       "h": 6240
-    },
-    "hole-in-the-wall": {
-      "w": 6240,
-      "h": 4160
     },
     "hotpot": {
       "w": 6240,
@@ -441,15 +457,11 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4160,
       "h": 6240
     },
-    "mahjong": {
-      "w": 5316,
-      "h": 2992
+    "looking-up": {
+      "w": 4160,
+      "h": 6240
     },
     "meituan-trio": {
-      "w": 6240,
-      "h": 4160
-    },
-    "messy-balcony": {
       "w": 6240,
       "h": 4160
     },
@@ -460,14 +472,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "mountain-scene": {
       "w": 5988,
       "h": 3992
-    },
-    "park-gramps": {
-      "w": 3899,
-      "h": 5849
-    },
-    "poles-in-farm": {
-      "w": 6240,
-      "h": 4160
     },
     "rafting": {
       "w": 6240,
@@ -485,6 +489,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 2928,
       "h": 5203
     },
+    "rice-fields": {
+      "w": 6240,
+      "h": 4160
+    },
     "robot-dog": {
       "w": 5441,
       "h": 3627
@@ -500,6 +508,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "smoking": {
       "w": 6240,
       "h": 3512
+    },
+    "stairs": {
+      "w": 3456,
+      "h": 6141
     },
     "stick-gramps": {
       "w": 2773,
@@ -525,13 +537,9 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4160,
       "h": 6240
     },
-    "window-gramps": {
-      "w": 5998,
-      "h": 3998
-    },
     "window": {
-      "w": 6240,
-      "h": 4160
+      "w": 5155,
+      "h": 3437
     },
     "zhangjiajie": {
       "w": 3854,

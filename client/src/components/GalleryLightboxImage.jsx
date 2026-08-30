@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { galleryImageUrl } from "../galleryImages";
+import { galleryDisplayUrl } from "../galleryPreview";
+import { galleryFullUrl, gallerySrcFallbackToFull } from "../galleryImages";
 import { photoDimensions } from "../galleryDimensions";
 
 /** Matches lightbox overlay `p-8` (2rem × 2). */
@@ -41,7 +42,13 @@ export default function GalleryLightboxImage({
   onClick,
   maxHeight = "calc(100vh - 4rem)",
 }) {
-  const src = galleryImageUrl(region, name, "lg");
+  const preferred = galleryDisplayUrl(region, name, "lg");
+  const fullSrc = galleryFullUrl(region, name);
+  const [failedSrc, setFailedSrc] = useState(null);
+  const src =
+    failedSrc === preferred
+      ? gallerySrcFallbackToFull(region, name, preferred)
+      : preferred;
   const dimensions = photoDimensions(region, name);
   const requestIdRef = useRef(0);
 
@@ -95,7 +102,13 @@ export default function GalleryLightboxImage({
     };
 
     preloader.onload = afterLoad;
-    preloader.onerror = commit;
+    preloader.onerror = () => {
+      if (nextSrc !== fullSrc) {
+        setFailedSrc(nextSrc);
+        return;
+      }
+      commit();
+    };
     preloader.src = nextSrc;
     if (preloader.complete && preloader.naturalWidth > 0) {
       afterLoad();
