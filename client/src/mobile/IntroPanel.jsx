@@ -70,9 +70,6 @@ const IntroPanel = () => {
       {/* About */}
       <div className="mt-auto pb-12 max-w-full">
         <div className="flex flex-col gap-2">
-          <p className="text-sm font-sh" lang="zh-CN" translate="no">
-            {INTRO.blurbZh}
-          </p>
           <div className="text-base leading-tight bodoni-small">
             {INTRO.blurbEnBefore}
             <h1 className="inline m-0 p-0 text-[length:inherit] leading-[inherit] font-[inherit] font-normal">
@@ -80,6 +77,9 @@ const IntroPanel = () => {
             </h1>
             {INTRO.blurbEnAfter}
           </div>
+          <p className="text-sm font-sh" lang="zh-CN" translate="no">
+            {INTRO.blurbZh}
+          </p>
         </div>
       </div>
 

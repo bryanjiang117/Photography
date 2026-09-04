@@ -34,8 +34,8 @@ export function fetchBootstrapApis() {
     fetchApi("/api/github/repo"),
   ]).then(([spotify, mal, tmdb, github]) => ({
     spotify: spotify ?? null,
-    mal: mal ?? [],
-    tmdb: tmdb ?? [],
+    mal: mal ?? null,
+    tmdb: tmdb ?? null,
     github: github ?? null,
   }));
 }

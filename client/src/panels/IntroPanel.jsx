@@ -80,16 +80,16 @@ const IntroPanel = ({ scrollRef }) => {
       {/* About me  */}
       <div className="absolute bottom-2/10 right-24 max-w-4/10">
         <div className="flex flex-col gap-2">
-          <p className="mr-[30%] text-lg font-sh" lang="zh-CN" translate="no">
-            {INTRO.blurbZh}
-          </p>
-          <div className="ml-8 mr-[15%] text-xl leading-tight bodoni-small">
+          <div className="mr-[30%] text-xl leading-tight bodoni-small">
             {INTRO.blurbEnBefore}
             <h1 className="inline m-0 p-0 text-[length:inherit] leading-[inherit] font-[inherit] font-normal">
               {INTRO.nameEn}
             </h1>
             {INTRO.blurbEnAfter}
           </div>
+          <p className="ml-8 mr-[15%] text-lg font-sh" lang="zh-CN" translate="no">
+            {INTRO.blurbZh}
+          </p>
         </div>
       </div>
 

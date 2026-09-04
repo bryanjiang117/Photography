@@ -48,25 +48,15 @@ export const CANADA_ITEMS = [
     location: "Bond Lake, Richmond Hill, Ontario",
   },
   {
-    columns: [
-      ["ferry-lookout"],
-    ],
+    columns: [["ferry-lookout"]],
     location: "Tsawwassen–Swartz Bay Ferry, British Columbia",
   },
   {
-    columns: [
-      ["container-ship"],
-      ["port-cranes"],
-      ["cargo-cranes"],
-    ],
+    columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [
-      ["fish-vendor"],
-      [],
-      ["boat-cabin"],
-    ],
+    columns: [["fish-vendor"], [], ["boat-cabin"]],
     location: "Steveston Village, Richmond, British Columbia",
   },
   {
@@ -99,33 +89,29 @@ export const CANADA_ITEMS = [
       [
         {
           name: "parliament-flowers",
-          location: "Legislative Assembly of British Columbia, Victoria, British Columbia",
+          location:
+            "Legislative Assembly of British Columbia, Victoria, British Columbia",
         },
       ],
       [
         {
           name: "war-memorial",
-          location: "Legislative Assembly of British Columbia, Victoria, British Columbia",
+          location:
+            "Legislative Assembly of British Columbia, Victoria, British Columbia",
         },
       ],
     ],
     location: "Victoria, British Columbia",
   },
   {
-    columns: [
-      ["orca"],
-      [],
-    ],
+    columns: [["orca"], []],
     size: "lg",
     flex: [4, 5],
     location: "Victoria, British Columbia",
   },
   {
     columns: [
-      [
-        ["flower-lamppost"],
-        [],
-      ],
+      [["flower-lamppost"], []],
       [
         {
           name: "nootka-court",
@@ -206,9 +192,7 @@ export const CANADA_ITEMS = [
     location: "Graffiti Alley, Toronto, Ontario",
   },
   {
-    columns: [
-      ["proud-romans"],
-    ],
+    columns: [["proud-romans"]],
     location: "Sankofa Square, Toronto, Ontario (Pride Parade)",
   },
   {
@@ -226,11 +210,7 @@ export const CANADA_ITEMS = [
     location: "Sankofa Square, Toronto, Ontario (Pride Parade)",
   },
   {
-    columns: [
-      ["pylons"],
-      [],
-      ["watering-can"],
-    ],
+    columns: [["pylons"], [], ["watering-can"]],
     size: "sm",
     flex: [3, 1, 3],
     location: "D'arcy St, Toronto, Ontario",
@@ -266,11 +246,7 @@ export const CANADA_ITEMS = [
     location: "D'arcy St, Toronto, Ontario",
   },
   {
-    columns: [
-      ["white-flowers"],
-      [],
-      ["lion-statue"],
-    ],
+    columns: [["white-flowers"], [], ["lion-statue"]],
     size: "sm",
     flex: [9, 0.3, 4],
     fit: "contain",
@@ -348,17 +324,12 @@ export const CANADA_ITEMS = [
     location: "Scarborough, Ontario",
   },
   {
-    columns: [
-      ["farm-ca"],
-      ["windows-xp-grass"],
-    ],
+    columns: [["farm-ca"], ["windows-xp-grass"]],
     size: "md",
     location: "Ontario",
   },
   {
-    columns: [
-      ["peach-roses"],
-    ],
+    columns: [["peach-roses"]],
     location: "Scarborough, Ontario",
   },
 ];
@@ -457,17 +428,11 @@ export const MEXICO_FLAT_IMAGES = MEXICO_GALLERY_PHOTOS.map((p) => p.name);
 
 export const CHINA_ITEMS = [
   {
-    columns: [
-      ["mountain-scene"],
-    ],
+    columns: [["mountain-scene"]],
     location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
   {
-    columns: [
-      ["rafting"],
-      ["farmlands"],
-      ["fire"],
-    ],
+    columns: [["rafting"], ["farmlands"], ["fire"]],
     size: "sm",
     gap: 20,
     location: "Somewhere in Guangxi/Hunan · 广西/湖南某处",
@@ -493,14 +458,16 @@ export const CHINA_ITEMS = [
       [
         {
           name: "zhangjiajie",
-          location: "Zhangjiajie Forest National Park, Zhangjiajie, Hunan · 张家界国家森林公园，张家界，湖南",
+          location:
+            "Zhangjiajie Forest National Park, Zhangjiajie, Hunan · 张家界国家森林公园，张家界，湖南",
         },
       ],
       ["winding-roads"],
       ["mountain-range"],
       ["winding-bus"],
     ],
-    location: "Tianmen Mountain National Park, Zhangjiajie, Hunan · 天门山国家森林公园，张家界，湖南",
+    location:
+      "Tianmen Mountain National Park, Zhangjiajie, Hunan · 天门山国家森林公园，张家界，湖南",
   },
   {
     columns: [
@@ -544,9 +511,7 @@ export const CHINA_ITEMS = [
     location: "Chongqing · 重庆",
   },
   {
-    columns: [
-      ["rafts"],
-    ],
+    columns: [["rafts"]],
     location: "Yangshuo, Guilin, Guangxi · 阳朔，桂林，广西",
   },
   {
@@ -564,9 +529,7 @@ export const CHINA_ITEMS = [
     location: "Chongqing · 重庆",
   },
   {
-    columns: [
-      ["chongqing-flipped"],
-    ],
+    columns: [["chongqing-flipped"]],
     location: "Hongyadong, Chongqing · 洪崖洞，重庆",
   },
   {
@@ -587,12 +550,11 @@ export const CHINA_ITEMS = [
       [],
     ],
     flex: [12, 6, 3],
-    location: "Furong Town, Yongshun, Xiangxi, Hunan · 芙蓉镇，永顺，湘西，湖南",
+    location:
+      "Furong Town, Yongshun, Xiangxi, Hunan · 芙蓉镇，永顺，湘西，湖南",
   },
   {
-    columns: [
-      ["china-flags"],
-    ],
+    columns: [["china-flags"]],
     location: "Zhangjiajie, Hunan · 张家界，湖南",
   },
   {
@@ -609,25 +571,16 @@ export const CHINA_ITEMS = [
     location: "Zhangjiajie, Hunan · 张家界，湖南",
   },
   {
-    columns: [
-      ["meituan-trio"],
-    ],
+    columns: [["meituan-trio"]],
     location: "Chongqing · 重庆",
   },
   {
-    columns: [
-      ["auntie-cooking"],
-      [],
-      ["happy-woman"],
-    ],
+    columns: [["auntie-cooking"], [], ["happy-woman"]],
     flex: [16, 2, 8],
     location: "Chongqing · 重庆",
   },
   {
-    columns: [
-      ["roof-worker"],
-      ["red-green"],
-    ],
+    columns: [["roof-worker"], ["red-green"]],
     size: "lg",
     location: "People's Park, Chongqing · 人民公园，重庆",
   },
@@ -649,9 +602,7 @@ export const CHINA_ITEMS = [
     flex: [1, 2],
   },
   {
-    columns: [
-      ["rainy-chongqing"],
-    ],
+    columns: [["rainy-chongqing"]],
     location: "Raffles City, Chongqing · 来福士，重庆",
   },
   {
@@ -678,7 +629,8 @@ export const CHINA_ITEMS = [
         [
           {
             name: "auntie-dance",
-            location: "Baixiangju Historical District, Chongqing · 百象居历史风貌区，重庆",
+            location:
+              "Baixiangju Historical District, Chongqing · 百象居历史风貌区，重庆",
           },
         ],
         ["smoking"],
@@ -696,9 +648,7 @@ export const CHINA_ITEMS = [
     location: "Baixiangju, Chongqing · 百象居，重庆",
   },
   {
-    columns: [
-      ["window"],
-    ],
+    columns: [["window"]],
     location: "Baixiangju, Chongqing · 百象居，重庆",
   },
 ];
@@ -923,9 +873,9 @@ export const ABOUT_ME = {
   titleEn: "ABOUT",
   titleZh: "关于我",
   blurbEn:
-    "Nice to meet you — I'm Bryan. I'm a software engineer in Toronto, and I care about pictures, stories, and making things look right. If that sounds like who you're looking for, feel free to contact me.",
+    "Nice to meet you — I'm Bryan. I'm a frontend software engineer, and I care about pictures, stories, and making things look right. I was born and raised in Toronto, but a part of me wants to be everywhere but here. This website is a record of my ongoing journey.",
   blurbZh:
-    "嗨，我叫姜昊周。我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。欢迎联系我。",
+    "嗨，我叫姜昊周。我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。我在多伦多出生长大，却总对远方念念不忘。这个网站，记录着我一路走过的风景。",
   affiliations: [
     {
       logo: "/assets/logos/ib.svg",
