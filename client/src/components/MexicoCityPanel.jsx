@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { galleryImageUrl } from "../galleryImages";
+import ViewGalleryButton from "./ViewGalleryButton";
 
 const MexicoCityPanel = () => {
   const { showMexicoGallery, setShowMexicoGallery } =
@@ -46,14 +47,9 @@ const MexicoCityPanel = () => {
         </section>
       </div>
 
-      {/* Gallery trigger */}
-      <button
-        type="button"
-        className="absolute bottom-6 right-40 z-10 w-fit cursor-pointer select-none bg-transparent border-0 p-0 text-inherit bodoni-small text-sm uppercase tracking-widest whitespace-nowrap opacity-80 leading-none"
-        onClick={() => setShowMexicoGallery(true)}
-      >
-        VIEW GALLERY
-      </button>
+      <div className="absolute bottom-6 right-40 z-10">
+        <ViewGalleryButton onClick={() => setShowMexicoGallery(true)} />
+      </div>
     </div>
   );
 };

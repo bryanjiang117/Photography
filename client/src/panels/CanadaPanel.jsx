@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { galleryImageUrl } from "../galleryImages";
+import ViewGalleryButton from "../components/ViewGalleryButton";
 
 const CanadaPanel = () => {
   const { showCanadaGallery, setShowCanadaGallery } =
@@ -27,13 +28,9 @@ const CanadaPanel = () => {
                 <span className="bodoni-small">Photography</span>
               </div>
               <div className="flex flex-col">
-                <button
-                  type="button"
-                  className="cursor-pointer select-none bg-transparent border-0 p-0 text-inherit bodoni-small text-sm uppercase tracking-widest whitespace-nowrap opacity-80 leading-none"
+                <ViewGalleryButton
                   onClick={() => setShowCanadaGallery(true)}
-                >
-                  VIEW GALLERY
-                </button>
+                />
               </div>
             </div>
           </div>
