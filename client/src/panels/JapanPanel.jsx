@@ -50,24 +50,13 @@ const JapanPanel = () => {
               </span>
             </div>
           </div>
-          <div
-            className="flex flex-col gap-1.5 w-fit cursor-pointer select-none"
+          <button
+            type="button"
+            className="w-fit cursor-pointer select-none bg-transparent border-0 p-0 text-inherit bodoni-small text-sm uppercase tracking-widest whitespace-nowrap opacity-80 leading-none"
             onClick={() => setShowJapanGallery(true)}
           >
-            <span className="bodoni-small text-sm uppercase tracking-[0.3em] whitespace-nowrap opacity-80 leading-none">
-              VIEW GALLERY
-            </span>
-            <motion.div
-              className="w-full h-px bg-gray-900 origin-left opacity-30"
-              animate={{ scaleX: [0, 1, 1, 0], originX: [0, 0, 1, 1] }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: [0.4, 0, 0.2, 1],
-                times: [0, 0.4, 0.5, 0.9],
-              }}
-            />
-          </div>
+            VIEW GALLERY
+          </button>
         </div>
       </section>
     </div>

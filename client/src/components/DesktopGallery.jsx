@@ -36,7 +36,7 @@ function DesktopGalleryView({
     <motion.div
       {...gallerySlideMotion(entrance && slide, "y")}
       ref={scrollRef}
-      className={`fixed inset-0 z-50 overflow-y-auto overflow-x-hidden ${bgClass} min-w-[1200px] min-h-[800px] scrollbar-hide`}
+      className={`fixed inset-0 z-50 overflow-y-auto overflow-x-hidden scroll-py-12 ${bgClass} min-w-[1200px] min-h-[800px] scrollbar-hide`}
     >
       <div className={`grid min-h-full ${gridCols}`}>
         <div

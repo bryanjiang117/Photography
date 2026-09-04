@@ -156,3 +156,116 @@
     opacity: 1;
   }
 }
+
+/* Keyboard focus — viewfinder L-corners, drawn inside the control */
+@layer base {
+  :is(
+    a,
+    button,
+    summary,
+    [type="button"],
+    [type="submit"],
+    [type="reset"],
+    [role="button"]
+  ) {
+    scroll-margin-block: 3rem;
+    scroll-margin-inline: 4rem;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      position: relative;
+      outline: none;
+      --focus-arm: clamp(6px, 35%, 12px);
+      --focus-thick: 2px;
+    }
+
+    /* Gutter around glyphs so the L-corners don't sit on the text.
+       Negative margin keeps neighbors from shifting. Existing p-* utilities
+       still win; .p-0 is handled below. Skip .block cards, image links,
+       and absolutely positioned controls (padding would get clipped). */
+    &:focus-visible:not(.block):not(:has(img)) {
+      --focus-arm: 5px;
+      --focus-thick: 1.5px;
+    }
+
+    &:focus-visible:not(.block):not(:has(img)) {
+      padding-block: 0.35rem;
+      padding-inline: 0.5rem;
+      margin-block: -0.35rem;
+      margin-inline: -0.5rem;
+    }
+
+    &:focus-visible::after {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      z-index: 20;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary)),
+        linear-gradient(var(--color-primary), var(--color-primary));
+      background-size:
+        var(--focus-arm) var(--focus-thick),
+        var(--focus-thick) var(--focus-arm),
+        var(--focus-arm) var(--focus-thick),
+        var(--focus-thick) var(--focus-arm),
+        var(--focus-arm) var(--focus-thick),
+        var(--focus-thick) var(--focus-arm),
+        var(--focus-arm) var(--focus-thick),
+        var(--focus-thick) var(--focus-arm);
+      background-position:
+        top left,
+        top left,
+        top right,
+        top right,
+        bottom left,
+        bottom left,
+        bottom right,
+        bottom right;
+      background-repeat: no-repeat;
+    }
+  }
+
+  @media (forced-colors: active) {
+    :is(
+      a,
+      button,
+      summary,
+      [type="button"],
+      [type="submit"],
+      [type="reset"],
+      [role="button"]
+    ):focus-visible {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+
+    :is(
+      a,
+      button,
+      summary,
+      [type="button"],
+      [type="submit"],
+      [type="reset"],
+      [role="button"]
+    ):focus-visible::after {
+      content: none;
+    }
+  }
+}
+
+:is(a, button, summary, [type="button"], [type="submit"], [type="reset"], [role="button"]).p-0:focus-visible:not(.block):not(:has(img)) {
+  padding-block: 0.35rem;
+  padding-inline: 0.5rem;
+  margin-block: -0.35rem;
+  margin-inline: -0.5rem;
+}

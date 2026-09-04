@@ -209,7 +209,7 @@ export default function GalleryLoadingShell({ region, isMobile, instant = false 
     <motion.div
       {...slide}
       ref={scrollRef}
-      className={`fixed inset-0 z-50 overflow-y-auto overflow-x-hidden scrollbar-hide ${config.bg} ${ui.shellClass}`}
+      className={`fixed inset-0 z-50 overflow-y-auto overflow-x-hidden scroll-py-12 scrollbar-hide ${config.bg} ${ui.shellClass}`}
     >
       <div className="grid min-h-full grid-cols-[8rem_minmax(0,1fr)_8rem]">
         <div

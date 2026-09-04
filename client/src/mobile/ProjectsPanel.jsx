@@ -19,7 +19,7 @@ const ProjectsPanel = () => {
       </div>
 
       <div className="h-px w-full bg-gray-400" />
-      <div className="flex flex-row overflow-x-auto overscroll-none scrollbar-hide">
+      <div className="flex flex-row overflow-x-auto overscroll-none scrollbar-hide scroll-px-8">
         {PROJECTS.map((project, i) => {
           const Tag = project.link ? "a" : "div";
           const linkProps = project.link

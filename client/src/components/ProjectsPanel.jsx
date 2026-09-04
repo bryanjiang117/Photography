@@ -29,7 +29,7 @@ const ProjectsPanel = () => {
         <div className="h-full w-px min-w-px bg-gray-400" />
         <div
           data-vertical-scroll
-          className="relative h-screen min-h-0 overflow-y-auto overscroll-y-none scrollbar-hide"
+          className="relative h-screen min-h-0 overflow-y-auto overscroll-y-none scrollbar-hide scroll-py-12"
         >
           {PROJECTS.map((project, i) => {
             const Tag = project.link ? "a" : "div";

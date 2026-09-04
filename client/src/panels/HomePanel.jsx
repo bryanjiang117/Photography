@@ -174,7 +174,7 @@ const HomePanel = () => {
       {panels.map((p, i) => (
         <div
           key={`${keyPrefix}-${i}`}
-          className="h-screen min-h-[800px] w-fit shrink-0 overflow-hidden"
+          className="h-screen min-h-[800px] w-fit shrink-0 overflow-clip"
         >
           {p}
         </div>
@@ -186,14 +186,14 @@ const HomePanel = () => {
     <div
       ref={scrollRef}
       style={{ visibility: "hidden" }}
-      className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scrollbar-hide"
+      className="flex h-screen w-screen overflow-x-scroll overflow-y-hidden scrollbar-hide scroll-px-16"
     >
       {panelSet("left")}
       <div ref={setRef} className="flex h-screen min-h-[800px] shrink-0">
         {panels.map((p, i) => (
           <div
             key={`mid-${i}`}
-            className="h-screen min-h-[800px] w-fit shrink-0 overflow-hidden"
+            className="h-screen min-h-[800px] w-fit shrink-0 overflow-clip"
           >
             {p}
           </div>
