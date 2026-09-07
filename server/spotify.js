@@ -1,6 +1,12 @@
 import crypto from "crypto";
 import { createJsonCache } from "./cacheStore.js";
 import { nextRateLimitedUntilMs } from "./spotifyRateLimit.js";
+import {
+  parseCurrentlyPlaying,
+  parseRecentlyPlayed,
+  nextCachedNowPlaying,
+  needsRecentlyPlayedFallback,
+} from "./spotifyNowPlaying.js";
 
 const EXPIRY_BUFFER_MS = 30_000; // 30 seconds
 const SPOTIFY_POLL_PRODUCTION_MS = 60_000; // 1 minute in production
@@ -305,95 +311,80 @@ export async function registerSpotifyRoutes(app, supabase) {
         { headers: { Authorization: `Bearer ${accessToken}` } },
       );
 
-      if (currentlyPlayingRes.status === 429) {
-        applyRateLimit(
-          currentlyPlayingRes.headers.get("Retry-After"),
-          "currently-playing",
-        );
-        return;
-      }
-
-      if (currentlyPlayingRes.status === 401) {
-        // Drop cached access token so the next poll re-refreshes from the refresh token
-        cachedAccessToken = null;
-        accessTokenExpiresAtMs = 0;
-        throw new Error(
-          "Spotify returned 401 (currently-playing). Access token rejected — will re-refresh next poll.",
-        );
-      }
-
-      // 204 No Content = nothing playing; fall through to recently-played
-      if (currentlyPlayingRes.status === 204) {
-        cachedNowPlaying = null;
-        cachedNowPlayingUpdatedAt = Date.now();
-      } else if (currentlyPlayingRes.ok) {
+      let currentJson = null;
+      if (
+        currentlyPlayingRes.status !== 204 &&
+        currentlyPlayingRes.status !== 429 &&
+        currentlyPlayingRes.status !== 401
+      ) {
         try {
-          const data = await currentlyPlayingRes.json();
-          const item = data?.item;
-          cachedNowPlaying = item
-            ? {
-                track: item.name,
-                artists: item.artists?.map((a) => a.name) ?? [],
-                album: item.album?.name,
-                albumImage: item.album?.images?.[0]?.url,
-                trackUrl: item.external_urls?.spotify ?? null,
-                isPlaying: data.is_playing ?? true,
-              }
-            : null;
+          currentJson = await currentlyPlayingRes.json();
         } catch (parseErr) {
           console.error(
             "[spotify] currently-playing parse error:",
             parseErr?.message ?? parseErr,
           );
-          cachedNowPlaying = null;
-        }
-        if (cachedNowPlaying) {
-          cachedNowPlayingUpdatedAt = Date.now();
-          await persistNowPlaying();
-          return;
         }
       }
 
-      const lastPlayedRes = await fetch(
-        "https://api.spotify.com/v1/me/player/recently-played?limit=1",
-        { headers: { Authorization: `Bearer ${accessToken}` } },
+      const currentResult = parseCurrentlyPlaying(
+        currentlyPlayingRes.status,
+        currentJson,
       );
 
-      if (lastPlayedRes.status === 429) {
+      if (currentResult.type === "rate-limited") {
         applyRateLimit(
-          lastPlayedRes.headers.get("Retry-After"),
-          "recently-played",
+          currentlyPlayingRes.headers.get("Retry-After"),
+          "currently-playing",
         );
-        return;
       }
 
-      if (!lastPlayedRes.ok) {
-        throw new Error(`recently-played failed: ${lastPlayedRes.status}`);
+      if (currentResult.type === "unauthorized") {
+        cachedAccessToken = null;
+        accessTokenExpiresAtMs = 0;
       }
 
-      try {
-        const data = await lastPlayedRes.json();
-        const item = data?.items?.[0];
-        cachedNowPlaying = item
-          ? {
-              track: item.track.name,
-              artists: item.track.artists?.map((a) => a.name) ?? [],
-              album: item.track.album?.name,
-              albumImage: item.track.album?.images?.[0]?.url,
-              trackUrl: item.track.external_urls?.spotify ?? null,
-              isPlaying: false,
-              playedAt: item.played_at,
-            }
-          : null;
-        cachedNowPlayingUpdatedAt = Date.now();
-        await persistNowPlaying();
-      } catch (parseErr) {
-        console.error(
-          "[spotify] recently-played parse error:",
-          parseErr?.message ?? parseErr,
+      let recentResult = null;
+      if (needsRecentlyPlayedFallback(currentResult)) {
+        const lastPlayedRes = await fetch(
+          "https://api.spotify.com/v1/me/player/recently-played?limit=1",
+          { headers: { Authorization: `Bearer ${accessToken}` } },
         );
-        cachedNowPlaying = null;
+
+        let recentJson = null;
+        if (lastPlayedRes.status !== 429) {
+          try {
+            recentJson = await lastPlayedRes.json();
+          } catch (parseErr) {
+            console.error(
+              "[spotify] recently-played parse error:",
+              parseErr?.message ?? parseErr,
+            );
+          }
+        }
+
+        recentResult = parseRecentlyPlayed(lastPlayedRes.status, recentJson);
+
+        if (recentResult.type === "rate-limited") {
+          applyRateLimit(
+            lastPlayedRes.headers.get("Retry-After"),
+            "recently-played",
+          );
+        } else if (recentResult.type === "error") {
+          throw new Error(`recently-played failed: ${recentResult.status}`);
+        }
       }
+
+      const next = nextCachedNowPlaying(
+        cachedNowPlaying,
+        currentResult,
+        recentResult,
+      );
+      if (next === cachedNowPlaying) return;
+
+      cachedNowPlaying = next;
+      cachedNowPlayingUpdatedAt = Date.now();
+      await persistNowPlaying();
     } catch (err) {
       console.error("[spotify] refresh error:", err?.message ?? err);
       if (err?.stack) console.error(err.stack);
