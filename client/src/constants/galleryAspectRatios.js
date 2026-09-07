@@ -719,6 +719,136 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6016,
       "h": 4016
     }
+  },
+  "california": {
+    "bakery-men-2": {
+      "w": 3512,
+      "h": 5268
+    },
+    "bay-bridge-lights": {
+      "w": 6240,
+      "h": 3512
+    },
+    "cable-car-turn": {
+      "w": 4160,
+      "h": 6240
+    },
+    "cable-car-window": {
+      "w": 4160,
+      "h": 6240
+    },
+    "chaparral-hill": {
+      "w": 3512,
+      "h": 6240
+    },
+    "coastal-haze": {
+      "w": 6240,
+      "h": 4160
+    },
+    "ferris-wheel": {
+      "w": 4160,
+      "h": 6240
+    },
+    "ferry-building": {
+      "w": 6240,
+      "h": 3512
+    },
+    "flags-man": {
+      "w": 3452,
+      "h": 5178
+    },
+    "goat-at-fence": {
+      "w": 4160,
+      "h": 6240
+    },
+    "golden-gate": {
+      "w": 6240,
+      "h": 3512
+    },
+    "golden-hills": {
+      "w": 6240,
+      "h": 3512
+    },
+    "golden-ripples": {
+      "w": 6240,
+      "h": 3512
+    },
+    "granite-dome": {
+      "w": 3512,
+      "h": 6240
+    },
+    "grazing-cows": {
+      "w": 6240,
+      "h": 3512
+    },
+    "hikers-on-bridge": {
+      "w": 6240,
+      "h": 3512
+    },
+    "hills": {
+      "w": 6240,
+      "h": 3512
+    },
+    "lone-oak": {
+      "w": 6240,
+      "h": 3512
+    },
+    "mist-rainbow": {
+      "w": 4160,
+      "h": 6240
+    },
+    "night-windmill": {
+      "w": 6240,
+      "h": 3512
+    },
+    "one-lane-road": {
+      "w": 3512,
+      "h": 6240
+    },
+    "palm-billboards": {
+      "w": 6240,
+      "h": 3512
+    },
+    "pelicans": {
+      "w": 6240,
+      "h": 4160
+    },
+    "river-rapids": {
+      "w": 6240,
+      "h": 3512
+    },
+    "rocky-stream": {
+      "w": 6240,
+      "h": 3512
+    },
+    "sea-lions": {
+      "w": 6240,
+      "h": 4160
+    },
+    "sea-stacks": {
+      "w": 6240,
+      "h": 4160
+    },
+    "skyline-view": {
+      "w": 4160,
+      "h": 6240
+    },
+    "taiwan-flags": {
+      "w": 4160,
+      "h": 6240
+    },
+    "twilight-birds": {
+      "w": 6240,
+      "h": 3512
+    },
+    "van-flowers": {
+      "w": 3990,
+      "h": 5985
+    },
+    "yosemite-falls": {
+      "w": 3512,
+      "h": 6240
+    }
   }
 };
 

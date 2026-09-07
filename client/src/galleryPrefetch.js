@@ -7,13 +7,14 @@ function prefetchLayout() {
 }
 
 /** Order galleries are prefetched in (matches home panel order — China first). */
-const PREFETCH_ORDER = ["china", "japan", "mexico", "canada"];
+const PREFETCH_ORDER = ["china", "japan", "mexico", "canada", "california"];
 /** Export name in constants/data.js for each region's flattened photo list. */
 const REGION_PHOTOS_EXPORT = {
   china: "CHINA_GALLERY_PHOTOS",
   japan: "JAPAN_GALLERY_PHOTOS",
   mexico: "MEXICO_GALLERY_PHOTOS",
   canada: "CANADA_GALLERY_PHOTOS",
+  california: "CALIFORNIA_GALLERY_PHOTOS",
 };
 /** Photos prefetched in the fast first pass, per gallery. */
 const PREFETCH_HEAD_COUNT = 10;

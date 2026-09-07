@@ -1,6 +1,8 @@
 import { createPortal } from "react-dom";
+import { photoDimensions } from "../galleryDimensions";
 import { galleryFullUrl } from "../galleryImages";
 import { galleryDisplayUrl } from "../galleryPreview";
+import { trayThumbSize } from "./trayThumb.mjs";
 
 export default function EditTray({ region, unused, edit }) {
   return createPortal(
@@ -40,11 +42,12 @@ export default function EditTray({ region, unused, edit }) {
             }}
           />
         </label>
-        <div className="flex max-h-32 min-w-0 flex-1 flex-wrap content-start gap-2 overflow-y-auto scrollbar-hide">
+        <div className="flex max-h-40 min-w-0 flex-1 flex-wrap content-start items-end gap-2 overflow-y-auto scrollbar-hide">
           {unused.map((name) => (
             <div
               key={name}
-              className="relative h-14 w-14 shrink-0 overflow-hidden border border-white/15 hover:border-white/50"
+              className="relative shrink-0 overflow-hidden border border-white/15 hover:border-white/50"
+              style={trayThumbSize(photoDimensions(region, name))}
               onPointerDown={(e) =>
                 edit.onPhotoPointerDown(e, { kind: "tray", name })
               }

@@ -6,6 +6,7 @@ const JapanPanel = lazy(() => import("./JapanPanel"));
 const MexicoCityPanel = lazy(() => import("./MexicoCityPanel"));
 const CanadaPanel = lazy(() => import("./CanadaPanel"));
 const ChinaPanel = lazy(() => import("./ChinaPanel"));
+const CaliforniaPanel = lazy(() => import("./CaliforniaPanel"));
 const ProjectsPanel = lazy(() => import("./ProjectsPanel"));
 const ExtrasPanel = lazy(() => import("./ExtrasPanel"));
 
@@ -29,6 +30,9 @@ const MobileHome = () => {
             </Suspense>
             <Suspense fallback={null}>
               <CanadaPanel />
+            </Suspense>
+            <Suspense fallback={null}>
+              <CaliforniaPanel />
             </Suspense>
           </div>
           <div className="mt-38">

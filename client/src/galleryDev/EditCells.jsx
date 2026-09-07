@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { dropKey, isHover, samePath } from "./dropUtils.mjs";
 
 const zoneBase = "absolute z-20 pointer-events-auto";
@@ -15,6 +16,7 @@ export function DropZone({ dest, hover, className = "" }) {
 }
 
 export function EditPhoto({ path, edit, children }) {
+  const [confirming, setConfirming] = useState(false);
   const selected =
     edit.selected?.type === "photo" && samePath(edit.selected, path);
   const dragging =
@@ -31,7 +33,7 @@ export function EditPhoto({ path, edit, children }) {
 
   return (
     <div
-      className={`relative min-w-0 w-full h-full ${selected ? "outline-solid outline-1 outline-white/80" : ""} ${
+      className={`group relative min-w-0 w-full h-full ${selected ? "outline-solid outline-1 outline-white/80" : ""} ${
         dragging ? "opacity-35" : ""
       }`}
       onClick={(e) => {
@@ -47,6 +49,58 @@ export function EditPhoto({ path, edit, children }) {
       onDragStart={(e) => e.preventDefault()}
     >
       {children}
+      {confirming ? (
+        <div
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-black/70 p-3"
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <p className="text-center text-sm text-white [font-family:system-ui,sans-serif]">
+            Are you sure?
+          </p>
+          <div className="flex gap-4">
+            <button
+              type="button"
+              className="cursor-pointer bg-transparent border-0 p-0 text-sm text-red-300 hover:text-red-200 [font-family:system-ui,sans-serif]"
+              onClick={(e) => {
+                e.stopPropagation();
+                edit.onDeletePhoto?.(path);
+              }}
+            >
+              Confirm
+            </button>
+            <button
+              type="button"
+              className="cursor-pointer bg-transparent border-0 p-0 text-sm text-white/85 hover:text-white [font-family:system-ui,sans-serif]"
+              onClick={(e) => {
+                e.stopPropagation();
+                setConfirming(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : photoDrag ? null : (
+        <button
+          type="button"
+          aria-label="Delete photo"
+          className="absolute right-0 top-0 z-30 flex h-7 w-7 items-center justify-center bg-black/70 text-base leading-none text-white/85 opacity-0 group-hover:opacity-100 hover:bg-black hover:text-white focus-visible:opacity-100"
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setConfirming(true);
+          }}
+        >
+          ×
+        </button>
+      )}
       {photoDrag ? (
         <>
           <DropZone dest={left} hover={edit.hover} className="inset-y-0 left-0 w-1/4" />
@@ -105,7 +159,7 @@ export function EditGroup({ path, edit, children }) {
 }
 
 export function EditRow({ rowIndex, edit, children, style }) {
-  const selected = edit.selected?.type === "row" && edit.selected.row === rowIndex;
+  const selected = edit.selected?.row === rowIndex;
   const draggingRow = edit.drag?.source?.kind === "row";
   const draggingThis = draggingRow && edit.drag.source.row === rowIndex;
   const last = rowIndex === (edit.items?.length ?? 0) - 1;

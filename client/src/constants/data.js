@@ -1,6 +1,6 @@
 import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 
-// ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, CHINA_ITEMS, JAPAN_ITEMS) ────
+// ── Gallery grid (MEXICO_ITEMS, CANADA_ITEMS, CHINA_ITEMS, JAPAN_ITEMS, CALIFORNIA_ITEMS) ────
 //
 // Row shape: { columns, size?, flex?, fit?, gap?, location? }
 //
@@ -21,7 +21,7 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 // location — optional place label for the whole row. Inherited by every photo in the
 //   row unless a photo entry sets its own `location`. China / Japan use bilingual
 //   form: "English · Local". Mexico only when English ≠ Spanish ("English / Spanish");
-//   same-name places stay single (e.g. "Roma Norte"). Canada is English-only.
+//   same-name places stay single (e.g. "Roma Norte"). Canada and California are English-only.
 //
 // flex — optional number[]; flex-grow per column (e.g. flex: [1, 2, 5])
 // fit — optional "contain"; keep aspect ratio, matched row heights (see chongqing row)
@@ -795,6 +795,119 @@ export const JAPAN_ITEMS = [
 export const JAPAN_GALLERY_PHOTOS = flattenGalleryItems(JAPAN_ITEMS);
 export const JAPAN_PHOTOS = JAPAN_GALLERY_PHOTOS.map((p) => p.name);
 
+export const CALIFORNIA_ITEMS = [
+  {
+    columns: [
+      ["twilight-birds"],
+      ["grazing-cows"],
+    ],
+  },
+  {
+    columns: [
+      ["ferry-building"],
+      ["golden-ripples"],
+    ],
+  },
+  {
+    columns: [
+      ["cable-car-turn"],
+      [],
+      ["cable-car-window"],
+    ],
+    flex: [3, 1, 3],
+  },
+  {
+    columns: [
+      ["palm-billboards"],
+      ["golden-hills"],
+    ],
+  },
+  {
+    columns: [
+      ["hikers-on-bridge"],
+      [],
+    ],
+    flex: [2, 1],
+  },
+  {
+    columns: [
+      [],
+      ["granite-dome"],
+      ["one-lane-road"],
+    ],
+    flex: [1, 1, 1],
+  },
+  {
+    columns: [
+      ["rocky-stream"],
+      ["river-rapids"],
+    ],
+  },
+  {
+    columns: [
+      ["goat-at-fence"],
+      ["sea-lions"],
+      ["pelicans"],
+    ],
+    flex: [4, 9, 9],
+  },
+  {
+    columns: [
+      ["golden-gate"],
+      [],
+    ],
+    flex: [1, 1],
+  },
+  {
+    columns: [
+      [],
+      ["skyline-view"],
+      ["ferris-wheel"],
+    ],
+  },
+  {
+    columns: [
+      ["van-flowers"],
+      ["flags-man"],
+      ["taiwan-flags"],
+      ["bakery-men-2"],
+    ],
+  },
+  {
+    columns: [
+      ["chaparral-hill"],
+      [],
+      ["yosemite-falls"],
+    ],
+    flex: [1, 1, 1],
+  },
+  {
+    columns: [
+      ["sea-stacks"],
+      ["mist-rainbow"],
+      ["coastal-haze"],
+    ],
+    flex: [9, 4, 9],
+  },
+  {
+    columns: [
+      [],
+      ["bay-bridge-lights"],
+      [],
+    ],
+    flex: [1, 1, 1],
+  },
+  {
+    columns: [
+      ["lone-oak"],
+      ["night-windmill"],
+    ],
+  },
+];
+
+export const CALIFORNIA_GALLERY_PHOTOS = flattenGalleryItems(CALIFORNIA_ITEMS);
+export const CALIFORNIA_PHOTOS = CALIFORNIA_GALLERY_PHOTOS.map((p) => p.name);
+
 /** Prefetch URLs for idle warming (matches GalleryImage `src` — no srcSet). */
 export function getGalleryPrefetchUrls(layout = "grid") {
   const urls = (region, photos) =>
@@ -804,6 +917,7 @@ export function getGalleryPrefetchUrls(layout = "grid") {
     ...urls("canada", CANADA_GALLERY_PHOTOS),
     ...urls("china", CHINA_GALLERY_PHOTOS),
     ...urls("japan", JAPAN_GALLERY_PHOTOS),
+    ...urls("california", CALIFORNIA_GALLERY_PHOTOS),
   ];
 }
 

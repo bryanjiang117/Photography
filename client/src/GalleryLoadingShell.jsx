@@ -2,6 +2,8 @@ import { useContext, useRef } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "./GalleryContext";
 import {
+  CALIFORNIA_GALLERY_PHOTOS,
+  CALIFORNIA_ITEMS,
   CANADA_GALLERY_PHOTOS,
   CANADA_ITEMS,
   CHINA_GALLERY_PHOTOS,
@@ -120,6 +122,32 @@ const REGION_CONFIG = {
       subtitle: "Canada",
     },
     closeKey: "setShowCanadaGallery",
+  },
+  california: {
+    items: CALIFORNIA_ITEMS,
+    photos: CALIFORNIA_GALLERY_PHOTOS,
+    bg: "bg-california-primary",
+    desktop: {
+      shellClass: "min-w-[1200px] min-h-[800px]",
+      leftClass: "text-white",
+      titleClass: "",
+      backClass:
+        "text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200",
+      rightClass: "text-white",
+      title: "加州",
+      titleLang: "zh-CN",
+      subtitle: "CALIFORNIA",
+    },
+    mobile: {
+      titleClass: "text-white",
+      backClass:
+        "text-white/65 cursor-pointer hover:text-white/90 transition-colors duration-200",
+      bottomClass: "text-white",
+      title: "加州",
+      titleLang: "zh-CN",
+      subtitle: "California",
+    },
+    closeKey: "setShowCaliforniaGallery",
   },
 };
 

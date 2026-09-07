@@ -12,7 +12,7 @@ import sharp from "sharp";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PHOTOS_ROOT = path.join(__dirname, "../public/assets/photos");
 const OUT = path.join(__dirname, "../src/constants/galleryAspectRatios.js");
-const REGIONS = ["mexico", "canada", "china", "japan"];
+const REGIONS = ["mexico", "canada", "china", "japan", "california"];
 
 export { PHOTOS_ROOT, OUT as ASPECT_RATIOS_OUT, REGIONS };
 

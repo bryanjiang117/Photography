@@ -17,6 +17,10 @@ const GALLERY_CHUNKS = {
     desktop: () => import("./panels/JapanGallery"),
     mobile: () => import("./mobile/JapanGallery"),
   },
+  california: {
+    desktop: () => import("./panels/CaliforniaGallery"),
+    mobile: () => import("./mobile/CaliforniaGallery"),
+  },
 };
 
 const resolved = new Map();

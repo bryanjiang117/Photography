@@ -36,6 +36,7 @@ export const REGION_EXPORTS = {
   mexico: "MEXICO_ITEMS",
   china: "CHINA_ITEMS",
   japan: "JAPAN_ITEMS",
+  california: "CALIFORNIA_ITEMS",
 };
 
 /** Originals the editor will convert. RAW files are rejected. */

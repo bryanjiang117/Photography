@@ -16,6 +16,16 @@ export function isHover(hover, dest) {
   return hover && dropKey(hover) === dropKey(dest);
 }
 
+/** Row to select after a drop so width controls stay on the row you just edited. */
+export function selectionAfterDrop(source, dest) {
+  if (!dest) return null;
+  if (dest.kind === "tray") {
+    return source?.kind === "photo" ? { type: "row", row: source.row } : null;
+  }
+  if (typeof dest.row === "number") return { type: "row", row: dest.row };
+  return null;
+}
+
 /** Selection after a press that did not become a drag. */
 export function selectionFromDragSource(source, didDrag = false) {
   if (didDrag || !source) return null;
