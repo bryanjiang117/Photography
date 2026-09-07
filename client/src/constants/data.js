@@ -50,25 +50,15 @@ export const CANADA_ITEMS = [
     location: "Bond Lake, Richmond Hill, Ontario",
   },
   {
-    columns: [
-      ["ferry-lookout"],
-    ],
+    columns: [["ferry-lookout"]],
     location: "Tsawwassen–Swartz Bay Ferry, British Columbia",
   },
   {
-    columns: [
-      ["container-ship"],
-      ["port-cranes"],
-      ["cargo-cranes"],
-    ],
+    columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [
-      ["fish-vendor"],
-      [],
-      ["boat-cabin"],
-    ],
+    columns: [["fish-vendor"], [], ["boat-cabin"]],
     location: "Steveston Village, Richmond, British Columbia",
   },
   {
@@ -101,33 +91,29 @@ export const CANADA_ITEMS = [
       [
         {
           name: "parliament-flowers",
-          location: "Legislative Assembly of British Columbia, Victoria, British Columbia",
+          location:
+            "Legislative Assembly of British Columbia, Victoria, British Columbia",
         },
       ],
       [
         {
           name: "war-memorial",
-          location: "Legislative Assembly of British Columbia, Victoria, British Columbia",
+          location:
+            "Legislative Assembly of British Columbia, Victoria, British Columbia",
         },
       ],
     ],
     location: "Victoria, British Columbia",
   },
   {
-    columns: [
-      ["orca"],
-      [],
-    ],
+    columns: [["orca"], []],
     size: "lg",
     flex: [4, 5],
     location: "Victoria, British Columbia",
   },
   {
     columns: [
-      [
-        ["flower-lamppost"],
-        [],
-      ],
+      [["flower-lamppost"], []],
       [
         {
           name: "nootka-court",
@@ -255,11 +241,7 @@ export const CANADA_ITEMS = [
     location: "Trinity Bellwoods Park, Toronto, Ontario",
   },
   {
-    columns: [
-      ["pylons"],
-      [],
-      ["watering-can"],
-    ],
+    columns: [["pylons"], [], ["watering-can"]],
     flex: [3, 1, 3],
     location: "D'arcy St, Toronto, Ontario",
   },
@@ -340,11 +322,7 @@ export const CANADA_ITEMS = [
     location: "Toronto, Ontario",
   },
   {
-    columns: [
-      ["wet-leaves"],
-      ["rainy-roses"],
-      ["rainy-pot"],
-    ],
+    columns: [["wet-leaves"], ["rainy-roses"], ["rainy-pot"]],
     size: "sm",
     location: "Scarborough, Ontario",
   },
@@ -382,17 +360,12 @@ export const CANADA_ITEMS = [
     location: "Scarborough, Ontario",
   },
   {
-    columns: [
-      ["farm-ca"],
-      ["windows-xp-grass"],
-    ],
+    columns: [["farm-ca"], ["windows-xp-grass"]],
     size: "md",
     location: "Ontario",
   },
   {
-    columns: [
-      ["peach-roses"],
-    ],
+    columns: [["peach-roses"]],
     location: "Scarborough, Ontario",
   },
 ];
@@ -860,57 +833,34 @@ export const JAPAN_PHOTOS = JAPAN_GALLERY_PHOTOS.map((p) => p.name);
 
 export const CALIFORNIA_ITEMS = [
   {
-    columns: [
-      ["twilight-birds"],
-      ["grazing-cows"],
-    ],
+    columns: [["twilight-birds"], ["grazing-cows"]],
     location: "California",
   },
   {
-    columns: [
-      ["ferry-building"],
-      ["golden-ripples"],
-    ],
+    columns: [["ferry-building"], ["golden-ripples"]],
     location: "San Francisco, California",
   },
   {
-    columns: [
-      ["cable-car-turn"],
-      [],
-      ["cable-car-window"],
-    ],
+    columns: [["cable-car-turn"], [], ["cable-car-window"]],
     flex: [3, 1, 3],
     location: "San Francisco, California",
   },
   {
-    columns: [
-      ["palm-billboards"],
-      ["golden-hills"],
-    ],
+    columns: [["palm-billboards"], ["golden-hills"]],
     location: "California",
   },
   {
-    columns: [
-      ["hikers-on-bridge"],
-      [],
-    ],
+    columns: [["hikers-on-bridge"], []],
     flex: [2, 1],
     location: "Yosemite National Park, California",
   },
   {
-    columns: [
-      [],
-      ["granite-dome"],
-      ["one-lane-road"],
-    ],
+    columns: [[], ["granite-dome"], ["one-lane-road"]],
     flex: [1, 1, 1],
     location: "Yosemite National Park, California",
   },
   {
-    columns: [
-      ["rocky-stream"],
-      ["river-rapids"],
-    ],
+    columns: [["rocky-stream"], ["river-rapids"]],
     location: "Yosemite National Park, California",
   },
   {
@@ -937,10 +887,7 @@ export const CALIFORNIA_ITEMS = [
     flex: [4, 9, 9],
   },
   {
-    columns: [
-      ["golden-gate"],
-      [],
-    ],
+    columns: [["golden-gate"], []],
     flex: [1, 1],
     location: "Lands End, San Francisco, California",
   },
@@ -999,11 +946,7 @@ export const CALIFORNIA_ITEMS = [
     location: "Lands End, San Francisco, California",
   },
   {
-    columns: [
-      [],
-      ["bay-bridge-lights"],
-      [],
-    ],
+    columns: [[], ["bay-bridge-lights"], []],
     flex: [1, 1, 1],
     location: "San Francisco, California",
   },
@@ -1088,7 +1031,7 @@ export const SOCIALS = [
 
 export const INTRO = {
   nameZh: "姜昊周",
-  nameEn: "Bryan Jiang",
+  nameEn: "Bryan",
   nameCaption: "This is my name",
   location: "Toronto",
   timezone: "EST",
@@ -1096,7 +1039,7 @@ export const INTRO = {
     "你好，我叫姜昊周。我是个喜欢美术的软件工程师。这是我的一些作品。欢迎来到我的网站。",
   blurbEnBefore: "Nice to meet you. My name is ",
   blurbEnAfter:
-    ". I'm a developer who loves visual art. Welcome to my WIP site.",
+    ". I'm a developer who loves visual art. You'll see photos I've taken, projects I've built, and a bit more about me. Welcome to my WIP site.",
 };
 
 export const ABOUT_ME = {
