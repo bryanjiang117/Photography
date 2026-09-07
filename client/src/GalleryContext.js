@@ -11,4 +11,6 @@ export const GalleryContext = createContext({
   setShowChinaGallery: () => {},
   showJapanGallery: false,
   setShowJapanGallery: () => {},
+  showCaliforniaGallery: false,
+  setShowCaliforniaGallery: () => {},
 });

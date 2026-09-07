@@ -10,7 +10,7 @@ If you add new Chinese/Japanese characters anywhere with `font-tsm`, regenerate 
 # Requires: pipx install fonttools && pipx inject fonttools brotli
 pyftsubset \
   client/public/assets/fonts/TsukuhouShogoMin-OFL.ttf \
-  --text="姜昊周日本にほん墨西哥城摄影加拿大中国最爱动漫此刻最近播放作品电脑 !\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_\`abcdefghijklmnopqrstuvwxyz{|}~‧←" \
+  --text="姜昊周日本にほん墨西哥城摄影加拿大加州中国最爱动漫此刻最近播放作品电脑 !\"#\$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_\`abcdefghijklmnopqrstuvwxyz{|}~‧←" \
   --flavor=woff2 \
   --output-file=client/public/assets/fonts/TsukuhouShogoMin-subset.woff2
 ```
@@ -25,7 +25,7 @@ If you add new Chinese characters anywhere with `font-sh`, regenerate both subse
 
 ```bash
 # Requires: pipx install fonttools && pipx inject fonttools brotli
-TEXT='姜昊周你好，我叫。我是个喜欢美术的软件工程师。这是我的一些作品。欢迎来到我的网站。墨西哥城摄影加拿大中国日本作品电脑设计软件最爱的影视动漫最近播放。我在多伦多写代码，也喜欢拍照、看片和画画。下面是一点关于我的事。爱好仓库提交贡献即将推出。嗨，我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。欢迎联系我。'
+TEXT='姜昊周你好，我叫。我是个喜欢美术的软件工程师。这是我的一些作品。欢迎来到我的网站。墨西哥城摄影加拿大加州中国日本作品电脑设计软件最爱的影视动漫最近播放。我在多伦多写代码，也喜欢拍照、看片和画画。下面是一点关于我的事。爱好仓库提交贡献即将推出。嗨，我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。欢迎联系我。'
 ASCII=' !"#$%&'"'"'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~‧←'
 for w in Medium Bold; do
   pyftsubset \
@@ -40,7 +40,7 @@ Add any new CJK characters to `TEXT` before running.
 
 ### Gallery photos (responsive AVIF)
 
-Each gallery photo has four files: `name-sm.avif` (800px longest side), `name-md.avif` (1400px), `name-lg.avif` (2400px), and `name.avif` (uncapped master). Set max variant per row in `MEXICO_ITEMS` / `CANADA_ITEMS` / `CHINA_ITEMS` / `JAPAN_ITEMS` with `size: "sm" | "md" | "lg" | "full"`, or per image with `{ name: "orange-wall", size: "lg" }`. Prefer `lg` for large display; leave `full` unused unless you explicitly want the master.
+Each gallery photo has four files: `name-sm.avif` (800px longest side), `name-md.avif` (1400px), `name-lg.avif` (2400px), and `name.avif` (uncapped master). Set max variant per row in `MEXICO_ITEMS` / `CANADA_ITEMS` / `CHINA_ITEMS` / `JAPAN_ITEMS` / `CALIFORNIA_ITEMS` with `size: "sm" | "md" | "lg" | "full"`, or per image with `{ name: "orange-wall", size: "lg" }`. Prefer `lg` for large display; leave `full` unused unless you explicitly want the master.
 
 After adding or replacing a master `.avif`, regenerate variants:
 
@@ -70,8 +70,8 @@ This writes `client/src/constants/galleryPhotoMeta.js` for hover + lightbox capt
 
 ### Local gallery editor (dev only)
 
-In `npm run dev`, open a desktop gallery and click **Edit** (above the back arrow). You can drag photos, drop blanks, stack, nest groups, and set location / size / fit / widths / gap in the side panel.
+In `npm run dev`, open a desktop gallery and click **Edit** (above the back arrow). You can drag photos, drop blanks, stack, nest groups, and set location / size / fit / widths / gap in the side panel. Clicking a photo, adding a blank, or dropping onto a row selects that row so the width controls stay available. Hover a placed photo and click **×**, then confirm, to remove it from the grid.
 
-- **Import** drops one or more originals (JPEG, TIFF, HEIC, PNG, WebP) into `client/originals/{region}/` and puts them in the unused tray as soon as the original is saved, so you can place them while sm/md/lg AVIFs generate in the background.
+- **Import** drops one or more originals (JPEG, TIFF, HEIC, PNG, WebP) into `client/originals/{region}/` and puts them in the unused tray as soon as the original is saved, so you can place them while sm/md/lg AVIFs generate in the background. Tray thumbs keep the photo’s aspect ratio with a 56px short side, so portraits stay readable.
 - **Save** writes that region’s `*_ITEMS` in `data.js`. **×** on an unused tray photo deletes the original and AVIFs immediately. Deleting a photo from the grid removes it from the layout; those files are deleted when you save.
 - **Done** hides the editor chrome and keeps unsaved changes. **Discard** restores the last saved layout. Production builds do not include the editor button.

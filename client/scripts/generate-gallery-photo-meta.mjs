@@ -16,7 +16,7 @@ import exifr from "exifr";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ORIGINALS_ROOT = path.join(__dirname, "../originals");
 const OUT = path.join(__dirname, "../src/constants/galleryPhotoMeta.js");
-const REGIONS = ["mexico", "canada", "china", "japan"];
+const REGIONS = ["mexico", "canada", "china", "japan", "california"];
 export const IMAGE_EXT = new Set([
   ".jpeg",
   ".jpg",

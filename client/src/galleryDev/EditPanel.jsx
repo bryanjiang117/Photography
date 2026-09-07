@@ -51,9 +51,22 @@ function FlexWidthInput({ value, onCommit, className }) {
   );
 }
 
+function photoEntry(items, selected) {
+  const row = items[selected.row];
+  const col = row?.columns?.[selected.col];
+  const entry =
+    selected.sub != null
+      ? col?.[selected.entry]?.[selected.sub]
+      : col?.[selected.entry];
+  if (entry && typeof entry === "object" && !Array.isArray(entry)) return entry;
+  if (typeof entry === "string") return { name: entry };
+  return null;
+}
+
 export default function EditPanel({ edit }) {
   const { selected, items } = edit;
-  if (!selected) {
+  const row = selected?.row != null ? items[selected.row] : null;
+  if (!row) {
     return (
       <div className="flex h-full flex-col justify-end px-6 pb-6 text-white">
         <p className={headingClass}>
@@ -63,194 +76,132 @@ export default function EditPanel({ edit }) {
     );
   }
 
-  if (selected.type === "row") {
-    const row = items[selected.row];
-    if (!row) return null;
-    const flex = row.flex ?? row.columns.map(() => 1);
-    return (
-      <div className="flex h-full flex-col gap-5 overflow-y-auto px-6 py-6 text-white scrollbar-hide">
-        <p className={headingClass}>
-          Row {selected.row + 1}
-        </p>
-        <label>
-          <span className={labelClass}>Location</span>
-          <input
-            className={fieldClass}
-            value={row.location ?? ""}
-            onChange={(e) =>
-              edit.setRowField(selected.row, "location", e.target.value)
-            }
-          />
-        </label>
-        <label>
-          <span className={labelClass}>Size</span>
-          <select
-            className={`${fieldClass} cursor-pointer`}
-            value={row.size ?? ""}
-            onChange={(e) =>
-              edit.setRowField(selected.row, "size", e.target.value)
-            }
-          >
-            <option value="">{rowDefaultSize({ columns: row.columns })} (default)</option>
-            {SIZES.filter(Boolean).map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2 text-sm text-white/90 [font-family:system-ui,sans-serif]">
-          <input
-            type="checkbox"
-            checked={row.fit === "contain"}
-            onChange={(e) =>
-              edit.setRowField(
-                selected.row,
-                "fit",
-                e.target.checked ? "contain" : "",
-              )
-            }
-          />
-          Fit contain
-        </label>
-        <label>
-          <span className={labelClass}>Gap above ({row.gap ?? 20})</span>
-          <input
-            type="range"
-            min={0}
-            max={40}
-            value={row.gap ?? 20}
-            onChange={(e) =>
-              edit.setRowField(selected.row, "gap", Number(e.target.value))
-            }
-            className="w-full accent-white"
-          />
-        </label>
-        <div>
-          <span className={labelClass}>Column widths</span>
-          <div className="flex flex-col gap-2">
-            {flex.map((n, i) => (
-              <label key={i} className="flex items-center gap-2 text-sm text-white/80 [font-family:system-ui,sans-serif]">
-                <span className="w-6">{i + 1}</span>
-                <FlexWidthInput
-                  value={n}
-                  className={fieldClass}
-                  onCommit={(width) => {
-                    const next = [...flex];
-                    next[i] = width;
-                    edit.setFlex(selected.row, next);
-                  }}
-                />
-              </label>
-            ))}
-          </div>
+  const flex = row.flex ?? row.columns.map(() => 1);
+  const parsed = selected.type === "photo" ? photoEntry(items, selected) : null;
+  const confirming = parsed && edit.confirmDelete === parsed.name;
+  const inheritSize = rowDefaultSize(row);
+
+  return (
+    <div className="flex h-full flex-col gap-5 overflow-y-auto px-6 py-6 text-white scrollbar-hide">
+      <p className={headingClass}>
+        Row {selected.row + 1}
+      </p>
+      <label>
+        <span className={labelClass}>Location</span>
+        <input
+          className={fieldClass}
+          value={row.location ?? ""}
+          onChange={(e) =>
+            edit.setRowField(selected.row, "location", e.target.value)
+          }
+        />
+      </label>
+      <label>
+        <span className={labelClass}>Size</span>
+        <select
+          className={`${fieldClass} cursor-pointer`}
+          value={row.size ?? ""}
+          onChange={(e) =>
+            edit.setRowField(selected.row, "size", e.target.value)
+          }
+        >
+          <option value="">{rowDefaultSize({ columns: row.columns })} (default)</option>
+          {SIZES.filter(Boolean).map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="flex items-center gap-2 text-sm text-white/90 [font-family:system-ui,sans-serif]">
+        <input
+          type="checkbox"
+          checked={row.fit === "contain"}
+          onChange={(e) =>
+            edit.setRowField(
+              selected.row,
+              "fit",
+              e.target.checked ? "contain" : "",
+            )
+          }
+        />
+        Fit contain
+      </label>
+      <label>
+        <span className={labelClass}>Gap above ({row.gap ?? 20})</span>
+        <input
+          type="range"
+          min={0}
+          max={40}
+          value={row.gap ?? 20}
+          onChange={(e) =>
+            edit.setRowField(selected.row, "gap", Number(e.target.value))
+          }
+          className="w-full accent-white"
+        />
+      </label>
+      <div>
+        <span className={labelClass}>Column widths</span>
+        <div className="flex flex-col gap-2">
+          {flex.map((n, i) => (
+            <label key={i} className="flex items-center gap-2 text-sm text-white/80 [font-family:system-ui,sans-serif]">
+              <span className="w-6">{i + 1}</span>
+              <FlexWidthInput
+                value={n}
+                className={fieldClass}
+                onCommit={(width) => {
+                  const next = [...flex];
+                  next[i] = width;
+                  edit.setFlex(selected.row, next);
+                }}
+              />
+            </label>
+          ))}
         </div>
-        <div className="mt-auto flex flex-col items-start gap-3 pt-4">
-          <button type="button" className={btnClass} onClick={() => edit.onAddBlank(selected.row)}>
-            Add blank
-          </button>
-          <button
-            type="button"
-            className={btnClass}
-            onClick={() => edit.onAddRow(selected.row + 1)}
-          >
-            Add row below
-          </button>
-          <button
-            type="button"
-            className={`${btnClass} disabled:opacity-30`}
-            disabled={selected.row === 0}
-            onClick={() => edit.onMoveRow(selected.row, -1)}
-          >
-            Move up
-          </button>
-          <button
-            type="button"
-            className={`${btnClass} disabled:opacity-30`}
-            disabled={selected.row === items.length - 1}
-            onClick={() => edit.onMoveRow(selected.row, 1)}
-          >
-            Move down
-          </button>
+      </div>
+      {selected.type === "blank" ? (
+        <div className="flex flex-col gap-2">
+          <p className={headingClass}>Blank</p>
           <button
             type="button"
             className={`${btnClass} text-red-300/80 hover:text-red-200`}
-            onClick={() => edit.onDeleteRow(selected.row)}
+            onClick={() => edit.onDeleteBlank(selected)}
           >
-            Delete row
+            Remove blank
           </button>
         </div>
-      </div>
-    );
-  }
-
-  if (selected.type === "blank") {
-    return (
-      <div className="flex h-full flex-col gap-5 px-6 py-6 text-white">
-        <p className={headingClass}>
-          Blank
-        </p>
-        <p className="text-sm text-white/80 [font-family:system-ui,sans-serif]">
-          Drop a photo here, or remove the space.
-        </p>
-        <button
-          type="button"
-          className={`${btnClass} text-red-300/80 hover:text-red-200`}
-          onClick={() => edit.onDeleteBlank(selected)}
-        >
-          Remove blank
-        </button>
-      </div>
-    );
-  }
-
-  if (selected.type === "photo") {
-    const row = items[selected.row];
-    const col = row?.columns?.[selected.col];
-    const entry =
-      selected.sub != null
-        ? col?.[selected.entry]?.[selected.sub]
-        : col?.[selected.entry];
-    const parsed = entry && typeof entry === "object" && !Array.isArray(entry)
-      ? entry
-      : { name: typeof entry === "string" ? entry : "" };
-    if (!parsed.name) return null;
-    const confirming = edit.confirmDelete === parsed.name;
-    const inheritSize = row ? rowDefaultSize(row) : "md";
-    return (
-      <div className="flex h-full flex-col gap-5 overflow-y-auto px-6 py-6 text-white scrollbar-hide">
-        <p className={`${headingClass} break-all`}>
-          {parsed.name}
-        </p>
-        <label>
-          <span className={labelClass}>Location override</span>
-          <input
-            className={fieldClass}
-            placeholder="row location"
-            value={parsed.location ?? ""}
-            onChange={(e) =>
-              edit.setPhotoField(selected, "location", e.target.value)
-            }
-          />
-        </label>
-        <label>
-          <span className={labelClass}>Size override</span>
-          <select
-            className={`${fieldClass} cursor-pointer`}
-            value={parsed.size ?? ""}
-            onChange={(e) =>
-              edit.setPhotoField(selected, "size", e.target.value)
-            }
-          >
-            <option value="">{inheritSize} (default)</option>
-            {SIZES.filter(Boolean).map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="mt-auto pt-4">
+      ) : null}
+      {parsed?.name ? (
+        <div className="flex flex-col gap-5">
+          <p className={`${headingClass} break-all`}>{parsed.name}</p>
+          <label>
+            <span className={labelClass}>Location override</span>
+            <input
+              className={fieldClass}
+              placeholder="row location"
+              value={parsed.location ?? ""}
+              onChange={(e) =>
+                edit.setPhotoField(selected, "location", e.target.value)
+              }
+            />
+          </label>
+          <label>
+            <span className={labelClass}>Size override</span>
+            <select
+              className={`${fieldClass} cursor-pointer`}
+              value={parsed.size ?? ""}
+              onChange={(e) =>
+                edit.setPhotoField(selected, "size", e.target.value)
+              }
+            >
+              <option value="">{inheritSize} (default)</option>
+              {SIZES.filter(Boolean).map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </label>
           {confirming ? (
             <div className="flex flex-col gap-2">
               <p className="text-sm text-white/85 [font-family:system-ui,sans-serif]">
@@ -284,9 +235,42 @@ export default function EditPanel({ edit }) {
             </button>
           )}
         </div>
+      ) : null}
+      <div className="mt-auto flex flex-col items-start gap-3 pt-4">
+        <button type="button" className={btnClass} onClick={() => edit.onAddBlank(selected.row)}>
+          Add blank
+        </button>
+        <button
+          type="button"
+          className={btnClass}
+          onClick={() => edit.onAddRow(selected.row + 1)}
+        >
+          Add row below
+        </button>
+        <button
+          type="button"
+          className={`${btnClass} disabled:opacity-30`}
+          disabled={selected.row === 0}
+          onClick={() => edit.onMoveRow(selected.row, -1)}
+        >
+          Move up
+        </button>
+        <button
+          type="button"
+          className={`${btnClass} disabled:opacity-30`}
+          disabled={selected.row === items.length - 1}
+          onClick={() => edit.onMoveRow(selected.row, 1)}
+        >
+          Move down
+        </button>
+        <button
+          type="button"
+          className={`${btnClass} text-red-300/80 hover:text-red-200`}
+          onClick={() => edit.onDeleteRow(selected.row)}
+        >
+          Delete row
+        </button>
       </div>
-    );
-  }
-
-  return null;
+    </div>
+  );
 }

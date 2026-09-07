@@ -10,6 +10,7 @@
   --color-japan-primary: rgb(125, 112, 70);
   --color-mexico-primary: rgb(15, 76, 129);
   --color-canada-primary: rgb(165, 60, 20);
+  --color-california-primary: rgba(160, 95, 40);
   /* --color-china-primary: rgb(110, 110, 100); */
   --color-china-primary: rgb(22, 22, 20);
   --color-china-text: rgb(65, 65, 58);
@@ -94,7 +95,7 @@
 /* Cycles `.` → `..` → `...` for loading placeholders; fixed width avoids layout shift */
 @keyframes loading-dots {
   0% {
-    content: ""
+    content: "";
   }
   20% {
     content: ".";
@@ -267,20 +268,28 @@
     }
 
     :is(
-      a,
-      button,
-      summary,
-      [type="button"],
-      [type="submit"],
-      [type="reset"],
-      [role="button"]
-    ):focus-visible::after {
+        a,
+        button,
+        summary,
+        [type="button"],
+        [type="submit"],
+        [type="reset"],
+        [role="button"]
+      ):focus-visible::after {
       content: none;
     }
   }
 }
 
-:is(a, button, summary, [type="button"], [type="submit"], [type="reset"], [role="button"]).p-0:focus-visible:not(.block):not(:has(img)) {
+:is(
+    a,
+    button,
+    summary,
+    [type="button"],
+    [type="submit"],
+    [type="reset"],
+    [role="button"]
+  ).p-0:focus-visible:not(.block):not(:has(img)) {
   padding-block: 0.35rem;
   padding-inline: 0.5rem;
   margin-block: -0.35rem;

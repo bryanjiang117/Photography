@@ -11,7 +11,9 @@ const MexicoCityPanel = () => {
   return (
     <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">
       <div className="flex flex-col h-full">
-        <section className="relative flex-1 w-full bg-mexico-primary">
+        <section className="relative flex flex-1 w-full items-end gap-3">
+          <div className="h-[70%] w-[18%] bg-mexico-primary" />
+          <div className="h-full flex-1 bg-mexico-primary" />
           <motion.img
             src={galleryImageUrl("mexico", "orange-wall", "md")}
             loading="lazy"

@@ -5,6 +5,7 @@ export const GALLERY_PATHS = {
   mexico: "/mexico_city",
   canada: "/canada",
   china: "/china",
+  california: "/california",
 };
 
 const PATH_TO_REGION = Object.fromEntries(

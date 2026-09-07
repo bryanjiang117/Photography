@@ -1,4 +1,6 @@
 import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import {
   importOriginal,
   listPhotoNames,
@@ -18,6 +20,35 @@ const PREVIEW_TYPES = {
   ".png": "image/png",
   ".webp": "image/webp",
 };
+
+const PHOTOS_ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "public/assets/photos",
+);
+
+const PHOTO_TYPES = {
+  ...PREVIEW_TYPES,
+  ".avif": "image/avif",
+};
+
+/** Serve photos from disk so files added after `vite` starts (watch ignores this folder). */
+function tryServePublicPhoto(req, res, next) {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  const pathname = decodeURIComponent((req.url || "").split("?")[0]);
+  if (!pathname.startsWith("/assets/photos/")) return next();
+  const rel = path.normalize(pathname.slice("/assets/photos/".length));
+  if (!rel || rel === "." || rel.startsWith("..") || path.isAbsolute(rel)) {
+    return next();
+  }
+  const filePath = path.resolve(PHOTOS_ROOT, rel);
+  const root = PHOTOS_ROOT.endsWith(path.sep)
+    ? PHOTOS_ROOT
+    : `${PHOTOS_ROOT}${path.sep}`;
+  if (filePath !== PHOTOS_ROOT && !filePath.startsWith(root)) return next();
+  if (!fs.existsSync(filePath) || !fs.statSync(filePath).isFile()) return next();
+  const ext = path.extname(filePath).toLowerCase();
+  sendFile(res, filePath, PHOTO_TYPES[ext] || "application/octet-stream");
+}
 
 /** @type {Map<string, { promise: Promise<unknown>; cancelled: { value: boolean } }>} */
 const variantJobs = new Map();
@@ -60,6 +91,7 @@ export default function galleryDevPlugin() {
     name: "gallery-dev",
     apply: "serve",
     configureServer(server) {
+      server.middlewares.use(tryServePublicPhoto);
       server.middlewares.use(async (req, res, next) => {
         const raw = req.url || "";
         const pathname = raw.split("?")[0];

@@ -69,6 +69,9 @@ function GalleryRouteProvider({ introReady, stripReady, children }) {
   const setShowMexicoGallery = useGalleryNavigateSetter(GALLERY_PATHS.mexico);
   const setShowCanadaGallery = useGalleryNavigateSetter(GALLERY_PATHS.canada);
   const setShowChinaGallery = useGalleryNavigateSetter(GALLERY_PATHS.china);
+  const setShowCaliforniaGallery = useGalleryNavigateSetter(
+    GALLERY_PATHS.california,
+  );
 
   const value = useMemo(
     () => ({
@@ -82,6 +85,8 @@ function GalleryRouteProvider({ introReady, stripReady, children }) {
       setShowCanadaGallery,
       showChinaGallery: region === "china",
       setShowChinaGallery,
+      showCaliforniaGallery: region === "california",
+      setShowCaliforniaGallery,
     }),
     [
       introReady,
@@ -91,6 +96,7 @@ function GalleryRouteProvider({ introReady, stripReady, children }) {
       setShowMexicoGallery,
       setShowCanadaGallery,
       setShowChinaGallery,
+      setShowCaliforniaGallery,
     ],
   );
 
@@ -106,6 +112,7 @@ function AnimatedRoutes() {
     showCanadaGallery,
     showChinaGallery,
     showJapanGallery,
+    showCaliforniaGallery,
   } = useContext(GalleryContext);
   const isMobile = useIsMobile();
 
@@ -130,6 +137,11 @@ function AnimatedRoutes() {
         isMobile={isMobile}
       />
       <GallerySlot show={showJapanGallery} region="japan" isMobile={isMobile} />
+      <GallerySlot
+        show={showCaliforniaGallery}
+        region="california"
+        isMobile={isMobile}
+      />
     </>
   );
 }

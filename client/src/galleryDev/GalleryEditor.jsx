@@ -26,7 +26,7 @@ import {
   EditPhoto,
   EditRow,
 } from "./EditCells";
-import { selectionFromDragSource } from "./dropUtils.mjs";
+import { selectionAfterDrop, selectionFromDragSource } from "./dropUtils.mjs";
 import EditPanel from "./EditPanel";
 import EditTray from "./EditTray";
 import {
@@ -199,6 +199,8 @@ export default function GalleryEditor({
       return;
     }
     setItems((prev) => applyDrop(prev, { source, dest }));
+    const nextSel = selectionAfterDrop(source, dest);
+    if (nextSel) setSelected(nextSel);
   }, []);
 
   const onPhotoPointerDown = useCallback(
@@ -301,9 +303,11 @@ export default function GalleryEditor({
     setFlex: (row, flex) => setItems((prev) => setColumnFlex(prev, row, flex)),
     onAddBlank: (row) => {
       setItems((prev) => addBlankColumn(prev, row, prev[row].columns.length));
+      setSelected({ type: "row", row });
     },
     onInsertBlank: (row, col) => {
       setItems((prev) => addBlankColumn(prev, row, col));
+      setSelected({ type: "row", row });
     },
     onAddRow: (at) => {
       setItems((prev) => addRow(prev, at));
@@ -327,7 +331,7 @@ export default function GalleryEditor({
       const { items: next, name } = deletePhoto(items, path);
       if (name) setPendingDeletes((prev) => [...prev, name]);
       setItems(next);
-      setSelected(null);
+      setSelected({ type: "row", row: path.row });
       setConfirmDelete(null);
     },
     onDeleteUnused: async (name) => {
@@ -500,6 +504,7 @@ export default function GalleryEditor({
         onFlexPointerDown: edit.onFlexPointerDown,
         onGapPointerDown: edit.onGapPointerDown,
         consumeClickSkip: edit.consumeClickSkip,
+        onDeletePhoto: edit.onDeletePhoto,
         onLightbox: (path) => {
           const parsed = parseEntry(entryAt(items, path));
           if (parsed) onLightbox?.(parsed.name);

@@ -20,7 +20,7 @@ import sharp from "sharp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PHOTOS_ROOT = path.join(__dirname, "../public/assets/photos");
-const REGIONS = ["mexico", "canada", "china", "japan"];
+const REGIONS = ["mexico", "canada", "china", "japan", "california"];
 /** Max longest edge (px) per sized tier. */
 const LONGEST = { sm: 800, md: 1400, lg: 2400 };
 const ALL_VARIANTS = /** @type {const} */ (["sm", "md", "lg"]);
