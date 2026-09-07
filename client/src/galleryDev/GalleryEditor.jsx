@@ -31,6 +31,7 @@ import EditPanel from "./EditPanel";
 import EditTray from "./EditTray";
 import {
   addBlankColumn,
+  addBlankInColumn,
   addRow,
   applyDrop,
   collectNames,
@@ -309,6 +310,10 @@ export default function GalleryEditor({
       setItems((prev) => addBlankColumn(prev, row, col));
       setSelected({ type: "row", row });
     },
+    onInsertStackBlank: (row, col, at) => {
+      setItems((prev) => addBlankInColumn(prev, row, col, at));
+      setSelected({ type: "blank", row, col, entry: at });
+    },
     onAddRow: (at) => {
       setItems((prev) => addRow(prev, at));
       setSelected({ type: "row", row: at });
@@ -501,6 +506,7 @@ export default function GalleryEditor({
         onPhotoPointerDown,
         onAddBlank: edit.onAddBlank,
         onInsertBlank: edit.onInsertBlank,
+        onInsertStackBlank: edit.onInsertStackBlank,
         onFlexPointerDown: edit.onFlexPointerDown,
         onGapPointerDown: edit.onGapPointerDown,
         consumeClickSkip: edit.consumeClickSkip,

@@ -70,7 +70,7 @@ This writes `client/src/constants/galleryPhotoMeta.js` for hover + lightbox capt
 
 ### Local gallery editor (dev only)
 
-In `npm run dev`, open a desktop gallery and click **Edit** (above the back arrow). You can drag photos, drop blanks, stack, nest groups, and set location / size / fit / widths / gap in the side panel. Clicking a photo, adding a blank, or dropping onto a row selects that row so the width controls stay available. Hover a placed photo and click **×**, then confirm, to remove it from the grid.
+In `npm run dev`, open a desktop gallery and click **Edit** (above the back arrow). You can drag photos, drop blanks, stack, nest groups, and set location / size / fit / widths / gap in the side panel. Clicking a photo, adding a blank, or dropping onto a row selects that row so the width controls stay available. Hover a placed photo and click **×**, then confirm, to remove it from the grid. **+** above or below a photo (or group) inserts a vertical blank in that column so leftover height pads the image; **+** between columns still inserts a blank column.
 
 - **Import** drops one or more originals (JPEG, TIFF, HEIC, PNG, WebP) into `client/originals/{region}/` and puts them in the unused tray as soon as the original is saved, so you can place them while sm/md/lg AVIFs generate in the background. Tray thumbs keep the photo’s aspect ratio with a 56px short side, so portraits stay readable.
 - **Save** writes that region’s `*_ITEMS` in `data.js`. **×** on an unused tray photo deletes the original and AVIFs immediately. Deleting a photo from the grid removes it from the layout; those files are deleted when you save.

@@ -2,6 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
   addBlankColumn,
+  addBlankInColumn,
   applyDrop,
   collectNames,
   deletePhoto,
@@ -179,6 +180,25 @@ describe("delete / row ops", () => {
     const next = addBlankColumn(items, 0, 1);
     assert.deepEqual(next[0].columns, [photo("a"), []]);
     assert.deepEqual(next[0].flex, [2, 1]);
+  });
+
+  it("inserts a vertical blank above a photo in a column", () => {
+    const items = [{ columns: [photo("a"), photo("b")] }];
+    const next = addBlankInColumn(items, 0, 0, 0);
+    assert.deepEqual(next[0].columns[0], [[], "a"]);
+    assert.deepEqual(next[0].columns[1], photo("b"));
+  });
+
+  it("inserts a vertical blank below a photo in a column", () => {
+    const items = [{ columns: [photo("a")] }];
+    const next = addBlankInColumn(items, 0, 0, 1);
+    assert.deepEqual(next[0].columns[0], ["a", []]);
+  });
+
+  it("inserts a vertical blank between stacked entries", () => {
+    const items = [{ columns: [["a", "b"]] }];
+    const next = addBlankInColumn(items, 0, 0, 1);
+    assert.deepEqual(next[0].columns[0], ["a", [], "b"]);
   });
 
   it("sets row and photo fields", () => {

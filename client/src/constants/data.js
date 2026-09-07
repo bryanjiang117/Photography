@@ -24,7 +24,9 @@ import { flattenGalleryItems, galleryPrefetchUrl } from "../galleryImages";
 //   same-name places stay single (e.g. "Roma Norte"). Canada and California are English-only.
 //
 // flex — optional number[]; flex-grow per column (e.g. flex: [1, 2, 5])
-// fit — optional "contain"; keep aspect ratio, matched row heights (see chongqing row)
+// fit — optional "contain"; keep aspect ratio, matched row heights when `flex`
+//   is omitted (columns size from each photo's aspect). If you set `flex`, those
+//   widths win and contain does not override them.
 // gap — optional number (Tailwind spacing scale) for the space ABOVE the row;
 //   default is 20 (the grid's gap-20 / 5rem). Smaller = tighter (gap: 8 → 2rem).
 //
@@ -48,15 +50,25 @@ export const CANADA_ITEMS = [
     location: "Bond Lake, Richmond Hill, Ontario",
   },
   {
-    columns: [["ferry-lookout"]],
+    columns: [
+      ["ferry-lookout"],
+    ],
     location: "Tsawwassen–Swartz Bay Ferry, British Columbia",
   },
   {
-    columns: [["container-ship"], ["port-cranes"], ["cargo-cranes"]],
+    columns: [
+      ["container-ship"],
+      ["port-cranes"],
+      ["cargo-cranes"],
+    ],
     location: "Vancouver, British Columbia",
   },
   {
-    columns: [["fish-vendor"], [], ["boat-cabin"]],
+    columns: [
+      ["fish-vendor"],
+      [],
+      ["boat-cabin"],
+    ],
     location: "Steveston Village, Richmond, British Columbia",
   },
   {
@@ -89,29 +101,33 @@ export const CANADA_ITEMS = [
       [
         {
           name: "parliament-flowers",
-          location:
-            "Legislative Assembly of British Columbia, Victoria, British Columbia",
+          location: "Legislative Assembly of British Columbia, Victoria, British Columbia",
         },
       ],
       [
         {
           name: "war-memorial",
-          location:
-            "Legislative Assembly of British Columbia, Victoria, British Columbia",
+          location: "Legislative Assembly of British Columbia, Victoria, British Columbia",
         },
       ],
     ],
     location: "Victoria, British Columbia",
   },
   {
-    columns: [["orca"], []],
+    columns: [
+      ["orca"],
+      [],
+    ],
     size: "lg",
     flex: [4, 5],
     location: "Victoria, British Columbia",
   },
   {
     columns: [
-      [["flower-lamppost"], []],
+      [
+        ["flower-lamppost"],
+        [],
+      ],
       [
         {
           name: "nootka-court",
@@ -180,38 +196,70 @@ export const CANADA_ITEMS = [
     columns: [
       [
         {
-          name: "scrap-sculpture",
-          location: "Toronto, Ontario",
+          name: "jays-tower",
+          location: "Roger's Stadium, Toronto Ontario",
         },
       ],
       [],
-      ["gated-alley"],
-      [],
-      ["graffiti-alley"],
+      [
+        [],
+        {
+          name: "proud-romans",
+          size: "sm",
+          location: "Sankofa Square, Toronto, Ontario (Pride Parade)",
+        },
+      ],
     ],
-    location: "Graffiti Alley, Toronto, Ontario",
+    size: "lg",
+    flex: [10, 4, 6],
   },
   {
-    columns: [["proud-romans"]],
+    columns: [
+      [],
+      [
+        {
+          name: "proud-woman",
+          size: "sm",
+        },
+      ],
+      [],
+      ["proud-dog"],
+    ],
+    size: "md",
+    flex: [3, 4, 0.5, 9],
     location: "Sankofa Square, Toronto, Ontario (Pride Parade)",
   },
   {
     columns: [
-      ["proud-woman"],
+      ["fallen-willow"],
       [
-        {
-          name: "proud-dog",
-          size: "lg",
-        },
+        [],
+        [
+          {
+            name: "split-tree",
+            size: "sm",
+          },
+        ],
+      ],
+      [
+        [],
+        [
+          {
+            name: "split-branch",
+            size: "sm",
+          },
+        ],
       ],
     ],
-    size: "md",
-    flex: [4, 9],
-    location: "Sankofa Square, Toronto, Ontario (Pride Parade)",
+    flex: [20, 9, 4],
+    location: "Trinity Bellwoods Park, Toronto, Ontario",
   },
   {
-    columns: [["pylons"], [], ["watering-can"]],
-    size: "sm",
+    columns: [
+      ["pylons"],
+      [],
+      ["watering-can"],
+    ],
     flex: [3, 1, 3],
     location: "D'arcy St, Toronto, Ontario",
   },
@@ -226,30 +274,57 @@ export const CANADA_ITEMS = [
       ],
       ["pink-flowers"],
     ],
-    size: "md",
     flex: [1, 1, 1],
     location: "D'arcy St, Toronto, Ontario",
   },
   {
     columns: [
-      ["tree-shadow"],
       [
         {
           name: "paint",
           size: "md",
         },
       ],
-      ["thick-tree"],
+      [],
     ],
-    size: "sm",
-    flex: [4, 9, 4],
+    flex: [5, 5],
     location: "D'arcy St, Toronto, Ontario",
   },
   {
-    columns: [["white-flowers"], [], ["lion-statue"]],
-    size: "sm",
-    flex: [9, 0.3, 4],
+    columns: [
+      [],
+      ["white-flowers", []],
+      [],
+      [
+        {
+          name: "lion-statue",
+          size: "md",
+        },
+      ],
+    ],
+    flex: [5, 5, 1, 6],
     fit: "contain",
+    location: "D'arcy St, Toronto, Ontario",
+  },
+  {
+    columns: [
+      [],
+      [
+        {
+          name: "yellow-flowers",
+          size: "sm",
+        },
+      ],
+      [
+        {
+          name: "clothes",
+          size: "md",
+          location: "Toronto, Ontario",
+        },
+      ],
+    ],
+    flex: [3, 4, 9],
+    gap: 20,
     location: "D'arcy St, Toronto, Ontario",
   },
   {
@@ -266,30 +341,9 @@ export const CANADA_ITEMS = [
   },
   {
     columns: [
-      ["yellow-flowers"],
-      [
-        {
-          name: "clothes",
-          size: "md",
-          location: "Toronto, Ontario",
-        },
-      ],
-    ],
-    size: "sm",
-    flex: [4, 9],
-    gap: 20,
-    location: "D'arcy St, Toronto, Ontario",
-  },
-  {
-    columns: [
       ["wet-leaves"],
       ["rainy-roses"],
-      [
-        {
-          name: "blurred-rain",
-          location: "Newmarket, Ontario",
-        },
-      ],
+      ["rainy-pot"],
     ],
     size: "sm",
     location: "Scarborough, Ontario",
@@ -302,9 +356,13 @@ export const CANADA_ITEMS = [
           size: "md",
         },
       ],
-      ["chinatown-market"],
+      [
+        {
+          name: "chinatown-market",
+          size: "sm",
+        },
+      ],
     ],
-    size: "sm",
     flex: [9, 4],
     fit: "contain",
     location: "Chinatown, Toronto, Ontario",
@@ -324,12 +382,17 @@ export const CANADA_ITEMS = [
     location: "Scarborough, Ontario",
   },
   {
-    columns: [["farm-ca"], ["windows-xp-grass"]],
+    columns: [
+      ["farm-ca"],
+      ["windows-xp-grass"],
+    ],
     size: "md",
     location: "Ontario",
   },
   {
-    columns: [["peach-roses"]],
+    columns: [
+      ["peach-roses"],
+    ],
     location: "Scarborough, Ontario",
   },
 ];

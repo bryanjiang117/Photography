@@ -115,10 +115,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
-    "blurred-rain": {
-      "w": 1600,
-      "h": 1067
-    },
     "boat-cabin": {
       "w": 1067,
       "h": 1600
@@ -151,6 +147,10 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1067,
       "h": 1600
     },
+    "fallen-willow": {
+      "w": 6240,
+      "h": 4160
+    },
     "farm-ca": {
       "w": 1600,
       "h": 1067
@@ -171,10 +171,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 1067
     },
-    "gated-alley": {
-      "w": 1067,
-      "h": 1600
-    },
     "golden-grass": {
       "w": 1600,
       "h": 1067
@@ -187,10 +183,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1066,
       "h": 1600
     },
-    "graffiti-alley": {
-      "w": 1067,
-      "h": 1600
-    },
     "homeless": {
       "w": 5780,
       "h": 3853
@@ -198,6 +190,10 @@ export const GALLERY_ASPECT_RATIOS = {
     "hotdog-stand": {
       "w": 1067,
       "h": 1600
+    },
+    "jays-tower": {
+      "w": 4160,
+      "h": 6240
     },
     "jimmys-coffee": {
       "w": 4160,
@@ -271,13 +267,21 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6240,
       "h": 4160
     },
+    "rainy-pot": {
+      "w": 6240,
+      "h": 4160
+    },
     "rainy-roses": {
       "w": 1600,
       "h": 1067
     },
-    "scrap-sculpture": {
-      "w": 1067,
-      "h": 1600
+    "split-branch": {
+      "w": 4160,
+      "h": 6240
+    },
+    "split-tree": {
+      "w": 6240,
+      "h": 4160
     },
     "street-protester": {
       "w": 1600,
@@ -291,10 +295,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 1600,
       "h": 1067
     },
-    "thick-tree": {
-      "w": 4160,
-      "h": 6240
-    },
     "totem-pole": {
       "w": 1067,
       "h": 1600
@@ -306,10 +306,6 @@ export const GALLERY_ASPECT_RATIOS = {
     "towering-cloud": {
       "w": 1067,
       "h": 1600
-    },
-    "tree-shadow": {
-      "w": 4160,
-      "h": 6240
     },
     "walking-dog": {
       "w": 1600,

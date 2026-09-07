@@ -223,6 +223,12 @@ export function addBlankColumn(items, row, col) {
   return next;
 }
 
+export function addBlankInColumn(items, row, col, at) {
+  const next = clone(items);
+  next[row].columns[col].splice(at, 0, []);
+  return next;
+}
+
 export function addRow(items, at) {
   const next = clone(items);
   next.splice(at, 0, { columns: [[]] });

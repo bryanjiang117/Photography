@@ -3,6 +3,7 @@ import GalleryImage from "./GalleryImage";
 import VirtualGalleryRow from "./VirtualGalleryRow";
 import { photoDimensions } from "../galleryDimensions";
 import { parseImageEntry, rowDefaultSize } from "../galleryImages";
+import { containFitFlex } from "../galleryContainFlex.mjs";
 import { galleryImgLoadProps } from "../galleryPrefetch";
 
 function GallerySkeletonCell({
@@ -151,7 +152,12 @@ export default function GalleryGrid({
 
     const renderBlank = (path, className, style) =>
       Blank ? (
-        <div key={`blank-${path.col}-${path.entry ?? "col"}`} className={className} style={style}>
+        <div
+          key={`blank-${path.col}-${path.entry ?? "col"}`}
+          className={className}
+          style={style}
+          {...(path.entry == null ? { "data-gallery-col": "" } : {})}
+        >
           <Blank path={path} edit={edit} />
         </div>
       ) : (
@@ -159,6 +165,7 @@ export default function GalleryGrid({
           key={`blank-${path.col}-${path.entry ?? "col"}`}
           className={className}
           style={style}
+          {...(path.entry == null ? { "data-gallery-col": "" } : {})}
         />
       );
 
@@ -182,9 +189,11 @@ export default function GalleryGrid({
       return (
         <div className="w-full shrink-0 flex gap-4">
           {row.columns.map((col, j) => {
-            const colClass = row.flex ? "min-w-0" : "flex-1 min-w-0";
+            const colClass = row.flex
+              ? "min-w-0 overflow-hidden"
+              : "flex-1 min-w-0";
             const colStyle = row.flex
-              ? { flex: `${row.flex[j]} 1 0%` }
+              ? { flex: `${row.flex[j]} 1 0%`, width: 0 }
               : undefined;
             const insertBefore =
               j === 0 && Insert ? (
@@ -236,13 +245,16 @@ export default function GalleryGrid({
                     renderImage(col[0], { row: i, col: j, entry: 0 }, "grid", "w-full", {
                       loadProps: loadPropsFor(i, j),
                       onLoad:
-                        row.fit === "contain"
+                        row.fit === "contain" && !row.flex
                           ? (e) => {
                               const colEl =
                                 e.currentTarget.closest("[data-gallery-col]");
-                              if (colEl) {
-                                colEl.style.flex = `${e.currentTarget.naturalWidth / e.currentTarget.naturalHeight} 1 0%`;
-                              }
+                              const flex = containFitFlex(
+                                row,
+                                e.currentTarget.naturalWidth,
+                                e.currentTarget.naturalHeight,
+                              );
+                              if (colEl && flex) colEl.style.flex = flex;
                             }
                           : undefined,
                     })

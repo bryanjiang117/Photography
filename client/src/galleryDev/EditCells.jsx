@@ -107,6 +107,8 @@ export function EditPhoto({ path, edit, children }) {
           <DropZone dest={right} hover={edit.hover} className="inset-y-0 right-0 w-1/4" />
           <DropZone dest={below} hover={edit.hover} className="inset-x-[15%] bottom-0 h-1/3" />
         </>
+      ) : path.sub == null ? (
+        <StackInsert path={path} edit={edit} />
       ) : null}
     </div>
   );
@@ -146,6 +148,7 @@ export function EditBlank({ path, edit }) {
 export function EditGroup({ path, edit, children }) {
   const dest = { kind: "into-group", row: path.row, col: path.col, entry: path.entry };
   const active = isHover(edit.hover, dest);
+  const photoDrag = edit.drag && edit.drag.source?.kind !== "row";
   return (
     <div
       className={`relative flex gap-4 outline-solid outline-1 ${
@@ -154,6 +157,7 @@ export function EditGroup({ path, edit, children }) {
       data-drop={edit.drag ? dropKey(dest) : undefined}
     >
       {children}
+      {photoDrag ? null : <StackInsert path={path} edit={edit} />}
     </div>
   );
 }
@@ -280,5 +284,40 @@ export function ColumnInsert({ row, col, edit, plus = true }) {
         +
       </button>
     </div>
+  );
+}
+
+function StackInsert({ path, edit }) {
+  const col = edit.items?.[path.row]?.columns?.[path.col];
+  const last = col != null && path.entry === col.length - 1;
+  const btn =
+    "absolute left-1/2 z-20 -translate-x-1/2 text-base text-white/55 hover:text-white [font-family:system-ui,sans-serif]";
+  return (
+    <>
+      <button
+        type="button"
+        aria-label="Insert blank above"
+        className={`${btn} top-1`}
+        onClick={(e) => {
+          e.stopPropagation();
+          edit.onInsertStackBlank(path.row, path.col, path.entry);
+        }}
+      >
+        +
+      </button>
+      {last ? (
+        <button
+          type="button"
+          aria-label="Insert blank below"
+          className={`${btn} bottom-1`}
+          onClick={(e) => {
+            e.stopPropagation();
+            edit.onInsertStackBlank(path.row, path.col, path.entry + 1);
+          }}
+        >
+          +
+        </button>
+      ) : null}
+    </>
   );
 }
