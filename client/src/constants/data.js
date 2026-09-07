@@ -864,12 +864,14 @@ export const CALIFORNIA_ITEMS = [
       ["twilight-birds"],
       ["grazing-cows"],
     ],
+    location: "California",
   },
   {
     columns: [
       ["ferry-building"],
       ["golden-ripples"],
     ],
+    location: "San Francisco, California",
   },
   {
     columns: [
@@ -878,12 +880,14 @@ export const CALIFORNIA_ITEMS = [
       ["cable-car-window"],
     ],
     flex: [3, 1, 3],
+    location: "San Francisco, California",
   },
   {
     columns: [
       ["palm-billboards"],
       ["golden-hills"],
     ],
+    location: "California",
   },
   {
     columns: [
@@ -891,6 +895,7 @@ export const CALIFORNIA_ITEMS = [
       [],
     ],
     flex: [2, 1],
+    location: "Yosemite National Park, California",
   },
   {
     columns: [
@@ -899,18 +904,35 @@ export const CALIFORNIA_ITEMS = [
       ["one-lane-road"],
     ],
     flex: [1, 1, 1],
+    location: "Yosemite National Park, California",
   },
   {
     columns: [
       ["rocky-stream"],
       ["river-rapids"],
     ],
+    location: "Yosemite National Park, California",
   },
   {
     columns: [
-      ["goat-at-fence"],
-      ["sea-lions"],
-      ["pelicans"],
+      [
+        {
+          name: "goat-at-fence",
+          location: "Mariposa, California",
+        },
+      ],
+      [
+        {
+          name: "sea-lions",
+          location: "Pier 39, San Francisco, California",
+        },
+      ],
+      [
+        {
+          name: "pelicans",
+          location: "Lands End, San Francisco, California",
+        },
+      ],
     ],
     flex: [4, 9, 9],
   },
@@ -920,12 +942,23 @@ export const CALIFORNIA_ITEMS = [
       [],
     ],
     flex: [1, 1],
+    location: "Lands End, San Francisco, California",
   },
   {
     columns: [
       [],
-      ["skyline-view"],
-      ["ferris-wheel"],
+      [
+        {
+          name: "skyline-view",
+          location: "Sausalito, California",
+        },
+      ],
+      [
+        {
+          name: "ferris-wheel",
+          location: "Pier 39, San Francisco, California",
+        },
+      ],
     ],
   },
   {
@@ -935,22 +968,35 @@ export const CALIFORNIA_ITEMS = [
       ["taiwan-flags"],
       ["bakery-men-2"],
     ],
+    location: "Chinatown, San Francisco, California",
   },
   {
     columns: [
       ["chaparral-hill"],
       [],
-      ["yosemite-falls"],
+      [
+        {
+          name: "yosemite-falls",
+          location: "Yosemite National Park, California",
+        },
+      ],
     ],
     flex: [1, 1, 1],
+    location: "California",
   },
   {
     columns: [
       ["sea-stacks"],
-      ["mist-rainbow"],
+      [
+        {
+          name: "mist-rainbow",
+          location: "Yosemite National Park, California",
+        },
+      ],
       ["coastal-haze"],
     ],
     flex: [9, 4, 9],
+    location: "Lands End, San Francisco, California",
   },
   {
     columns: [
@@ -959,12 +1005,19 @@ export const CALIFORNIA_ITEMS = [
       [],
     ],
     flex: [1, 1, 1],
+    location: "San Francisco, California",
   },
   {
     columns: [
       ["lone-oak"],
-      ["night-windmill"],
+      [
+        {
+          name: "night-windmill",
+          location: "Mariposa, California",
+        },
+      ],
     ],
+    location: "California",
   },
 ];
 

@@ -2484,6 +2484,19 @@ export const GALLERY_PHOTO_META = {
       "width": 6240,
       "height": 3512
     },
+    "gushing-water": {
+      "takenAt": "2026-09-02T22:44:50.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 2.8,
+      "shutter": "1/125",
+      "iso": 2500,
+      "exposureComp": -1.33,
+      "width": 6240,
+      "height": 4160
+    },
     "hikers-on-bridge": {
       "takenAt": "2026-03-29T20:00:46.000Z",
       "camera": "FUJIFILM X-S20",
@@ -2507,6 +2520,45 @@ export const GALLERY_PHOTO_META = {
       "shutter": "1/350",
       "iso": 640,
       "exposureComp": -0.67
+    },
+    "jays-tower-2": {
+      "takenAt": "2026-09-02T17:13:45.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 8,
+      "shutter": "1/4000",
+      "iso": 640,
+      "exposureComp": -0.67,
+      "width": 6240,
+      "height": 4160
+    },
+    "jays-tower-3": {
+      "takenAt": "2026-09-02T17:13:54.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 8,
+      "shutter": "1/4000",
+      "iso": 640,
+      "exposureComp": -0.67,
+      "width": 6240,
+      "height": 4160
+    },
+    "jays-tower": {
+      "takenAt": "2026-09-02T17:13:30.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 8,
+      "shutter": "1/4000",
+      "iso": 640,
+      "exposureComp": -0.67,
+      "width": 6240,
+      "height": 4160
     },
     "lone-oak": {
       "takenAt": "2026-03-29T22:48:42.000Z",
@@ -2583,6 +2635,32 @@ export const GALLERY_PHOTO_META = {
       "shutter": "1/450",
       "iso": 640,
       "exposureComp": -0.67,
+      "width": 6240,
+      "height": 4160
+    },
+    "rainy-front": {
+      "takenAt": "2026-09-02T22:43:09.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 2.8,
+      "shutter": "1/125",
+      "iso": 8000,
+      "exposureComp": -1.33,
+      "width": 6240,
+      "height": 4160
+    },
+    "rainy-pot": {
+      "takenAt": "2026-09-02T22:43:47.000Z",
+      "camera": "FUJIFILM X-S20",
+      "lens": "XF23mmF2.8 R WR",
+      "focalLengthMm": 23,
+      "focalLength35mm": 35,
+      "aperture": 2.8,
+      "shutter": "1/125",
+      "iso": 8000,
+      "exposureComp": -1.33,
       "width": 6240,
       "height": 4160
     },
