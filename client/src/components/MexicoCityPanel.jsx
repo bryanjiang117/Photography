@@ -9,7 +9,7 @@ const MexicoCityPanel = () => {
     useContext(GalleryContext);
 
   return (
-    <div className="relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">
+    <div className="gallery-region relative shrink-0 h-screen min-h-[800px] w-screen min-w-[1400px] p-4 px-40">
       <div className="flex flex-col h-full">
         <section className="relative flex flex-1 w-full items-end gap-3">
           <div className="h-[70%] w-[18%] bg-mexico-primary" />
@@ -17,7 +17,7 @@ const MexicoCityPanel = () => {
           <motion.img
             src={galleryImageUrl("mexico", "orange-wall", "md")}
             loading="lazy"
-            className="absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
+            className="opens-gallery absolute top-6 right-1/10 max-w-6/10 max-h-8/10 cursor-pointer"
             initial={false}
             animate={
               showMexicoGallery

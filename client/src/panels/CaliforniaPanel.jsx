@@ -8,7 +8,7 @@ const CaliforniaPanel = () => {
     useContext(GalleryContext);
 
   return (
-    <div className="relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-40 pr-20">
+    <div className="gallery-region relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-40 pr-20">
       <div className="flex flex-col gap-4 h-full">
         <section>
           <div className="flex">
@@ -35,7 +35,7 @@ const CaliforniaPanel = () => {
           </div>
         </section>
         <CaliforniaColorField
-          className="flex-1 w-full cursor-pointer"
+          className="opens-gallery flex-1 w-full cursor-pointer"
           hidden={showCaliforniaGallery}
           onClick={() => setShowCaliforniaGallery(true)}
         />

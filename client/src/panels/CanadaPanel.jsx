@@ -9,7 +9,7 @@ const CanadaPanel = () => {
     useContext(GalleryContext);
 
   return (
-    <div className="relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-40 pr-20">
+    <div className="gallery-region relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-40 pr-20">
       <div className="flex flex-col gap-4 h-full">
         <section>
           <div className="flex">
@@ -39,7 +39,7 @@ const CanadaPanel = () => {
           <motion.img
             src={galleryImageUrl("canada", "leaves-glow", "sm")}
             loading="lazy"
-            className="absolute top-2/10 right-3/20 max-w-1/10 max-h-2/10 cursor-pointer"
+            className="opens-gallery absolute top-2/10 right-3/20 max-w-1/10 max-h-2/10 cursor-pointer"
             initial={false}
             animate={
               showCanadaGallery

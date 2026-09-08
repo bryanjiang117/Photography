@@ -8,12 +8,12 @@ const JapanPanel = () => {
   const { showJapanGallery, setShowJapanGallery } = useContext(GalleryContext);
 
   return (
-    <div className="shrink-0 h-screen min-h-[800px] w-[95vw] min-w-[1235px] flex gap-5 p-4 pb-14 px-40">
+    <div className="gallery-region shrink-0 h-screen min-h-[800px] w-[95vw] min-w-[1235px] flex gap-5 p-4 pb-14 px-40">
       <section className="relative flex-1 bg-japan-primary">
         <motion.img
           src={galleryImageUrl("japan", "flowers", "md")}
           loading="lazy"
-          className="absolute top-4 left-16 max-w-3/10 max-h-8/10 cursor-pointer"
+          className="opens-gallery absolute top-4 left-16 max-w-3/10 max-h-8/10 cursor-pointer"
           initial={false}
           animate={
             showJapanGallery

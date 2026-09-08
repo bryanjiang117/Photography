@@ -8,7 +8,7 @@ const ChinaPanel = () => {
   const { showChinaGallery, setShowChinaGallery } = useContext(GalleryContext);
 
   return (
-    <div className="relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-20 mx-20 pb-0">
+    <div className="gallery-region relative shrink-0 h-screen min-h-[800px] w-[90vw] min-w-[1200px] p-4 px-20 mx-20 pb-0">
       <div className="flex flex-col gap-4 h-full pt-20">
         <section>
           <div className="flex items-end">
@@ -34,7 +34,7 @@ const ChinaPanel = () => {
           <motion.img
             src={galleryImageUrl("china", "temple", "md")}
             loading="lazy"
-            className="absolute bottom-0 right-1/7 max-h-full cursor-pointer"
+            className="opens-gallery absolute bottom-0 right-1/7 max-h-full cursor-pointer"
             initial={false}
             animate={
               showChinaGallery

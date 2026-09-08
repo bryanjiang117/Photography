@@ -148,13 +148,19 @@
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .social-link:hover .social-link-mark,
-  .social-link:focus-visible .social-link-mark {
+  .social-link:focus-visible .social-link-mark,
+  .gallery-region:has(.opens-gallery:hover) .social-link-mark,
+  .gallery-region:has(.opens-gallery:focus-visible) .social-link-mark {
     opacity: 1;
     transform: translateY(-50%) translateX(0) scale(1);
   }
 
   .social-link-vertical:hover .social-link-mark,
-  .social-link-vertical:focus-visible .social-link-mark {
+  .social-link-vertical:focus-visible .social-link-mark,
+  .gallery-region:has(.opens-gallery:hover) .social-link-vertical .social-link-mark,
+  .gallery-region:has(.opens-gallery:focus-visible)
+    .social-link-vertical
+    .social-link-mark {
     transform: translateX(-50%) translateY(0) scale(1);
   }
 }
@@ -170,7 +176,9 @@
   }
 
   .social-link:hover .social-link-mark,
-  .social-link:focus-visible .social-link-mark {
+  .social-link:focus-visible .social-link-mark,
+  .gallery-region:has(.opens-gallery:hover) .social-link-mark,
+  .gallery-region:has(.opens-gallery:focus-visible) .social-link-mark {
     opacity: 1;
   }
 }
