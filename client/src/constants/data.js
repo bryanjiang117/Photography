@@ -833,34 +833,57 @@ export const JAPAN_PHOTOS = JAPAN_GALLERY_PHOTOS.map((p) => p.name);
 
 export const CALIFORNIA_ITEMS = [
   {
-    columns: [["twilight-birds"], ["grazing-cows"]],
+    columns: [
+      ["twilight-birds"],
+      ["grazing-cows"],
+    ],
     location: "California",
   },
   {
-    columns: [["ferry-building"], ["golden-ripples"]],
+    columns: [
+      ["ferry-building"],
+      ["golden-ripples"],
+    ],
     location: "San Francisco, California",
   },
   {
-    columns: [["cable-car-turn"], [], ["cable-car-window"]],
+    columns: [
+      ["cable-car-turn"],
+      [],
+      ["cable-car-window"],
+    ],
     flex: [3, 1, 3],
     location: "San Francisco, California",
   },
   {
-    columns: [["palm-billboards"], ["golden-hills"]],
+    columns: [
+      ["palm-billboards"],
+      ["golden-hills"],
+    ],
     location: "California",
   },
   {
-    columns: [["hikers-on-bridge"], []],
+    columns: [
+      ["hikers-on-bridge"],
+      [],
+    ],
     flex: [2, 1],
     location: "Yosemite National Park, California",
   },
   {
-    columns: [[], ["granite-dome"], ["one-lane-road"]],
+    columns: [
+      [],
+      ["granite-dome"],
+      ["one-lane-road"],
+    ],
     flex: [1, 1, 1],
     location: "Yosemite National Park, California",
   },
   {
-    columns: [["rocky-stream"], ["river-rapids"]],
+    columns: [
+      ["rocky-stream"],
+      ["river-rapids"],
+    ],
     location: "Yosemite National Park, California",
   },
   {
@@ -887,7 +910,10 @@ export const CALIFORNIA_ITEMS = [
     flex: [4, 9, 9],
   },
   {
-    columns: [["golden-gate"], []],
+    columns: [
+      ["golden-gate"],
+      [],
+    ],
     flex: [1, 1],
     location: "Lands End, San Francisco, California",
   },
@@ -919,34 +945,20 @@ export const CALIFORNIA_ITEMS = [
   },
   {
     columns: [
-      ["chaparral-hill"],
+      ["mist-trail"],
       [],
-      [
-        {
-          name: "yosemite-falls",
-          location: "Yosemite National Park, California",
-        },
-      ],
+      ["yosemite-falls"],
     ],
+    size: "md",
     flex: [1, 1, 1],
-    location: "California",
+    location: "Yosemite National Park, California",
   },
   {
     columns: [
-      ["sea-stacks"],
-      [
-        {
-          name: "mist-rainbow",
-          location: "Yosemite National Park, California",
-        },
-      ],
-      ["coastal-haze"],
+      [],
+      ["bay-bridge-lights"],
+      [],
     ],
-    flex: [9, 4, 9],
-    location: "Lands End, San Francisco, California",
-  },
-  {
-    columns: [[], ["bay-bridge-lights"], []],
     flex: [1, 1, 1],
     location: "San Francisco, California",
   },

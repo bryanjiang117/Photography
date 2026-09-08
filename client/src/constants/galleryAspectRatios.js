@@ -733,14 +733,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 4160,
       "h": 6240
     },
-    "chaparral-hill": {
-      "w": 3512,
-      "h": 6240
-    },
-    "coastal-haze": {
-      "w": 6240,
-      "h": 4160
-    },
     "ferris-wheel": {
       "w": 4160,
       "h": 6240
@@ -789,7 +781,7 @@ export const GALLERY_ASPECT_RATIOS = {
       "w": 6240,
       "h": 3512
     },
-    "mist-rainbow": {
+    "mist-trail": {
       "w": 4160,
       "h": 6240
     },
@@ -818,10 +810,6 @@ export const GALLERY_ASPECT_RATIOS = {
       "h": 3512
     },
     "sea-lions": {
-      "w": 6240,
-      "h": 4160
-    },
-    "sea-stacks": {
       "w": 6240,
       "h": 4160
     },
