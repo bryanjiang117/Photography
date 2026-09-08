@@ -1046,7 +1046,7 @@ export const ABOUT_ME = {
   titleEn: "ABOUT",
   titleZh: "关于我",
   blurbEn:
-    "Nice to meet you — I'm Bryan. I'm a frontend software engineer, and I care about pictures, stories, and making things look right. I was born and raised in Toronto, but a part of me wants to be everywhere but here. This website is a record of my ongoing journey.",
+    "Hi I'm Bryan. I'm a frontend software engineer, and I care about pictures, stories, and making things look right. I was born and raised in Toronto, but a part of me wants to be everywhere but here. This website is a record of my ongoing journey.",
   blurbZh:
     "嗨，我叫姜昊周。我在多伦多做网站和移动应用开发。我喜欢各种各样的艺术，尤其是美术。所以我的特长是做出漂亮的东西。我在多伦多出生长大，却总对远方念念不忘。这个网站，记录着我一路走过的风景。",
   affiliations: [
