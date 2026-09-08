@@ -1,5 +1,11 @@
 # Photography
 
+## Feature flags
+
+`client/src/constants/features.js` — set a flag to `false` to turn a feature off.
+
+- `scatterText`: hover letter burst on the intro blurb. To delete it later, follow the comment in that file.
+
 ## TSM Font Subsetting
 
 The TSM font (`TsukuhouShogoMin-OFL.ttf`) is 39MB. A subset woff2 is committed instead (`TsukuhouShogoMin-subset.woff2`, ~25KB) containing only the glyphs used on the site.
