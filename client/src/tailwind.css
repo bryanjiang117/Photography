@@ -122,6 +122,40 @@
   animation: loading-dots 1.2s steps(1, end) infinite;
 }
 
+/* Intro name — hover a character to show pinyin */
+.intro-name-letter {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.intro-name-caption,
+.intro-name-pinyin {
+  font-size: 18px;
+}
+
+.intro-name-pinyin {
+  opacity: 0;
+  user-select: none;
+  color: rgb(118, 160, 55);
+  font-family: "Bodoni", serif;
+  font-weight: 400;
+  line-height: normal;
+  writing-mode: vertical-lr;
+  transition: opacity 0.2s ease;
+}
+
+.intro-name-letter:hover {
+  color: var(--color-primary);
+}
+
+.intro-name-letter:hover .intro-name-pinyin {
+  opacity: 1;
+}
+
+.intro-name:has(.intro-name-letter:first-child:hover) .intro-name-caption {
+  opacity: 0;
+}
+
 /* Link mark — green square pops in to the left (above for vertical text) */
 .social-link-mark {
   position: absolute;

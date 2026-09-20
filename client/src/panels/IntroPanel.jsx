@@ -4,6 +4,7 @@ import { GalleryContext } from "../GalleryContext";
 import { INTRO } from "../constants/data";
 import { FEATURES } from "../constants/features";
 import ScatterText from "../components/ScatterText";
+import IntroNameLetters from "../components/IntroNameLetters";
 
 function getTorontoTime() {
   return new Date().toLocaleString("en-CA", {
@@ -60,16 +61,10 @@ const IntroPanel = ({ scrollRef }) => {
   return (
     <div className="shrink-0 w-screen min-w-[1400px] h-screen min-h-[800px] relative flex justify-between p-4">
       {/* My name */}
-      <section className="flex w-fit">
-        <div
-          className="text-[calc((100vh-2rem)/3)] leading-none font-tsm [writing-mode:vertical-rl]"
-          lang="zh-CN"
-          translate="no"
-        >
-          {INTRO.nameZh}
-        </div>
+      <section className="intro-name flex w-fit">
+        <IntroNameLetters className="text-[calc((100vh-2rem)/3)] leading-none font-tsm [writing-mode:vertical-rl]" />
         <div className="-translate-x-2 flex flex-col justify-between h-full">
-          <div className="pt-6 [writing-mode:vertical-lr] ">
+          <div className="intro-name-caption pt-6 [writing-mode:vertical-lr] transition-opacity duration-200">
             {INTRO.nameCaption}
           </div>
           <div

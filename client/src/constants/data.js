@@ -1043,6 +1043,11 @@ export const SOCIALS = [
 
 export const INTRO = {
   nameZh: "姜昊周",
+  nameChars: [
+    { zh: "姜", pinyin: "jiang" },
+    { zh: "昊", pinyin: "hao" },
+    { zh: "周", pinyin: "zhou" },
+  ],
   nameEn: "Bryan",
   nameCaption: "This is my name",
   location: "Toronto",

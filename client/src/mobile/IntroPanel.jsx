@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { GalleryContext } from "../GalleryContext";
 import { INTRO } from "../constants/data";
+import IntroNameLetters from "../components/IntroNameLetters";
 
 function getTorontoTime() {
   return new Date().toLocaleString("en-CA", {
@@ -37,15 +38,9 @@ const IntroPanel = () => {
     <div className="w-full min-h-screen relative flex flex-col items-center justify-start gap-6 px-6 py-8">
       {/* Name */}
       <section className="flex flex-col items-center">
-        <div
-          className="mt-8 text-[calc((100vw-3rem)/3)] leading-none font-tsm [writing-mode:vertical-rl]"
-          lang="zh-CN"
-          translate="no"
-        >
-          {INTRO.nameZh}
-        </div>
+        <IntroNameLetters className="mt-8 text-[calc((100vw-3rem)/3)] leading-none font-tsm [writing-mode:vertical-rl]" />
         <div className="flex items-center gap-4 mt-2">
-          <div>{INTRO.nameCaption}</div>
+          <div className="intro-name-caption">{INTRO.nameCaption}</div>
           <div data-intro-square className="h-4 w-4 bg-primary" />
         </div>
       </section>
