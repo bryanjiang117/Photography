@@ -1,20 +1,20 @@
 import { createJsonCache } from "./cacheStore.js";
 
-const POLL_INTERVAL_MS = 60 * 60 * 1000; // 1 hour — ratings rarely change
+const POLL_INTERVAL_MS = 60 * 1000; // 1 hour — ratings rarely change
 const MAX_PAGES = 10; // cap at 200 items per type when fetching all rated
 
 /** Preferred display order for the top-10 list (case-insensitive title match). */
 const DISPLAY_ORDER = [
   "game of thrones",
+  "when life gives you tangerines",
   "reply 1988",
-  "my mister",
   "a love so beautiful",
+  "my mister",
   "river flows to you",
-  "harry potter and the philosopher's stone",
-  "parasite",
-  "rick and morty",
+  "house of the dragon",
   "a knight of the seven kingdoms",
   "arcane",
+  "harry potter and the philosopher's stone",
 ];
 
 function normalizeTitle(title) {
@@ -25,21 +25,25 @@ function normalizeTitle(title) {
     .trim();
 }
 
-/** Pull preferred titles to the front (in DISPLAY_ORDER), leave the rest in place. */
-function applyDisplayOrder(items) {
-  const remaining = [...items];
-  const ordered = [];
-
-  for (const needle of DISPLAY_ORDER) {
+function displayOrderRank(item) {
+  const title = normalizeTitle(item.title ?? item.name);
+  const idx = DISPLAY_ORDER.findIndex((needle) => {
     const normNeedle = normalizeTitle(needle);
-    const idx = remaining.findIndex((item) => {
-      const title = normalizeTitle(item.title ?? item.name);
-      return title === normNeedle || title.includes(normNeedle);
-    });
-    if (idx !== -1) ordered.push(...remaining.splice(idx, 1));
-  }
+    return title === normNeedle || title.includes(normNeedle);
+  });
+  return idx === -1 ? DISPLAY_ORDER.length : idx;
+}
 
-  return [...ordered, ...remaining];
+/** Rating first; custom order only breaks ties. */
+export function rankRatedItems(items) {
+  return [...items]
+    .sort(
+      (a, b) =>
+        b.rating - a.rating ||
+        displayOrderRank(a) - displayOrderRank(b) ||
+        (a.title ?? a.name).localeCompare(b.title ?? b.name),
+    )
+    .slice(0, 10);
 }
 
 export async function registerTmdbRoutes(app, supabase) {
@@ -120,15 +124,7 @@ export async function registerTmdbRoutes(app, supabase) {
       ...shows.map((s) => ({ ...s, media_type: "tv" })),
     ];
 
-    combined.sort(
-      (a, b) =>
-        b.rating - a.rating ||
-        (a.title ?? a.name).localeCompare(b.title ?? b.name),
-    );
-
-    return applyDisplayOrder(combined)
-      .slice(0, 10)
-      .map((item) => {
+    return rankRatedItems(combined).map((item) => {
       return {
         id: item.id,
         media_type: item.media_type,
